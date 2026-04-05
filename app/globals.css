@@ -1,0 +1,109 @@
+@import "tailwindcss";
+:root {
+    --font-body: "Poppins", sans-serif;
+    --color-bg: #f8f4ee;
+    --color-surface: #fffdfa;
+    --color-surface-soft: #f2ece4;
+    --color-text: #201b16;
+    --color-text-muted: #63584a;
+    --color-border: #d8cdbf;
+    --color-primary: #1f3a4f;
+    --color-primary-hover: #173143;
+    --color-accent: #b78b57;
+    --color-success: #3d6d48;
+}
+
+html,
+body {
+    font-family: var(--font-body);
+    background: radial-gradient(circle at 15% -10%, #efe2d0 0%, transparent 38%), radial-gradient(circle at 90% 10%, #eee2d6 0%, transparent 30%), var(--color-bg);
+    color: var(--color-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-body);
+    font-weight: 600;
+}
+
+.premium-surface {
+    background: linear-gradient(180deg, rgba(255, 253, 250, 0.95), rgba(255, 253, 250, 0.88));
+    border: 1px solid var(--color-border);
+    box-shadow: 0 24px 50px -38px rgba(15, 10, 7, 0.45);
+}
+
+.premium-btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.45s ease;
+}
+
+.premium-btn-primary:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px -16px rgba(23, 49, 67, 0.8);
+}
+
+.premium-btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f7f1e9;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    transition: all 0.45s ease;
+}
+
+.premium-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.premium-fade-up {
+    animation: premiumFadeUp 0.7s ease both;
+}
+
+.brand-marquee-mask {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.brand-marquee-track {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    animation: brandMarquee 24s linear infinite;
+}
+
+.brand-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@media (min-width: 640px) {
+    .brand-marquee-track {
+        gap: 1rem;
+    }
+}
+
+@keyframes premiumFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes brandMarquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
