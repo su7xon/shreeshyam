@@ -18,9 +18,9 @@ export default function AdminDashboardPage() {
   const brands = [...new Set(products.map((p) => p.brand))];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-8">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         <StatCard
           icon={Smartphone}
           label="Total Products"
@@ -159,19 +159,19 @@ function StatCard({
   color: string;
 }) {
   const shadowColor = color.match(/from-([a-z]+)-/)?.[1] || 'gray';
-  
+
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
-      <div className={`absolute -right-6 -top-6 w-24 h-24 bg-gradient-to-br ${color} opacity-[0.08] rounded-full group-hover:scale-150 transition-transform duration-500`} />
-      
-      <div className="flex items-center justify-between mb-4 relative z-10">
-        <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${color} shadow-md shadow-${shadowColor}-500/20 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-          <Icon className="h-6 w-6 text-white" />
+    <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+      <div className={`absolute -right-4 -top-4 sm:-right-6 sm:-top-6 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br ${color} opacity-[0.08] rounded-full group-hover:scale-150 transition-transform duration-500`} />
+
+      <div className="flex items-center justify-between mb-2 sm:mb-4 relative z-10">
+        <div className={`h-9 w-9 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${color} shadow-md shadow-${shadowColor}-500/20 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+          <Icon className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
         </div>
       </div>
       <div className="relative z-10">
-        <p className="text-3xl font-bold text-[#201b16] tracking-tight">{value}</p>
-        <p className="text-xs uppercase tracking-wider font-semibold text-gray-500 mt-1">{label}</p>
+        <p className="text-2xl sm:text-3xl font-bold text-[#201b16] tracking-tight">{value}</p>
+        <p className="text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-500 mt-0.5 sm:mt-1 leading-tight">{label}</p>
       </div>
     </div>
   );

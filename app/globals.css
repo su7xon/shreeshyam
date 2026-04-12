@@ -1,23 +1,53 @@
 @import "tailwindcss";
 :root {
     --font-body: "Poppins", sans-serif;
-    --color-bg: #f8f4ee;
-    --color-surface: #fffdfa;
-    --color-surface-soft: #f2ece4;
+    --color-bg: #ffffff;
+    --color-surface: #fdfdfd;
+    --color-surface-soft: #fafafa;
     --color-text: #201b16;
-    --color-text-muted: #63584a;
-    --color-border: #d8cdbf;
-    --color-primary: #1f3a4f;
-    --color-primary-hover: #173143;
-    --color-accent: #b78b57;
+    --color-text-muted: #6c6256;
+    --color-border: #e5dacd;
+    --color-primary: #DBD4FE;
+    --color-primary-hover: #C4B5FD;
+    --color-accent: #FDFBD7;
     --color-success: #3d6d48;
 }
 
 html,
 body {
     font-family: var(--font-body);
-    background: radial-gradient(circle at 15% -10%, #efe2d0 0%, transparent 38%), radial-gradient(circle at 90% 10%, #eee2d6 0%, transparent 30%), var(--color-bg);
+    background: radial-gradient(circle at 15% -10%, #ffffff 0%, transparent 42%), radial-gradient(circle at 90% 10%, #ffffff 0%, transparent 36%), var(--color-bg);
     color: var(--color-text);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+@layer base {
+     :root {
+        --focus-ring: 0 0 0 3px hsla(var(--color-primary), 0.3);
+    }
+    *:focus-visible {
+        outline: 2px solid rgba(31, 58, 79, 0.3);
+        outline-offset: 2px;
+    }
+}
+
+@layer utilities {
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    .glass-surface {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .animate-shimmer {
+        animation: shimmer 2s infinite;
+    }
 }
 
 h1,
@@ -82,6 +112,24 @@ h6 {
     animation-play-state: paused;
 }
 
+.testimonial-marquee-mask {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.testimonial-marquee-track {
+    width: max-content;
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    animation: testimonialMarquee 28s linear infinite;
+}
+
+.testimonial-marquee-track:hover {
+    animation-play-state: paused;
+}
+
 @media (min-width: 640px) {
     .brand-marquee-track {
         gap: 1rem;
@@ -105,5 +153,88 @@ h6 {
     }
     to {
         transform: translateX(-50%);
+    }
+}
+
+@keyframes testimonialMarquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.editorial-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.editorial-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+}
+
+.clean-section {
+    background: #f2f2f2;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.reveal-fade-up {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: revealFadeUp 0.65s ease-out forwards;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes revealFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-fade-up {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .brand-marquee-mask {
+        mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+    .testimonial-marquee-mask {
+        mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
     }
 }

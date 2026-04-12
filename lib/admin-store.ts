@@ -6,12 +6,62 @@ import { Product } from './data';
 
 // ==================== Types ====================
 
+export interface Brand {
+  id: string;
+  name: string;
+  logo?: string;
+  description?: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const BANNER_PLACEMENTS = ['hero', 'small-cards', 'trending', 'before-about'] as const;
+export type BannerPlacement = (typeof BANNER_PLACEMENTS)[number];
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  items: OrderItem[];
+  subtotal: number;
+  shipping: number;
+  total: number;
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+  };
+  paymentMethod: 'card' | 'upi' | 'cod';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const ORDER_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'] as const;
+export type OrderStatus = (typeof ORDER_STATUSES)[number];
+
 export interface Banner {
   id: string;
   title: string;
   subtitle?: string;
   image: string;
   link?: string;
+  placement: BannerPlacement;
   order: number;
   active: boolean;
 }
@@ -47,7 +97,7 @@ interface AdminStore {
   addBanner: (banner: Banner) => void;
   updateBanner: (id: string, banner: Partial<Banner>) => void;
   deleteBanner: (id: string) => void;
-  reorderBanners: (bannerIds: string[]) => void;
+  reorderBanners: (placement: BannerPlacement, bannerIds: string[]) => void;
 
   // Offers
   offers: Offer[];
@@ -55,9 +105,23 @@ interface AdminStore {
   updateOffer: (id: string, offer: Partial<Offer>) => void;
   deleteOffer: (id: string) => void;
 
-  // Site config
-  siteName: string;
-  setSiteName: (name: string) => void;
+   // Site config
+   siteName: string;
+   setSiteName: (name: string) => void;
+
+   // Brands
+   brands: Brand[];
+   addBrand: (brand: Brand) => void;
+   updateBrand: (id: string, brand: Partial<Brand>) => void;
+   deleteBrand: (id: string) => void;
+   getBrand: (id: string) => Brand | undefined;
+
+   // Orders
+   orders: Order[];
+   addOrder: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => void;
+   updateOrderStatus: (orderId: string, status: OrderStatus) => void;
+   deleteOrder: (orderId: string) => void;
+   getOrder: (orderId: string) => Order | undefined;
 }
 
 // ==================== Default Data ====================
@@ -76,8 +140,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "4422 mAh",
     camera: "48MP + 12MP + 12MP",
     display: "6.7 inch Super Retina XDR OLED",
-    rating: 4.8,
-    reviews: 1250,
     featured: true,
     description: "The iPhone 15 Pro Max features a strong and lightweight titanium design, the powerful A17 Pro chip, and a pro camera system with a 5x Telephoto lens.",
     colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
@@ -96,8 +158,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "5000 mAh",
     camera: "200MP + 50MP + 12MP + 10MP",
     display: "6.8 inch Dynamic AMOLED 2X",
-    rating: 4.7,
-    reviews: 980,
     featured: true,
     description: "Galaxy S24 Ultra is the ultimate Galaxy experience, featuring a titanium exterior, a flat display, and the power of Galaxy AI.",
     colors: ["Titanium Gray", "Titanium Black", "Titanium Violet", "Titanium Yellow"],
@@ -115,8 +175,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "5050 mAh",
     camera: "50MP + 48MP + 48MP",
     display: "6.7 inch Super Actua OLED",
-    rating: 4.6,
-    reviews: 650,
     featured: true,
     description: "Pixel 8 Pro is the all-pro engineered by Google. It has a sleek design, powerful performance, and the best Pixel camera yet.",
     colors: ["Obsidian", "Porcelain", "Bay"],
@@ -135,8 +193,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "5400 mAh",
     camera: "50MP + 64MP + 48MP",
     display: "6.82 inch ProXDR AMOLED",
-    rating: 4.5,
-    reviews: 820,
     description: "The OnePlus 12 delivers a fast and smooth experience with its powerful processor, advanced cooling system, and ultra-fast charging.",
     colors: ["Flowy Emerald", "Silky Black"],
     offers: [],
@@ -153,8 +209,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "5000 mAh",
     camera: "50MP + 50MP + 50MP + 50MP",
     display: "6.73 inch LTPO AMOLED",
-    rating: 4.4,
-    reviews: 410,
     description: "Xiaomi 14 Ultra brings a professional photography experience with its Leica optics and powerful performance.",
     colors: ["Black", "White"],
     offers: [],
@@ -172,8 +226,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "4700 mAh",
     camera: "50MP + 50MP",
     display: "6.7 inch LTPO OLED",
-    rating: 4.3,
-    reviews: 560,
     description: "Nothing Phone (2) features a unique transparent design, the Glyph Interface, and a clean Nothing OS experience.",
     colors: ["White", "Dark Grey"],
     offers: [],
@@ -190,8 +242,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "5400 mAh",
     camera: "50MP + 50MP + 50MP",
     display: "6.78 inch LTPO AMOLED",
-    rating: 4.5,
-    reviews: 320,
     description: "Vivo X100 Pro offers exceptional camera capabilities co-engineered with ZEISS, along with top-tier performance.",
     colors: ["Asteroid Black", "Meteor Blue"],
     offers: [],
@@ -208,8 +258,6 @@ const defaultProducts: AdminProduct[] = [
     battery: "3349 mAh",
     camera: "48MP + 12MP",
     display: "6.1 inch Super Retina XDR OLED",
-    rating: 4.7,
-    reviews: 2100,
     featured: true,
     description: "iPhone 15 brings the Dynamic Island, a 48MP Main camera, and USB-C to a beautiful, durable design.",
     colors: ["Black", "Blue", "Green", "Yellow", "Pink"],
@@ -224,10 +272,23 @@ const defaultBanners: Banner[] = [
     subtitle: "The ultimate Galaxy AI experience",
     image: "/samsung-s25-hero-2.jpeg",
     link: "/products/2",
+    placement: 'hero',
     order: 0,
     active: true,
   },
 ];
+
+const bannerSort = (a: Banner, b: Banner) => {
+  if (a.placement === b.placement) return a.order - b.order;
+  return a.placement.localeCompare(b.placement);
+};
+
+const normalizeBanner = (banner: Partial<Banner> & Pick<Banner, 'id' | 'title' | 'image' | 'order' | 'active'>): Banner => ({
+  ...banner,
+  subtitle: banner.subtitle || '',
+  link: banner.link || '',
+  placement: (banner.placement || 'hero') as BannerPlacement,
+});
 
 const defaultOffers: Offer[] = [
   {
@@ -253,6 +314,21 @@ const defaultOffers: Offer[] = [
   },
 ];
 
+const defaultBrands: Brand[] = [
+  { id: "brand-apple", name: "Apple", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-samsung", name: "Samsung", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-google", name: "Google", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-oneplus", name: "OnePlus", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-xiaomi", name: "Xiaomi", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-nothing", name: "Nothing", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-vivo", name: "Vivo", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-realme", name: "Realme", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-motorola", name: "Motorola", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-iqoo", name: "iQOO", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-poco", name: "Poco", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+  { id: "brand-oppo", name: "Oppo", active: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+];
+
 // ==================== Store ====================
 
 const useAdminStore = create<AdminStore>()(
@@ -274,22 +350,52 @@ const useAdminStore = create<AdminStore>()(
       // Banners
       banners: defaultBanners,
       addBanner: (banner) =>
-        set((state) => ({ banners: [...state.banners, banner].sort((a, b) => a.order - b.order) })),
+        set((state) => {
+          const nextBanner = normalizeBanner(banner);
+          const nextBanners =
+            nextBanner.placement === 'before-about' && nextBanner.active
+              ? state.banners.map((b) =>
+                  b.placement === 'before-about' ? { ...b, active: false } : b
+                )
+              : state.banners;
+
+          return { banners: [...nextBanners, nextBanner].sort(bannerSort) };
+        }),
       updateBanner: (id, updates) =>
-        set((state) => ({
-          banners: state.banners.map((b) => (b.id === id ? { ...b, ...updates } : b)).sort((a, b) => a.order - b.order),
-        })),
+        set((state) => {
+          const current = state.banners.find((b) => b.id === id);
+          if (!current) return { banners: state.banners };
+
+          const updated = normalizeBanner({ ...current, ...updates });
+          const shouldActivateExclusiveBeforeAbout =
+            updated.placement === 'before-about' && updated.active;
+
+          const nextBanners = state.banners.map((b) => {
+            if (b.id === id) return updated;
+            if (shouldActivateExclusiveBeforeAbout && b.placement === 'before-about') {
+              return { ...b, active: false };
+            }
+            return b;
+          });
+
+          return { banners: nextBanners.sort(bannerSort) };
+        }),
       deleteBanner: (id) =>
         set((state) => ({
           banners: state.banners.filter((b) => b.id !== id),
         })),
-      reorderBanners: (bannerIds) =>
-        set((state) => ({
-          banners: bannerIds
-            .map((id, index) => state.banners.find((b) => b.id === id)!)
+      reorderBanners: (placement, bannerIds) =>
+        set((state) => {
+          const untouched = state.banners.filter((b) => b.placement !== placement);
+          const reordered = bannerIds
+            .map((id) => state.banners.find((b) => b.id === id && b.placement === placement))
             .filter(Boolean)
-            .map((b, index) => ({ ...b, order: index })),
-        })),
+            .map((b, index) => ({ ...(b as Banner), order: index }));
+
+          return {
+            banners: [...untouched, ...reordered].sort(bannerSort),
+          };
+        }),
 
       // Offers
       offers: defaultOffers,
@@ -303,14 +409,75 @@ const useAdminStore = create<AdminStore>()(
           offers: state.offers.filter((o) => o.id !== id),
         })),
 
-      // Site config
-      siteName: "श्री श्याम Mobiles",
-      setSiteName: (name) => set({ siteName: name }),
+       // Site config
+       siteName: "श्री श्याम Mobiles",
+       setSiteName: (name) => set({ siteName: name }),
+
+       // Brands
+       brands: defaultBrands,
+       addBrand: (brand) =>
+         set((state) => ({ brands: [...state.brands, brand] })),
+       updateBrand: (id, updates) =>
+         set((state) => ({
+           brands: state.brands.map((b) => (b.id === id ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b)),
+         })),
+       deleteBrand: (id) =>
+         set((state) => ({
+           brands: state.brands.filter((b) => b.id !== id),
+         })),
+       getBrand: (id) => get().brands.find((b) => b.id === id),
+
+       // Orders
+       orders: [],
+       addOrder: (orderData) =>
+         set((state) => {
+           const now = new Date().toISOString();
+           const order: Order = {
+             ...orderData,
+             id: `order-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+             createdAt: now,
+             updatedAt: now,
+           };
+           return { orders: [order, ...state.orders] };
+         }),
+       updateOrderStatus: (orderId, status) =>
+         set((state) => ({
+           orders: state.orders.map((o) =>
+             o.id === orderId ? { ...o, status, updatedAt: new Date().toISOString() } : o
+           ),
+         })),
+       deleteOrder: (orderId) =>
+         set((state) => ({
+           orders: state.orders.filter((o) => o.id !== orderId),
+         })),
+       getOrder: (orderId) => get().orders.find((o) => o.id === orderId),
     }),
     {
       name: 'mobimart-admin-store',
+      merge: (persistedState, currentState) => {
+        const persisted = (persistedState || {}) as Partial<AdminStore>;
+        const persistedBanners = Array.isArray(persisted.banners)
+          ? persisted.banners.map((banner) =>
+              normalizeBanner(
+                banner as Partial<Banner> & Pick<Banner, 'id' | 'title' | 'image' | 'order' | 'active'>
+              )
+            )
+          : currentState.banners;
+
+        const persistedBrands = Array.isArray(persisted.brands)
+          ? persisted.brands
+          : currentState.brands;
+
+        return {
+          ...currentState,
+          ...persisted,
+          banners: persistedBanners,
+          brands: persistedBrands,
+        };
+      },
     }
   )
 );
 
 export default useAdminStore;
+

@@ -1,6 +1,10 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  devIndicators: {
+    appIsrStatus: false,
+    buildActivity: false,
+  },
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
@@ -29,9 +33,22 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'm-cdn.phonearena.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
-  output: 'standalone',
+  // Use default Next.js output mode to avoid missing pages-manifest artifacts.
+  // Standalone mode in this setup can fail with _app.js.nft.json ENOENT at build/start.
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.

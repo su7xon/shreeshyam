@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css'; // Global styles
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import ModalManager from '@/components/ModalManager';
 import { CartProvider } from '@/lib/store';
 import { Poppins } from 'next/font/google';
@@ -26,10 +27,11 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       >
         <CartProvider>
           <Navbar />
-          <main className="flex-grow">
+          <main className="flex-grow pb-[68px] md:pb-0">
             {children}
           </main>
           <Footer />
+          <MobileBottomNav />
           <ModalManager />
         </CartProvider>
       </body>

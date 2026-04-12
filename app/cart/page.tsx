@@ -5,14 +5,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { CartSkeleton, CartSummarySkeleton } from '@/components/SkeletonLoader';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice } = useCartStore();
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    // Simulate loading for better UX
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
   }, []);
 
   const formatPrice = (price: number) => {
@@ -23,7 +27,21 @@ export default function CartPage() {
     }).format(price);
   };
 
-  if (!mounted) return null;
+  if (!mounted || isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="h-9 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-shimmer bg-[length:200%_100%] rounded w-48 mb-8"></div>
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
+          <div className="lg:w-2/3">
+            <CartSkeleton />
+          </div>
+          <div className="lg:w-1/3">
+            <CartSummarySkeleton />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -38,7 +56,7 @@ export default function CartPage() {
           <p className="text-gray-500 mb-8">Looks like you haven&apos;t added any smartphones to your cart yet.</p>
           <Link 
             href="/products" 
-            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-[#2D245F] bg-[#DBD4FE] hover:bg-[#C4B5FD] transition-all shadow-lg shadow-purple-200"
           >
             Start Shopping
           </Link>
@@ -154,7 +172,7 @@ export default function CartPage() {
             
             <Link 
               href="/checkout"
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-4 px-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+              className="w-full flex items-center justify-center gap-2 bg-[#FDFBD7] text-[#453008] border border-[#EBE8A0] py-4 px-4 rounded-xl font-bold text-lg hover:bg-[#F9F7A8] transition-all shadow-lg shadow-orange-100"
             >
               Proceed to Checkout <ArrowRight className="h-5 w-5" />
             </Link>

@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -8,6 +8,7 @@ import { Star, ShoppingCart, ShieldCheck, Truck, RotateCcw, Check, Zap, ChevronR
 import { products as defaultProducts } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
 import useAdminStore from '@/lib/admin-store';
+import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -19,6 +20,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading for better UX
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <ProductDetailSkeleton />;
+  }
 
   if (!product) {
     notFound();
@@ -38,6 +50,55 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const handleShare = async () => {
+    const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/products/${product.id}`;
+    const shareData = {
+      title: product.name,
+      text: `Check out ${product.name} on श्री श्याम Mobiles`,
+      url: shareUrl,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          copyToClipboard(shareUrl);
+        }
+      }
+    } else {
+      copyToClipboard(shareUrl);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(() => {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  };
+
+  const fallbackCopy = (text: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    } catch (err) {
+      prompt('Copy this link:', text);
+    }
+    document.body.removeChild(textarea);
+  };
+
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -53,7 +114,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const emiPerMonth = Math.round(product.price / 12);
 
   // Related products from same brand
-  const relatedProducts = products.filter(p => p.brand === product.brand && p.id !== product.id).slice(0, 4);
+  const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 8);
 
   // Colors
   const colors = ('colors' in product && Array.isArray(product.colors)) ? product.colors as string[] : [];
@@ -73,20 +134,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Breadcrumbs — Croma style */}
-      <div className="border-b border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex text-xs text-gray-500 py-3 overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1">
-              <li><Link href="/" className="hover:text-blue-600">Home</Link></li>
-              <li className="flex items-center"><ChevronRight className="h-3 w-3 mx-1" /><Link href="/products" className="hover:text-blue-600">Smartphones</Link></li>
-              <li className="flex items-center"><ChevronRight className="h-3 w-3 mx-1" /><Link href={`/products?brand=${product.brand}`} className="hover:text-blue-600">{product.brand}</Link></li>
-              <li className="flex items-center"><ChevronRight className="h-3 w-3 mx-1" /><span className="text-gray-900 font-medium truncate max-w-[200px]">{product.name}</span></li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
 
@@ -132,7 +179,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                       <button className="bg-white border border-gray-200 rounded-full p-2 hover:bg-gray-50 shadow-sm transition-colors" aria-label="Wishlist">
                         <Heart className="h-4 w-4 text-gray-500" />
                       </button>
-                      <button className="bg-white border border-gray-200 rounded-full p-2 hover:bg-gray-50 shadow-sm transition-colors" aria-label="Share">
+                      <button onClick={handleShare} className="bg-white border border-gray-200 rounded-full p-2 hover:bg-gray-50 shadow-sm transition-colors" aria-label="Share">
                         <Share2 className="h-4 w-4 text-gray-500" />
                       </button>
                     </div>
@@ -244,99 +291,101 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             )}
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <div className="flex flex-row gap-2 sm:gap-3 mb-6">
               <button
                 onClick={handleAddToCart}
                 disabled={added}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-bold text-sm sm:text-base transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base transition-all ${
                   added
                     ? 'bg-green-500 text-white'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'bg-[#C4B5FD] text-[#2D245F] hover:bg-[#B4A3F7] transition-all'
                 }`}
                 suppressHydrationWarning
               >
                 {added ? (
-                  <><Check className="h-5 w-5" /> Added to Cart</>
+                  <><Check className="h-4 w-4 sm:h-5 sm:w-5" /> Added</>
                 ) : (
-                  <><ShoppingCart className="h-5 w-5" /> Add to Cart</>
+                  <><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" /> Add to Cart</>
                 )}
               </button>
               <Link
                 href="/checkout"
                 onClick={() => { if (!added) addItem(product); }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-bold text-sm sm:text-base bg-orange-500 text-white hover:bg-orange-600 transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base bg-[#F7E493] text-[#453008] hover:bg-[#f0d87a] transition-all"
                 suppressHydrationWarning
               >
-                <Zap className="h-5 w-5" /> Buy Now
+                <Zap className="h-4 w-4 sm:h-5 sm:w-5 fill-current" /> Buy Now
               </Link>
             </div>
+          </div>
+        </div>
 
-            {/* Super Savings / Bank Offers — Dynamic from Admin */}
-            {adminOffers.length > 0 && (
-              <div className="border border-gray-200 rounded-lg mb-6">
-                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                  <h3 className="text-sm font-bold text-gray-900">Super Savings ({adminOffers.length} OFFERS)</h3>
-                </div>
-                <div className="divide-y divide-gray-100">
-                  {adminOffers.map((offer) => (
-                    <div key={offer.id} className="flex items-start gap-3 px-4 py-3">
-                      <div className="bg-red-50 p-1.5 rounded-full flex-shrink-0 mt-0.5">
-                        <span className="text-sm">{offer.icon || '🎁'}</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-xs font-semibold text-gray-900">{offer.title}</p>
-                        <p className="text-xs text-gray-600 mt-0.5">{offer.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Delivery & Services — Croma style */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
-              <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
-                <ShieldCheck className="h-5 w-5 text-blue-600 mb-1.5" />
-                <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">1 Year Warranty</span>
-              </div>
-              <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
-                <RotateCcw className="h-5 w-5 text-blue-600 mb-1.5" />
-                <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">7 Days Return</span>
-              </div>
-              <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
-                <Truck className="h-5 w-5 text-blue-600 mb-1.5" />
-                <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">Free Delivery</span>
-              </div>
-            </div>
-
-            {/* Key Specifications — Croma style table */}
+        <div className="mt-2 lg:mt-8">
+          {/* Super Savings / Bank Offers — full width to avoid empty left column space */}
+          {adminOffers.length > 0 && (
             <div className="border border-gray-200 rounded-lg mb-6">
               <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                <h3 className="text-sm font-bold text-gray-900">Key Specifications</h3>
+                <h3 className="text-sm font-bold text-gray-900">Super Savings ({adminOffers.length} OFFERS)</h3>
               </div>
               <div className="divide-y divide-gray-100">
-                {(showAllSpecs ? specs : specs.slice(0, 5)).map((spec, i) => (
-                  <div key={i} className="flex px-4 py-2.5">
-                    <span className="text-xs text-gray-500 w-1/3 flex-shrink-0">{spec.label}</span>
-                    <span className="text-xs font-medium text-gray-900">{spec.value}</span>
+                {adminOffers.map((offer) => (
+                  <div key={offer.id} className="flex items-start gap-3 px-4 py-3">
+                    <div className="bg-red-50 p-1.5 rounded-full flex-shrink-0 mt-0.5">
+                      <span className="text-sm">{offer.icon || '🎁'}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-gray-900">{offer.title}</p>
+                      <p className="text-xs text-gray-600 mt-0.5">{offer.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-              {specs.length > 5 && (
-                <button
-                  onClick={() => setShowAllSpecs(!showAllSpecs)}
-                  className="w-full py-2.5 text-xs text-blue-600 font-medium hover:bg-gray-50 border-t border-gray-200 flex items-center justify-center gap-1"
-                >
-                  {showAllSpecs ? (<>Show Less <ChevronUp className="h-3 w-3" /></>) : (<>View All Specifications <ChevronDown className="h-3 w-3" /></>)}
-                </button>
-              )}
             </div>
+          )}
 
-            {/* Description */}
-            <div className="mb-6">
-              <h3 className="text-sm font-bold text-gray-900 mb-2">Description</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">{product.description}</p>
+          {/* Delivery & Services — now full width */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
+              <ShieldCheck className="h-5 w-5 text-blue-600 mb-1.5" />
+              <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">1 Year Warranty</span>
             </div>
+            <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
+              <RotateCcw className="h-5 w-5 text-blue-600 mb-1.5" />
+              <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">7 Days Return</span>
+            </div>
+            <div className="flex flex-col items-center text-center bg-gray-50 rounded-lg px-2 py-3 border border-gray-200">
+              <Truck className="h-5 w-5 text-blue-600 mb-1.5" />
+              <span className="text-[10px] sm:text-xs font-medium text-gray-700 leading-tight">Free Delivery</span>
+            </div>
+          </div>
+
+          {/* Key Specifications — now full width */}
+          <div className="border border-gray-200 rounded-lg mb-6">
+            <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
+              <h3 className="text-sm font-bold text-gray-900">Key Specifications</h3>
+            </div>
+            <div className="divide-y divide-gray-100">
+              {(showAllSpecs ? specs : specs.slice(0, 5)).map((spec, i) => (
+                <div key={i} className="flex px-4 py-2.5">
+                  <span className="text-xs text-gray-500 w-1/3 flex-shrink-0">{spec.label}</span>
+                  <span className="text-xs font-medium text-gray-900">{spec.value}</span>
+                </div>
+              ))}
+            </div>
+            {specs.length > 5 && (
+              <button
+                onClick={() => setShowAllSpecs(!showAllSpecs)}
+                className="w-full py-2.5 text-xs text-blue-600 font-medium hover:bg-gray-50 border-t border-gray-200 flex items-center justify-center gap-1"
+              >
+                {showAllSpecs ? (<>Show Less <ChevronUp className="h-3 w-3" /></>) : (<>View All Specifications <ChevronDown className="h-3 w-3" /></>)}
+              </button>
+            )}
+          </div>
+
+          {/* Description — now full width */}
+          <div className="mb-6">
+            <h3 className="text-sm font-bold text-gray-900 mb-2">Description</h3>
+            <p className="text-xs text-gray-600 leading-relaxed">{product.description}</p>
           </div>
         </div>
 

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useAdminStore from '@/lib/admin-store';
 import { brands, ramOptions, storageOptions } from '@/lib/data';
-import { Save, X, Plus, ArrowLeft, Upload, Trash2, Eye } from 'lucide-react';
+import { Save, X, Plus, ArrowLeft, Trash2, Eye } from 'lucide-react';
 
 export default function AdminProductFormPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -29,8 +29,6 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
     battery: existingProduct?.battery || '',
     camera: existingProduct?.camera || '',
     display: existingProduct?.display || '',
-    rating: existingProduct?.rating || 4.5,
-    reviews: existingProduct?.reviews || 0,
     featured: existingProduct?.featured || false,
     description: existingProduct?.description || '',
     colors: existingProduct?.colors || [] as string[],
@@ -433,3 +431,4 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
     </div>
   );
 }
+

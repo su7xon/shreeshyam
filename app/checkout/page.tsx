@@ -1,6 +1,7 @@
 'use client';
 
 import { useCartStore } from '@/lib/store';
+import useAdminStore from '@/lib/admin-store';
 import { useState, useEffect } from 'react';
 import { CheckCircle, ArrowLeft, ShieldCheck, Truck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
@@ -8,10 +9,23 @@ import Image from 'next/image';
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCartStore();
+  const { addOrder } = useAdminStore();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+
+  // Form state
+  const [formData, setFormData] = useState({
+    email: '',
+    phone: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    paymentMethod: 'card' as 'card' | 'upi' | 'cod',
+  });
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -29,14 +43,47 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
+
+    const generatedOrderNumber = `ORD-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+
+    const orderItems = items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      image: item.image,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    const subtotal = totalPrice();
+
+    addOrder({
+      orderNumber: generatedOrderNumber,
+      status: 'pending',
+      items: orderItems,
+      subtotal,
+      shipping: 0,
+      total: subtotal,
+      customer: {
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+      },
+      shippingAddress: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        city: formData.city,
+        postalCode: formData.postalCode,
+      },
+      paymentMethod: formData.paymentMethod,
+    });
+
     setTimeout(() => {
       setIsSubmitting(false);
-      setOrderNumber(`ORD-${Math.floor(Math.random() * 1000000)}`);
+      setOrderNumber(generatedOrderNumber);
       setIsSuccess(true);
       clearCart();
-    }, 2000);
+    }, 1500);
   };
 
   if (!mounted) return null;
@@ -76,7 +123,7 @@ export default function CheckoutPage() {
         <p className="text-gray-500 mb-8">Please add some items to your cart before proceeding to checkout.</p>
         <Link 
           href="/products" 
-          className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+          className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-[#2D245F] bg-[#DBD4FE] hover:bg-[#C4B5FD] transition-all"
         >
           Browse Products
         </Link>
@@ -85,125 +132,125 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-      <div className="mb-8">
-        <Link href="/cart" className="inline-flex items-center text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Cart
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-8">
+      <div className="mb-4 sm:mb-8">
+        <Link href="/cart" className="inline-flex items-center text-xs sm:text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors">
+          <ArrowLeft className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Back to Cart
         </Link>
-        <h1 className="text-2xl sm:text-4xl font-semibold text-[var(--color-text)] mt-2 sm:mt-4">Checkout</h1>
+        <h1 className="text-xl sm:text-4xl font-semibold text-[var(--color-text)] mt-1 sm:mt-4">Checkout</h1>
       </div>
 
-      <div className="premium-surface rounded-2xl p-4 sm:p-6 mb-8">
-        <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="rounded-xl bg-[var(--color-surface-soft)] border border-[var(--color-border)] py-3 px-2">
-            <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Step 1</p>
-            <p className="font-semibold text-[var(--color-text)]">Cart Review</p>
+      <div className="premium-surface rounded-xl sm:rounded-2xl p-3 sm:p-6 mb-4 sm:mb-8">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
+          <div className="rounded-lg sm:rounded-xl bg-[var(--color-surface-soft)] border border-[var(--color-border)] py-2 sm:py-3 px-1.5 sm:px-2">
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Step 1</p>
+            <p className="text-xs sm:text-sm font-semibold text-[var(--color-text)] leading-tight mt-0.5 sm:mt-1">Cart Review</p>
           </div>
-          <div className="rounded-xl bg-[var(--color-primary)] text-white border border-[var(--color-primary)] py-3 px-2">
-            <p className="text-xs uppercase tracking-[0.16em] text-[#d9e5ed]">Step 2</p>
-            <p className="font-semibold">Secure Checkout</p>
+          <div className="rounded-lg sm:rounded-xl bg-[var(--color-primary)] text-white border border-[var(--color-primary)] py-2 sm:py-3 px-1.5 sm:px-2">
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[#d9e5ed]">Step 2</p>
+            <p className="text-xs sm:text-sm font-semibold leading-tight mt-0.5 sm:mt-1">Secure Checkout</p>
           </div>
-          <div className="rounded-xl bg-[var(--color-surface-soft)] border border-[var(--color-border)] py-3 px-2">
-            <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Step 3</p>
-            <p className="font-semibold text-[var(--color-text)]">Confirmation</p>
+          <div className="rounded-lg sm:rounded-xl bg-[var(--color-surface-soft)] border border-[var(--color-border)] py-2 sm:py-3 px-1.5 sm:px-2">
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Step 3</p>
+            <p className="text-xs sm:text-sm font-semibold text-[var(--color-text)] leading-tight mt-0.5 sm:mt-1">Confirmation</p>
           </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-        <div className="premium-surface rounded-xl p-4 flex items-center gap-3">
-          <ShieldCheck className="h-5 w-5 text-[var(--color-primary)]" />
-          <p className="text-sm text-[var(--color-text)] font-medium">100% Secure Payment</p>
-        </div>
-        <div className="premium-surface rounded-xl p-4 flex items-center gap-3">
-          <Truck className="h-5 w-5 text-[var(--color-primary)]" />
-          <p className="text-sm text-[var(--color-text)] font-medium">Priority Shipping Available</p>
-        </div>
-        <div className="premium-surface rounded-xl p-4 flex items-center gap-3">
-          <Sparkles className="h-5 w-5 text-[var(--color-accent)]" />
-          <p className="text-sm text-[var(--color-text)] font-medium">Authenticity Guaranteed</p>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 sm:gap-12">
+      <div className="grid grid-cols-1 gap-2 sm:gap-3 mb-4 sm:mb-8">
+        <div className="premium-surface rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
+          <ShieldCheck className="h-4 sm:h-5 w-4 sm:w-5 text-[var(--color-primary)] flex-shrink-0" />
+          <p className="text-xs sm:text-sm text-[var(--color-text)] font-medium">100% Secure Payment</p>
+        </div>
+        <div className="premium-surface rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
+          <Truck className="h-4 sm:h-5 w-4 sm:w-5 text-[var(--color-primary)] flex-shrink-0" />
+          <p className="text-xs sm:text-sm text-[var(--color-text)] font-medium">Priority Shipping</p>
+        </div>
+        <div className="premium-surface rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
+          <Sparkles className="h-4 sm:h-5 w-4 sm:w-5 text-[var(--color-accent)] flex-shrink-0" />
+          <p className="text-xs sm:text-sm text-[var(--color-text)] font-medium">Authenticity Guaranteed</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6 sm:gap-12">
         {/* Checkout Form */}
-        <div className="lg:w-2/3">
+        <div className="lg:w-2/3 order-2 lg:order-1">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Contact Information */}
-            <div className="premium-surface p-6 sm:p-8 rounded-xl">
-              <h2 className="text-2xl font-semibold text-[var(--color-text)] mb-6">Contact Information</h2>
-              <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+            <div className="premium-surface p-4 sm:p-8 rounded-xl">
+              <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Contact Information</h2>
+              <div className="grid grid-cols-1 gap-y-4 sm:gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                 <div className="sm:col-span-2">
                   <label htmlFor="email" className="block text-sm font-medium text-[var(--color-text)]">Email address</label>
                   <div className="mt-1">
-                    <input type="email" id="email" name="email" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" placeholder="you@example.com" />
+                    <input type="email" id="email" name="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" placeholder="you@example.com" />
                   </div>
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="phone" className="block text-sm font-medium text-[var(--color-text)]">Phone number</label>
                   <div className="mt-1">
-                    <input type="tel" id="phone" name="phone" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" placeholder="+91 98765 43210" />
+                    <input type="tel" id="phone" name="phone" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" placeholder="+91 98765 43210" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Shipping Address */}
-            <div className="premium-surface p-6 sm:p-8 rounded-xl">
-              <h2 className="text-2xl font-semibold text-[var(--color-text)] mb-6">Shipping Address</h2>
-              <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+            <div className="premium-surface p-4 sm:p-8 rounded-xl">
+              <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Shipping Address</h2>
+              <div className="grid grid-cols-1 gap-y-4 sm:gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                 <div>
                   <label htmlFor="first-name" className="block text-sm font-medium text-[var(--color-text)]">First name</label>
                   <div className="mt-1">
-                    <input type="text" id="first-name" name="first-name" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" />
+                    <input type="text" id="first-name" name="first-name" required value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="last-name" className="block text-sm font-medium text-[var(--color-text)]">Last name</label>
                   <div className="mt-1">
-                    <input type="text" id="last-name" name="last-name" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" />
+                    <input type="text" id="last-name" name="last-name" required value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
                   </div>
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="address" className="block text-sm font-medium text-[var(--color-text)]">Address</label>
                   <div className="mt-1">
-                    <input type="text" id="address" name="address" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" placeholder="Street address, P.O. box, etc." />
+                    <input type="text" id="address" name="address" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" placeholder="Street address, P.O. box, etc." />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="city" className="block text-sm font-medium text-[var(--color-text)]">City</label>
                   <div className="mt-1">
-                    <input type="text" id="city" name="city" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" />
+                    <input type="text" id="city" name="city" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="postal-code" className="block text-sm font-medium text-[var(--color-text)]">Postal code</label>
                   <div className="mt-1">
-                    <input type="text" id="postal-code" name="postal-code" required className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-3" />
+                    <input type="text" id="postal-code" name="postal-code" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Payment Method */}
-            <div className="premium-surface p-6 sm:p-8 rounded-xl">
-              <h2 className="text-2xl font-semibold text-[var(--color-text)] mb-6">Payment Method</h2>
-              <div className="space-y-4">
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
-                  <input id="payment-card" name="payment-method" type="radio" defaultChecked className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-card" className="ml-3 block text-sm font-medium text-[var(--color-text)]">
+            <div className="premium-surface p-4 sm:p-8 rounded-xl">
+              <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Payment Method</h2>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                  <input id="payment-card" name="payment-method" type="radio" checked={formData.paymentMethod === 'card'} onChange={() => setFormData({...formData, paymentMethod: 'card'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
+                  <label htmlFor="payment-card" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
                     Credit / Debit Card
                   </label>
                 </div>
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
-                  <input id="payment-upi" name="payment-method" type="radio" className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-upi" className="ml-3 block text-sm font-medium text-[var(--color-text)]">
+                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                  <input id="payment-upi" name="payment-method" type="radio" checked={formData.paymentMethod === 'upi'} onChange={() => setFormData({...formData, paymentMethod: 'upi'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
+                  <label htmlFor="payment-upi" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
                     UPI
                   </label>
                 </div>
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
-                  <input id="payment-cod" name="payment-method" type="radio" className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-cod" className="ml-3 block text-sm font-medium text-[var(--color-text)]">
+                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                  <input id="payment-cod" name="payment-method" type="radio" checked={formData.paymentMethod === 'cod'} onChange={() => setFormData({...formData, paymentMethod: 'cod'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
+                  <label htmlFor="payment-cod" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
                     Cash on Delivery
                   </label>
                 </div>
@@ -213,7 +260,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full flex justify-center py-4 px-4 rounded-xl text-lg font-bold text-white transition-colors ${
+              className={`w-full flex justify-center py-3 sm:py-4 px-4 rounded-xl text-base sm:text-lg font-bold text-white transition-colors sticky bottom-4 sm:bottom-0 shadow-lg sm:shadow-none ${
                 isSubmitting ? 'bg-[#556e81] cursor-not-allowed' : 'premium-btn-primary'
               }`}
             >
@@ -223,14 +270,14 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary Sidebar */}
-        <div className="lg:w-1/3">
-          <div className="premium-surface rounded-xl p-6 sm:p-8 lg:sticky lg:top-24">
-            <h2 className="text-2xl font-semibold text-[var(--color-text)] mb-6">Order Summary</h2>
-            
-            <ul className="divide-y divide-[var(--color-border)] mb-6">
+        <div className="lg:w-1/3 order-1 lg:order-2">
+          <div className="premium-surface rounded-xl p-4 sm:p-8 lg:sticky lg:top-24">
+            <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Order Summary</h2>
+
+            <ul className="divide-y divide-[var(--color-border)] mb-4 sm:mb-6">
               {items.map((item) => (
-                <li key={item.id} className="py-4 flex items-center space-x-4">
-                  <div className="relative h-16 w-16 bg-[var(--color-surface)] rounded-md border border-[var(--color-border)] flex-shrink-0">
+                <li key={item.id} className="py-3 sm:py-4 flex items-center space-x-3 sm:space-x-4">
+                  <div className="relative h-12 sm:h-16 w-12 sm:w-16 bg-[var(--color-surface)] rounded-md border border-[var(--color-border)] flex-shrink-0">
                     {/* @ts-ignore React 19 type mismatch */}
                     <Image
                       src={item.image}

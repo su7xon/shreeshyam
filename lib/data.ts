@@ -11,8 +11,6 @@ export interface Product {
   battery: string;
   camera: string;
   display: string;
-  rating: number;
-  reviews: number;
   featured?: boolean;
   description: string;
 }
@@ -31,8 +29,6 @@ export const products: Product[] = [
     battery: "4422 mAh",
     camera: "48MP + 12MP + 12MP",
     display: "6.7 inch Super Retina XDR OLED",
-    rating: 4.8,
-    reviews: 1250,
     featured: true,
     description: "The iPhone 15 Pro Max features a strong and lightweight titanium design, the powerful A17 Pro chip, and a pro camera system with a 5x Telephoto lens."
   },
@@ -49,8 +45,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "200MP + 50MP + 12MP + 10MP",
     display: "6.8 inch Dynamic AMOLED 2X",
-    rating: 4.7,
-    reviews: 980,
     featured: true,
     description: "Galaxy S24 Ultra is the ultimate Galaxy experience, featuring a titanium exterior, a flat display, and the power of Galaxy AI."
   },
@@ -66,8 +60,6 @@ export const products: Product[] = [
     battery: "5050 mAh",
     camera: "50MP + 48MP + 48MP",
     display: "6.7 inch Super Actua OLED",
-    rating: 4.6,
-    reviews: 650,
     featured: true,
     description: "Pixel 8 Pro is the all-pro engineered by Google. It has a sleek design, powerful performance, and the best Pixel camera yet."
   },
@@ -84,8 +76,6 @@ export const products: Product[] = [
     battery: "5400 mAh",
     camera: "50MP + 64MP + 48MP",
     display: "6.82 inch ProXDR AMOLED",
-    rating: 4.5,
-    reviews: 820,
     description: "The OnePlus 12 delivers a fast and smooth experience with its powerful processor, advanced cooling system, and ultra-fast charging."
   },
   {
@@ -100,8 +90,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 50MP + 50MP + 50MP",
     display: "6.73 inch LTPO AMOLED",
-    rating: 4.4,
-    reviews: 410,
     description: "Xiaomi 14 Ultra brings a professional photography experience with its Leica optics and powerful performance."
   },
   {
@@ -117,8 +105,6 @@ export const products: Product[] = [
     battery: "4700 mAh",
     camera: "50MP + 50MP",
     display: "6.7 inch LTPO OLED",
-    rating: 4.3,
-    reviews: 560,
     description: "Nothing Phone (2) features a unique transparent design, the Glyph Interface, and a clean Nothing OS experience."
   },
   {
@@ -133,8 +119,6 @@ export const products: Product[] = [
     battery: "5400 mAh",
     camera: "50MP + 50MP + 50MP",
     display: "6.78 inch LTPO AMOLED",
-    rating: 4.5,
-    reviews: 320,
     description: "Vivo X100 Pro offers exceptional camera capabilities co-engineered with ZEISS, along with top-tier performance."
   },
   {
@@ -149,8 +133,6 @@ export const products: Product[] = [
     battery: "3349 mAh",
     camera: "48MP + 12MP",
     display: "6.1 inch Super Retina XDR OLED",
-    rating: 4.7,
-    reviews: 2100,
     featured: true,
     description: "iPhone 15 brings the Dynamic Island, a 48MP Main camera, and USB-C to a beautiful, durable design."
   },
@@ -167,8 +149,6 @@ export const products: Product[] = [
     battery: "4500 mAh",
     camera: "50MP + 12MP + 8MP",
     display: "6.4 inch Dynamic AMOLED 2X",
-    rating: 4.3,
-    reviews: 1450,
     description: "Samsung Galaxy S23 FE delivers flagship-level performance with a stunning AMOLED display and versatile triple camera system at an accessible price."
   },
   {
@@ -184,8 +164,6 @@ export const products: Product[] = [
     battery: "3279 mAh",
     camera: "12MP + 12MP",
     display: "6.1 inch Super Retina XDR OLED",
-    rating: 4.6,
-    reviews: 3200,
     description: "iPhone 14 features an advanced camera system, Crash Detection, and all-day battery life in a sleek, durable design."
   },
   {
@@ -201,8 +179,6 @@ export const products: Product[] = [
     battery: "5500 mAh",
     camera: "50MP + 2MP",
     display: "6.78 inch LTPO AMOLED",
-    rating: 4.3,
-    reviews: 890,
     description: "Realme GT 6T delivers top-tier performance with Snapdragon 7+ Gen 3, 5500 mAh battery, and a stunning 120Hz AMOLED display."
   },
   {
@@ -218,8 +194,6 @@ export const products: Product[] = [
     battery: "4500 mAh",
     camera: "50MP + 13MP + 10MP",
     display: "6.7 inch pOLED 144Hz",
-    rating: 4.2,
-    reviews: 720,
     description: "Motorola Edge 50 Pro offers a premium experience with 144Hz pOLED display, 68W TurboPower charging, and versatile triple camera."
   },
   {
@@ -235,8 +209,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 64MP + 50MP",
     display: "6.78 inch LTPO AMOLED",
-    rating: 4.5,
-    reviews: 640,
     featured: true,
     description: "iQOO 12 is a performance beast with Snapdragon 8 Gen 3 chipset, 120W FlashCharge, and a stunning 144Hz AMOLED display."
   },
@@ -253,8 +225,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 8MP",
     display: "6.67 inch AMOLED 120Hz",
-    rating: 4.3,
-    reviews: 1100,
     description: "POCO F6 5G brings flagship-grade Snapdragon 8s Gen 3 power, 90W turbo charging, and a 120Hz AMOLED display at an incredible price."
   },
   {
@@ -270,8 +240,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 12MP + 5MP",
     display: "6.6 inch Super AMOLED",
-    rating: 4.4,
-    reviews: 2300,
     description: "Samsung Galaxy A55 5G features a premium glass design with key Galaxy innovations, Super AMOLED display, and reliable triple camera."
   },
   {
@@ -287,8 +255,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 8MP + 2MP",
     display: "6.7 inch AMOLED 120Hz",
-    rating: 4.2,
-    reviews: 530,
     description: "Oppo Reno 12 Pro combines AI photography features, a sleek design, and 80W SUPERVOOC charging for a premium mid-range experience."
   },
   {
@@ -304,8 +270,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "200MP + 8MP + 2MP",
     display: "6.67 inch AMOLED 120Hz",
-    rating: 4.4,
-    reviews: 4500,
     description: "Redmi Note 13 Pro+ packs a jaw-dropping 200MP camera, 120W HyperCharge, IP68 water resistance, and a curved AMOLED display."
   },
   {
@@ -321,8 +285,6 @@ export const products: Product[] = [
     battery: "5500 mAh",
     camera: "50MP + 8MP",
     display: "6.7 inch AMOLED 120Hz",
-    rating: 4.3,
-    reviews: 1870,
     description: "OnePlus Nord CE 4 offers a smooth AMOLED experience, 100W SUPERVOOC charging, and all-day 5500 mAh battery life."
   },
   {
@@ -338,8 +300,6 @@ export const products: Product[] = [
     battery: "3700 mAh",
     camera: "12MP + 12MP",
     display: "6.7 inch Dynamic AMOLED 2X",
-    rating: 4.4,
-    reviews: 780,
     featured: true,
     description: "Samsung Galaxy Z Flip 5 features a larger Flex Window, a compact foldable design, and flagship Snapdragon performance."
   },
@@ -356,8 +316,6 @@ export const products: Product[] = [
     battery: "4400 mAh",
     camera: "50MP + 12MP + 10MP",
     display: "7.6 inch Dynamic AMOLED 2X",
-    rating: 4.5,
-    reviews: 540,
     featured: true,
     description: "Galaxy Z Fold 5 is the ultimate foldable with a massive 7.6-inch inner screen, multi-window multitasking, and S Pen support."
   },
@@ -374,8 +332,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "64MP + 8MP + 32MP",
     display: "6.7 inch AMOLED 120Hz",
-    rating: 4.2,
-    reviews: 620,
     description: "Realme 12 Pro+ 5G features a periscope telephoto camera for flagship-level zoom, Sony camera sensors, and premium curved display."
   },
   {
@@ -391,8 +347,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 50MP",
     display: "6.78 inch AMOLED 120Hz",
-    rating: 4.3,
-    reviews: 430,
     description: "Vivo V30 Pro is a portrait master co-engineered with ZEISS, featuring studio-quality lighting and Aura Light for stunning portraits."
   },
   {
@@ -408,8 +362,6 @@ export const products: Product[] = [
     battery: "3800 mAh",
     camera: "12MP + 13MP",
     display: "6.9 inch pOLED 165Hz",
-    rating: 4.1,
-    reviews: 350,
     description: "Motorola Razr 40 Ultra features the largest external display on a flip phone, premium vegan leather design, and elegant flip phone experience."
   },
   {
@@ -425,8 +377,6 @@ export const products: Product[] = [
     battery: "3240 mAh",
     camera: "12MP + 12MP",
     display: "6.1 inch Super Retina XDR OLED",
-    rating: 4.6,
-    reviews: 5400,
     description: "iPhone 13 features a bright Super Retina XDR display, Cinematic mode, advanced dual-camera system, and incredible battery life."
   },
   {
@@ -442,8 +392,6 @@ export const products: Product[] = [
     battery: "5160 mAh",
     camera: "50MP + 8MP",
     display: "6.78 inch LTPO AMOLED 144Hz",
-    rating: 4.4,
-    reviews: 920,
     description: "iQOO Neo 9 Pro brings flagship Snapdragon 8 Gen 2 power with 120W FlashCharge, a 144Hz display, and immersive gaming experience."
   },
   {
@@ -459,8 +407,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "64MP + 8MP + 2MP",
     display: "6.67 inch AMOLED 120Hz",
-    rating: 4.2,
-    reviews: 2700,
     description: "POCO X6 Pro 5G offers a flagship-grade Dimensity 8300 Ultra processor, 64MP OIS camera, and 67W turbo charging at an unbeatable price."
   },
   {
@@ -476,8 +422,6 @@ export const products: Product[] = [
     battery: "5000 mAh",
     camera: "50MP + 8MP + 2MP",
     display: "6.7 inch Super AMOLED 120Hz",
-    rating: 4.2,
-    reviews: 1380,
     description: "Samsung Galaxy M55 5G delivers powerful performance with Snapdragon 7 Gen 1, 45W fast charging, and a vibrant Super AMOLED display."
   },
   {
@@ -493,8 +437,6 @@ export const products: Product[] = [
     battery: "5100 mAh",
     camera: "200MP + 8MP + 2MP",
     display: "6.67 inch AMOLED 120Hz",
-    rating: 4.3,
-    reviews: 3600,
     description: "Redmi Note 13 Pro brings an incredible 200MP primary camera, 67W turbo charge, and IP54 water resistance at a mid-range price point."
   }
 ];
@@ -502,3 +444,4 @@ export const products: Product[] = [
 export const brands = ["Apple", "Samsung", "Google", "OnePlus", "Xiaomi", "Nothing", "Vivo", "Realme", "Motorola", "iQOO", "Poco", "Oppo"];
 export const ramOptions = ["4GB", "6GB", "8GB", "12GB", "16GB"];
 export const storageOptions = ["128GB", "256GB", "512GB"];
+

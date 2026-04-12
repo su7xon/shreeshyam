@@ -30,22 +30,22 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] px-4">
       <div className="w-full max-w-md">
         {/* Logo / Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-[#b78b57]/20 mb-4">
-            <Lock className="h-8 w-8 text-[#b78b57]" />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-[var(--color-accent)]/15 mb-4">
+            <Lock className="h-8 w-8 text-[var(--color-accent)]" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-          <p className="text-gray-400 mt-1">श्री श्याम Mobiles</p>
+          <h1 className="text-2xl font-bold text-[var(--color-text)]">Admin Panel</h1>
+          <p className="text-[var(--color-text-muted)] mt-1">श्री श्याम Mobiles</p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-2xl">
+        <div className="premium-surface rounded-2xl border border-[var(--color-border)] p-8 shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--color-text)] mb-2">
                 Password
               </label>
               <input
@@ -54,14 +54,14 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter admin password"
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#b78b57] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-[var(--color-surface-soft)] border border-[var(--color-border)] rounded-xl text-[var(--color-text)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/40 focus:border-transparent transition-all"
                 autoComplete="current-password"
                 required
               />
             </div>
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">
+              <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-500 text-sm">
                 {error}
               </div>
             )}
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading || !password.trim()}
-              className="w-full py-3 px-4 bg-gradient-to-r from-[#b78b57] to-[#d4a76a] hover:from-[#d4a76a] hover:to-[#e0b87a] text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full py-3 px-4 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -85,14 +85,14 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-xs text-gray-500 mt-6">
-            Default password: <code className="bg-white/10 px-2 py-0.5 rounded">admin123</code>
+          <p className="text-center text-xs text-[var(--color-text-muted)] mt-6">
+            Default password: <code className="bg-[var(--color-surface-soft)] px-2 py-0.5 rounded border border-[var(--color-border)]">admin123</code>
           </p>
         </div>
 
         {/* Back to site link */}
         <div className="text-center mt-6">
-          <a href="/" className="text-gray-400 hover:text-white text-sm transition-colors">
+          <a href="/" className="text-[var(--color-text-muted)] hover:text-[var(--color-primary)] text-sm transition-colors">
             ← Back to website
           </a>
         </div>
