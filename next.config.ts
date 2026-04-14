@@ -1,10 +1,7 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-  },
+  // Suppress deprecation warnings
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
