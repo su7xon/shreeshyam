@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import ModalManager from '@/components/ModalManager';
 import { CartProvider } from '@/lib/store';
+import FirebaseInitializer from '@/components/FirebaseInitializer';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -26,6 +27,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         className={`${poppins.variable} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]`}
       >
         <CartProvider>
+          <FirebaseInitializer />
           <Navbar />
           <main className="flex-grow pb-[68px] md:pb-0">
             {children}

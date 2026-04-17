@@ -61,3 +61,6 @@ metadata.json
 # Build artifacts
 out/
 tsconfig.tsbuildinfo
+
+# Local Netlify folder
+.netlify

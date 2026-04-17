@@ -102,7 +102,8 @@ const resolveBannerHref = (link?: string) => {
 
 export default function Home() {
   const admin = useAdminStore();
-  const products = admin.products.length > 0 ? admin.products : defaultProducts;
+  const isLoading = admin.isLoading;
+  const products = admin.products.length > 0 ? admin.products : (isLoading ? [] : defaultProducts);
   const activeBanners = admin.banners.filter((b) => b.active);
   const heroBanners = activeBanners
     .filter((b) => (b.placement || 'hero') === 'hero')

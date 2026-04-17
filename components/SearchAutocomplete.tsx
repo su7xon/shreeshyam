@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, X, ChevronRight } from 'lucide-react';
-import { products, brands } from '@/lib/data';
+import { products as defaultProducts, brands as defaultBrands } from '@/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import useAdminStore from '@/lib/admin-store';
 
 interface SearchResult {
   id: string;
@@ -19,16 +20,21 @@ export default function SearchAutocomplete({
   value, 
   onChange, 
   onSearch, 
-  className = '' 
+  className = '',
+  autoFocus = false
 }: { 
   value: string; 
   onChange: (value: string) => void; 
   onSearch: () => void;
   className?: string;
+  autoFocus?: boolean;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const admin = useAdminStore();
+  const storeProducts = (admin.products || []).length > 0 ? admin.products.filter(p => p.active !== false) : (admin.isLoading ? [] : defaultProducts);
+  const storeBrands = (admin.brands || []).length > 0 ? admin.brands.filter(b => b.active !== false).map(b => b.name) : (admin.isLoading ? [] : defaultBrands);
 
   const results = useMemo<SearchResult[]>(() => {
     if (!value.trim()) {
@@ -36,8 +42,8 @@ export default function SearchAutocomplete({
     }
 
     const q = value.toLowerCase();
-    const productResults = products
-      .filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q))
+    const productResults = storeProducts
+      .filter(p => (p.name?.toLowerCase().includes(q) || p.brand?.toLowerCase().includes(q)))
       .slice(0, 4)
       .map(p => ({
         id: p.id,
@@ -47,7 +53,7 @@ export default function SearchAutocomplete({
         price: p.price
       }));
 
-    const brandResults = brands
+    const brandResults = storeBrands
       .filter(b => b.toLowerCase().includes(q))
       .slice(0, 2)
       .map(b => ({
@@ -59,7 +65,7 @@ export default function SearchAutocomplete({
       }));
 
     return [...productResults, ...brandResults];
-  }, [value]);
+  }, [value, storeProducts, storeBrands]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -96,6 +102,7 @@ export default function SearchAutocomplete({
           placeholder="Search smartphones, brands..."
           className="flex-1 min-w-0 px-3 sm:px-4 text-sm focus:outline-none placeholder-gray-400"
           value={value}
+          autoFocus={autoFocus}
           onChange={(e) => {
             const nextValue = e.target.value;
             onChange(nextValue);

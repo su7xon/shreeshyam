@@ -7,6 +7,7 @@ const BRANDS_COLLECTION = 'brands';
 
 // Get all brands
 export const getBrands = async (): Promise<Brand[]> => {
+  if (!db) return [];
   try {
     const brandsQuery = query(collection(db, BRANDS_COLLECTION), orderBy('name'));
     const querySnapshot = await getDocs(brandsQuery);
@@ -16,7 +17,7 @@ export const getBrands = async (): Promise<Brand[]> => {
     })) as Brand[];
   } catch (error) {
     console.error('Error getting brands:', error);
-    throw error;
+    return [];
   }
 };
 
@@ -80,6 +81,7 @@ export const deleteBrand = async (id: string): Promise<void> => {
 
 // Get active brands only
 export const getActiveBrands = async (): Promise<Brand[]> => {
+  if (!db) return [];
   try {
     const brandsQuery = query(
       collection(db, BRANDS_COLLECTION), 
@@ -93,6 +95,6 @@ export const getActiveBrands = async (): Promise<Brand[]> => {
     })) as Brand[];
   } catch (error) {
     console.error('Error getting active brands:', error);
-    throw error;
+    return [];
   }
 };

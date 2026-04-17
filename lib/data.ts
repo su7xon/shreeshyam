@@ -13,6 +13,8 @@ export interface Product {
   camera: string;
   display: string;
   featured?: boolean;
+  active?: boolean;
+  images?: string[];
   description: string;
 }
 
@@ -185,4 +187,3 @@ export const products: Product[] = [
     description: 'Compact size, massive performance. Leica Summilux optical lens and Light Fusion 900 image sensor for legendary photography.'
   }
 ];
-

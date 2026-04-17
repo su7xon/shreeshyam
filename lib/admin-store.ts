@@ -3,6 +3,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from './data';
+import * as productService from './services/productService';
+import * as brandService from './services/brandService';
+import * as bannerService from './services/bannerService';
+import * as offerService from './services/offerService';
+import * as orderService from './services/orderService';
 
 // ==================== Types ====================
 
@@ -87,23 +92,23 @@ export interface AdminProduct extends Product {
 interface AdminStore {
   // Products
   products: AdminProduct[];
-  addProduct: (product: AdminProduct) => void;
-  updateProduct: (id: string, product: Partial<AdminProduct>) => void;
-  deleteProduct: (id: string) => void;
+  addProduct: (product: Omit<AdminProduct, 'id'>) => Promise<string>;
+  updateProduct: (id: string, product: Partial<AdminProduct>) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
   getProduct: (id: string) => AdminProduct | undefined;
 
   // Banners
   banners: Banner[];
-  addBanner: (banner: Banner) => void;
-  updateBanner: (id: string, banner: Partial<Banner>) => void;
-  deleteBanner: (id: string) => void;
-  reorderBanners: (placement: BannerPlacement, bannerIds: string[]) => void;
+  addBanner: (banner: Omit<Banner, 'id'>) => Promise<string>;
+  updateBanner: (id: string, banner: Partial<Banner>) => Promise<void>;
+  deleteBanner: (id: string) => Promise<void>;
+  reorderBanners: (placement: BannerPlacement, bannerIds: string[]) => Promise<void>;
 
   // Offers
   offers: Offer[];
-  addOffer: (offer: Offer) => void;
-  updateOffer: (id: string, offer: Partial<Offer>) => void;
-  deleteOffer: (id: string) => void;
+  addOffer: (offer: Omit<Offer, 'id'>) => Promise<string>;
+  updateOffer: (id: string, offer: Partial<Offer>) => Promise<void>;
+  deleteOffer: (id: string) => Promise<void>;
 
    // Site config
    siteName: string;
@@ -111,17 +116,21 @@ interface AdminStore {
 
    // Brands
    brands: Brand[];
-   addBrand: (brand: Brand) => void;
-   updateBrand: (id: string, brand: Partial<Brand>) => void;
-   deleteBrand: (id: string) => void;
+   addBrand: (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>;
+   updateBrand: (id: string, brand: Partial<Brand>) => Promise<void>;
+   deleteBrand: (id: string) => Promise<void>;
    getBrand: (id: string) => Brand | undefined;
 
-   // Orders
-   orders: Order[];
-   addOrder: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => void;
-   updateOrderStatus: (orderId: string, status: OrderStatus) => void;
-   deleteOrder: (orderId: string) => void;
-   getOrder: (orderId: string) => Order | undefined;
+    // Orders
+    orders: Order[];
+    addOrder: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>;
+    updateOrderStatus: (orderId: string, status: OrderStatus) => Promise<void>;
+    deleteOrder: (orderId: string) => Promise<void>;
+    getOrder: (orderId: string) => Order | undefined;
+
+    // Firebase Sync
+    isLoading: boolean;
+    initialize: () => Promise<void>;
 }
 
 // ==================== Default Data ====================
@@ -186,22 +195,33 @@ const useAdminStore = create<AdminStore>()(
     (set, get) => ({
       // Products
       products: defaultProducts,
-      addProduct: (product) => set((state) => ({ products: [...state.products, product] })),
-      updateProduct: (id, updates) =>
+      addProduct: async (product) => {
+        const id = await productService.createProduct(product as any);
+        const newProduct = { ...product, id } as AdminProduct;
+        set((state) => ({ products: [...state.products, newProduct] }));
+        return id;
+      },
+      updateProduct: async (id, updates) => {
+        await productService.updateProduct(id, updates as any);
         set((state) => ({
           products: state.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
-        })),
-      deleteProduct: (id) =>
+        }));
+      },
+      deleteProduct: async (id) => {
+        await productService.deleteProduct(id);
         set((state) => ({
           products: state.products.filter((p) => p.id !== id),
-        })),
+        }));
+      },
       getProduct: (id) => get().products.find((p) => p.id === id),
 
       // Banners
       banners: defaultBanners,
-      addBanner: (banner) =>
+      addBanner: async (banner) => {
+        const id = await bannerService.createBanner(banner as any);
+        const nextBanner = normalizeBanner({ ...banner, id } as Banner);
+        
         set((state) => {
-          const nextBanner = normalizeBanner(banner);
           const nextBanners =
             nextBanner.placement === 'before-about' && nextBanner.active
               ? state.banners.map((b) =>
@@ -210,8 +230,11 @@ const useAdminStore = create<AdminStore>()(
               : state.banners;
 
           return { banners: [...nextBanners, nextBanner].sort(bannerSort) };
-        }),
-      updateBanner: (id, updates) =>
+        });
+        return id;
+      },
+      updateBanner: async (id, updates) => {
+        await bannerService.updateBanner(id, updates as any);
         set((state) => {
           const current = state.banners.find((b) => b.id === id);
           if (!current) return { banners: state.banners };
@@ -229,12 +252,16 @@ const useAdminStore = create<AdminStore>()(
           });
 
           return { banners: nextBanners.sort(bannerSort) };
-        }),
-      deleteBanner: (id) =>
+        });
+      },
+      deleteBanner: async (id) => {
+        await bannerService.deleteBanner(id);
         set((state) => ({
           banners: state.banners.filter((b) => b.id !== id),
-        })),
-      reorderBanners: (placement, bannerIds) =>
+        }));
+      },
+      reorderBanners: async (placement, bannerIds) => {
+        // Optimistic update locally
         set((state) => {
           const untouched = state.banners.filter((b) => b.placement !== placement);
           const reordered = bannerIds
@@ -245,19 +272,35 @@ const useAdminStore = create<AdminStore>()(
           return {
             banners: [...untouched, ...reordered].sort(bannerSort),
           };
-        }),
+        });
+
+        // Sync items with new orders to Firebase
+        const bannerUpdates = bannerIds.map((id, index) => 
+          bannerService.updateBanner(id, { order: index } as any)
+        );
+        await Promise.all(bannerUpdates);
+      },
 
       // Offers
       offers: defaultOffers,
-      addOffer: (offer) => set((state) => ({ offers: [...state.offers, offer] })),
-      updateOffer: (id, updates) =>
+      addOffer: async (offer) => {
+        const id = await offerService.createOffer(offer as any);
+        const newOffer = { ...offer, id } as Offer;
+        set((state) => ({ offers: [...state.offers, newOffer] }));
+        return id;
+      },
+      updateOffer: async (id, updates) => {
+        await offerService.updateOffer(id, updates as any);
         set((state) => ({
           offers: state.offers.map((o) => (o.id === id ? { ...o, ...updates } : o)),
-        })),
-      deleteOffer: (id) =>
+        }));
+      },
+      deleteOffer: async (id) => {
+        await offerService.deleteOffer(id);
         set((state) => ({
           offers: state.offers.filter((o) => o.id !== id),
-        })),
+        }));
+      },
 
        // Site config
        siteName: "श्री श्याम Mobiles",
@@ -265,41 +308,87 @@ const useAdminStore = create<AdminStore>()(
 
        // Brands
        brands: defaultBrands,
-       addBrand: (brand) =>
-         set((state) => ({ brands: [...state.brands, brand] })),
-       updateBrand: (id, updates) =>
+       addBrand: async (brand) => {
+         const id = await brandService.createBrand(brand as any);
+         const newBrand = { 
+           ...brand, 
+           id, 
+           createdAt: new Date().toISOString(), 
+           updatedAt: new Date().toISOString() 
+         } as Brand;
+         set((state) => ({ brands: [...state.brands, newBrand] }));
+         return id;
+       },
+       updateBrand: async (id, updates) => {
+         await brandService.updateBrand(id, updates as any);
          set((state) => ({
            brands: state.brands.map((b) => (b.id === id ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b)),
-         })),
-       deleteBrand: (id) =>
+         }));
+       },
+       deleteBrand: async (id) => {
+         await brandService.deleteBrand(id);
          set((state) => ({
            brands: state.brands.filter((b) => b.id !== id),
-         })),
+         }));
+       },
        getBrand: (id) => get().brands.find((b) => b.id === id),
+
+       // Firebase Sync
+       isLoading: false,
+       initialize: async () => {
+         if (get().isLoading) return;
+         set({ isLoading: true });
+         try {
+           const [products, brands, banners, offers, orders] = await Promise.all([
+             productService.getProducts(),
+             brandService.getBrands(),
+             bannerService.getBanners(),
+             offerService.getOffers(),
+             orderService.getOrders(),
+           ]);
+           set({ 
+             products, 
+             brands, 
+             banners, 
+             offers, 
+             orders,
+             isLoading: false 
+           });
+         } catch (error) {
+           console.error('Failed to initialize admin store:', error);
+           set({ isLoading: false });
+         }
+       },
 
        // Orders
        orders: [],
-       addOrder: (orderData) =>
-         set((state) => {
-           const now = new Date().toISOString();
-           const order: Order = {
-             ...orderData,
-             id: `order-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-             createdAt: now,
-             updatedAt: now,
-           };
-           return { orders: [order, ...state.orders] };
-         }),
-       updateOrderStatus: (orderId, status) =>
+       addOrder: async (orderData) => {
+         const id = await orderService.createOrder(orderData as any);
+         const now = new Date().toISOString();
+         const order: Order = {
+           ...orderData,
+           id,
+           orderNumber: orderData.orderNumber || `ORD-${id.slice(-6).toUpperCase()}`,
+           createdAt: now,
+           updatedAt: now,
+         };
+         set((state) => ({ orders: [order, ...state.orders] }));
+         return id;
+       },
+       updateOrderStatus: async (orderId, status) => {
+         await orderService.updateOrderStatus(orderId, status);
          set((state) => ({
            orders: state.orders.map((o) =>
              o.id === orderId ? { ...o, status, updatedAt: new Date().toISOString() } : o
            ),
-         })),
-       deleteOrder: (orderId) =>
+         }));
+       },
+       deleteOrder: async (orderId) => {
+         await orderService.deleteOrder(orderId);
          set((state) => ({
            orders: state.orders.filter((o) => o.id !== orderId),
-         })),
+         }));
+       },
        getOrder: (orderId) => get().orders.find((o) => o.id === orderId),
     }),
     {

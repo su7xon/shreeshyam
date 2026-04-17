@@ -15,12 +15,34 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Initialize Firebase only if we have the config (prevents build errors)
+const isConfigValid = !!firebaseConfig.apiKey && !!firebaseConfig.projectId;
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export { app };
+let app: any;
+let db: any;
+let auth: any;
+let storage: any;
+let analytics: any;
+
+if (isConfigValid) {
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+    storage = getStorage(app);
+    
+    // Initialize Analytics only in the browser
+    if (typeof window !== 'undefined') {
+      analytics = getAnalytics(app);
+    }
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+  }
+} else {
+  // During build or local dev without .env, initialize with null or placeholders
+  // but ensure no crashes during import.
+  console.warn('Firebase config missing or invalid. Firebase services will not be initialized.');
+}
+
+export { app, db, auth, storage, analytics, isConfigValid };
 export type { FirebaseApp } from 'firebase/app';

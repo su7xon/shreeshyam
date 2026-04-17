@@ -13,21 +13,8 @@ function ProductsContent() {
   const initialBrand = searchParams.get('brand');
   const searchQuery = searchParams.get('search');
   const admin = useAdminStore();
-  const products = admin.products.length > 0 ? admin.products : defaultProducts;
-
-  // Compute dynamically from products + active admin brands
-  const adminBrandNames = admin.brands.filter(b => b.active).map(b => b.name);
-  const productBrands = [...new Set(products.map(p => p.brand))];
-  const availableBrands = [...new Set([...adminBrandNames, ...productBrands])];
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Simulate loading delay for better UX
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
+  const products = admin.products.length > 0 ? admin.products : (admin.isLoading ? [] : defaultProducts);
+  const isLoading = admin.isLoading;
   
   // Filters state
   const [selectedBrands, setSelectedBrands] = useState<string[]>(initialBrand ? [initialBrand] : []);

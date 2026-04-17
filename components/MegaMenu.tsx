@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { brands } from '@/lib/data';
+import { brands as defaultBrands } from '@/lib/data';
+import useAdminStore from '@/lib/admin-store';
 import { ChevronDown, ChevronRight, Phone, Smartphone, Battery, Camera, Plug, Headphones, Watch, Tablet } from 'lucide-react';
 
 const categories = [
@@ -22,6 +23,11 @@ const categories = [
 export default function MegaMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  const admin = useAdminStore();
+  const brands = admin.brands.length > 0 
+    ? admin.brands.map(b => typeof b === 'string' ? b : b.name) 
+    : defaultBrands;
 
   const openMenu = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -83,8 +89,8 @@ export default function MegaMenu() {
             {/* Right: Promo Banner */}
             <div className="md:col-span-1 relative h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 via-gray-900 to-black group flex items-center justify-center">
               <div className="text-center p-6">
-                <p className="text-sm font-semibold text-[var(--color-text)] opacity-60">New Arrivals</p>
-                <p className="text-2xl font-bold text-[var(--color-text)] mt-2">Shop Now</p>
+                <p className="text-sm font-semibold text-white opacity-60">New Arrivals</p>
+                <p className="text-2xl font-bold text-white mt-2">Shop Now</p>
               </div>
             </div>
           </div>
@@ -93,4 +99,3 @@ export default function MegaMenu() {
     </div>
   );
 }
-
