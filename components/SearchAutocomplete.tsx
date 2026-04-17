@@ -115,7 +115,7 @@ export default function SearchAutocomplete({
         )}
         <button
           onClick={onSearch}
-          className="bg-[#F59E0B] hover:bg-[#D97706] w-10 sm:w-12 flex items-center justify-center transition-all text-white hover:scale-[1.02]"
+          className="bg-[#d32f2f] hover:bg-[#b71c1c] w-10 sm:w-12 flex items-center justify-center transition-all text-white hover:scale-[1.02]"
           aria-label="Search"
         >
           <Search className="h-5 w-5" />

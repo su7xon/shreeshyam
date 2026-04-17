@@ -19,7 +19,7 @@ const bundles: Bundle[] = [
   {
     id: '1',
     name: 'Essential Combo',
-    phone: { name: 'Samsung Galaxy S24', image: '/samsung-s25-hero-2.jpeg', price: 55000 },
+    phone: { name: 'Samsung Galaxy S24', image: '', price: 55000 },
     case: { name: 'Premium Clear Case', price: 499 },
     earbuds: { name: 'Basic Earphones', price: 799 },
     totalPrice: 56298,
@@ -28,7 +28,7 @@ const bundles: Bundle[] = [
   {
     id: '2',
     name: 'Premium Pack',
-    phone: { name: 'iPhone 14', image: '/samsung-s25-hero-2.jpeg', price: 65000 },
+    phone: { name: 'iPhone 14', image: '', price: 65000 },
     case: { name: 'MagSafe Case', price: 1299 },
     earbuds: { name: 'AirPods SE', price: 2999 },
     totalPrice: 69298,
@@ -37,7 +37,7 @@ const bundles: Bundle[] = [
   {
     id: '3',
     name: 'Ultimate Bundle',
-    phone: { name: 'iPhone 15 Pro Max', image: '/samsung-s25-hero-2.jpeg', price: 140000 },
+    phone: { name: 'iPhone 15 Pro Max', image: '', price: 140000 },
     case: { name: 'Designer Leather Case', price: 2499 },
     earbuds: { name: 'AirPods Pro 2', price: 7999 },
     totalPrice: 150498,

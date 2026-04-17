@@ -18,16 +18,19 @@ import {
   User,
   Package,
   Building2,
+  Upload,
+  BarChart3,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/products', label: 'Products', icon: Smartphone },
-  { href: '/admin/brands', label: 'Brands', icon: Building2 },
-  { href: '/admin/orders', label: 'Orders', icon: Package },
-  { href: '/admin/banners', label: 'Banners & Hero', icon: Image },
-  { href: '/admin/offers', label: 'Offers & Deals', icon: Tag },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, group: 'DASHBOARD' },
+  { href: '/admin/analytics', label: 'Analytics', icon: BarChart3, group: 'DASHBOARD' },
+  { href: '/admin/products', label: 'Products', icon: Smartphone, group: 'WORKSPACE' },
+  { href: '/admin/brands', label: 'Brands', icon: Building2, group: 'WORKSPACE' },
+  { href: '/admin/orders', label: 'Orders', icon: Package, group: 'WORKSPACE' },
+  { href: '/admin/banners', label: 'Banners & Hero', icon: Image, group: 'WORKSPACE' },
+  { href: '/admin/offers', label: 'Offers & Deals', icon: Tag, group: 'WORKSPACE' },
+  { href: '/admin/settings', label: 'Settings', icon: Settings, group: 'WORKSPACE' },
 ];
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
@@ -35,14 +38,21 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   const router = useRouter();
   const { isAuthenticated, logout } = useAdminAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
-  if (!isClient) {
-    return null;
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+          <div className="h-4 w-24 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
   }
 
   const isLoginPage = pathname === '/admin/login';
@@ -75,7 +85,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         {/* Logo */}
         <div className="flex items-center justify-between px-6 py-6 border-b border-[var(--color-border)] bg-[var(--color-surface-soft)]">
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-[var(--color-accent)] to-[#d4a76a] p-2 rounded-xl shadow-lg">
+            <div className="bg-gradient-to-br from-gray-800 to-black p-2 rounded-xl shadow-lg">
               <Store className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -93,24 +103,32 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
         {/* Navigation */}
         <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
-          {navItems.map((item) => {
+          {navItems.map((item, index) => {
             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
             const Icon = item.icon;
+            const showGroupHeader = item.group && (index === 0 || navItems[index - 1].group !== item.group);
+
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                  isActive
-                    ? 'bg-gradient-to-r from-[var(--color-accent)]/15 to-transparent text-[#111827] border border-[var(--color-accent)]/25 shadow-sm'
-                    : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]'
-                }`}
-              >
-                <Icon className={`h-5 w-5 flex-shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                <span className="tracking-wide">{item.label}</span>
-                {isActive && <ChevronRight className="h-4 w-4 ml-auto text-[#111827]/70" />}
-              </Link>
+              <div key={item.href}>
+                {showGroupHeader && (
+                  <div className="px-4 pt-6 pb-2 text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">
+                    {item.group}
+                  </div>
+                )}
+                <Link
+                  href={item.href}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 group ${
+                    isActive
+                      ? 'bg-gradient-to-r from-[var(--color-accent)]/15 to-transparent text-[#111827] border border-[var(--color-accent)]/25 shadow-sm'
+                      : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]'
+                  }`}
+                >
+                  <Icon className={`h-5 w-5 flex-shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
+                  <span className="tracking-wide">{item.label}</span>
+                  {isActive && <ChevronRight className="h-4 w-4 ml-auto text-[#111827]/70" />}
+                </Link>
+              </div>
             );
           })}
         </nav>

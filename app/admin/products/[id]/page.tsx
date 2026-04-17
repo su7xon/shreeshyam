@@ -6,7 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useAdminStore from '@/lib/admin-store';
 import { brands, ramOptions, storageOptions } from '@/lib/data';
-import { Save, X, Plus, ArrowLeft, Trash2, Eye } from 'lucide-react';
+import { Save, X, Plus, ArrowLeft, Trash2, Eye, Loader2, Upload } from 'lucide-react';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 export default function AdminProductFormPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -15,10 +16,14 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
   const existingProduct = id !== 'new' ? admin.getProduct(id) : undefined;
   const isEditing = !!existingProduct;
 
+  const adminBrandNames = admin.brands.filter(b => b.active).map(b => b.name);
+  const availableBrands = [...new Set([...adminBrandNames, ...(existingProduct ? [existingProduct.brand] : [])])];
+  if (availableBrands.length === 0) availableBrands.push(brands[0]);
+
   const [form, setForm] = useState({
     id: existingProduct?.id || `product-${Date.now()}`,
     name: existingProduct?.name || '',
-    brand: existingProduct?.brand || brands[0],
+    brand: existingProduct?.brand || availableBrands[0],
     price: existingProduct?.price || 0,
     originalPrice: existingProduct?.originalPrice || undefined as number | undefined,
     image: existingProduct?.image || '',
@@ -38,6 +43,7 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
   const [newImage, setNewImage] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saved, setSaved] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const updateForm = (field: string, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -163,7 +169,7 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
                 onChange={(e) => updateForm('brand', e.target.value)}
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
               >
-                {brands.map((brand) => (
+                {availableBrands.map((brand) => (
                   <option key={brand} value={brand}>{brand}</option>
                 ))}
               </select>
@@ -225,6 +231,35 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
               placeholder="Paste image URL..."
               className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
             />
+            <div className="relative overflow-hidden shrink-0">
+              <input 
+                type="file" 
+                accept="image/*" 
+                disabled={isUploading}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    try {
+                      setIsUploading(true);
+                      const url = await uploadToCloudinary(file);
+                      setNewImage(url);
+                    } catch (error) {
+                      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                    } finally {
+                      setIsUploading(false);
+                    }
+                  }
+                }} 
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" 
+              />
+              <button 
+                type="button" 
+                disabled={isUploading}
+                className="px-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center justify-center h-full min-w-[120px]"
+              >
+                {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <><Upload className="h-4 w-4 mr-2" /> Upload File</>}
+              </button>
+            </div>
             <button
               type="button"
               onClick={addImage}
@@ -421,14 +456,14 @@ export default function AdminProductFormPage({ params }: { params: Promise<{ id:
           </Link>
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-[#b78b57] to-[#d4a76a] text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+            disabled={isUploading}
+            className="inline-flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-[#b78b57] to-[#d4a76a] text-white font-semibold rounded-xl hover:shadow-lg disabled:opacity-50 transition-all"
           >
-            <Save className="h-5 w-5" />
-            {isEditing ? 'Update Product' : 'Add Product'}
+            {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
+            {isEditing ? 'Update Product' : 'Create Product'}
           </button>
         </div>
       </form>
     </div>
   );
-}
 

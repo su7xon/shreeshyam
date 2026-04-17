@@ -56,7 +56,7 @@ export default function CartPage() {
           <p className="text-gray-500 mb-8">Looks like you haven&apos;t added any smartphones to your cart yet.</p>
           <Link 
             href="/products" 
-            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-[#2D245F] bg-[#DBD4FE] hover:bg-[#C4B5FD] transition-all shadow-lg shadow-purple-200"
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-black hover:bg-gray-800 transition-all shadow-lg shadow-gray-200"
           >
             Start Shopping
           </Link>
@@ -172,7 +172,7 @@ export default function CartPage() {
             
             <Link 
               href="/checkout"
-              className="w-full flex items-center justify-center gap-2 bg-[#FDFBD7] text-[#453008] border border-[#EBE8A0] py-4 px-4 rounded-xl font-bold text-lg hover:bg-[#F9F7A8] transition-all shadow-lg shadow-orange-100"
+              className="w-full flex items-center justify-center gap-2 bg-black text-white border border-black py-4 px-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-all shadow-lg shadow-gray-200"
             >
               Proceed to Checkout <ArrowRight className="h-5 w-5" />
             </Link>

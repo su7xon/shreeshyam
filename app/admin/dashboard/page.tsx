@@ -126,13 +126,14 @@ export default function AdminDashboardPage() {
               className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-[#b78b57]/50 hover:shadow-sm transition-all"
             >
               <div className="h-16 w-16 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
-                {/* @ts-ignore */}
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-full w-full object-contain p-1"
-                  referrerPolicy="no-referrer"
-                />
+                {product.image && (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-contain p-1"
+                    referrerPolicy="no-referrer"
+                  />
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="font-semibold text-[#1a1a2e] text-sm truncate">{product.name}</p>

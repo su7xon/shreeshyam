@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +14,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const { addItem } = useCartStore();
+  const fallbackImg = `https://placehold.co/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(product.brand)}`;
+  const [imgSrc, setImgSrc] = useState(product.image || fallbackImg);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -44,12 +47,13 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             )}
             {/* @ts-ignore */}
             <Image
-              src={product.image}
+              src={imgSrc}
               alt={product.name}
               fill
               className="object-contain p-4 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
               sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
-              referrerPolicy="no-referrer"
+              onError={() => setImgSrc(fallbackImg)}
+              unoptimized
             />
           </div>
 
@@ -102,12 +106,13 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
           )}
           {/* @ts-ignore */}
           <Image
-            src={product.image}
+            src={imgSrc}
             alt={product.name}
             fill
             className="object-contain p-4 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
             sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
-            referrerPolicy="no-referrer"
+            onError={() => setImgSrc(fallbackImg)}
+            unoptimized
           />
         </div>
 

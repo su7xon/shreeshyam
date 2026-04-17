@@ -15,10 +15,10 @@ function ProductsContent() {
   const admin = useAdminStore();
   const products = admin.products.length > 0 ? admin.products : defaultProducts;
 
-  // Get active brands from admin store, fallback to hardcoded if empty
-  const availableBrands = admin.brands.filter(b => b.active).length > 0
-    ? admin.brands.filter(b => b.active).map(b => b.name)
-    : brands;
+  // Compute dynamically from products + active admin brands
+  const adminBrandNames = admin.brands.filter(b => b.active).map(b => b.name);
+  const productBrands = [...new Set(products.map(p => p.brand))];
+  const availableBrands = [...new Set([...adminBrandNames, ...productBrands])];
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

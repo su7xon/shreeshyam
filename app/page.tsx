@@ -8,56 +8,40 @@ import useAdminStore from '@/lib/admin-store';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState, Suspense } from 'react';
 import { ProductSkeleton, BannerSkeleton, CategorySkeleton, TestimonialSkeleton } from '@/components/SkeletonLoader';
-
-const categoryShowcase = [
-  {
-    title: 'Ultra Touch',
-    subtitle: 'Bold glass-finish cases',
-    image: '/samsung-s25-hero.jpeg',
-    href: '/products?featured=true',
-    tone: 'from-[#ff8a00] to-[#ff6a00]',
-  },
-  {
-    title: 'Dark Side',
-    subtitle: 'Matte textures and stealth tones',
-    image: '/samsung-s25-hero-2.jpeg',
-    href: '/products?brand=Samsung',
-    tone: 'from-[#7a7a7a] to-[#4f4f4f]',
-  },
-  {
-    title: 'Neon Grid',
-    subtitle: 'Graphic patterns with pop colors',
-    image: '/samsung-s25-hero.jpeg',
-    href: '/products',
-    tone: 'from-[#f2cf00] to-[#e5bb00]',
-  },
-];
+import CategoryStrip from '@/components/CategoryStrip';
 
 const testimonials = [
   {
     name: 'Neha Sharma',
     text: 'Cover ki quality ekदम premium hai, phone pe fit bhi perfect aaya. Real me photos se bhi zyada classy lag raha hai.',
-    avatar: '/samsung-s25-hero.jpeg',
+    initials: 'NS',
   },
   {
     name: 'Rohit Verma',
     text: 'Delivery kaafi fast thi aur finishing next level nikli. Next time bhi yahin se order karunga, no doubt.',
-    avatar: '/samsung-s25-hero-2.jpeg',
+    initials: 'RV',
   },
   {
     name: 'Priya Nair',
     text: 'Finally aisa design mila jo unique feel deta hai. Generic look se totally alag aur stylish hai.',
-    avatar: '/samsung-s25-hero.jpeg',
+    initials: 'PN',
   },
   {
     name: 'Aman Singh',
     text: 'Support team ka response mast tha aur styling bhi top notch. Pura buying experience smooth aur premium laga.',
-    avatar: '/samsung-s25-hero-2.jpeg',
+    initials: 'AS',
   },
 ];
 
-const renderBrandLogo = (brand: string) => {
-  switch (brand) {
+const renderBrandLogo = (brandObj: any | string) => {
+  const name = typeof brandObj === 'string' ? brandObj : brandObj.name;
+  const logo = typeof brandObj === 'object' && brandObj.logo ? brandObj.logo : null;
+
+  if (logo) {
+    return <Image src={logo} alt={name} width={40} height={40} className="max-h-8 max-w-[100px] sm:max-h-10 sm:max-w-[120px] object-contain drop-shadow-sm" unoptimized />;
+  }
+
+  switch (name) {
     case 'Apple':
       return <Image src="https://cdn.simpleicons.org/apple/333333" alt="Apple" width={32} height={32} className="h-7 sm:h-8 w-auto drop-shadow-sm" unoptimized />;
     case 'Samsung':
@@ -107,7 +91,7 @@ const renderBrandLogo = (brand: string) => {
     case 'Oppo':
       return <span className="font-extrabold text-[#007656] tracking-tighter text-[24px] sm:text-[26px] select-none">OPPO</span>;
     default:
-      return <span className="font-bold text-gray-600 text-lg tracking-wide">{brand}</span>;
+      return <span className="font-bold text-gray-600 text-lg tracking-wide">{name}</span>;
   }
 };
 
@@ -136,10 +120,8 @@ export default function Home() {
   const featuredProducts = products.filter((p) => p.featured).slice(0, 8);
   const trendingProducts = featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5);
   const newArrivals = [...products].slice(-10).reverse();
-  const activeBrands = admin.brands.filter(b => b.active).length > 0
-    ? admin.brands.filter(b => b.active).map(b => b.name)
-    : brands;
-  const scrollingBrands = [...activeBrands, ...activeBrands];
+  const activeBrands = admin.brands.filter(b => b.active);
+  const scrollingBrands = activeBrands.length > 0 ? [...activeBrands, ...activeBrands] : [];
   const scrollingTestimonials = [...testimonials, ...testimonials];
   const [currentBanner, setCurrentBanner] = useState(0);
 
@@ -179,15 +161,20 @@ export default function Home() {
                     }`}
                   >
                     <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] bg-[#211c17] overflow-hidden">
-                      {/* @ts-ignore */}
-                      <Image
-                        src={banner.image}
-                        alt={banner.title}
-                        fill
-                        className="object-cover object-center"
-                        priority={index === 0}
-                        unoptimized
-                      />
+                      {banner.image && (
+                        <>
+                          {banner.image && (
+                            <Image
+                              src={banner.image}
+                              alt={banner.title}
+                              fill
+                              className="object-cover object-center"
+                              priority={index === 0}
+                              unoptimized
+                            />
+                          )}
+                        </>
+                      )}
 
                     </div>
                   </div>
@@ -219,7 +206,7 @@ export default function Home() {
                         key={index}
                         onClick={() => setCurrentBanner(index)}
                         className={`h-2 rounded-full transition-all ${
-                          index === currentBanner ? 'w-8 bg-[#9B8DEA]' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                          index === currentBanner ? 'w-8 bg-black' : 'w-2 bg-gray-300 hover:bg-gray-400'
                         }`}
                         aria-label={`Go to banner ${index + 1}`}
                       />
@@ -229,24 +216,41 @@ export default function Home() {
               )}
             </div>
           ) : (
-            // Fallback when no banners configured
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden bg-[#211c17]">
-              {/* @ts-ignore */}
-              <Image
-                src="https://i.pinimg.com/736x/59/53/4f/59534fddc68de838b7641970c4f3abdd.jpg"
-                alt="Premium Mobile Banner"
-                fill
-                className="object-cover object-center"
-                priority
-                unoptimized
-              />
+            /* Default Hero — premium gradient, no admin banners needed */
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
+              {/* Decorative blobs */}
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-600/20 to-transparent" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-red-600/10 blur-3xl" />
+              <div className="absolute -top-10 right-1/3 w-56 h-56 rounded-full bg-white/5 blur-2xl" />
+              {/* Content */}
+              <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-16">
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-red-400 font-semibold mb-2 sm:mb-3">Premium Collection 2025</p>
+                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-2 sm:mb-4 max-w-lg">
+                  The Best Phones.<br />
+                  <span className="text-red-400">Best Prices.</span>
+                </h1>
+                <p className="text-sm sm:text-base text-gray-300 max-w-sm mb-5 sm:mb-7 hidden sm:block">
+                  Explore the latest smartphones from Apple, Samsung, OnePlus & more — all at unbeatable prices.
+                </p>
+                <div className="flex items-center gap-3">
+                  <Link href="/products" className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 font-bold px-5 py-2.5 rounded-full text-sm transition-all hover:scale-105 shadow-lg">
+                    Shop Now
+                  </Link>
+                  <Link href="/accessories" className="inline-flex items-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-5 py-2.5 rounded-full text-sm transition-all">
+                    Accessories
+                  </Link>
+                </div>
+              </div>
+              {/* Right side phone mockup decoration */}
+              <div className="absolute right-4 sm:right-12 lg:right-20 top-1/2 -translate-y-1/2 opacity-20 sm:opacity-30 select-none pointer-events-none text-[120px] sm:text-[180px] lg:text-[220px] leading-none">📱</div>
             </div>
             )}
           </Suspense>
         </div>
       </section>
 
-      {/* Category Strip */}
+      {/* Category Icons Strip */}
+      <CategoryStrip />
       <section className="pb-6 sm:pb-12 px-2 sm:px-6 lg:px-8 reveal-fade-up" style={{ animationDelay: '90ms' }}>
         <Suspense fallback={
           <div className="max-w-7xl mx-auto md:grid md:grid-cols-3 md:gap-5 flex md:block gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-1">
@@ -278,26 +282,35 @@ export default function Home() {
                   </div>
                 </Link>
               ))
-            : categoryShowcase.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-white border border-[var(--color-border)] min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start"
-                >
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </Link>
-              ))}
+            : smallCardBanners.length === 0 && (
+                /* Default promo cards — show even without admin banners */
+                <>
+                  <Link href="/products?brand=Apple" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-700 min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6 border border-gray-200">
+                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-25 select-none">🍎</div>
+                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Featured</p>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">iPhone Series</h3>
+                    <p className="text-xs text-gray-400 mt-1">Explore all Apple iPhones →</p>
+                  </Link>
+                  <Link href="/products?brand=Samsung" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-[#1428A0] to-[#0a1670] min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6">
+                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-20 select-none">🌌</div>
+                    <p className="text-[10px] uppercase tracking-widest text-blue-300 mb-1">Galaxy</p>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Samsung Galaxy</h3>
+                    <p className="text-xs text-blue-300 mt-1">AI-powered flagship phones →</p>
+                  </Link>
+                  <Link href="/accessories" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6">
+                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-25 select-none">🎧</div>
+                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">New</p>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Accessories</h3>
+                    <p className="text-xs text-gray-400 mt-1">Earbuds, chargers & more →</p>
+                  </Link>
+                </>
+              )}
         </div>
         </Suspense>
       </section>
 
       {/* Top Brands - Clean Visual Logos */}
+      {scrollingBrands.length > 0 && (
       <section className="py-7 sm:py-12 reveal-fade-up" style={{ animationDelay: '140ms' }}>
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-5 sm:mb-8">
@@ -307,8 +320,8 @@ export default function Home() {
             <div className="brand-marquee-track">
               {scrollingBrands.map((brand, index) => (
               <Link 
-                key={`${brand}-${index}`}
-                href={`/products?brand=${brand}`}
+                key={`${brand.id || brand.name || brand}-${index}`}
+                href={`/products?brand=${brand.name || brand}`}
                 className="bg-white rounded-[14px] sm:rounded-[18px] h-[3.6rem] sm:h-[4.5rem] w-[10rem] sm:w-[11.5rem] shrink-0 flex items-center justify-center p-2.5 sm:p-3 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent"
               >
                 <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
@@ -320,6 +333,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Top Trending */}
       <section className="py-6 sm:py-12 reveal-fade-up" style={{ animationDelay: '180ms' }}>
@@ -327,7 +341,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-5 sm:mb-8">
             <div>
               <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">Curated now</p>
-              <h2 className="text-xl sm:text-3xl font-semibold text-[var(--color-text)]">Top Trending</h2>
+              <h2 className="text-xl sm:text-3xl font-semibold text-[var(--color-text)]">What's Hot</h2>
             </div>
             <Link href="/products" className="text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] font-medium flex items-center text-sm">
               View All
@@ -338,19 +352,23 @@ export default function Home() {
             href={resolveBannerHref(trendingBanner?.link)}
             className="group relative overflow-hidden rounded-2xl border border-[var(--color-border)] block mb-4 sm:mb-6"
           >
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] lg:aspect-[3/1]">
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8]">
+              {trendingBanner ? (
               <Image
-                src={trendingBanner?.image || '/samsung-s25-hero-2.jpeg'}
-                alt={trendingBanner?.title || 'Explore all smartphones'}
+                src={trendingBanner.image}
+                alt={trendingBanner.title || 'Explore all smartphones'}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="100vw"
                 priority
-                unoptimized={Boolean(trendingBanner)}
+                unoptimized
               />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-text)] to-[var(--color-text-muted)]" />
+            )}
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
               <div className="absolute inset-y-0 left-0 flex flex-col justify-end p-4 sm:p-6 lg:p-8 text-white max-w-xl">
-                <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[#FDFBD7] mb-1">Drop Of The Week</p>
+                <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-black mb-1">Drop Of The Week</p>
                 <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight">
                   {trendingBanner?.title || 'Define Yourself. Be Different.'}
                 </h3>
@@ -363,13 +381,15 @@ export default function Home() {
 
           {/* Products Grid */}
           <Suspense fallback={
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
-              {Array.from({length: 5}).map((_, i) => <ProductSkeleton key={i} />)}
+            <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
+              {Array.from({length: 5}).map((_, i) => <div key={i} className="w-[160px] sm:w-auto shrink-0 sm:shrink"><ProductSkeleton /></div>)}
             </div>
           }>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
+          <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
             {trendingProducts.map((product) => (
-              <ProductCard key={product.id} product={product} variant="editorial" />
+              <div key={product.id} className="w-[160px] sm:w-auto shrink-0 sm:shrink">
+                <ProductCard product={product} variant="editorial" />
+              </div>
             ))}
           </div>
           </Suspense>
@@ -433,13 +453,15 @@ export default function Home() {
           </div>
 
           <Suspense fallback={
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
-              {Array.from({ length: 10 }).map((_, i) => <ProductSkeleton key={i} />)}
+            <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
+              {Array.from({ length: 10 }).map((_, i) => <div key={i} className="w-[160px] sm:w-auto shrink-0 sm:shrink"><ProductSkeleton /></div>)}
             </div>
           }>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
+            <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
               {newArrivals.map((product) => (
-                <ProductCard key={`all-${product.id}`} product={product} variant="editorial" />
+                <div key={`all-${product.id}`} className="w-[160px] sm:w-auto shrink-0 sm:shrink">
+                  <ProductCard product={product} variant="editorial" />
+                </div>
               ))}
             </div>
           </Suspense>
@@ -462,8 +484,8 @@ export default function Home() {
               {scrollingTestimonials.map((item, index) => (
                 <article key={`${item.name}-${index}`} className="bg-white border border-gray-200 rounded-xl p-4 w-[17rem] sm:w-[18rem] shrink-0">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="relative h-10 w-10 rounded-full overflow-hidden bg-gray-100">
-                      <Image src={item.avatar} alt={item.name} fill className="object-cover" sizes="40px" />
+                    <div className="h-10 w-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white font-semibold text-sm">
+                      {item.initials}
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-gray-900">{item.name}</p>

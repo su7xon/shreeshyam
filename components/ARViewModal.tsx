@@ -13,9 +13,9 @@ interface PhoneAR {
 }
 
 const phonesAR: PhoneAR[] = [
-  { id: '1', name: 'Samsung Galaxy S24 Ultra', image: '/samsung-s25-hero-2.jpeg', price: 129999, dimensions: { width: 79, height: 162, depth: 8.2 } },
-  { id: '2', name: 'iPhone 15 Pro Max', image: '/samsung-s25-hero-2.jpeg', price: 149999, dimensions: { width: 76, height: 159, depth: 8.3 } },
-  { id: '3', name: 'Google Pixel 8 Pro', image: '/samsung-s25-hero-2.jpeg', price: 89999, dimensions: { width: 73, height: 153, depth: 8.2 } },
+  { id: '1', name: 'Samsung Galaxy S24 Ultra', image: '', price: 129999, dimensions: { width: 79, height: 162, depth: 8.2 } },
+  { id: '2', name: 'iPhone 15 Pro Max', image: '', price: 149999, dimensions: { width: 76, height: 159, depth: 8.3 } },
+  { id: '3', name: 'Google Pixel 8 Pro', image: '', price: 89999, dimensions: { width: 73, height: 153, depth: 8.2 } },
 ];
 
 export default function ARViewModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {

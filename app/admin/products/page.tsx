@@ -98,13 +98,14 @@ export default function AdminProductsPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
                       <div className="h-14 w-14 rounded-lg bg-[var(--color-surface-soft)] overflow-hidden flex-shrink-0">
-                        {/* @ts-ignore */}
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="h-full w-full object-contain p-1"
-                          referrerPolicy="no-referrer"
-                        />
+                        {product.image && (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="h-full w-full object-contain p-1"
+                            referrerPolicy="no-referrer"
+                          />
+                        )}
                       </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-[var(--color-text)] text-sm truncate max-w-[200px]">{product.name}</p>

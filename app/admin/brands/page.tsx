@@ -2,7 +2,8 @@
 
 import useAdminStore, { Brand } from '@/lib/admin-store';
 import { useState } from 'react';
-import { Plus, Edit2, Trash2, Eye, EyeOff, Search, Smartphone, Check, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Eye, EyeOff, Search, Smartphone, Check, X, Loader2, Upload } from 'lucide-react';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 export default function AdminBrandsPage() {
   const admin = useAdminStore();
@@ -11,6 +12,7 @@ export default function AdminBrandsPage() {
   const [search, setSearch] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [form, setForm] = useState({
     id: '',
     name: '',
@@ -139,14 +141,45 @@ export default function AdminBrandsPage() {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Logo URL (optional)</label>
-              <input
-                type="text"
-                value={form.logo}
-                onChange={(e) => setForm({ ...form, logo: e.target.value })}
-                placeholder="Paste logo image URL..."
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/50 bg-gray-50"
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={form.logo}
+                  onChange={(e) => setForm({ ...form, logo: e.target.value })}
+                  placeholder="Paste logo image URL..."
+                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/50 bg-gray-50"
+                />
+                <div className="relative overflow-hidden shrink-0">
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    disabled={isUploading}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        try {
+                          setIsUploading(true);
+                          const url = await uploadToCloudinary(file);
+                          setForm({ ...form, logo: url });
+                        } catch (error) {
+                          alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                        } finally {
+                          setIsUploading(false);
+                        }
+                      }
+                    }} 
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" 
+                  />
+                  <button 
+                    type="button" 
+                    disabled={isUploading}
+                    className="px-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center justify-center h-full min-w-[100px]"
+                  >
+                    {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <><Upload className="h-4 w-4 mr-2" /> Upload</>}
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="sm:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Description (optional)</label>
@@ -197,9 +230,10 @@ export default function AdminBrandsPage() {
             </button>
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-hover)] text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+              disabled={isUploading}
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-hover)] text-white font-semibold rounded-xl hover:shadow-lg disabled:opacity-50 transition-all"
             >
-              <Check className="h-5 w-5" />
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Check className="h-5 w-5" />}
               {editingId ? 'Update' : 'Add'} Brand
             </button>
           </div>

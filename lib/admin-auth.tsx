@@ -10,25 +10,28 @@ interface AdminAuthContextType {
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
-// Simple password-based auth (client-side only — for production, use proper backend auth)
 const ADMIN_PASSWORD = 'admin123';
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
-    const authed = localStorage.getItem('mobimart-admin-auth');
-    if (authed === 'true') {
-      setIsAuthenticated(true);
+    try {
+      const authed = localStorage.getItem('mobimart-admin-auth');
+      setIsAuthenticated(authed === 'true');
+    } catch (e) {
+      setIsAuthenticated(false);
     }
+    setLoading(false);
   }, []);
 
   const login = (password: string): boolean => {
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
-      localStorage.setItem('mobimart-admin-auth', 'true');
+      try {
+        localStorage.setItem('mobimart-admin-auth', 'true');
+      } catch (e) {}
       return true;
     }
     return false;
@@ -36,11 +39,24 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('mobimart-admin-auth');
+    try {
+      localStorage.removeItem('mobimart-admin-auth');
+    } catch (e) {}
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <div className="h-12 w-12 bg-gray-200 rounded-full"></div>
+          <div className="h-4 w-32 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AdminAuthContext.Provider value={{ isAuthenticated: isAuthenticated ?? false, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );

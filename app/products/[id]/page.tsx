@@ -14,7 +14,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const { id } = use(params);
   const admin = useAdminStore();
   const products = admin.products.length > 0 ? admin.products : defaultProducts;
-  const product = products.find(p => p.id === id);
+  const directMatch = products.find((p) => p.id === id);
+  const numericIndex = Number.parseInt(id, 10);
+  const indexMatch = Number.isFinite(numericIndex) && numericIndex > 0
+    ? products[numericIndex - 1]
+    : undefined;
+  const product = directMatch ?? indexMatch;
   const { addItem } = useCartStore();
   const [added, setAdded] = useState(false);
   const [selectedThumb, setSelectedThumb] = useState(0);
@@ -113,8 +118,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   // EMI calculation (approx 12 months)
   const emiPerMonth = Math.round(product.price / 12);
 
-  // Related products from same brand
-  const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 8);
+  // Related products (all other products)
+  const relatedProducts = products.filter(p => p.id !== product.id);
 
   // Colors
   const colors = ('colors' in product && Array.isArray(product.colors)) ? product.colors as string[] : [];
@@ -298,7 +303,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 className={`flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base transition-all ${
                   added
                     ? 'bg-green-500 text-white'
-                    : 'bg-[#C4B5FD] text-[#2D245F] hover:bg-[#B4A3F7] transition-all'
+                    : 'bg-black text-white hover:bg-gray-800 transition-all'
                 }`}
                 suppressHydrationWarning
               >
@@ -393,29 +398,33 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {relatedProducts.length > 0 && (
           <div className="mt-12 border-t border-gray-200 pt-8">
             <h2 className="text-lg font-bold text-gray-900 mb-4">You May Also Like</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {relatedProducts.map((rp) => {
                 const rpDiscount = rp.originalPrice ? Math.round(((rp.originalPrice - rp.price) / rp.originalPrice) * 100) : 0;
                 return (
-                  <Link key={rp.id} href={`/products/${rp.id}`} className="group">
-                    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="relative aspect-square bg-gray-50 p-3">
-                        {rpDiscount > 0 && (
-                          <div className="absolute top-2 left-2 bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded z-10">{rpDiscount}% off</div>
-                        )}
-                        {/* @ts-ignore React 19 type mismatch */}
-                        <Image src={rp.image} alt={rp.name} fill className="object-contain p-3" sizes="(max-width: 768px) 45vw, 22vw" referrerPolicy="no-referrer" />
+                  <div key={rp.id} className="min-w-0">
+                    <Link href={`/products/${rp.id}`} className="group block h-full">
+                      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                        <div className="relative aspect-square bg-gray-50 p-3">
+                          {rpDiscount > 0 && (
+                            <div className="absolute top-2 left-2 bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded z-10">{rpDiscount}% off</div>
+                          )}
+                          {/* @ts-ignore React 19 type mismatch */}
+                          <Image src={rp.image} alt={rp.name} fill className="object-contain p-3" sizes="(max-width: 768px) 45vw, 22vw" referrerPolicy="no-referrer" />
+                        </div>
+                        <div className="p-2.5 flex flex-col flex-grow">
+                          <p className="text-[10px] text-gray-400 uppercase">{rp.brand}</p>
+                          <h4 className="text-xs font-medium text-gray-800 line-clamp-2 mb-1 group-hover:text-blue-600">{rp.name}</h4>
+                          <div className="mt-auto">
+                            <p className="text-sm font-bold text-gray-900">{formatPrice(rp.price)}</p>
+                            {rp.originalPrice && (
+                              <p className="text-[10px] text-gray-400 line-through">{formatPrice(rp.originalPrice)}</p>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div className="p-2.5">
-                        <p className="text-[10px] text-gray-400 uppercase">{rp.brand}</p>
-                        <h4 className="text-xs font-medium text-gray-800 line-clamp-2 mb-1 group-hover:text-blue-600">{rp.name}</h4>
-                        <p className="text-sm font-bold text-gray-900">{formatPrice(rp.price)}</p>
-                        {rp.originalPrice && (
-                          <p className="text-[10px] text-gray-400 line-through">{formatPrice(rp.originalPrice)}</p>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 );
               })}
             </div>

@@ -7,9 +7,9 @@
     --color-text: #201b16;
     --color-text-muted: #6c6256;
     --color-border: #e5dacd;
-    --color-primary: #DBD4FE;
-    --color-primary-hover: #C4B5FD;
-    --color-accent: #FDFBD7;
+    --color-primary: #000000;
+    --color-primary-hover: #333333;
+    --color-accent: #000000;
     --color-success: #3d6d48;
 }
 

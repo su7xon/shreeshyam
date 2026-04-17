@@ -79,7 +79,7 @@ export default function AccountPage() {
           <div className="w-full md:w-64 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-4 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#DBD4FE] text-[#201b16] rounded-full flex items-center justify-center font-bold text-lg uppercase">
+                <div className="w-12 h-12 bg-gray-200 text-gray-800 rounded-full flex items-center justify-center font-bold text-lg uppercase">
                   {user.initials}
                 </div>
                 <div>

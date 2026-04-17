@@ -4,15 +4,19 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { brands } from '@/lib/data';
-import { ChevronDown, ChevronRight, Phone, Smartphone, Battery, Camera } from 'lucide-react';
+import { ChevronDown, ChevronRight, Phone, Smartphone, Battery, Camera, Plug, Headphones, Watch, Tablet } from 'lucide-react';
 
 const categories = [
-  { name: 'iPhones', href: '/products?brand=Apple', icon: Phone, image: '/samsung-s25-hero.jpeg' },
-  { name: 'Samsung Galaxy', href: '/products?brand=Samsung', icon: Smartphone, image: '/samsung-s25-hero-2.jpeg' },
-  { name: 'Google Pixel', href: '/products?brand=Google', icon: Phone, image: '' },
-  { name: 'OnePlus', href: '/products?brand=OnePlus', icon: Smartphone, image: '' },
-  { name: 'Gaming Phones', href: '/products?ram=12GB', icon: Battery, image: '' },
-  { name: 'Camera Phones', href: '/products?camera=48MP', icon: Camera, image: '' },
+  { name: 'iPhones', href: '/products?brand=Apple', icon: Phone },
+  { name: 'Samsung Galaxy', href: '/products?brand=Samsung', icon: Smartphone },
+  { name: 'Google Pixel', href: '/products?brand=Google', icon: Phone },
+  { name: 'OnePlus', href: '/products?brand=OnePlus', icon: Smartphone },
+  { name: 'Gaming Phones', href: '/products?ram=12GB', icon: Battery },
+  { name: 'Camera Phones', href: '/products?camera=48MP', icon: Camera },
+  { name: 'Power Adapters', href: '/accessories#power-adapters', icon: Plug },
+  { name: 'Earbuds & Neckbands', href: '/accessories#earbuds', icon: Headphones },
+  { name: 'Smartwatches', href: '/accessories#smartwatch', icon: Watch },
+  { name: 'Tablets', href: '/accessories#tablet', icon: Tablet },
 ];
 
 export default function MegaMenu() {
@@ -77,9 +81,11 @@ export default function MegaMenu() {
             </div>
 
             {/* Right: Promo Banner */}
-            <div className="md:col-span-1 relative h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-hover)] group">
-              <div className="absolute inset-0 bg-[url('/samsung-s25-hero.jpeg')] bg-cover bg-center opacity-20"></div>
-
+            <div className="md:col-span-1 relative h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 via-gray-900 to-black group flex items-center justify-center">
+              <div className="text-center p-6">
+                <p className="text-sm font-semibold text-[var(--color-text)] opacity-60">New Arrivals</p>
+                <p className="text-2xl font-bold text-[var(--color-text)] mt-2">Shop Now</p>
+              </div>
             </div>
           </div>
         </div>
