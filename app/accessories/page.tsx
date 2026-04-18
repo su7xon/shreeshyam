@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { accessories, accessoryCategories } from '@/lib/accessories-data';
@@ -19,28 +19,36 @@ export default function AccessoriesPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
 
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price);
+  // Read hash on mount for deep linking
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '');
+      const validCat = categoryTabs.find(c => c.id === hash);
+      if (validCat) {
+        setActiveCategory(hash);
+        // Scroll to content after category change
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    }
+  }, []);
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === 'all') return accessories;
     return accessories.filter((a) => a.category === activeCategory);
   }, [activeCategory]);
 
-  // Read hash on mount for deep linking
-  if (typeof window !== 'undefined' && window.location.hash && activeCategory === 'all') {
-    const hash = window.location.hash.replace('#', '');
-    const validCat = categoryTabs.find(c => c.id === hash);
-    if (validCat) {
-      // Will trigger on next render
-      setTimeout(() => setActiveCategory(hash), 0);
-    }
-  }
-
   const handleAddToCart = (itemId: string) => {
     setAddedItems(prev => ({ ...prev, [itemId]: true }));
     setTimeout(() => setAddedItems(prev => ({ ...prev, [itemId]: false })), 2000);
   };
+
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price);
 
   return (
     <div className="min-h-screen bg-[#f7f7f8]">
@@ -79,11 +87,17 @@ export default function AccessoriesPage() {
 
       {/* Products Grid — same style as mobile products */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8">
+        {/* Add section anchors for hash navigation */}
+        {categoryTabs.filter(tab => tab.id !== 'all').map((tab) => (
+          <div key={`anchor-${tab.id}`} id={tab.id} className="scroll-mt-32" />
+        ))}
+        
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
           {filteredProducts.map((item) => (
-            <div
+            <Link
+              href={`/accessories/${item.id}`}
               key={item.id}
-              className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:-translate-y-1 hover:shadow-[0_26px_38px_-28px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col h-full"
+              className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:-translate-y-1 hover:shadow-[0_26px_38px_-28px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col h-full block"
             >
               {/* Image */}
               <div className="relative aspect-square p-5 sm:p-6 flex items-center justify-center overflow-hidden bg-[#fafafa]">
@@ -121,7 +135,10 @@ export default function AccessoriesPage() {
                   </div>
 
                   <button
-                    onClick={() => handleAddToCart(item.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToCart(item.id);
+                    }}
                     className={`h-9 w-9 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-sm ${
                       addedItems[item.id]
                         ? 'bg-green-500 text-white'
@@ -137,7 +154,7 @@ export default function AccessoriesPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

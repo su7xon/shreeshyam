@@ -32,7 +32,12 @@ export default function AccountPage() {
     try {
       setUser(null);
       alert('You have successfully logged out!');
-      router.push('/');
+      // Use window.location for static export compatibility
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      } else {
+        router.push('/');
+      }
     } catch (error) {
       console.error('Logout failed:', error);
     }

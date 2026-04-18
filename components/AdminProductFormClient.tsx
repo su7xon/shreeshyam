@@ -150,7 +150,12 @@ export default function AdminProductFormClient({ id }: { id: string }) {
 
       setSaved(true);
       setTimeout(() => {
-        router.push('/admin/products');
+        // Use window.location for static export compatibility
+        if (typeof window !== 'undefined') {
+          window.location.href = '/admin/products';
+        } else {
+          router.push('/admin/products');
+        }
       }, 1000);
     } catch (error) {
       console.error('Failed to save product:', error);

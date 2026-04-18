@@ -1,6 +1,6 @@
 // lib/services/productService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, Timestamp, writeBatch } from 'firebase/firestore';
 import { AdminProduct } from '@/lib/admin-store';
 
 const PRODUCTS_COLLECTION = 'products';
@@ -55,14 +55,37 @@ export const createProduct = async (productData: Omit<AdminProduct, 'id'>): Prom
   }
 };
 
+// Create multiple products in a batch (max 500)
+export const createProductsBulk = async (productsData: Omit<AdminProduct, 'id'>[]): Promise<void> => {
+  if (!db) throw new Error('Firestore is not initialized');
+  try {
+    const batch = writeBatch(db);
+    const colRef = collection(db, PRODUCTS_COLLECTION);
+    
+    productsData.forEach(product => {
+      const docRef = doc(colRef); // create a new id automatically
+      batch.set(docRef, {
+        ...product,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      });
+    });
+
+    await batch.commit();
+  } catch (error) {
+    console.error('Error in bulk creation:', error);
+    throw error;
+  }
+};
+
 // Update an existing product
 export const updateProduct = async (id: string, productData: Partial<AdminProduct>): Promise<void> => {
   try {
     const productDocRef = doc(db, PRODUCTS_COLLECTION, id);
-    await updateDoc(productDocRef, {
+    await setDoc(productDocRef, {
       ...productData,
       updatedAt: Timestamp.now()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error('Error updating product:', error);
     throw error;

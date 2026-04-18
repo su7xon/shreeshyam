@@ -1,6 +1,6 @@
 // lib/services/bannerService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
 import { Banner, BannerPlacement } from '@/lib/admin-store';
 
 const BANNERS_COLLECTION = 'banners';
@@ -40,10 +40,10 @@ export const createBanner = async (bannerData: Omit<Banner, 'id'>): Promise<stri
 export const updateBanner = async (id: string, bannerData: Partial<Banner>): Promise<void> => {
   try {
     const bannerDocRef = doc(db, BANNERS_COLLECTION, id);
-    await updateDoc(bannerDocRef, {
+    await setDoc(bannerDocRef, {
       ...bannerData,
       updatedAt: Timestamp.now()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error('Error updating banner:', error);
     throw error;

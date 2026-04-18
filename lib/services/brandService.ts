@@ -1,6 +1,6 @@
 // lib/services/brandService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, Timestamp } from 'firebase/firestore';
 import { Brand } from '@/lib/admin-store';
 
 const BRANDS_COLLECTION = 'brands';
@@ -62,7 +62,7 @@ export const updateBrand = async (id: string, brandData: Partial<Brand>): Promis
       updatedAt: Timestamp.now()
     };
     
-    await updateDoc(brandDocRef, updateData);
+    await setDoc(brandDocRef, updateData, { merge: true });
   } catch (error) {
     console.error('Error updating brand:', error);
     throw error;

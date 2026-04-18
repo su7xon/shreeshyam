@@ -103,7 +103,7 @@ const resolveBannerHref = (link?: string) => {
 export default function Home() {
   const admin = useAdminStore();
   const isLoading = admin.isLoading;
-  const products = admin.products.length > 0 ? admin.products : (isLoading ? [] : defaultProducts);
+  const products = admin.products.length > 0 ? admin.products : defaultProducts;
   const activeBanners = admin.banners.filter((b) => b.active);
   const heroBanners = activeBanners
     .filter((b) => (b.placement || 'hero') === 'hero')
@@ -144,6 +144,31 @@ export default function Home() {
     }
   };
 
+  // Touch handlers for swipeability
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+    
+    if (distance > minSwipeDistance) {
+      nextBanner();
+    } else if (distance < -minSwipeDistance) {
+      prevBanner();
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Banner Carousel */}
@@ -151,9 +176,14 @@ export default function Home() {
         <div className="max-w-[82rem] lg:max-w-none mx-auto relative">
           <Suspense fallback={<BannerSkeleton />}>
             {heroBanners.length > 0 ? (
-            <div className="relative">
+            <div 
+              className="relative touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {/* Banner Cards */}
-              <div className="overflow-hidden">
+              <div className="overflow-hidden relative min-h-[50vw] sm:min-h-0">
                 {heroBanners.map((banner, index) => (
                   <div
                     key={banner.id}
@@ -218,30 +248,13 @@ export default function Home() {
             </div>
           ) : (
             /* Default Hero — premium gradient, no admin banners needed */
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-none bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
               {/* Decorative blobs */}
               <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-600/20 to-transparent" />
               <div className="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-red-600/10 blur-3xl" />
               <div className="absolute -top-10 right-1/3 w-56 h-56 rounded-full bg-white/5 blur-2xl" />
               {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-16">
-                <p className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-red-400 font-semibold mb-2 sm:mb-3">Premium Collection 2025</p>
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-2 sm:mb-4 max-w-lg">
-                  The Best Phones.<br />
-                  <span className="text-red-400">Best Prices.</span>
-                </h1>
-                <p className="text-sm sm:text-base text-gray-300 max-w-sm mb-5 sm:mb-7 hidden sm:block">
-                  Explore the latest smartphones from Apple, Samsung, OnePlus & more — all at unbeatable prices.
-                </p>
-                <div className="flex items-center gap-3">
-                  <Link href="/products" className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 font-bold px-5 py-2.5 rounded-full text-sm transition-all hover:scale-105 shadow-lg">
-                    Shop Now
-                  </Link>
-                  <Link href="/accessories" className="inline-flex items-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-5 py-2.5 rounded-full text-sm transition-all">
-                    Accessories
-                  </Link>
-                </div>
-              </div>
+              {/* Content removed by user request */}
               {/* Right side phone mockup decoration */}
               <div className="absolute right-4 sm:right-12 lg:right-20 top-1/2 -translate-y-1/2 opacity-20 sm:opacity-30 select-none pointer-events-none text-[120px] sm:text-[180px] lg:text-[220px] leading-none">📱</div>
             </div>
@@ -252,92 +265,98 @@ export default function Home() {
 
       {/* Category Icons Strip */}
       <CategoryStrip />
-      <section className="pb-6 sm:pb-12 px-2 sm:px-6 lg:px-8 reveal-fade-up" style={{ animationDelay: '90ms' }}>
-        <Suspense fallback={
-          <div className="max-w-7xl mx-auto md:grid md:grid-cols-3 md:gap-5 flex md:block gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-1">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <CategorySkeleton key={i} />
-            ))}
-          </div>
-        }>
-        <div className="max-w-7xl mx-auto md:grid md:grid-cols-3 md:gap-5 flex md:block gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-1">
-          {smallCardBanners.length > 0
-            ? smallCardBanners.map((banner) => (
-                <Link
-                  key={banner.id}
-                  href={resolveBannerHref(banner.link)}
-                  className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-white border border-[var(--color-border)] min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start"
-                >
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5 text-white">
-                    <h3 className="text-xl sm:text-2xl font-extrabold leading-tight">{banner.title}</h3>
-                    {banner.subtitle && <p className="text-xs sm:text-sm text-white/90 mt-1">{banner.subtitle}</p>}
-                  </div>
-                </Link>
-              ))
-            : smallCardBanners.length === 0 && (
-                /* Default promo cards — show even without admin banners */
-                <>
-                  <Link href="/products?brand=Apple" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-700 min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6 border border-gray-200">
-                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-25 select-none">🍎</div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Featured</p>
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">iPhone Series</h3>
-                    <p className="text-xs text-gray-400 mt-1">Explore all Apple iPhones →</p>
-                  </Link>
-                  <Link href="/products?brand=Samsung" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-[#1428A0] to-[#0a1670] min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6">
-                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-20 select-none">🌌</div>
-                    <p className="text-[10px] uppercase tracking-widest text-blue-300 mb-1">Galaxy</p>
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Samsung Galaxy</h3>
-                    <p className="text-xs text-blue-300 mt-1">AI-powered flagship phones →</p>
-                  </Link>
-                  <Link href="/accessories" className="group relative min-h-[180px] sm:min-h-[220px] rounded-xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 min-w-[82%] sm:min-w-[72%] md:min-w-0 snap-start flex flex-col justify-end p-5 sm:p-6">
-                    <div className="absolute top-4 right-4 text-5xl sm:text-6xl opacity-25 select-none">🎧</div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">New</p>
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Accessories</h3>
-                    <p className="text-xs text-gray-400 mt-1">Earbuds, chargers & more →</p>
-                  </Link>
-                </>
-              )}
+      <section className="pb-8 sm:pb-12 reveal-fade-up" style={{ animationDelay: '90ms' }}>
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6">
+          <h2 className="text-[18px] sm:text-2xl font-bold text-[var(--color-text)] tracking-tight">Watch Out For This</h2>
         </div>
-        </Suspense>
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <Suspense fallback={
+            <div className="flex gap-3 sm:gap-5 overflow-hidden pb-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="w-[45vw] sm:w-[220px] shrink-0 aspect-[9/14] sm:aspect-[4/5]"><CategorySkeleton /></div>
+              ))}
+            </div>
+          }>
+            {(() => {
+              const renderedBanners = smallCardBanners.length > 0
+                ? smallCardBanners.map((banner) => (
+                    <Link
+                      key={banner.id}
+                      href={resolveBannerHref(banner.link)}
+                      className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#121212] w-[45vw] sm:w-[220px] shrink-0 flex flex-col items-center aspect-[9/14] sm:aspect-[4/5] border border-gray-800"
+                    >
+                      {banner.image && (
+                        <Image
+                          src={banner.image}
+                          alt={banner.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          unoptimized
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none" />
+                    </Link>
+                  ))
+                : (
+                    <>
+                      <Link href="/products?brand=Apple" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-black w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-gray-800 aspect-[9/14] sm:aspect-[4/5] text-center">
+                        <div className="absolute -bottom-8 sm:-bottom-12 right-0 left-0 w-full flex justify-center opacity-60 group-hover:opacity-80 transition-opacity">
+                          <div className="text-[110px] sm:text-[160px] drop-shadow-2xl">📱</div>
+                        </div>
+                      </Link>
+                      
+                      <Link href="/products?brand=Samsung" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-gradient-to-b from-[#bda3e2] to-[#7f5db0] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-[#9b76cc] aspect-[9/14] sm:aspect-[4/5] text-center">
+                        <div className="absolute -bottom-6 sm:-bottom-8 right-0 left-0 w-full flex justify-center opacity-90 group-hover:opacity-100 transition-transform group-hover:scale-105 duration-300">
+                          <div className="text-[120px] sm:text-[170px] drop-shadow-2xl">🌌</div>
+                        </div>
+                      </Link>
+
+                      <Link href="/accessories" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#0A0A0A] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-gray-800 aspect-[9/14] sm:aspect-[4/5] text-center">
+                        <div className="absolute -bottom-6 sm:-bottom-10 right-0 left-0 w-full flex justify-center opacity-50 group-hover:opacity-70 transition-opacity">
+                          <div className="text-[110px] sm:text-[160px]">🎧</div>
+                        </div>
+                      </Link>
+                      
+                      <Link href="/products?brand=OnePlus" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-gradient-to-b from-[#cd1619] to-[#800709] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-[#ff373a]/30 aspect-[9/14] sm:aspect-[4/5] text-center">
+                        <div className="absolute -bottom-8 sm:-bottom-12 right-0 left-0 w-full flex justify-center opacity-80 group-hover:scale-105 transition-transform duration-300">
+                          <div className="text-[120px] sm:text-[170px] drop-shadow-xl">🕹️</div>
+                        </div>
+                      </Link>
+                    </>
+                  );
+
+              return (
+                <div className="relative w-full overflow-hidden pb-4">
+                  <div className="flex w-max animate-marquee gap-3 sm:gap-5">
+                    {renderedBanners}
+                    {renderedBanners}
+                    {/* Render a third time to ensure it bridges perfectly on very wide screens */}
+                    {renderedBanners}
+                  </div>
+                </div>
+              );
+            })()}
+          </Suspense>
+        </div>
       </section>
 
-      {/* Top Brands - Clean Visual Logos */}
-      {scrollingBrands.length > 0 && (
-      <section className="py-7 sm:py-12 reveal-fade-up" style={{ animationDelay: '140ms' }}>
-        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-5 sm:mb-8">
-            <h2 className="text-xl sm:text-3xl font-semibold text-[var(--color-text)]">Shop by Brand</h2>
-          </div>
-          <div className="brand-marquee-mask">
-            <div className="brand-marquee-track">
-              {scrollingBrands.map((brand, index) => (
-              <Link 
-                key={`${brand.id || brand.name || brand}-${index}`}
-                href={`/products?brand=${brand.name || brand}`}
-                className="bg-white rounded-[14px] sm:rounded-[18px] h-[3.6rem] sm:h-[4.5rem] w-[10rem] sm:w-[11.5rem] shrink-0 flex items-center justify-center p-2.5 sm:p-3 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent"
-              >
-                <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
-                  {renderBrandLogo(brand)}
-                </div>
-              </Link>
-            ))}
-            </div>
-          </div>
-        </div>
-      </section>
-      )}
+      {/* WhatsApp Floating Button (Homepage Only) */}
+      <a 
+        href="https://wa.me/917756935635" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[90] bg-[#25D366] text-white p-2.5 sm:p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all cursor-pointer flex items-center justify-center"
+        aria-label="Chat on WhatsApp"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 sm:w-7 sm:h-7">
+          <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
+          <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
+        </svg>
+      </a>
 
       {/* Top Trending */}
-      <section className="py-6 sm:py-12 reveal-fade-up" style={{ animationDelay: '180ms' }}>
+      <section className="py-6 sm:py-12 reveal-fade-up" style={{ animationDelay: '140ms' }}>
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-5 sm:mb-8">
             <div>
@@ -367,16 +386,7 @@ export default function Home() {
             ) : (
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-text)] to-[var(--color-text-muted)]" />
             )}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-              <div className="absolute inset-y-0 left-0 flex flex-col justify-end p-4 sm:p-6 lg:p-8 text-white max-w-xl">
-                <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-black mb-1">Drop Of The Week</p>
-                <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold leading-tight">
-                  {trendingBanner?.title || 'Define Yourself. Be Different.'}
-                </h3>
-                <p className="text-xs sm:text-sm mt-1 text-white/90">
-                  {trendingBanner?.subtitle || 'Explore standout designs and flagship phones'}
-                </p>
-              </div>
+              {/* Text content removed by user request */}
             </div>
           </Link>
 
@@ -396,6 +406,32 @@ export default function Home() {
           </Suspense>
         </div>
       </section>
+
+      {/* Top Brands - Clean Visual Logos */}
+      {scrollingBrands.length > 0 && (
+      <section className="py-7 sm:py-12 reveal-fade-up" style={{ animationDelay: '180ms' }}>
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-5 sm:mb-8">
+            <h2 className="text-xl sm:text-3xl font-semibold text-[var(--color-text)]">Shop by Brand</h2>
+          </div>
+          <div className="brand-marquee-mask">
+            <div className="brand-marquee-track">
+              {scrollingBrands.map((brand, index) => (
+              <Link 
+                key={`${brand.id || brand.name || brand}-${index}`}
+                href={`/products?brand=${brand.name || brand}`}
+                className="bg-white rounded-[14px] sm:rounded-[18px] h-[3.6rem] sm:h-[4.5rem] w-[10rem] sm:w-[11.5rem] shrink-0 flex items-center justify-center p-2.5 sm:p-3 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent"
+              >
+                <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
+                  {renderBrandLogo(brand)}
+                </div>
+              </Link>
+            ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      )}
 
       {/* Brand Story */}
       <section className="py-6 sm:py-12 reveal-fade-up" style={{ animationDelay: '220ms' }}>

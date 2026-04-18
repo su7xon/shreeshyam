@@ -8,7 +8,8 @@ import clsx from 'clsx';
 export default function MobileBottomNav() {
   const pathname = usePathname();
 
-  if (pathname !== '/') return null;
+  // Hide on admin pages
+  if (pathname?.startsWith('/admin')) return null;
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },

@@ -29,28 +29,20 @@ export default function PageHeader({
   children,
 }: PageHeaderProps) {
   return (
-    <div className="space-y-4">
-      {/* Breadcrumbs */}
+    <div className="space-y-3">
       {breadcrumbs && <Breadcrumb items={breadcrumbs} />}
-
-      {/* Title Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] tracking-tight">{title}</h1>
-          {subtitle && <p className="text-sm text-[var(--color-text-muted)] mt-1">{subtitle}</p>}
+          <h1 className="text-lg sm:text-xl font-semibold text-white">{title}</h1>
+          {subtitle && <p className="text-xs text-[#6b7280] mt-0.5">{subtitle}</p>}
         </div>
         {actionLabel && onAction && (
-          <button
-            onClick={onAction}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-accent)] text-white rounded-lg hover:bg-[var(--color-accent)]/90 transition-colors font-medium text-sm shadow-sm self-start"
-          >
+          <button onClick={onAction} className="admin-btn-primary text-xs sm:text-sm self-start">
             {actionIcon}
             {actionLabel}
           </button>
         )}
       </div>
-
-      {/* Additional content (filters, etc.) */}
       {children}
     </div>
   );

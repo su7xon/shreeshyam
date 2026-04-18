@@ -1,6 +1,6 @@
 // lib/services/orderService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDoc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
 import { Order, OrderStatus } from '@/lib/admin-store';
 
 const ORDERS_COLLECTION = 'orders';
@@ -45,10 +45,10 @@ export const createOrder = async (orderData: Omit<Order, 'id' | 'createdAt' | 'u
 export const updateOrderStatus = async (id: string, status: OrderStatus): Promise<void> => {
   try {
     const orderDocRef = doc(db, ORDERS_COLLECTION, id);
-    await updateDoc(orderDocRef, {
+    await setDoc(orderDocRef, {
       status,
       updatedAt: Timestamp.now()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error('Error updating order status:', error);
     throw error;

@@ -2,203 +2,110 @@
 
 import { useState } from 'react';
 import useAdminStore from '@/lib/admin-store';
-import { Plus, Trash2, Edit2, Save, X, Eye, EyeOff } from 'lucide-react';
+import { Plus, Trash2, Edit2, Save, X, Eye, EyeOff, Gift } from 'lucide-react';
 
 export default function AdminOffersPage() {
   const admin = useAdminStore();
   const offers = admin.offers;
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState({
-    id: '',
-    title: '',
-    description: '',
-    icon: '',
-    active: true,
-  });
+  const [form, setForm] = useState({ id: '', title: '', description: '', icon: '', active: true });
 
-  const resetForm = () => {
-    setForm({ id: '', title: '', description: '', icon: '', active: true });
-    setShowForm(false);
-    setEditingId(null);
-  };
+  const resetForm = () => { setForm({ id: '', title: '', description: '', icon: '', active: true }); setShowForm(false); setEditingId(null); };
 
   const handleEdit = (offer: typeof offers[0]) => {
-    setForm({
-      id: offer.id,
-      title: offer.title,
-      description: offer.description,
-      icon: offer.icon || '',
-      active: offer.active,
-    });
+    setForm({ id: offer.id, title: offer.title, description: offer.description, icon: offer.icon || '', active: offer.active });
     setEditingId(offer.id);
     setShowForm(true);
   };
 
   const handleSave = () => {
     if (!form.title.trim() || !form.description.trim()) return;
-
     if (editingId) {
-      admin.updateOffer(editingId, {
-        title: form.title,
-        description: form.description,
-        icon: form.icon,
-        active: form.active,
-      });
+      admin.updateOffer(editingId, { title: form.title, description: form.description, icon: form.icon, active: form.active });
     } else {
-      admin.addOffer({
-        id: `offer-${Date.now()}`,
-        title: form.title,
-        description: form.description,
-        icon: form.icon,
-        active: form.active,
-      });
+      admin.addOffer({ title: form.title, description: form.description, icon: form.icon, active: form.active });
     }
-
     resetForm();
-  };
-
-  const handleDelete = (id: string) => {
-    admin.deleteOffer(id);
   };
 
   const toggleActive = (id: string) => {
     const offer = offers.find((o) => o.id === id);
-    if (offer) {
-      admin.updateOffer(id, { active: !offer.active });
-    }
+    if (offer) admin.updateOffer(id, { active: !offer.active });
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 pb-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-[#1a1a2e]">Offers & Deals</h2>
-          <p className="text-sm text-gray-500 mt-1">Manage bank offers, EMI deals, and exchange offers</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-white">Offers & Deals</h2>
+          <p className="text-xs text-[#6b7280] mt-0.5">Manage bank offers, EMI deals, and exchange offers</p>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setShowForm(true);
-          }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
-        >
-          <Plus className="h-5 w-5" />
-          Add Offer
+        <button onClick={() => { resetForm(); setShowForm(true); }} className="admin-btn-primary text-xs sm:text-sm">
+          <Plus className="h-4 w-4" /> Add Offer
         </button>
       </div>
 
       {/* Form */}
       {showForm && (
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-bold text-[#1a1a2e]">
-              {editingId ? 'Edit Offer' : 'New Offer'}
-            </h3>
-            <button onClick={resetForm} className="p-2 rounded-lg hover:bg-gray-100">
-              <X className="h-5 w-5 text-gray-500" />
-            </button>
+        <div className="admin-form-panel">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-white">{editingId ? 'Edit Offer' : 'New Offer'}</h3>
+            <button onClick={resetForm} className="admin-icon-btn p-1.5"><X className="h-4 w-4" /></button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
-              <input
-                type="text"
-                value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })}
-                placeholder="e.g., HDFC Bank Offer"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 bg-gray-50"
-              />
+              <label className="admin-label">Title *</label>
+              <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="e.g., HDFC Bank Offer" className="admin-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Icon (emoji)</label>
-              <input
-                type="text"
-                value={form.icon}
-                onChange={(e) => setForm({ ...form, icon: e.target.value })}
-                placeholder="e.g., 🏦"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 bg-gray-50 text-center text-xl"
-              />
+              <label className="admin-label">Icon (emoji)</label>
+              <input type="text" value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} placeholder="🏦" className="admin-input text-center text-xl" />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                placeholder="Describe the offer details..."
-                rows={3}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 bg-gray-50 resize-none"
-              />
+              <label className="admin-label">Description *</label>
+              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Describe the offer…" rows={3} className="admin-input resize-none" />
             </div>
-            <div className="flex items-center gap-3">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.active}
-                  onChange={(e) => setForm({ ...form, active: e.target.checked })}
-                  className="h-5 w-5 rounded text-amber-600 focus:ring-amber-500"
-                />
-                <span className="text-sm text-gray-600">Active</span>
+            <div>
+              <label className="flex items-center gap-2.5 cursor-pointer text-sm text-[#9ca3af]">
+                <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6]" />
+                Active
               </label>
             </div>
           </div>
-
-          <div className="flex items-center justify-end gap-3 mt-6">
-            <button onClick={resetForm} className="px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors">
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
-            >
-              <Save className="h-5 w-5" />
-              {editingId ? 'Update' : 'Add'} Offer
+          <div className="flex items-center justify-end gap-2 mt-5">
+            <button onClick={resetForm} className="admin-btn-secondary">Cancel</button>
+            <button onClick={handleSave} className="admin-btn-primary">
+              <Save className="h-4 w-4" /> {editingId ? 'Update' : 'Add'} Offer
             </button>
           </div>
         </div>
       )}
 
-      {/* Offers List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Offers Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {offers.map((offer) => (
-          <div
-            key={offer.id}
-            className={`bg-white rounded-2xl border shadow-sm p-5 transition-all ${
-              offer.active ? 'border-gray-200' : 'border-gray-200 opacity-60'
-            }`}
-          >
-            <div className="flex items-start gap-4">
-              <div className="h-12 w-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">
+          <div key={offer.id} className={`admin-card p-4 transition-all ${!offer.active ? 'opacity-50' : ''}`}>
+            <div className="flex items-start gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-[#f59e0b]/10 flex items-center justify-center text-xl flex-shrink-0">
                 {offer.icon || '🎁'}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="font-bold text-[#1a1a2e]">{offer.title}</h4>
-                    <p className="text-sm text-gray-600 mt-1">{offer.description}</p>
+                  <div className="min-w-0">
+                    <h4 className="text-sm font-semibold text-[#e5e7eb] truncate">{offer.title}</h4>
+                    <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">{offer.description}</p>
                   </div>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <button
-                      onClick={() => toggleActive(offer.id)}
-                      className={`p-2 rounded-lg transition-colors ${offer.active ? 'text-emerald-600 hover:bg-emerald-50' : 'text-gray-400 hover:bg-gray-100'}`}
-                      title={offer.active ? 'Deactivate' : 'Activate'}
-                    >
-                      {offer.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                  <div className="flex items-center gap-0.5 flex-shrink-0">
+                    <button onClick={() => toggleActive(offer.id)} className={`admin-icon-btn p-1.5 ${offer.active ? '!text-[#4ade80]' : ''}`} title={offer.active ? 'Deactivate' : 'Activate'}>
+                      {offer.active ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                     </button>
-                    <button
-                      onClick={() => handleEdit(offer)}
-                      className="p-2 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
-                      title="Edit"
-                    >
-                      <Edit2 className="h-4 w-4" />
+                    <button onClick={() => handleEdit(offer)} className="admin-icon-btn p-1.5" title="Edit">
+                      <Edit2 className="h-3.5 w-3.5" />
                     </button>
-                    <button
-                      onClick={() => handleDelete(offer.id)}
-                      className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 className="h-4 w-4" />
+                    <button onClick={() => admin.deleteOffer(offer.id)} className="admin-icon-btn p-1.5 hover:!text-[#ef4444] hover:!bg-[#ef4444]/10" title="Delete">
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </div>
@@ -209,9 +116,12 @@ export default function AdminOffersPage() {
       </div>
 
       {offers.length === 0 && (
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
-          <p className="text-gray-500 font-medium">No offers yet</p>
-          <p className="text-sm text-gray-400 mt-1">Add bank offers, EMI deals, and exchange offers</p>
+        <div className="admin-card">
+          <div className="admin-empty-state">
+            <div className="admin-empty-icon"><Gift className="h-6 w-6" /></div>
+            <p className="admin-empty-title">No offers yet</p>
+            <p className="admin-empty-desc">Add bank offers, EMI deals, and exchange offers</p>
+          </div>
         </div>
       )}
     </div>

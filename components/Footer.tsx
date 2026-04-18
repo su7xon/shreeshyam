@@ -9,7 +9,8 @@ import { usePathname } from 'next/navigation';
 export default function Footer() {
   const pathname = usePathname();
 
-  if (pathname !== '/') return null;
+  // Hide on admin pages
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <footer className="bg-black text-gray-300 pt-10 sm:pt-14 pb-[84px] md:pb-8 border-t border-white/10">
@@ -32,8 +33,8 @@ export default function Footer() {
             <div className="flex space-x-4 justify-center md:justify-start">
               <a href="#" className="text-gray-500 hover:text-white transition-colors"><Facebook className="h-5 w-5" /></a>
               <a href="#" className="text-gray-500 hover:text-white transition-colors"><Twitter className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-500 hover:text-white transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-500 hover:text-white transition-colors"><Youtube className="h-5 w-5" /></a>
+              <a href="https://www.instagram.com/shree__shyam__mobile_?igsh=MXZ0bjluZDVqZGx3dg==" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors"><Instagram className="h-5 w-5" /></a>
+              <a href="https://m.youtube.com/@shreeshyammobile5050" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors"><Youtube className="h-5 w-5" /></a>
             </div>
           </div>
 

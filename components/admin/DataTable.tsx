@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, ReactNode } from 'react';
-import { ChevronUp, ChevronDown, Check, ArrowUpDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, ArrowUpDown } from 'lucide-react';
 
 export interface Column<T> {
   key: string;
@@ -31,9 +31,7 @@ export default function DataTable<T extends Record<string, any>>({
 
   const handleSort = (key: string) => {
     setSortConfig((prev) => {
-      if (prev?.key === key) {
-        return prev.direction === 'asc' ? { key, direction: 'desc' } : null;
-      }
+      if (prev?.key === key) return prev.direction === 'asc' ? { key, direction: 'desc' } : null;
       return { key, direction: 'asc' };
     });
   };
@@ -61,11 +59,7 @@ export default function DataTable<T extends Record<string, any>>({
 
   const handleSelectRow = (id: string, checked: boolean) => {
     const newSelected = new Set(selectedRows);
-    if (checked) {
-      newSelected.add(id);
-    } else {
-      newSelected.delete(id);
-    }
+    if (checked) newSelected.add(id); else newSelected.delete(id);
     setSelectedRows(newSelected);
     onSelectionChange?.(Array.from(newSelected));
   };
@@ -74,21 +68,19 @@ export default function DataTable<T extends Record<string, any>>({
   const isSomeSelected = selectedRows.size > 0 && selectedRows.size < sortedData.length;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
+    <div className="admin-table-wrap">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-[var(--color-surface-soft)] border-b border-[var(--color-border)]">
+        <table className="admin-table">
+          <thead>
             <tr>
               {onSelectionChange && (
-                <th className="px-4 py-3 w-12">
+                <th className="w-12 px-4">
                   <input
                     type="checkbox"
                     checked={isAllSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = isSomeSelected;
-                    }}
+                    ref={(el) => { if (el) el.indeterminate = isSomeSelected; }}
                     onChange={(e) => handleSelectAll(e.target.checked)}
-                    className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer"
+                    className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
                   />
                 </th>
               )}
@@ -96,37 +88,26 @@ export default function DataTable<T extends Record<string, any>>({
                 <th
                   key={column.key}
                   onClick={() => column.sortable && handleSort(column.key)}
-                  className={`px-4 py-3 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider ${
-                    column.sortable ? 'cursor-pointer hover:text-[var(--color-text)]' : ''
-                  } ${column.className || ''}`}
+                  className={`${column.sortable ? 'cursor-pointer hover:text-[#d1d5db]' : ''} ${column.className || ''}`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {column.header}
                     {column.sortable && (
-                      <div className="flex flex-col">
-                        {sortConfig?.key === column.key ? (
-                          sortConfig.direction === 'asc' ? (
-                            <ChevronUp className="h-3 w-3" />
-                          ) : (
-                            <ChevronDown className="h-3 w-3" />
-                          )
-                        ) : (
-                          <ArrowUpDown className="h-3 w-3 opacity-50" />
-                        )}
-                      </div>
+                      sortConfig?.key === column.key ? (
+                        sortConfig.direction === 'asc' ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />
+                      ) : (
+                        <ArrowUpDown className="h-3 w-3 opacity-40" />
+                      )
                     )}
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--color-border)]">
+          <tbody>
             {sortedData.length === 0 ? (
               <tr>
-                <td
-                  colSpan={columns.length + (onSelectionChange ? 1 : 0)}
-                  className="px-4 py-12 text-center text-[var(--color-text-muted)]"
-                >
+                <td colSpan={columns.length + (onSelectionChange ? 1 : 0)} className="px-4 py-12 text-center text-[#6b7280]">
                   {emptyMessage}
                 </td>
               </tr>
@@ -135,22 +116,19 @@ export default function DataTable<T extends Record<string, any>>({
                 const id = getId(item);
                 const isSelected = selectedRows.has(id);
                 return (
-                  <tr
-                    key={id}
-                    className="hover:bg-[var(--color-surface-soft)] transition-colors"
-                  >
+                  <tr key={id}>
                     {onSelectionChange && (
-                      <td className="px-4 py-3">
+                      <td className="px-4 w-12">
                         <input
                           type="checkbox"
                           checked={isSelected}
                           onChange={(e) => handleSelectRow(id, e.target.checked)}
-                          className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer"
+                          className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
                         />
                       </td>
                     )}
                     {columns.map((column) => (
-                      <td key={column.key} className={`px-4 py-3 ${column.className || ''}`}>
+                      <td key={column.key} className={column.className || ''}>
                         {column.render(item)}
                       </td>
                     ))}

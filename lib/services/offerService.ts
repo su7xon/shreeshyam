@@ -1,6 +1,6 @@
 // lib/services/offerService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp, where } from 'firebase/firestore';
 import { Offer } from '@/lib/admin-store';
 
 const OFFERS_COLLECTION = 'offers';
@@ -39,10 +39,10 @@ export const createOffer = async (offerData: Omit<Offer, 'id'>): Promise<string>
 export const updateOffer = async (id: string, offerData: Partial<Offer>): Promise<void> => {
   try {
     const offerDocRef = doc(db, OFFERS_COLLECTION, id);
-    await updateDoc(offerDocRef, {
+    await setDoc(offerDocRef, {
       ...offerData,
       updatedAt: Timestamp.now()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error('Error updating offer:', error);
     throw error;

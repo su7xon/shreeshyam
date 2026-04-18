@@ -13,14 +13,17 @@ function ProductsContent() {
   const initialBrand = searchParams.get('brand');
   const searchQuery = searchParams.get('search');
   const admin = useAdminStore();
-  const products = admin.products.length > 0 ? admin.products : (admin.isLoading ? [] : defaultProducts);
+  const products = admin.products.length > 0 ? admin.products : defaultProducts;
   const isLoading = admin.isLoading;
   
   // Filters state
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<string[]>(initialBrand ? [initialBrand] : []);
   const [selectedRam, setSelectedRam] = useState<string[]>([]);
   const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number>(200000);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 30;
 
   const filteredProducts = useMemo(() => {
     let result = products;
@@ -53,7 +56,18 @@ function ProductsContent() {
     result = result.filter(p => p.price <= priceRange);
 
     return result;
-  }, [selectedBrands, selectedRam, selectedStorage, priceRange, searchQuery]);
+  }, [products, selectedBrands, selectedRam, selectedStorage, priceRange, searchQuery]);
+
+  // Reset to page 1 whenever filters change
+  useEffect(() => { setCurrentPage(1); }, [selectedBrands, selectedRam, selectedStorage, priceRange, searchQuery]);
+
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands(prev => 
@@ -93,7 +107,6 @@ function ProductsContent() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
                 {searchQuery ? `Results for "${searchQuery}"` : 'All Smartphones'}
               </h1>
-              <p className="text-sm text-gray-500 mt-1.5">{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} available</p>
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -159,9 +172,6 @@ function ProductsContent() {
               ? 'fixed inset-y-0 left-0 w-[85%] max-w-[320px] bg-white z-50 shadow-2xl overflow-y-auto md:relative md:inset-auto md:w-60 lg:w-[270px] md:shadow-none md:z-auto' 
               : 'hidden md:block'}
           `}>
-            {isLoading ? (
-              <FilterSkeleton />
-            ) : (
             <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200/80 md:sticky md:top-20 shadow-sm">
               {/* Filter Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
@@ -271,24 +281,52 @@ function ProductsContent() {
               >
                 Show {filteredProducts.length} results
               </button>
-            </div>
-            )}
-          </div>
+            </div> {/* closes bg-white inner container */}
+          </div> {/* closes sidebar outer div */}
 
         {/* Product Grid */}
         <div className="flex-1">
-          {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <ProductSkeleton key={i} />
-              ))}
-            </div>
-          ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-              {filteredProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+          {paginatedProducts.length > 0 ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+                {paginatedProducts.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
+                  <button
+                    onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); scrollToTop(); }}
+                    disabled={currentPage === 1}
+                    className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  >
+                    ← Prev
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button
+                      key={page}
+                      onClick={() => { setCurrentPage(page); scrollToTop(); }}
+                      className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${
+                        page === currentPage
+                          ? 'bg-black text-white shadow-sm'
+                          : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); scrollToTop(); }}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="bg-white p-12 rounded-2xl border border-gray-200/80 text-center shadow-sm">
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useCartStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import SearchAutocomplete from './SearchAutocomplete';
-import MegaMenu from './MegaMenu';
+
 
 
 export default function Navbar() {
@@ -99,7 +99,6 @@ export default function Navbar() {
 
             {/* Desktop Right Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              <MegaMenu />
 
               <Link href="/admin/dashboard" className="text-sm font-medium hover:text-black text-gray-500 transition-colors flex items-center gap-1" title="Admin Panel">
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -111,18 +110,6 @@ export default function Navbar() {
               <button type="button" className="hover:text-black text-gray-600 transition-colors" aria-label="Account">
                 <User className="h-5 w-5" />
               </button>
-
-              <Link href="/cart" className="flex items-center gap-1.5 hover:text-black text-gray-700 transition-colors relative group">
-                <div className="relative">
-                  <ShoppingCart className="h-5 w-5" />
-                  {mounted && cartItemsCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                      {cartItemsCount}
-                    </span>
-                  )}
-                </div>
-                <span className="text-sm font-medium">Cart</span>
-              </Link>
             </div>
 
             {/* Mobile actions */}
@@ -134,19 +121,11 @@ export default function Navbar() {
               >
                 <Search className="h-5 w-5" />
               </button>
-              <Link href="/cart" className="relative hover:text-black text-gray-700 transition-colors p-1">
-                <ShoppingCart className="h-5 w-5" />
-                {mounted && cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-black text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </Link>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-gray-700 hover:text-black focus:outline-none p-1"
               >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <MoreVertical className="h-5 w-5" />}
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
@@ -180,10 +159,14 @@ export default function Navbar() {
               <Settings className="h-5 w-5" />
               Admin Panel
             </Link>
-            <button className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 flex items-center gap-2">
-              <User className="h-5 w-5" />
-              Account &amp; Lists
-            </button>
+            <Link 
+              href="/about"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 flex items-center gap-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              About
+            </Link>
           </div>
         </div>
       )}

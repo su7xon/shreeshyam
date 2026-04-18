@@ -96,6 +96,7 @@ interface AdminStore {
   updateProduct: (id: string, product: Partial<AdminProduct>) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
   getProduct: (id: string) => AdminProduct | undefined;
+  importBulkProducts: (products: Omit<AdminProduct, 'id'>[]) => Promise<void>;
 
   // Banners
   banners: Banner[];
@@ -214,6 +215,14 @@ const useAdminStore = create<AdminStore>()(
         }));
       },
       getProduct: (id) => get().products.find((p) => p.id === id),
+      importBulkProducts: async (products) => {
+        await productService.createProductsBulk(products as any);
+        // Immediately fetch the new products from firestore to update the store
+        // We will call initialize() manually in the UI component so we don't have circular dependencies here,
+        // but wait, we can just fetch products here:
+        const freshProducts = await productService.getProducts();
+        set({ products: freshProducts });
+      },
 
       // Banners
       banners: defaultBanners,
@@ -336,22 +345,25 @@ const useAdminStore = create<AdminStore>()(
        // Firebase Sync
        isLoading: false,
        initialize: async () => {
+         // Prevent multiple simultaneous initializations
          if (get().isLoading) return;
+         
          set({ isLoading: true });
          try {
            const [products, brands, banners, offers, orders] = await Promise.all([
-             productService.getProducts(),
-             brandService.getBrands(),
-             bannerService.getBanners(),
-             offerService.getOffers(),
-             orderService.getOrders(),
+             productService.getProducts().catch(err => { console.error('Products fetch failed:', err); return []; }),
+             brandService.getBrands().catch(err => { console.error('Brands fetch failed:', err); return []; }),
+             bannerService.getBanners().catch(err => { console.error('Banners fetch failed:', err); return []; }),
+             offerService.getOffers().catch(err => { console.error('Offers fetch failed:', err); return []; }),
+             orderService.getOrders().catch(err => { console.error('Orders fetch failed:', err); return []; }),
            ]);
+           
            set({ 
-             products, 
-             brands, 
-             banners, 
-             offers, 
-             orders,
+             products: products || [], 
+             brands: brands || [], 
+             banners: banners || [], 
+             offers: offers || [], 
+             orders: orders || [],
              isLoading: false 
            });
          } catch (error) {

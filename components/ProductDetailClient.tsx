@@ -16,8 +16,8 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const admin = useAdminStore();
-  const isLoadingStore = admin.isLoading;
-  const products = admin.products.length > 0 ? admin.products : (isLoadingStore ? [] : defaultProducts);
+  // Always fall back to defaultProducts — never show empty while Firebase loads
+  const products = admin.products.length > 0 ? admin.products : defaultProducts;
   
   const directMatch = products.find((p) => p.id === id);
   const numericIndex = Number.parseInt(id, 10);
@@ -31,15 +31,29 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Pagination for You May Also Like
+  const [currentPage, setCurrentPage] = useState(1);
+  const RELATED_PER_PAGE = 24;
 
   useEffect(() => {
-    if (!isLoadingStore) {
+    setMounted(true);
+    // Give Firebase time to load products
+    const timer = setTimeout(() => {
       setIsLoading(false);
-    }
-  }, [isLoadingStore]);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (isLoading || isLoadingStore) {
+  // Only show skeleton on the very first render (SSR hydration)
+  if (!mounted || isLoading) {
+    return <ProductDetailSkeleton />;
+  }
+
+  // Check if Firebase is still loading and we haven't found the product yet
+  if (!product && admin.isLoading) {
     return <ProductDetailSkeleton />;
   }
 
@@ -122,6 +136,12 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
 
   const emiPerMonth = Math.round(product.price / 12);
   const relatedProducts = products.filter(p => p.id !== product.id);
+  const totalPages = Math.ceil(relatedProducts.length / RELATED_PER_PAGE);
+  const currentRelated = relatedProducts.slice(
+    (currentPage - 1) * RELATED_PER_PAGE,
+    currentPage * RELATED_PER_PAGE
+  );
+
   const colors = ('colors' in product && Array.isArray(product.colors)) ? product.colors as string[] : [];
 
   const adminOffers = [
@@ -346,10 +366,10 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
         </div>
 
         {relatedProducts.length > 0 && (
-          <div className="mt-12 border-t border-gray-200 pt-8">
+          <div className="mt-12 border-t border-gray-200 pt-8" id="related-products">
             <h2 className="text-lg font-bold text-gray-900 mb-4">You May Also Like</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-              {relatedProducts.map((rp) => {
+              {currentRelated.map((rp) => {
                 const rpDiscount = rp.originalPrice ? Math.round(((rp.originalPrice - rp.price) / rp.originalPrice) * 100) : 0;
                 return (
                   <div key={rp.id} className="min-w-0">
@@ -377,6 +397,48 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                 );
               })}
             </div>
+            
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
+                <button
+                  onClick={() => { 
+                    setCurrentPage(p => Math.max(1, p - 1)); 
+                    document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
+                  }}
+                  disabled={currentPage === 1}
+                  className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  ← Prev
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => { 
+                      setCurrentPage(page); 
+                      document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
+                    }}
+                    className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${
+                      page === currentPage
+                        ? 'bg-black text-white shadow-sm'
+                        : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  onClick={() => { 
+                    setCurrentPage(p => Math.min(totalPages, p + 1)); 
+                    document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
