@@ -2,19 +2,49 @@
 
 import { useCartStore } from '@/lib/store';
 import useAdminStore from '@/lib/admin-store';
+import { useAuth } from '@/lib/auth-context';
 import { useState, useEffect } from 'react';
 import { CheckCircle, ArrowLeft, ShieldCheck, Truck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createOrder } from '@/lib/services/orderService';
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCartStore();
   const { addOrder } = useAdminStore();
+  const { user, profile, loading } = useAuth();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      // Save current URL to redirect back after login
+      const returnUrl = '/checkout';
+      router.push(`/auth?returnUrl=${encodeURIComponent(returnUrl)}`);
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
 
   // Form state
   const [formData, setFormData] = useState({

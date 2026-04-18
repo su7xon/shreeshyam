@@ -22,6 +22,7 @@ import {
   Bell,
   Search,
   ExternalLink,
+  Mail,
 } from 'lucide-react';
 
 const navItems = [
@@ -30,6 +31,7 @@ const navItems = [
   { href: '/admin/products', label: 'Products', icon: Smartphone, group: 'CATALOG' },
   { href: '/admin/brands', label: 'Brands', icon: Building2, group: 'CATALOG' },
   { href: '/admin/orders', label: 'Orders', icon: Package, group: 'COMMERCE' },
+  { href: '/admin/inquiries', label: 'Inquiries', icon: Mail, group: 'COMMERCE' },
   { href: '/admin/banners', label: 'Banners', icon: Image, group: 'CONTENT' },
   { href: '/admin/offers', label: 'Offers', icon: Tag, group: 'CONTENT' },
   { href: '/admin/settings', label: 'Settings', icon: Settings, group: 'SYSTEM' },

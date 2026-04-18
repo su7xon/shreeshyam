@@ -6,7 +6,7 @@ import ProductCard from '@/components/ProductCard';
 import { products as defaultProducts, brands } from '@/lib/data';
 import useAdminStore from '@/lib/admin-store';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import { ProductSkeleton, BannerSkeleton, CategorySkeleton, TestimonialSkeleton } from '@/components/SkeletonLoader';
 import CategoryStrip from '@/components/CategoryStrip';
 
@@ -38,17 +38,17 @@ const renderBrandLogo = (brandObj: any | string) => {
   const logo = typeof brandObj === 'object' && brandObj.logo ? brandObj.logo : null;
 
   if (logo) {
-    return <Image src={logo} alt={name} width={40} height={40} className="max-h-8 max-w-[100px] sm:max-h-10 sm:max-w-[120px] object-contain drop-shadow-sm" unoptimized />;
+    return <Image src={logo} alt={name} width={80} height={80} className="w-full h-full object-contain" unoptimized />;
   }
 
   switch (name) {
     case 'Apple':
-      return <Image src="https://cdn.simpleicons.org/apple/333333" alt="Apple" width={32} height={32} className="h-7 sm:h-8 w-auto drop-shadow-sm" unoptimized />;
+      return <Image src="https://cdn.simpleicons.org/apple/333333" alt="Apple" width={48} height={48} className="w-3/4 h-3/4 object-contain drop-shadow-sm" unoptimized />;
     case 'Samsung':
-      return <span className="font-extrabold text-[#1428A0] tracking-tighter text-[20px] sm:text-[24px] select-none">SAMSUNG</span>;
+      return <span className="font-extrabold text-[#1428A0] tracking-tighter text-[16px] sm:text-[18px] select-none">SAMSUNG</span>;
     case 'Google':
       return (
-        <div className="flex items-center select-none font-bold text-[22px] sm:text-[24px] tracking-[-0.03em] font-sans">
+        <div className="flex items-center select-none font-bold text-[18px] sm:text-[20px] tracking-[-0.03em] font-sans">
           <span className="text-[#4285F4]">G</span>
           <span className="text-[#EA4335]">o</span>
           <span className="text-[#FBBC05]">o</span>
@@ -59,39 +59,39 @@ const renderBrandLogo = (brandObj: any | string) => {
       );
     case 'OnePlus':
       return (
-        <div className="flex items-center gap-1.5 select-none text-gray-900">
-          <Image src="https://cdn.simpleicons.org/oneplus/F5010C" alt="OnePlus" width={28} height={28} className="h-6 sm:h-7 w-auto drop-shadow-sm" unoptimized />
-          <span className="font-semibold tracking-tight text-[18px] sm:text-[20px] mt-[1px]">OnePlus</span>
+        <div className="flex items-center gap-1 select-none text-gray-900">
+          <Image src="https://cdn.simpleicons.org/oneplus/F5010C" alt="OnePlus" width={36} height={36} className="h-8 w-8 object-contain drop-shadow-sm" unoptimized />
+          <span className="font-semibold tracking-tight text-[14px] sm:text-[16px]">OnePlus</span>
         </div>
       );
     case 'Xiaomi':
       return (
-        <div className="flex items-center gap-2 select-none text-gray-800">
-          <Image src="https://cdn.simpleicons.org/xiaomi/FF6900" alt="Xiaomi" width={28} height={28} className="h-6 sm:h-7 w-auto rounded-[6px] drop-shadow-sm" unoptimized />
-          <span className="font-bold tracking-tight text-[18px] sm:text-[20px]">Xiaomi</span>
+        <div className="flex items-center gap-1.5 select-none text-gray-800">
+          <Image src="https://cdn.simpleicons.org/xiaomi/FF6900" alt="Xiaomi" width={36} height={36} className="h-8 w-8 object-contain rounded-[6px] drop-shadow-sm" unoptimized />
+          <span className="font-bold tracking-tight text-[14px] sm:text-[16px]">Xiaomi</span>
         </div>
       );
     case 'Nothing':
-      return <span className="font-black text-black tracking-[0.1em] text-[20px] sm:text-[22px] uppercase select-none">NOTHING</span>;
+      return <span className="font-black text-black tracking-[0.1em] text-[16px] sm:text-[18px] uppercase select-none">NOTHING</span>;
     case 'Vivo':
-      return <span className="font-extrabold text-[#415FFF] tracking-tight text-[26px] sm:text-[28px] select-none">vivo</span>;
+      return <span className="font-extrabold text-[#415FFF] tracking-tight text-[20px] sm:text-[22px] select-none">vivo</span>;
     case 'Realme':
-      return <span className="font-bold text-[#FFC915] tracking-tight text-[22px] sm:text-[24px] select-none">realme</span>;
+      return <span className="font-bold text-[#FFC915] tracking-tight text-[18px] sm:text-[20px] select-none">realme</span>;
     case 'Motorola':
       return (
-        <div className="flex items-center gap-2 select-none text-gray-800 tracking-tight">
-          <Image src="https://cdn.simpleicons.org/motorola/001489" alt="Motorola" width={28} height={28} className="h-6 sm:h-7 w-auto" unoptimized />
-          <span className="font-semibold text-[18px] sm:text-[20px]">motorola</span>
+        <div className="flex items-center gap-1.5 select-none text-gray-800 tracking-tight">
+          <Image src="https://cdn.simpleicons.org/motorola/001489" alt="Motorola" width={36} height={36} className="h-8 w-8 object-contain" unoptimized />
+          <span className="font-semibold text-[14px] sm:text-[16px]">motorola</span>
         </div>
       );
     case 'iQOO':
-      return <span className="font-extrabold text-black tracking-tighter text-[24px] sm:text-[28px] italic select-none">i<span className="text-[#EBB426]">QOO</span></span>;
+      return <span className="font-extrabold text-black tracking-tighter text-[18px] sm:text-[20px] italic select-none">i<span className="text-[#EBB426]">QOO</span></span>;
     case 'Poco':
-      return <span className="font-extrabold text-[#FED100] tracking-tight text-[22px] sm:text-[26px] select-none">POCO</span>;
+      return <span className="font-extrabold text-[#FED100] tracking-tight text-[18px] sm:text-[20px] select-none">POCO</span>;
     case 'Oppo':
-      return <span className="font-extrabold text-[#007656] tracking-tighter text-[24px] sm:text-[26px] select-none">OPPO</span>;
+      return <span className="font-extrabold text-[#007656] tracking-tighter text-[18px] sm:text-[20px] select-none">OPPO</span>;
     default:
-      return <span className="font-bold text-gray-600 text-lg tracking-wide">{name}</span>;
+      return <span className="font-bold text-gray-600 text-sm tracking-wide">{name}</span>;
   }
 };
 
@@ -125,6 +125,14 @@ export default function Home() {
   const scrollingBrands = activeBrands.length > 0 ? [...activeBrands, ...activeBrands] : [];
   const scrollingTestimonials = [...testimonials, ...testimonials];
   const [currentBanner, setCurrentBanner] = useState(0);
+  
+  // Refs for manual scroll control
+  const brandsRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const bannersRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
   useEffect(() => {
     if (currentBanner >= heroBanners.length && heroBanners.length > 0) {
@@ -166,6 +174,38 @@ export default function Home() {
       nextBanner();
     } else if (distance < -minSwipeDistance) {
       prevBanner();
+    }
+  };
+
+  // Mouse drag handlers for marquee sections
+  const handleMouseDown = (e: React.MouseEvent, ref: React.RefObject<HTMLDivElement | null>) => {
+    if (!ref.current) return;
+    isDragging.current = true;
+    startX.current = e.pageX - ref.current.offsetLeft;
+    scrollLeft.current = ref.current.scrollLeft;
+    // Pause animation while dragging
+    const track = ref.current.querySelector('[class*="marquee-track"]');
+    if (track) {
+      (track as HTMLElement).style.animationPlayState = 'paused';
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent, ref: React.RefObject<HTMLDivElement | null>) => {
+    if (!isDragging.current || !ref.current) return;
+    e.preventDefault();
+    const x = e.pageX - ref.current.offsetLeft;
+    const walk = (x - startX.current) * 2; // Scroll speed multiplier
+    ref.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleMouseUp = (ref: React.RefObject<HTMLDivElement | null>) => {
+    isDragging.current = false;
+    // Resume animation
+    if (ref.current) {
+      const track = ref.current.querySelector('[class*="marquee-track"]');
+      if (track) {
+        (track as HTMLElement).style.animationPlayState = 'running';
+      }
     }
   };
 
@@ -327,7 +367,14 @@ export default function Home() {
                   );
 
               return (
-                <div className="relative w-full overflow-hidden pb-4">
+                <div 
+                  ref={bannersRef}
+                  className="relative w-full overflow-x-auto overflow-y-hidden no-scrollbar pb-4 cursor-grab active:cursor-grabbing"
+                  onMouseDown={(e) => handleMouseDown(e, bannersRef)}
+                  onMouseMove={(e) => handleMouseMove(e, bannersRef)}
+                  onMouseUp={() => handleMouseUp(bannersRef)}
+                  onMouseLeave={() => handleMouseUp(bannersRef)}
+                >
                   <div className="flex w-max animate-marquee gap-3 sm:gap-5">
                     {renderedBanners}
                     {renderedBanners}
@@ -414,13 +461,20 @@ export default function Home() {
           <div className="flex items-center justify-between mb-5 sm:mb-8">
             <h2 className="text-xl sm:text-3xl font-semibold text-[var(--color-text)]">Shop by Brand</h2>
           </div>
-          <div className="brand-marquee-mask">
+          <div 
+            ref={brandsRef}
+            className="brand-marquee-mask"
+            onMouseDown={(e) => handleMouseDown(e, brandsRef)}
+            onMouseMove={(e) => handleMouseMove(e, brandsRef)}
+            onMouseUp={() => handleMouseUp(brandsRef)}
+            onMouseLeave={() => handleMouseUp(brandsRef)}
+          >
             <div className="brand-marquee-track">
               {scrollingBrands.map((brand, index) => (
               <Link 
                 key={`${brand.id || brand.name || brand}-${index}`}
                 href={`/products?brand=${brand.name || brand}`}
-                className="bg-white rounded-[14px] sm:rounded-[18px] h-[3.6rem] sm:h-[4.5rem] w-[10rem] sm:w-[11.5rem] shrink-0 flex items-center justify-center p-2.5 sm:p-3 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent"
+                className="bg-white rounded-[16px] sm:rounded-[20px] h-[6rem] sm:h-[7.5rem] w-[6rem] sm:w-[7.5rem] shrink-0 flex items-center justify-center p-3 sm:p-4 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent overflow-hidden"
               >
                 <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
                   {renderBrandLogo(brand)}
@@ -516,7 +570,14 @@ export default function Home() {
               ))}
             </div>
           }>
-          <div className="testimonial-marquee-mask">
+          <div 
+            ref={testimonialsRef}
+            className="testimonial-marquee-mask"
+            onMouseDown={(e) => handleMouseDown(e, testimonialsRef)}
+            onMouseMove={(e) => handleMouseMove(e, testimonialsRef)}
+            onMouseUp={() => handleMouseUp(testimonialsRef)}
+            onMouseLeave={() => handleMouseUp(testimonialsRef)}
+          >
             <div className="testimonial-marquee-track">
               {scrollingTestimonials.map((item, index) => (
                 <article key={`${item.name}-${index}`} className="bg-white border border-gray-200 rounded-xl p-4 w-[17rem] sm:w-[18rem] shrink-0">

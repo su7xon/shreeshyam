@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import ModalManager from '@/components/ModalManager';
 import { CartProvider } from '@/lib/store';
+import { AuthProvider } from '@/lib/auth-context';
 import FirebaseInitializer from '@/components/FirebaseInitializer';
 import { Poppins } from 'next/font/google';
 
@@ -26,16 +27,18 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         suppressHydrationWarning
         className={`${poppins.variable} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]`}
       >
-        <CartProvider>
-          <FirebaseInitializer />
-          <Navbar />
-          <main className="flex-grow pb-[68px] md:pb-0">
-            {children}
-          </main>
-          <Footer />
-          <MobileBottomNav />
-          <ModalManager />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <FirebaseInitializer />
+            <Navbar />
+            <main className="flex-grow pb-[68px] md:pb-0">
+              {children}
+            </main>
+            <Footer />
+            <MobileBottomNav />
+            <ModalManager />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

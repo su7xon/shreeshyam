@@ -261,15 +261,15 @@ export default function AdminProductFormClient({ id }: { id: string }) {
 
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Product Images</h3>
-          <div className="flex gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-4">
             <input
               type="text"
               value={newImage}
               onChange={(e) => setNewImage(e.target.value)}
-              placeholder="Paste image URL..."
-              className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
+              placeholder="Paste image URL or upload..."
+              className="flex-1 min-w-[200px] px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
             />
-            <div className="relative overflow-hidden shrink-0">
+            <div className="relative">
               <input 
                 type="file" 
                 accept="image/*" 
@@ -280,11 +280,19 @@ export default function AdminProductFormClient({ id }: { id: string }) {
                     try {
                       setIsUploading(true);
                       const url = await uploadToCloudinary(file);
-                      setNewImage(url);
+                      // Directly add to images array after upload
+                      const updated = [...form.images, url];
+                      updateForm('images', updated);
+                      if (!form.image) {
+                        updateForm('image', url);
+                      }
+                      setNewImage('');
                     } catch (error) {
                       alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
                     } finally {
                       setIsUploading(false);
+                      // Reset file input
+                      e.target.value = '';
                     }
                   }
                 }} 
@@ -293,17 +301,18 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               <button 
                 type="button" 
                 disabled={isUploading}
-                className="px-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center justify-center h-full min-w-[120px]"
+                className="px-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center justify-center h-full whitespace-nowrap"
               >
-                {isUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <><Upload className="h-4 w-4 mr-2" /> Upload File</>}
+                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-4 w-4 mr-1.5" /> Upload</>}
               </button>
             </div>
             <button
               type="button"
               onClick={addImage}
-              className="px-4 py-2.5 bg-[#b78b57] text-white rounded-xl hover:bg-[#d4a76a] transition-colors"
+              disabled={!newImage.trim()}
+              className="px-4 py-2.5 bg-[#b78b57] text-white rounded-xl hover:bg-[#d4a76a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center whitespace-nowrap"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-4 w-4 mr-1.5" /> Add
             </button>
           </div>
 

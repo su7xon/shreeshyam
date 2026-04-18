@@ -111,17 +111,17 @@ export default function AdminBannersPage() {
             <div className="sm:col-span-2">
               <label className="admin-label">Image URL *</label>
               <div className="flex gap-2">
-                <input type="text" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="Paste image URL…" className="admin-input flex-1" />
-                <div className="relative overflow-hidden shrink-0">
+                <input type="text" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="Paste image URL or upload…" className="admin-input flex-1" />
+                <div className="relative shrink-0">
                   <input type="file" accept="image/*" disabled={isUploading} onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (file) {
                       try { setIsUploading(true); const url = await uploadToCloudinary(file); setForm({ ...form, image: url }); }
                       catch (error) { alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error')); }
-                      finally { setIsUploading(false); }
+                      finally { setIsUploading(false); if (e.target) e.target.value = ''; }
                     }
                   }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-                  <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[90px]">
+                  <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[90px] overflow-hidden">
                     {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-4 w-4" /> Upload</>}
                   </button>
                 </div>
