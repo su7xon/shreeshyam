@@ -57,6 +57,7 @@ metadata.json
 # AI tool directories
 .claude/
 .qwen/
+scratch/
 
 # Build artifacts
 out/

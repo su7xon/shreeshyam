@@ -1,16 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import useAdminStore from '@/lib/admin-store';
 import { productsData } from '@/products-data';
-import { Upload, Check, X, AlertCircle, Trash2, RefreshCw, FileText } from 'lucide-react';
+import { Upload, Check, X, AlertCircle, Trash2, RefreshCw, FileText, DollarSign } from 'lucide-react';
 
 export default function ImportProductsPage() {
   const admin = useAdminStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [imported, setImported] = useState<string[]>([]);
   const [duplicates, setDuplicates] = useState<string[]>([]);
   const [importing, setImporting] = useState(false);
   const [updated, setUpdated] = useState(0);
+  const [priceUpdateText, setPriceUpdateText] = useState('');
+  const [priceUpdateResults, setPriceUpdateResults] = useState<{updated: string[], notFound: string[], errors: string[]}>({updated: [], notFound: [], errors: []});
+  const [csvData, setCsvData] = useState<{name: string, price: number}[]>([]);
 
   const generatePlaceholder = (text: string) => 
     `https://placehold.co/400x400/1a1a2e/FFF?text=${encodeURIComponent(text.substring(0, 15))}`;
@@ -213,6 +217,138 @@ export default function ImportProductsPage() {
     setDuplicates([]);
   };
 
+  const parsePriceUpdateList = (text: string) => {
+    const lines = text.trim().split('\n');
+    const productsToUpdate: Map<string, number> = new Map();
+    
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      
+      const priceMatch = trimmed.match(/₹?([\d,]+(?:\.\d+)?)\s*$/);
+      if (!priceMatch) continue;
+      
+      const price = parseFloat(priceMatch[1].replace(/,/g, ''));
+      const namePart = trimmed.replace(/₹?[\d,]+(?:\.\d+)?\s*$/, '').trim();
+      
+      if (namePart && price > 0) {
+        productsToUpdate.set(namePart, price);
+      }
+    }
+    
+    return productsToUpdate;
+  };
+
+  const handleBulkPriceUpdate = async () => {
+    if (!priceUpdateText.trim()) {
+      alert('Please paste product list with prices');
+      return;
+    }
+    
+    setImporting(true);
+    const productsToUpdate = parsePriceUpdateList(priceUpdateText);
+    const updatedList: string[] = [];
+    const notFoundList: string[] = [];
+    const errorList: string[] = [];
+    
+    for (const [namePart, newPrice] of productsToUpdate) {
+      const normalizedSearch = namePart.toLowerCase().replace(/[^a-z0-9]/g, '');
+      
+      let found = false;
+      for (const product of admin.products) {
+        const productNormalized = product.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+        if (productNormalized.includes(normalizedSearch) || normalizedSearch.includes(productNormalized)) {
+          try {
+            await admin.updateProduct(product.id, { price: newPrice });
+            updatedList.push(`${product.name} -> ₹${newPrice.toFixed(2)}`);
+            found = true;
+            break;
+          } catch (e) {
+            errorList.push(`${product.name}: ${e}`);
+            found = true;
+            break;
+          }
+        }
+      }
+      
+      if (!found) {
+        notFoundList.push(`${namePart} -> ₹${newPrice.toFixed(2)}`);
+      }
+    }
+    
+    setPriceUpdateResults({ updated: updatedList, notFound: notFoundList, errors: errorList });
+    setImporting(false);
+  };
+
+  const handleCsvFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+      const lines = text.trim().split('\n');
+      const parsed: {name: string, price: number}[] = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line || i === 0) continue;
+
+        const parts = line.split(',');
+        if (parts.length >= 2) {
+          const name = parts[0].trim();
+          const price = parseFloat(parts[1].replace(/[^0-9.]/g, ''));
+          if (name && !isNaN(price)) {
+            parsed.push({ name, price });
+          }
+        }
+      }
+
+      setCsvData(parsed);
+    };
+    reader.readAsText(file);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleCsvPriceUpdate = async () => {
+    if (csvData.length === 0) {
+      alert('Please upload a CSV file first');
+      return;
+    }
+
+    setImporting(true);
+    const updatedList: string[] = [];
+    const notFoundList: string[] = [];
+
+    for (const item of csvData) {
+      const normalizedSearch = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+      let found = false;
+      for (const product of admin.products) {
+        const productNormalized = product.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        if (productNormalized.includes(normalizedSearch) || normalizedSearch.includes(productNormalized)) {
+          await admin.updateProduct(product.id, { price: item.price });
+          updatedList.push(`${product.name} -> ₹${item.price.toFixed(2)}`);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        notFoundList.push(`${item.name} -> ₹${item.price.toFixed(2)}`);
+      }
+    }
+
+    setPriceUpdateResults({ updated: updatedList, notFound: notFoundList, errors: [] });
+    setCsvData([]);
+    setImporting(false);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -354,6 +490,134 @@ export default function ImportProductsPage() {
           </div>
         </div>
       )}
+
+      <div className="premium-surface rounded-2xl border border-[var(--color-border)] p-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <DollarSign className="h-5 w-5 text-[var(--color-primary)]" />
+            <h3 className="text-lg font-semibold text-[var(--color-text)]">
+              Bulk Price Update
+            </h3>
+          </div>
+          <p className="text-sm text-[var(--color-text-muted)]">
+            Paste product names with new prices. Format: PRODUCT NAME [CATEGORY]: ₹PRICE
+          </p>
+          <textarea
+            value={priceUpdateText}
+            onChange={(e) => setPriceUpdateText(e.target.value)}
+            placeholder="OPPO A6 5G 4GB+128GB (SAPPHIRE BLUE) [MOBILE]: ₹18,956.00&#10;SAMSUNG Galaxy A16 5G 6GB+128GB [MOBILE]: ₹15,533.00"
+            className="w-full h-48 px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] text-sm font-mono resize-none focus:outline-none focus:border-[var(--color-primary)]"
+          />
+          <button
+            onClick={handleBulkPriceUpdate}
+            disabled={importing || !priceUpdateText.trim()}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {importing ? (
+              <>
+                <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Updating...
+              </>
+            ) : (
+              <>
+                <DollarSign className="h-4 w-4" />
+                Update Prices
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {priceUpdateResults.updated.length > 0 && (
+        <div className="premium-surface rounded-2xl border border-green-500/30 p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Check className="h-5 w-5 text-green-500" />
+            <h3 className="text-lg font-semibold text-[var(--color-text)]">
+              Prices Updated ({priceUpdateResults.updated.length})
+            </h3>
+          </div>
+          <div className="max-h-48 overflow-y-auto space-y-1">
+            {priceUpdateResults.updated.slice(0, 20).map((name) => (
+              <div key={name} className="text-sm text-[var(--color-text)] flex items-center gap-2">
+                <Check className="h-3 w-3 text-green-500" />
+                {name}
+              </div>
+            ))}
+            {priceUpdateResults.updated.length > 20 && (
+              <div className="text-sm text-[var(--color-text-muted)]">
+                ...and {priceUpdateResults.updated.length - 20} more
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {priceUpdateResults.notFound.length > 0 && (
+        <div className="premium-surface rounded-2xl border border-yellow-500/30 p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <AlertCircle className="h-5 w-5 text-yellow-500" />
+            <h3 className="text-lg font-semibold text-[var(--color-text)]">
+              Products Not Found ({priceUpdateResults.notFound.length})
+            </h3>
+          </div>
+          <div className="max-h-48 overflow-y-auto space-y-1">
+            {priceUpdateResults.notFound.slice(0, 20).map((name) => (
+              <div key={name} className="text-sm text-[var(--color-text-muted)] flex items-center gap-2">
+                <X className="h-3 w-3 text-yellow-500" />
+                {name}
+              </div>
+            ))}
+            {priceUpdateResults.notFound.length > 20 && (
+              <div className="text-sm text-[var(--color-text-muted)]">
+                ...and {priceUpdateResults.notFound.length - 20} more
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div className="premium-surface rounded-2xl border border-[var(--color-border)] p-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <Upload className="h-5 w-5 text-[var(--color-primary)]" />
+            <h3 className="text-lg font-semibold text-[var(--color-text)]">
+              Upload CSV File
+            </h3>
+          </div>
+          <p className="text-sm text-[var(--color-text-muted)]">
+            Upload a CSV file with columns: name,price
+          </p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".csv"
+            onChange={handleCsvFileSelect}
+            className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-primary)] file:text-white hover:file:bg-opacity-90"
+          />
+          {csvData.length > 0 && (
+            <div className="text-sm text-green-600">
+              {csvData.length} products ready to update
+            </div>
+          )}
+          <button
+            onClick={handleCsvPriceUpdate}
+            disabled={importing || csvData.length === 0}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {importing ? (
+              <>
+                <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Updating...
+              </>
+            ) : (
+              <>
+                <Upload className="h-4 w-4" />
+                Upload & Update
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

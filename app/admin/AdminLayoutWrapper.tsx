@@ -23,12 +23,14 @@ import {
   Search,
   ExternalLink,
   Mail,
+  Upload,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, group: 'OVERVIEW' },
   { href: '/admin/analytics', label: 'Analytics', icon: BarChart3, group: 'OVERVIEW' },
   { href: '/admin/products', label: 'Products', icon: Smartphone, group: 'CATALOG' },
+  { href: '/admin/import', label: 'Import', icon: Upload, group: 'CATALOG' },
   { href: '/admin/brands', label: 'Brands', icon: Building2, group: 'CATALOG' },
   { href: '/admin/orders', label: 'Orders', icon: Package, group: 'COMMERCE' },
   { href: '/admin/inquiries', label: 'Inquiries', icon: Mail, group: 'COMMERCE' },

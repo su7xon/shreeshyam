@@ -391,6 +391,7 @@ h6 {
     border: 1px solid #1f2937; /* Changed to dark */
     border-radius: 14px;
     transition: all 0.25s ease;
+    min-height: 100px; /* Ensure minimum height */
 }
 
 .admin-card:hover {
@@ -404,6 +405,7 @@ h6 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 60px; /* Ensure minimum height */
 }
 
 .admin-card-header h3 {
@@ -415,6 +417,7 @@ h6 {
 
 .admin-card-body {
     padding: 1.25rem 1.5rem;
+    min-height: 100px; /* Ensure minimum height */
 }
 
 

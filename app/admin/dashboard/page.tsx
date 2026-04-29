@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import useAdminStore from '@/lib/admin-store';
 import { products as defaultProducts } from '@/lib/data';
@@ -10,8 +11,16 @@ import {
 import { isConfigValid } from '@/lib/firebase';
 
 export default function AdminDashboardPage() {
+  const [mounted, setMounted] = useState(false);
   const admin = useAdminStore();
   const { products: storeProducts, banners, offers: storeOffers, isLoading } = admin;
+
+  // Fix hydration issue - wait for client-side mount
+  useEffect(() => {
+    setMounted(true);
+    // Initialize data from Firebase if available
+    admin.initialize();
+  }, []);
 
   const products = storeProducts.length > 0 ? storeProducts : defaultProducts;
   const offers = storeOffers.length > 0 ? storeOffers : [];
@@ -23,16 +32,36 @@ export default function AdminDashboardPage() {
 
   const brands = [...new Set(products.map((p) => p.brand))];
 
-  if (isLoading) {
+  // Show loading state until mounted and data is loaded
+  if (!mounted || isLoading) {
     return (
-      <div className="space-y-6 animate-pulse">
+      <div className="space-y-6">
+        {/* Loading skeleton with better visibility */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="admin-stat-card h-28 bg-[#181a22]" />
+            <div key={i} className="admin-stat-card h-28 bg-[#181a22] animate-pulse">
+              <div className="h-10 w-10 bg-white/5 rounded-lg mb-3" />
+              <div className="h-8 w-16 bg-white/5 rounded mb-2" />
+              <div className="h-4 w-20 bg-white/5 rounded" />
+            </div>
           ))}
         </div>
-        <div className="admin-card h-48" />
-        <div className="admin-card h-64" />
+        <div className="admin-card h-48 animate-pulse">
+          <div className="admin-card-header">
+            <div className="h-5 w-32 bg-white/5 rounded" />
+          </div>
+          <div className="admin-card-body">
+            <div className="h-32 bg-white/5 rounded" />
+          </div>
+        </div>
+        <div className="admin-card h-64 animate-pulse">
+          <div className="admin-card-header">
+            <div className="h-5 w-32 bg-white/5 rounded" />
+          </div>
+          <div className="admin-card-body">
+            <div className="h-48 bg-white/5 rounded" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -46,6 +75,23 @@ export default function AdminDashboardPage() {
           <div>
             <p className="font-semibold text-sm">Firebase Not Configured</p>
             <p className="text-xs opacity-80 mt-0.5">Showing local default data. Add Firebase env variables to <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs">.env.local</code> for live data.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Debug info - remove after fixing */}
+      {mounted && (
+        <div className="admin-alert" style={{ background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.15)', color: '#60a5fa' }}>
+          <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold text-sm">Debug Info</p>
+            <p className="text-xs opacity-80 mt-0.5">
+              Mounted: {mounted ? '✓' : '✗'} | 
+              Loading: {isLoading ? '✓' : '✗'} | 
+              Products: {products.length} | 
+              Banners: {banners.length} | 
+              Offers: {offers.length}
+            </p>
           </div>
         </div>
       )}
