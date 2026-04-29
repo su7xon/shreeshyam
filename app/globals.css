@@ -294,12 +294,12 @@ h6 {
 
 
 /* ──────────────────────────────────────────────────────────
-   ADMIN PANEL — Premium Light Design System
+   ADMIN PANEL — Premium Dark Design System
    ────────────────────────────────────────────────────────── */
 
 .admin-shell {
-    background: #f8f9fa;
-    color: #1f2937;
+    background: #0f1117; /* Changed to dark */
+    color: #e5e7eb; /* Changed to light */
     font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
 }
@@ -308,18 +308,18 @@ h6 {
 /* ─── Sidebar ─── */
 
 .admin-sidebar {
-    background: #ffffff;
-    border-right: 1px solid #e5e7eb;
+    background: #11131a; /* Changed to dark */
+    border-right: 1px solid #1f2937; /* Changed to dark */
     height: 100vh;
     top: 0;
 }
 
 .admin-sidebar-header {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #1f2937;
 }
 
 .admin-sidebar-footer {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #1f2937;
 }
 
 .admin-logo-icon {
@@ -334,8 +334,8 @@ h6 {
 }
 
 .admin-nav-active {
-    background: rgba(59, 130, 246, 0.08);
-    color: #2563eb;
+    background: rgba(59, 130, 246, 0.15); /* Slightly brighter background */
+    color: #60a5fa; /* Brighter blue for dark mode */
     border-left: 2px solid #3b82f6;
     margin-left: -1px;
 }
@@ -358,10 +358,10 @@ h6 {
 /* ─── Top Bar ─── */
 
 .admin-topbar {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(17, 19, 26, 0.85); /* Changed to dark */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #1f2937; /* Changed to dark */
 }
 
 .admin-icon-btn {
@@ -379,28 +379,28 @@ h6 {
 }
 
 .admin-user-badge {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
+    background: #1f2937;
+    border: 1px solid #374151;
 }
 
 
 /* ─── Admin Cards ─── */
 
 .admin-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: #181a22; /* Changed to dark */
+    border: 1px solid #1f2937; /* Changed to dark */
     border-radius: 14px;
     transition: all 0.25s ease;
 }
 
 .admin-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border-color: #3b82f6;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .admin-card-header {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid #1f2937;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -409,7 +409,7 @@ h6 {
 .admin-card-header h3 {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #ffffff; /* Changed to white */
     letter-spacing: -0.01em;
 }
 
@@ -421,8 +421,8 @@ h6 {
 /* ─── Stat Cards ─── */
 
 .admin-stat-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: #181a22; /* Changed to dark */
+    border: 1px solid #1f2937; /* Changed to dark */
     border-radius: 14px;
     padding: 1.25rem;
     transition: all 0.3s ease;
@@ -431,9 +431,9 @@ h6 {
 }
 
 .admin-stat-card:hover {
-    border-color: #d1d5db;
+    border-color: #3b82f6;
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 .admin-stat-icon {
@@ -448,7 +448,7 @@ h6 {
 .admin-stat-value {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #111827;
+    color: #ffffff; /* Changed to white */
     letter-spacing: -0.02em;
     line-height: 1;
     margin-top: 0.75rem;
@@ -457,7 +457,7 @@ h6 {
 .admin-stat-label {
     font-size: 0.7rem;
     font-weight: 500;
-    color: #6b7280;
+    color: #9ca3af; /* Changed to light gray */
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 0.25rem;
@@ -537,10 +537,10 @@ h6 {
 .admin-input {
     width: 100%;
     padding: 0.625rem 0.875rem;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: #1f2937; /* Dark background */
+    border: 1px solid #374151; /* Darker border */
     border-radius: 10px;
-    color: #1f2937;
+    color: #ffffff; /* White text */
     font-size: 0.8125rem;
     transition: all 0.2s;
 }
@@ -557,10 +557,10 @@ h6 {
 
 .admin-select {
     padding: 0.625rem 2rem 0.625rem 0.875rem;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: #1f2937; /* Dark background */
+    border: 1px solid #374151; /* Darker border */
     border-radius: 10px;
-    color: #1f2937;
+    color: #ffffff; /* White text */
     font-size: 0.8125rem;
     appearance: none;
     cursor: pointer;
@@ -624,8 +624,8 @@ h6 {
 .admin-table td {
     padding: 0.75rem 1rem;
     font-size: 0.8125rem;
-    color: #d1d5db;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: #e5e7eb; /* Lightened text */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .admin-table tbody tr {

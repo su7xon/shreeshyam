@@ -7,6 +7,7 @@ import ModalManager from '@/components/ModalManager';
 import { CartProvider } from '@/lib/store';
 import { AuthProvider } from '@/lib/auth-context';
 import FirebaseInitializer from '@/components/FirebaseInitializer';
+import ConditionalLayout from '@/components/ConditionalLayout';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -30,12 +31,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <AuthProvider>
           <CartProvider>
             <FirebaseInitializer />
-            <Navbar />
-            <main className="flex-grow pb-[68px] md:pb-0">
+            <ConditionalLayout>
               {children}
-            </main>
-            <Footer />
-            <MobileBottomNav />
+            </ConditionalLayout>
             <ModalManager />
           </CartProvider>
         </AuthProvider>

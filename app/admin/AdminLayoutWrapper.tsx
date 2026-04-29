@@ -183,11 +183,20 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden admin-icon-btn p-2"
+              className="lg:hidden admin-icon-btn p-2 -ml-2"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <div>
+            
+            {/* Mobile Logo */}
+            <div className="lg:hidden flex items-center gap-2">
+              <div className="admin-logo-icon h-7 w-7 rounded-lg">
+                <Store className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-sm font-bold text-white tracking-tight">श्री श्याम</span>
+            </div>
+
+            <div className="hidden lg:block">
               <h1 className="text-base sm:text-lg font-semibold text-white leading-tight">
                 {currentPage?.label || 'Overview'}
               </h1>
