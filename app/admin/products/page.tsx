@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import useAdminStore from '@/lib/admin-store';
-import { Plus, Search, Edit, Trash2, Eye, Smartphone, UploadCloud, Loader2 } from 'lucide-react';
-import { expandedProducts } from '@/lib/expanded-catalog';
+import { Plus, Search, Edit, Trash2, Eye, Smartphone } from 'lucide-react';
 
 export default function AdminProductsPage() {
   const admin = useAdminStore();
@@ -12,7 +11,6 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState('');
   const [filterBrand, setFilterBrand] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
-  const [isImporting, setIsImporting] = useState(false);
 
   const brands = [...new Set(products.map((p) => p.brand))].sort();
 
@@ -30,24 +28,7 @@ export default function AdminProductsPage() {
     setDeleteConfirm(null);
   };
 
-  const handleBulkImport = async () => {
-    if (!confirm(`Import ${expandedProducts.length} products? This will update the live catalog.`)) return;
-    setIsImporting(true);
-    try {
-      if (admin.importBulkProducts) {
-        const sanitizedProducts = expandedProducts.map(({ id, ...rest }) => rest);
-        await admin.importBulkProducts(sanitizedProducts as any);
-        alert(`Successfully imported ${expandedProducts.length} products!`);
-      } else {
-        alert('Store method missing');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to import. Check console.');
-    } finally {
-      setIsImporting(false);
-    }
-  };
+
 
   return (
     <div className="space-y-5 pb-8">
@@ -57,15 +38,7 @@ export default function AdminProductsPage() {
           <h2 className="text-lg sm:text-xl font-semibold text-white">Manage Products</h2>
           <p className="text-xs text-[#6b7280] mt-0.5">Control your storefront catalog</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={handleBulkImport}
-            disabled={isImporting}
-            className="admin-btn-secondary text-xs sm:text-sm disabled:opacity-50"
-          >
-            {isImporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <UploadCloud className="h-4 w-4" />}
-            {isImporting ? 'Importing…' : 'Bulk Import'}
-          </button>
+        <div className="flex items-center gap-2">
           <Link href="/admin/products/new" className="admin-btn-primary text-xs sm:text-sm">
             <Plus className="h-4 w-4" /> Add Phone
           </Link>
@@ -74,14 +47,14 @@ export default function AdminProductsPage() {
 
       {/* Filters */}
       <div className="admin-card flex flex-col sm:flex-row gap-3 p-3 sm:p-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4b5563]" />
+        <div className="flex-1 relative flex items-center">
+          <Search className="absolute left-3.5 h-4 w-4 text-[#9ca3af] z-10" />
           <input
             type="text"
             placeholder="Search by name or brand…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="admin-input pl-9"
+            className="admin-input pl-10"
           />
         </div>
         <select

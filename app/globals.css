@@ -540,12 +540,13 @@ h6 {
 .admin-input {
     width: 100%;
     padding: 0.625rem 0.875rem;
-    background: #1f2937; /* Dark background */
-    border: 1px solid #374151; /* Darker border */
+    background: #1f2937;
+    border: 1px solid #374151;
     border-radius: 10px;
-    color: #ffffff; /* White text */
+    color: #ffffff;
     font-size: 0.8125rem;
     transition: all 0.2s;
+    line-height: 1.25rem; /* Ensure consistent text alignment */
 }
 
 .admin-input::placeholder {
@@ -598,8 +599,8 @@ h6 {
 /* ─── Admin Table ─── */
 
 .admin-table-wrap {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+    background: #181a22; /* Match admin-card */
+    border: 1px solid #1f2937;
     border-radius: 14px;
     overflow: hidden;
 }
@@ -609,15 +610,15 @@ h6 {
 }
 
 .admin-table thead {
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
+    background: #1f2937;
+    border-bottom: 1px solid #374151;
 }
 
 .admin-table th {
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #6b7280;
+    color: #9ca3af;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     text-align: left;
@@ -625,10 +626,10 @@ h6 {
 }
 
 .admin-table td {
-    padding: 0.75rem 1rem;
+    padding: 1rem;
     font-size: 0.8125rem;
-    color: #e5e7eb; /* Lightened text */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #d1d5db;
+    border-bottom: 1px solid #1f2937;
 }
 
 .admin-table tbody tr {
