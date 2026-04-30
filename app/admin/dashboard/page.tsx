@@ -8,7 +8,7 @@ import {
   Smartphone, Image, Tag, TrendingUp, Plus, Eye, AlertCircle,
   ArrowUpRight, Package, Building2, BarChart3,
 } from 'lucide-react';
-import { isConfigValid } from '@/lib/firebase';
+
 
 export default function AdminDashboardPage() {
   const [mounted, setMounted] = useState(false);
@@ -68,33 +68,6 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-6 pb-8">
-      {/* Firebase warning */}
-      {!isConfigValid && (
-        <div className="admin-alert admin-alert-warn">
-          <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold text-sm">Firebase Not Configured</p>
-            <p className="text-xs opacity-80 mt-0.5">Showing local default data. Add Firebase env variables to <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs">.env.local</code> for live data.</p>
-          </div>
-        </div>
-      )}
-
-      {/* Debug info - remove after fixing */}
-      {mounted && (
-        <div className="admin-alert" style={{ background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.15)', color: '#60a5fa' }}>
-          <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold text-sm">Debug Info</p>
-            <p className="text-xs opacity-80 mt-0.5">
-              Mounted: {mounted ? '✓' : '✗'} | 
-              Loading: {isLoading ? '✓' : '✗'} | 
-              Products: {products.length} | 
-              Banners: {banners.length} | 
-              Offers: {offers.length}
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* ─── Stats Grid ─── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
