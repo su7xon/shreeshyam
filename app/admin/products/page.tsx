@@ -1,16 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import useAdminStore from '@/lib/admin-store';
+import { products as defaultProducts } from '@/lib/data';
 import { Plus, Search, Edit, Trash2, Eye, Smartphone } from 'lucide-react';
 
 export default function AdminProductsPage() {
+  const [mounted, setMounted] = useState(false);
   const admin = useAdminStore();
-  const products = admin.products;
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use the code-first products as the base, add any store products if they exist
+  const products = admin.products.length > 0 ? admin.products : defaultProducts;
+  
   const [search, setSearch] = useState('');
   const [filterBrand, setFilterBrand] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  // Avoid hydration mismatch by not rendering the list until mounted
+  if (!mounted) return null;
 
   const brands = [...new Set(products.map((p) => p.brand))].sort();
 
