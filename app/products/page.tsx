@@ -11,6 +11,7 @@ import { ProductSkeleton, FilterSkeleton } from '@/components/SkeletonLoader';
 function ProductsContent() {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get('brand');
+  const initialCategory = searchParams.get('category');
   const searchQuery = searchParams.get('search');
   const admin = useAdminStore();
   const products = admin.products.length > 0 ? admin.products : defaultProducts;
@@ -19,6 +20,7 @@ function ProductsContent() {
   // Filters state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<string[]>(initialBrand ? [initialBrand] : []);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategory ? [initialCategory] : []);
   const [selectedRam, setSelectedRam] = useState<string[]>([]);
   const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number>(200000);
@@ -42,6 +44,11 @@ function ProductsContent() {
       result = result.filter(p => selectedBrands.includes(p.brand));
     }
 
+    // Category filter
+    if (selectedCategories.length > 0) {
+      result = result.filter(p => p.category && selectedCategories.includes(p.category));
+    }
+
     // RAM filter
     if (selectedRam.length > 0) {
       result = result.filter(p => selectedRam.includes(p.ram));
@@ -56,10 +63,10 @@ function ProductsContent() {
     result = result.filter(p => p.price <= priceRange);
 
     return result;
-  }, [products, selectedBrands, selectedRam, selectedStorage, priceRange, searchQuery]);
+  }, [products, selectedBrands, selectedCategories, selectedRam, selectedStorage, priceRange, searchQuery]);
 
   // Reset to page 1 whenever filters change
-  useEffect(() => { setCurrentPage(1); }, [selectedBrands, selectedRam, selectedStorage, priceRange, searchQuery]);
+  useEffect(() => { setCurrentPage(1); }, [selectedBrands, selectedCategories, selectedRam, selectedStorage, priceRange, searchQuery]);
 
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
   const paginatedProducts = filteredProducts.slice(
@@ -87,14 +94,21 @@ function ProductsContent() {
     );
   };
 
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => 
+      prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]
+    );
+  };
+
   const clearFilters = () => {
     setSelectedBrands([]);
+    setSelectedCategories([]);
     setSelectedRam([]);
     setSelectedStorage([]);
     setPriceRange(200000);
   };
 
-  const activeFilterCount = selectedBrands.length + selectedRam.length + selectedStorage.length + (priceRange < 200000 ? 1 : 0);
+  const activeFilterCount = selectedBrands.length + selectedCategories.length + selectedRam.length + selectedStorage.length + (priceRange < 200000 ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-[#f7f7f8]">
@@ -128,6 +142,12 @@ function ProductsContent() {
               {selectedBrands.map(brand => (
                 <button key={brand} onClick={() => toggleBrand(brand)} className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full transition-colors">
                   {brand}
+                  <X className="h-3 w-3" />
+                </button>
+              ))}
+              {selectedCategories.map(cat => (
+                <button key={cat} onClick={() => toggleCategory(cat)} className="inline-flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full transition-colors">
+                  {cat}
                   <X className="h-3 w-3" />
                 </button>
               ))}
@@ -221,6 +241,28 @@ function ProductsContent() {
                   </div>
                 </div>
               </div>
+
+              {/* Category Filter */}
+              {admin.categories.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xs uppercase tracking-[0.15em] text-gray-500 font-semibold mb-3">Category</h3>
+                  <div className="space-y-1">
+                    {admin.categories.filter(c => c.active).map(cat => (
+                      <label key={cat.id} className="flex items-center gap-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors group">
+                        <div className={`w-[18px] h-[18px] rounded border-2 flex items-center justify-center transition-all duration-200 ${selectedCategories.includes(cat.name) ? 'bg-black border-black' : 'border-gray-300 group-hover:border-gray-400'}`}>
+                          {selectedCategories.includes(cat.name) && (
+                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </div>
+                        <input type="checkbox" checked={selectedCategories.includes(cat.name)} onChange={() => toggleCategory(cat.name)} className="sr-only" />
+                        <span className="text-sm text-gray-700 font-medium">{cat.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Brand Filter */}
               <div className="mb-6">

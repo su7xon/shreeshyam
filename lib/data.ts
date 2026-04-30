@@ -1,3 +1,19 @@
+export interface ProductVariant {
+  id: string;
+  ram: string;
+  storage: string;
+  price: number;
+  originalPrice?: number;
+  color?: string;
+  inStock?: boolean;
+}
+
+export interface FirestoreTimestamp {
+  type: string;
+  seconds: number;
+  nanoseconds: number;
+}
+
 export interface Product {
   category?: string;
   id: string;
@@ -12,10 +28,15 @@ export interface Product {
   battery: string;
   camera: string;
   display: string;
+  color?: string;
+  colors?: string[];
   featured?: boolean;
   active?: boolean;
   images?: string[];
   description: string;
+  variants?: ProductVariant[];
+  createdAt?: string | FirestoreTimestamp;
+  updatedAt?: string | FirestoreTimestamp;
 }
 
 export const brands = [

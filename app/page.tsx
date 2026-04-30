@@ -7,8 +7,10 @@ import { products as defaultProducts, brands } from '@/lib/data';
 import useAdminStore from '@/lib/admin-store';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState, Suspense, useRef } from 'react';
-import { ProductSkeleton, BannerSkeleton, CategorySkeleton, TestimonialSkeleton } from '@/components/SkeletonLoader';
+import { CategorySkeleton, TestimonialSkeleton, BannerSkeleton, ProductSkeleton } from '@/components/SkeletonLoader';
 import CategoryStrip from '@/components/CategoryStrip';
+import TrustBadges from '@/components/TrustBadges';
+import DailyDeals from '@/components/DailyDeals';
 
 const testimonials = [
   {
@@ -305,6 +307,8 @@ export default function Home() {
 
       {/* Category Icons Strip */}
       <CategoryStrip />
+      
+      {/* Trust Badges */}
       <section className="pb-8 sm:pb-12 reveal-fade-up" style={{ animationDelay: '90ms' }}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6">
           <h2 className="text-[18px] sm:text-2xl font-bold text-[var(--color-text)] tracking-tight">Watch Out For This</h2>
@@ -387,6 +391,12 @@ export default function Home() {
           </Suspense>
         </div>
       </section>
+
+      {/* Trust Badges moved here */}
+      <TrustBadges />
+
+      {/* Daily Deals Section */}
+      <DailyDeals />
 
       {/* WhatsApp Floating Button (Homepage Only) */}
       <a 

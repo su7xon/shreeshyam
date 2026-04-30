@@ -36,7 +36,9 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     display: existingProduct?.display || '',
     featured: existingProduct?.featured || false,
     description: existingProduct?.description || '',
+    category: existingProduct?.category || '',
     colors: existingProduct?.colors || [] as string[],
+    variants: existingProduct?.variants || [] as any[],
   });
 
   const [newColor, setNewColor] = useState('');
@@ -69,7 +71,9 @@ export default function AdminProductFormClient({ id }: { id: string }) {
             display: p.display,
             featured: p.featured || false,
             description: p.description,
+            category: p.category || '',
             colors: p.colors || [],
+            variants: p.variants || [],
           });
         }
       }, 100);
@@ -136,8 +140,21 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     e.preventDefault();
     if (!validate()) return;
 
+    // if variants exist, ensure the lowest price is set as base price
+    let finalPrice = form.price;
+    let finalOriginalPrice = form.originalPrice;
+    
+    if (form.variants && form.variants.length > 0) {
+      // Find the cheapest variant
+      const cheapest = [...form.variants].sort((a, b) => a.price - b.price)[0];
+      finalPrice = cheapest.price;
+      finalOriginalPrice = cheapest.originalPrice;
+    }
+
     const productData = {
       ...form,
+      price: finalPrice,
+      originalPrice: finalOriginalPrice,
       image: form.images[0] || form.image,
     };
 
@@ -219,6 +236,20 @@ export default function AdminProductFormClient({ id }: { id: string }) {
             </div>
 
             <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+              <select
+                value={form.category}
+                onChange={(e) => updateForm('category', e.target.value)}
+                className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+              >
+                <option value="">No Category</option>
+                {admin.categories.map((cat) => (
+                  <option key={cat.id} value={cat.name}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Featured</label>
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
@@ -258,6 +289,108 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               />
             </div>
           </div>
+        </div>
+
+        <div className="admin-card p-6">
+          <div className="flex justify-between items-center mb-5">
+            <h3 className="text-lg font-bold text-white">Variants (RAM / Storage)</h3>
+            <button
+              type="button"
+              onClick={() => {
+                const newVariant = {
+                  id: `v-${Date.now()}`,
+                  ram: ramOptions[0],
+                  storage: storageOptions[0],
+                  price: form.price || 0,
+                  originalPrice: form.originalPrice,
+                };
+                updateForm('variants', [...form.variants, newVariant]);
+              }}
+              className="px-3 py-1.5 bg-[#1f2937] border border-[#374151] text-sm text-[#b78b57] font-medium rounded-lg hover:bg-[#374151] transition-colors flex items-center"
+            >
+              <Plus className="h-4 w-4 mr-1" /> Add Variant
+            </button>
+          </div>
+          
+          {form.variants && form.variants.length > 0 ? (
+            <div className="space-y-4 mb-8">
+              {form.variants.map((variant, index) => (
+                <div key={variant.id} className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 bg-[#1f2937] border border-[#374151] rounded-xl relative group">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = [...form.variants];
+                      updated.splice(index, 1);
+                      updateForm('variants', updated);
+                    }}
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md hover:bg-red-600 z-10"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                  
+                  <div className="sm:col-span-1">
+                    <label className="block text-xs font-medium text-gray-400 mb-1">RAM</label>
+                    <select
+                      value={variant.ram}
+                      onChange={(e) => {
+                        const updated = [...form.variants];
+                        updated[index].ram = e.target.value;
+                        updateForm('variants', updated);
+                      }}
+                      className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
+                    >
+                      {ramOptions.map(r => <option key={r} value={r}>{r}</option>)}
+                    </select>
+                  </div>
+                  
+                  <div className="sm:col-span-1">
+                    <label className="block text-xs font-medium text-gray-400 mb-1">Storage</label>
+                    <select
+                      value={variant.storage}
+                      onChange={(e) => {
+                        const updated = [...form.variants];
+                        updated[index].storage = e.target.value;
+                        updateForm('variants', updated);
+                      }}
+                      className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
+                    >
+                      {storageOptions.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+
+                  <div className="sm:col-span-1">
+                    <label className="block text-xs font-medium text-gray-400 mb-1">Price (₹)</label>
+                    <input
+                      type="number"
+                      value={variant.price || ''}
+                      onChange={(e) => {
+                        const updated = [...form.variants];
+                        updated[index].price = Number(e.target.value);
+                        updateForm('variants', updated);
+                      }}
+                      className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-gray-400 mb-1">Original Price (₹)</label>
+                    <input
+                      type="number"
+                      value={variant.originalPrice || ''}
+                      onChange={(e) => {
+                        const updated = [...form.variants];
+                        updated[index].originalPrice = e.target.value ? Number(e.target.value) : undefined;
+                        updateForm('variants', updated);
+                      }}
+                      className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 italic mb-8">No variants added. Using base pricing and specs.</p>
+          )}
         </div>
 
         <div className="admin-card p-6">

@@ -8,8 +8,25 @@ import * as brandService from './services/brandService';
 import * as bannerService from './services/bannerService';
 import * as offerService from './services/offerService';
 import * as orderService from './services/orderService';
+import * as categoryService from './services/categoryService';
+import * as dailyDealService from './services/dailyDealService';
 
 // ==================== Types ====================
+
+export interface Category {
+  id: string;
+  name: string;
+  image: string;
+  active: boolean;
+  order: number;
+}
+
+export interface DailyDeal {
+  id: string;
+  productId: string;
+  active: boolean;
+  order: number;
+}
 
 export interface Brand {
   id: string;
@@ -111,6 +128,19 @@ interface AdminStore {
   updateOffer: (id: string, offer: Partial<Offer>) => Promise<void>;
   deleteOffer: (id: string) => Promise<void>;
 
+  // Categories
+  categories: Category[];
+  addCategory: (category: Omit<Category, 'id'>) => Promise<string>;
+  updateCategory: (id: string, category: Partial<Category>) => Promise<void>;
+  deleteCategory: (id: string) => Promise<void>;
+  reorderCategories: (categoryIds: string[]) => Promise<void>;
+
+  // Daily Deals
+  dailyDeals: DailyDeal[];
+  addDailyDeal: (deal: Omit<DailyDeal, 'id'>) => Promise<string>;
+  updateDailyDeal: (id: string, deal: Partial<DailyDeal>) => Promise<void>;
+  deleteDailyDeal: (id: string) => Promise<void>;
+
    // Site config
    siteName: string;
    setSiteName: (name: string) => void;
@@ -188,6 +218,14 @@ const defaultOffers: Offer[] = [
 ];
 
 const defaultBrands: Brand[] = [];
+
+const defaultCategories: Category[] = [
+  { id: 'cat-1', name: 'Mobiles', image: '/categories/mobiles.png', active: true, order: 0 },
+  { id: 'cat-2', name: 'Chargers', image: '/categories/chargers.png', active: true, order: 1 },
+  { id: 'cat-3', name: 'Earbuds', image: '/categories/earbuds.png', active: true, order: 2 },
+  { id: 'cat-4', name: 'Watches', image: '/categories/watches.png', active: true, order: 3 },
+  { id: 'cat-5', name: 'Tablets', image: '/categories/tablets.png', active: true, order: 4 },
+];
 
 // ==================== Store ====================
 
@@ -311,6 +349,65 @@ const useAdminStore = create<AdminStore>()(
         }));
       },
 
+      // Categories
+      categories: defaultCategories,
+      addCategory: async (category) => {
+        const id = await categoryService.createCategory(category as any);
+        const newCategory = { ...category, id } as Category;
+        set((state) => ({ categories: [...state.categories, newCategory].sort((a, b) => a.order - b.order) }));
+        return id;
+      },
+      updateCategory: async (id, updates) => {
+        await categoryService.updateCategory(id, updates as any);
+        set((state) => ({
+          categories: state.categories.map((c) => (c.id === id ? { ...c, ...updates } : c)).sort((a, b) => a.order - b.order),
+        }));
+      },
+      deleteCategory: async (id) => {
+        await categoryService.deleteCategory(id);
+        set((state) => ({
+          categories: state.categories.filter((c) => c.id !== id),
+        }));
+      },
+      reorderCategories: async (categoryIds) => {
+        set((state) => {
+          const reordered = categoryIds
+            .map((id) => state.categories.find((c) => c.id === id))
+            .filter(Boolean)
+            .map((c, index) => ({ ...(c as Category), order: index }));
+
+          return {
+            categories: reordered,
+          };
+        });
+
+        const categoryUpdates = categoryIds.map((id, index) => 
+          categoryService.updateCategory(id, { order: index } as any)
+        );
+        await Promise.all(categoryUpdates);
+      },
+
+      // Daily Deals
+      dailyDeals: [],
+      addDailyDeal: async (deal) => {
+        const id = await dailyDealService.createDailyDeal(deal);
+        const newDeal = { ...deal, id } as DailyDeal;
+        set((state) => ({ dailyDeals: [...state.dailyDeals, newDeal] }));
+        return id;
+      },
+      updateDailyDeal: async (id, updates) => {
+        await dailyDealService.updateDailyDeal(id, updates);
+        set((state) => ({
+          dailyDeals: state.dailyDeals.map((d) => (d.id === id ? { ...d, ...updates } : d)),
+        }));
+      },
+      deleteDailyDeal: async (id) => {
+        await dailyDealService.deleteDailyDeal(id);
+        set((state) => ({
+          dailyDeals: state.dailyDeals.filter((d) => d.id !== id),
+        }));
+      },
+
        // Site config
        siteName: "श्री श्याम Mobiles",
        setSiteName: (name) => set({ siteName: name }),
@@ -350,12 +447,14 @@ const useAdminStore = create<AdminStore>()(
          
          set({ isLoading: true });
          try {
-           const [products, brands, banners, offers, orders] = await Promise.all([
+           const [products, brands, banners, offers, orders, categories, dailyDeals] = await Promise.all([
              productService.getProducts().catch(err => { console.error('Products fetch failed:', err); return []; }),
              brandService.getBrands().catch(err => { console.error('Brands fetch failed:', err); return []; }),
              bannerService.getBanners().catch(err => { console.error('Banners fetch failed:', err); return []; }),
              offerService.getOffers().catch(err => { console.error('Offers fetch failed:', err); return []; }),
              orderService.getOrders().catch(err => { console.error('Orders fetch failed:', err); return []; }),
+             categoryService.getCategories().catch(err => { console.error('Categories fetch failed:', err); return []; }),
+              dailyDealService.getDailyDeals().catch(err => { console.error('Daily Deals fetch failed:', err); return []; }),
            ]);
            
            set({ 
@@ -364,6 +463,8 @@ const useAdminStore = create<AdminStore>()(
              banners: banners || [], 
              offers: offers || [], 
              orders: orders || [],
+             categories: categories || [],
+              dailyDeals: dailyDeals || [],
              isLoading: false 
            });
          } catch (error) {
@@ -419,11 +520,16 @@ const useAdminStore = create<AdminStore>()(
           ? persisted.brands
           : currentState.brands;
 
+        const persistedCategories = Array.isArray(persisted.categories)
+          ? persisted.categories
+          : currentState.categories;
+
         return {
           ...currentState,
           ...persisted,
           banners: persistedBanners,
           brands: persistedBrands,
+          categories: persistedCategories,
         };
       },
     }

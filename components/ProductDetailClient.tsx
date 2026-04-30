@@ -31,12 +31,19 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
   // Pagination for You May Also Like
   const [currentPage, setCurrentPage] = useState(1);
   const RELATED_PER_PAGE = 24;
+
+  const selectedVariant = product?.variants?.find(v => v.id === selectedVariantId) || (product?.variants && product.variants.length > 0 ? product.variants[0] : null);
+  const displayPrice = selectedVariant ? selectedVariant.price : (product?.price || 0);
+  const displayOriginalPrice = selectedVariant ? selectedVariant.originalPrice : product?.originalPrice;
+  const displayRam = selectedVariant ? selectedVariant.ram : product?.ram;
+  const displayStorage = selectedVariant ? selectedVariant.storage : product?.storage;
 
   useEffect(() => {
     setMounted(true);
@@ -69,8 +76,18 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     }).format(price);
   };
 
+  const productToAdd = { ...product };
+  if (selectedVariant) {
+    productToAdd.price = selectedVariant.price;
+    productToAdd.originalPrice = selectedVariant.originalPrice;
+    productToAdd.ram = selectedVariant.ram;
+    productToAdd.storage = selectedVariant.storage;
+    productToAdd.id = `${product.id}-${selectedVariant.id}`;
+    productToAdd.name = `${product.name} (${selectedVariant.ram}, ${selectedVariant.storage})`;
+  }
+
   const handleAddToCart = () => {
-    addItem(product);
+    addItem(productToAdd);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -124,18 +141,34 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     document.body.removeChild(textarea);
   };
 
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+  const discount = displayOriginalPrice
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
     : 0;
 
-  const savings = product.originalPrice ? product.originalPrice - product.price : 0;
+  const savings = displayOriginalPrice ? displayOriginalPrice - displayPrice : 0;
 
   const thumbnails = ('images' in product && Array.isArray(product.images) && (product.images as string[]).length > 0)
     ? product.images as string[]
-    : [product.image, `${product.image}?v=2`, `${product.image}?v=3`, `${product.image}?v=4`];
+    : [product.image];
 
-  const emiPerMonth = Math.round(product.price / 12);
-  const relatedProducts = products.filter(p => p.id !== product.id);
+  const emiPerMonth = Math.round(displayPrice / 12);
+  
+  // Refined related products logic: Same brand first, then similar price
+  const relatedProducts = [...products]
+    .filter(p => p.id !== product.id)
+    .sort((a, b) => {
+      // 1. Same brand is higher priority
+      const aSameBrand = a.brand === product.brand;
+      const bSameBrand = b.brand === product.brand;
+      if (aSameBrand && !bSameBrand) return -1;
+      if (!aSameBrand && bSameBrand) return 1;
+
+      // 2. Similar price range
+      const aPriceDiff = Math.abs(a.price - product.price);
+      const bPriceDiff = Math.abs(b.price - product.price);
+      return aPriceDiff - bPriceDiff;
+    });
+
   const totalPages = Math.ceil(relatedProducts.length / RELATED_PER_PAGE);
   const currentRelated = relatedProducts.slice(
     (currentPage - 1) * RELATED_PER_PAGE,
@@ -151,8 +184,8 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   ].filter((o) => o.active);
 
   const specs = [
-    { label: 'RAM', value: product.ram },
-    { label: 'Internal Storage', value: product.storage },
+    { label: 'RAM', value: displayRam },
+    { label: 'Internal Storage', value: displayStorage },
     { label: 'Processor', value: product.processor },
     { label: 'Display', value: product.display },
     { label: 'Rear Camera', value: product.camera },
@@ -168,19 +201,21 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
           <div className="w-full lg:w-[45%]">
             <div className="lg:sticky lg:top-20">
               <div className="flex flex-row gap-3">
-                <div className="hidden sm:flex flex-col gap-2 w-16 flex-shrink-0">
-                  {thumbnails.map((thumb, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedThumb(i)}
-                      className={`w-16 h-16 rounded-lg border-2 overflow-hidden flex items-center justify-center bg-gray-50 transition-all ${
-                        selectedThumb === i ? 'border-blue-600 shadow-md' : 'border-gray-200 hover:border-gray-400'
-                      }`}
-                    >
-                      <Image src={thumb} alt={`${product.name} view ${i + 1}`} width={56} height={56} className="object-contain p-1" referrerPolicy="no-referrer" />
-                    </button>
-                  ))}
-                </div>
+                {thumbnails.length > 1 && (
+                  <div className="hidden sm:flex flex-col gap-2 w-16 flex-shrink-0">
+                    {thumbnails.map((thumb, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setSelectedThumb(i)}
+                        className={`w-16 h-16 rounded-lg border-2 overflow-hidden flex items-center justify-center bg-gray-50 transition-all ${
+                          selectedThumb === i ? 'border-blue-600 shadow-md' : 'border-gray-200 hover:border-gray-400'
+                        }`}
+                      >
+                        <Image src={thumb || '/placeholder.png'} alt={`${product.name} view ${i + 1}`} width={56} height={56} className="object-contain p-1" referrerPolicy="no-referrer" />
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="flex-1 relative">
                   <div className="relative aspect-square bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden">
                     {discount > 0 && <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded z-10">{discount}% OFF</div>}
@@ -192,21 +227,23 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                         <Share2 className="h-4 w-4 text-gray-500" />
                       </button>
                     </div>
-                    <Image src={thumbnails[selectedThumb]} alt={product.name} fill className="object-contain p-6 sm:p-10" priority sizes="(max-width: 768px) 100vw, 45vw" referrerPolicy="no-referrer" />
+                    <Image src={thumbnails[selectedThumb] || '/placeholder.png'} alt={product.name || 'Product'} fill className="object-contain p-6 sm:p-10" priority sizes="(max-width: 768px) 100vw, 45vw" referrerPolicy="no-referrer" />
                   </div>
-                  <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-2">
-                    {thumbnails.map((thumb, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setSelectedThumb(i)}
-                        className={`w-14 h-14 rounded-lg border-2 overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-50 ${
-                          selectedThumb === i ? 'border-blue-600' : 'border-gray-200'
-                        }`}
-                      >
-                        <Image src={thumb} alt="" width={48} height={48} className="object-contain p-1" referrerPolicy="no-referrer" />
-                      </button>
-                    ))}
-                  </div>
+                  {thumbnails.length > 1 && (
+                    <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-2">
+                      {thumbnails.map((thumb, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setSelectedThumb(i)}
+                          className={`w-14 h-14 rounded-lg border-2 overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-50 ${
+                            selectedThumb === i ? 'border-blue-600' : 'border-gray-200'
+                          }`}
+                        >
+                          <Image src={thumb || '/placeholder.png'} alt="" width={48} height={48} className="object-contain p-1" referrerPolicy="no-referrer" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -215,14 +252,14 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
           {/* RIGHT: Product Info */}
           <div className="w-full lg:w-[55%]">
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-2">
-              {product.name} ({product.ram} RAM, {product.storage})
+              {product.name} { (displayRam || displayStorage) && `(${[displayRam, displayStorage].filter(Boolean).join(' + ')})` }
             </h1>
             <div className="mb-5">
               <div className="flex items-baseline gap-3 flex-wrap">
-                <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">{formatPrice(product.price)}</span>
-                {product.originalPrice && (
+                <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">{formatPrice(displayPrice)}</span>
+                {displayOriginalPrice && (
                   <>
-                    <span className="text-sm text-gray-400 line-through">MRP: {formatPrice(product.originalPrice)}</span>
+                    <span className="text-sm text-gray-400 line-through">MRP: {formatPrice(displayOriginalPrice)}</span>
                     <span className="text-sm font-semibold text-green-600">(Save {formatPrice(savings)}, {discount}% off)</span>
                   </>
                 )}
@@ -237,26 +274,47 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                 <Link href="#" className="text-blue-600 text-xs hover:underline">EMI Options</Link>
               </div>
             </div>
-
-            {/* RAM Selector */}
-            <div className="mb-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-2">RAM</h3>
-              <div className="flex flex-wrap gap-2">
-                <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
-                  {product.ram}
-                </button>
+ 
+            {/* Variants Selector */}
+            {product.variants && product.variants.length > 0 ? (
+              <div className="mb-5">
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">Select Variant</h3>
+                <div className="flex flex-wrap gap-2">
+                  {product.variants.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => setSelectedVariantId(v.id)}
+                      className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
+                        selectedVariant?.id === v.id
+                          ? 'border-gray-900 bg-gray-900 text-white'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400 bg-white'
+                      }`}
+                    >
+                      {[v.ram, v.storage].filter(Boolean).join(' / ')}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            {/* Storage Selector */}
-            <div className="mb-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-2">Internal Storage</h3>
-              <div className="flex flex-wrap gap-2">
-                <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
-                  {product.storage}
-                </button>
+            ) : (
+              <div className="flex flex-row gap-4 mb-5">
+                {displayRam && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-2">RAM</h3>
+                    <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
+                      {displayRam}
+                    </button>
+                  </div>
+                )}
+                {displayStorage && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-2">Internal Storage</h3>
+                    <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
+                      {displayStorage}
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
+            )}
 
             {/* Color Selector */}
             {colors.length > 0 && (

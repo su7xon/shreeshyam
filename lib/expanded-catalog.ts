@@ -52,7 +52,7 @@ export const expandedProducts: Product[] = [
     "brand": "SAMSUNG",
     "storage": "",
     "price": 22130.99,
-    "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600",
+    "image": "/products/samsung-a17-5g.png",
     "processor": "High Performance Processor",
     "color": "",
     "description": "SAMSUNG SM-A176B/DS GALAXY A17 5G - Premium mobile device with great features.",
@@ -406,7 +406,7 @@ export const expandedProducts: Product[] = [
     "battery": "5000mAh Battery",
     "camera": "Advanced Camera System",
     "processor": "High Performance Processor",
-    "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600",
+    "image": "/products/samsung-a17-5g.png",
     "storage": "128GB",
     "brand": "SAMSUNG",
     "price": 19119.67

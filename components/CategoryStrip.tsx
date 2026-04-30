@@ -1,33 +1,44 @@
 'use client';
 
 import Link from 'next/link';
-import { Smartphone, Headphones, Zap, Watch, Tablet } from 'lucide-react';
+import Image from 'next/image';
 
-const categories = [
-  { name: 'Mobiles', href: '/products', icon: Smartphone },
-  { name: 'Chargers', href: '/accessories#power-adapters', icon: Zap },
-  { name: 'Earbuds', href: '/accessories#earbuds', icon: Headphones },
-  { name: 'Watches', href: '/accessories#smartwatch', icon: Watch },
-  { name: 'Tablets', href: '/accessories#tablet', icon: Tablet },
+import useAdminStore from '@/lib/admin-store';
+
+const defaultCategories = [
+  { id: 'cat-1', name: 'Mobiles', image: '/categories/mobiles.png', active: true, order: 0 },
+  { id: 'cat-2', name: 'Chargers', image: '/categories/chargers.png', active: true, order: 1 },
+  { id: 'cat-3', name: 'Earbuds', image: '/categories/earbuds.png', active: true, order: 2 },
+  { id: 'cat-4', name: 'Watches', image: '/categories/watches.png', active: true, order: 3 },
+  { id: 'cat-5', name: 'Tablets', image: '/categories/tablets.png', active: true, order: 4 },
 ];
 
 export default function CategoryStrip() {
+  const { categories } = useAdminStore();
+  const storeCategories = categories.filter(c => c.active).sort((a, b) => a.order - b.order);
+  const activeCategories = storeCategories.length > 0 ? storeCategories : defaultCategories;
+
   return (
-    <section className="bg-white py-5 sm:py-8 border-b border-gray-100">
+    <section className="bg-white py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between sm:justify-center gap-3 sm:gap-12 overflow-x-auto no-scrollbar w-full">
-          {categories.map((cat) => {
-            const Icon = cat.icon;
+        <div className="flex items-center justify-between sm:justify-center gap-4 sm:gap-14 overflow-x-auto no-scrollbar w-full pb-2">
+          {activeCategories.map((cat) => {
             return (
               <Link
-                key={cat.name}
-                href={cat.href}
-                className="group flex flex-col items-center gap-2 flex-shrink-0 min-w-[64px] sm:min-w-[80px]"
+                key={cat.id}
+                href={`/products?category=${encodeURIComponent(cat.name)}`}
+                className="group flex flex-col items-center gap-3 flex-shrink-0 min-w-[70px] sm:min-w-[100px]"
               >
-                <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gray-50 border border-gray-150 flex items-center justify-center transition-all duration-200 group-hover:bg-gray-100 group-hover:border-gray-300">
-                  <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-gray-700 group-hover:text-gray-900 transition-colors duration-200" strokeWidth={1.5} />
+                <div className="relative h-16 w-16 sm:h-24 sm:w-24 rounded-full bg-[#f3f6ff] border border-blue-50/50 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md">
+                  <div className="relative w-[80%] h-[80%] transition-transform duration-300 group-hover:scale-110">
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </div>
-                <span className="text-[11px] sm:text-xs font-medium text-gray-600 group-hover:text-gray-900 transition-colors text-center whitespace-nowrap">
+                <span className="text-[12px] sm:text-[15px] font-semibold text-gray-800 group-hover:text-blue-600 transition-colors text-center whitespace-nowrap">
                   {cat.name}
                 </span>
               </Link>
