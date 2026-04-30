@@ -1,7 +1,7 @@
 // lib/firebase.ts
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getAnalytics } from 'firebase/analytics';
 
@@ -27,7 +27,9 @@ let analytics: any;
 if (isConfigValid) {
   try {
     app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
+    db = initializeFirestore(app, {
+      experimentalForceLongPolling: true,
+    });
     auth = getAuth(app);
     storage = getStorage(app);
     

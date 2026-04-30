@@ -5,15 +5,16 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import useAdminStore from '@/lib/admin-store';
-import { brands, ramOptions, storageOptions } from '@/lib/data';
+import { brands, ramOptions, storageOptions, products as defaultProducts } from '@/lib/data';
 import { Save, X, Plus, ArrowLeft, Trash2, Eye, Loader2, Upload } from 'lucide-react';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 
 export default function AdminProductFormClient({ id }: { id: string }) {
   const router = useRouter();
   const admin = useAdminStore();
-  const existingProduct = id !== 'new' ? admin.getProduct(id) : undefined;
-  const isEditing = !!existingProduct;
+  
+  const isEditing = id !== 'new';
+  const existingProduct = isEditing ? (admin.getProduct(id) || defaultProducts.find(p => p.id === id)) : undefined;
 
   const adminBrandNames = admin.brands.filter(b => b.active).map(b => b.name);
   const availableBrands = [...new Set([...adminBrandNames, ...(existingProduct ? [existingProduct.brand] : [])])];
@@ -47,10 +48,10 @@ export default function AdminProductFormClient({ id }: { id: string }) {
 
   // Sync form when existingProduct loads (if it was undefined initially)
   useEffect(() => {
-    if (id !== 'new' && !existingProduct && !admin.isLoading) {
+    if (isEditing && !existingProduct && !admin.isLoading) {
       // Small delay to ensure store is ready if navigated directly
       const timer = setTimeout(() => {
-        const p = admin.getProduct(id);
+        const p = admin.getProduct(id) || defaultProducts.find(prod => prod.id === id);
         if (p) {
           setForm({
             id: p.id,
@@ -169,47 +170,47 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/admin/products" className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <ArrowLeft className="h-5 w-5 text-gray-500" />
+          <Link href="/admin/products" className="p-2 rounded-lg hover:bg-[#1f2937] transition-colors">
+            <ArrowLeft className="h-5 w-5 text-gray-400" />
           </Link>
           <div>
-            <h2 className="text-2xl font-bold text-[#1a1a2e]">
+            <h2 className="text-2xl font-bold text-white">
               {isEditing ? 'Edit Product' : 'Add New Phone'}
             </h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               {isEditing ? `Editing: ${form.name}` : 'Create a new product listing'}
             </p>
           </div>
         </div>
         {saved && (
-          <span className="text-emerald-600 font-medium text-sm bg-emerald-50 px-4 py-2 rounded-lg">
+          <span className="text-emerald-400 font-medium text-sm bg-emerald-900/30 border border-emerald-800 px-4 py-2 rounded-lg">
             ✓ Saved successfully!
           </span>
         )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Basic Information</h3>
+        <div className="admin-card p-6">
+          <h3 className="text-lg font-bold text-white mb-5">Basic Information</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Product Name *</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => updateForm('name', e.target.value)}
                 placeholder="e.g., iPhone 15 Pro Max"
-                className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.name ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`}
+                className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.name ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`}
               />
               {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Brand *</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Brand *</label>
               <select
                 value={form.brand}
                 onChange={(e) => updateForm('brand', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
+                className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
               >
                 {availableBrands.map((brand) => (
                   <option key={brand} value={brand}>{brand}</option>
@@ -218,56 +219,56 @@ export default function AdminProductFormClient({ id }: { id: string }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Featured</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Featured</label>
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={form.featured}
                   onChange={(e) => updateForm('featured', e.target.checked)}
-                  className="h-5 w-5 rounded text-[#b78b57] focus:ring-[#b78b57]"
+                  className="h-5 w-5 rounded border-[#374151] bg-[#1f2937] text-[#b78b57] focus:ring-[#b78b57]"
                 />
-                <span className="text-sm text-gray-600">Show on homepage featured section</span>
+                <span className="text-sm text-gray-400">Show on homepage featured section</span>
               </label>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Pricing</h3>
+        <div className="admin-card p-6">
+          <h3 className="text-lg font-bold text-white mb-5">Pricing</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Selling Price (₹) *</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Selling Price (₹) *</label>
               <input
                 type="number"
                 value={form.price || ''}
                 onChange={(e) => updateForm('price', Number(e.target.value))}
                 placeholder="e.g., 79900"
-                className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.price ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`}
+                className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.price ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`}
               />
               {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Original Price (₹)</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Original Price (₹)</label>
               <input
                 type="number"
                 value={form.originalPrice || ''}
                 onChange={(e) => updateForm('originalPrice', e.target.value ? Number(e.target.value) : undefined)}
                 placeholder="e.g., 89900 (optional)"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
+                className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
               />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Product Images</h3>
+        <div className="admin-card p-6">
+          <h3 className="text-lg font-bold text-white mb-5">Product Images</h3>
           <div className="flex flex-wrap gap-2 mb-4">
             <input
               type="text"
               value={newImage}
               onChange={(e) => setNewImage(e.target.value)}
               placeholder="Paste image URL or upload..."
-              className="flex-1 min-w-[200px] px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-gray-50"
+              className="flex-1 min-w-[200px] px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
             />
             <div className="relative">
               <input 
@@ -301,7 +302,7 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               <button 
                 type="button" 
                 disabled={isUploading}
-                className="px-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center justify-center h-full whitespace-nowrap"
+                className="px-4 py-2.5 bg-[#1f2937] border border-[#374151] text-gray-300 font-medium rounded-xl hover:bg-[#374151] disabled:opacity-50 transition-colors flex items-center justify-center h-full whitespace-nowrap"
               >
                 {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-4 w-4 mr-1.5" /> Upload</>}
               </button>
@@ -319,8 +320,8 @@ export default function AdminProductFormClient({ id }: { id: string }) {
           {form.images.length > 0 && (
             <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
               {form.images.map((img: string, index: number) => (
-                <div key={index} className={`relative group rounded-lg overflow-hidden border-2 ${form.image === img ? 'border-[#b78b57]' : 'border-gray-200'}`}>
-                  <div className="aspect-square bg-gray-100 relative">
+                <div key={index} className={`relative group rounded-lg overflow-hidden border-2 ${form.image === img ? 'border-[#b78b57]' : 'border-[#374151]'}`}>
+                  <div className="aspect-square bg-[#1f2937] relative">
                     <img src={img} alt="" className="h-full w-full object-contain p-2" referrerPolicy="no-referrer" />
                     {form.image === img && <div className="absolute top-1 left-1 bg-[#b78b57] text-white text-[9px] font-bold px-2 py-0.5 rounded-full">Primary</div>}
                   </div>
@@ -337,45 +338,45 @@ export default function AdminProductFormClient({ id }: { id: string }) {
           {errors.image && <p className="text-red-500 text-xs mt-2">{errors.image}</p>}
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Specifications</h3>
+        <div className="admin-card p-6">
+          <h3 className="text-lg font-bold text-white mb-5">Specifications</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Processor *</label>
-              <input type="text" value={form.processor} onChange={(e) => updateForm('processor', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.processor ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`} />
+              <label className="block text-sm font-medium text-gray-300 mb-2">Processor *</label>
+              <input type="text" value={form.processor} onChange={(e) => updateForm('processor', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.processor ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`} />
               {errors.processor && <p className="text-red-500 text-xs mt-1">{errors.processor}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Battery *</label>
-              <input type="text" value={form.battery} onChange={(e) => updateForm('battery', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.battery ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`} />
+              <label className="block text-sm font-medium text-gray-300 mb-2">Battery *</label>
+              <input type="text" value={form.battery} onChange={(e) => updateForm('battery', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.battery ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`} />
               {errors.battery && <p className="text-red-500 text-xs mt-1">{errors.battery}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Camera *</label>
-              <input type="text" value={form.camera} onChange={(e) => updateForm('camera', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.camera ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`} />
+              <label className="block text-sm font-medium text-gray-300 mb-2">Camera *</label>
+              <input type="text" value={form.camera} onChange={(e) => updateForm('camera', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.camera ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`} />
               {errors.camera && <p className="text-red-500 text-xs mt-1">{errors.camera}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Display *</label>
-              <input type="text" value={form.display} onChange={(e) => updateForm('display', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.display ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`} />
+              <label className="block text-sm font-medium text-gray-300 mb-2">Display *</label>
+              <input type="text" value={form.display} onChange={(e) => updateForm('display', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.display ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`} />
               {errors.display && <p className="text-red-500 text-xs mt-1">{errors.display}</p>}
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h3 className="text-lg font-bold text-[#1a1a2e] mb-5">Description</h3>
+        <div className="admin-card p-6">
+          <h3 className="text-lg font-bold text-white mb-5">Description</h3>
           <textarea
             value={form.description}
             onChange={(e) => updateForm('description', e.target.value)}
             rows={4}
-            className={`w-full px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 resize-none ${errors.description ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'}`}
+            className={`w-full px-4 py-3 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 resize-none ${errors.description ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
 
         <div className="flex items-center justify-end gap-4">
-          <Link href="/admin/products" className="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors">Cancel</Link>
+          <Link href="/admin/products" className="px-6 py-2.5 border border-[#374151] text-gray-300 font-medium rounded-xl hover:bg-[#1f2937] transition-colors">Cancel</Link>
           <button
             type="submit"
             disabled={isUploading || isSaving}
