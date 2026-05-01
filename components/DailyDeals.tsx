@@ -50,8 +50,7 @@ export default function DailyDeals() {
       const product = products.find(p => p.id === deal.productId);
       return product ? { ...product, dealId: deal.id } : null;
     })
-    .filter(Boolean)
-    .slice(0, 3); // User requested 3 products
+    .filter(Boolean); // Removed limit to allow unlimited horizontal scrolling
 
   if (dealProducts.length === 0) return null;
 

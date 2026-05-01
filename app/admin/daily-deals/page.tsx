@@ -41,9 +41,9 @@ export default function AdminDailyDealsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-white">Daily Deals</h2>
-          <p className="text-sm text-[#6b7280] mt-1">Select 3 products to feature in the "Deals of the Day" section</p>
+          <p className="text-sm text-[#6b7280] mt-1">Select products to feature in the "Deals of the Day" section</p>
         </div>
-        {!showForm && dailyDeals.length < 3 && (
+        {!showForm && (
           <button onClick={() => setShowForm(true)} className="admin-btn-primary">
             <Plus className="h-4 w-4" /> Add Deal
           </button>
@@ -163,7 +163,7 @@ export default function AdminDailyDealsPage() {
             <Zap className="h-8 w-8 text-gray-600" />
           </div>
           <h3 className="text-lg font-semibold text-white">No active deals</h3>
-          <p className="text-sm text-gray-500 max-w-sm mx-auto mt-2">Select up to 3 products to showcase them in the daily deals section on your homepage.</p>
+          <p className="text-sm text-gray-500 max-w-sm mx-auto mt-2">Select products to showcase them in the daily deals section on your homepage.</p>
           <button 
             onClick={() => setShowForm(true)}
             className="mt-6 admin-btn-primary mx-auto"
