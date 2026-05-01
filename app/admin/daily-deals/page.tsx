@@ -110,46 +110,53 @@ export default function AdminDailyDealsPage() {
           if (!product) return null;
 
           return (
-            <div key={deal.id} className={`admin-card p-5 relative overflow-hidden group ${!deal.active ? 'opacity-50' : ''}`}>
-              <div className="absolute top-0 right-0 p-3 flex items-center gap-1">
-                <button 
-                  onClick={() => toggleActive(deal.id)}
-                  className={`p-2 rounded-lg transition-colors ${deal.active ? 'bg-green-500/10 text-green-500' : 'bg-gray-500/10 text-gray-400'}`}
-                  title={deal.active ? 'Deactivate' : 'Activate'}
-                >
-                  {deal.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                </button>
-                <button 
-                  onClick={() => admin.deleteDailyDeal(deal.id)}
-                  className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
-                  title="Remove Deal"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-
-              <div className="flex flex-col items-center text-center gap-4">
-                <div className="relative h-32 w-32 bg-white rounded-2xl overflow-hidden shadow-inner">
-                  <Image src={product.image} alt={product.name} fill className="object-contain p-4" />
-                </div>
-                
-                <div className="space-y-1">
-                  <h4 className="text-sm font-bold text-white line-clamp-1">{product.name}</h4>
-                  <p className="text-xs text-gray-500">{product.category}</p>
-                  <div className="flex items-center justify-center gap-2 mt-2">
-                    <span className="text-sm font-bold text-blue-500">₹{product.price.toLocaleString()}</span>
-                    <span className="text-[10px] text-gray-600 line-through">₹{(product.price * 1.2).toLocaleString()}</span>
-                  </div>
-                </div>
-
-                <div className="w-full pt-4 border-t border-white/5 flex items-center justify-between">
+            <div key={deal.id} className={`admin-card flex flex-col relative overflow-hidden group ${!deal.active ? 'opacity-50' : ''}`}>
+              {/* Card Header with Actions */}
+              <div className="flex items-start justify-between p-4 pb-0">
+                <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider ${deal.active ? 'bg-green-500/20 text-green-500' : 'bg-gray-500/20 text-gray-400'}`}>
                     {deal.active ? 'Active' : 'Inactive'}
                   </span>
-                  <div className="flex items-center gap-1 text-[10px] text-yellow-500/70 font-bold uppercase tracking-widest">
-                    <Zap className="h-3 w-3 fill-current" />
-                    Deal
+                </div>
+                <div className="flex items-center gap-1 z-10">
+                  <button 
+                    onClick={() => toggleActive(deal.id)}
+                    className={`p-2 rounded-lg transition-colors ${deal.active ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'bg-gray-500/10 text-gray-400 hover:bg-gray-500/20'}`}
+                    title={deal.active ? 'Deactivate' : 'Activate'}
+                  >
+                    {deal.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                  </button>
+                  <button 
+                    onClick={() => admin.deleteDailyDeal(deal.id)}
+                    className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                    title="Remove Deal"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-5 flex flex-col items-center text-center gap-4 flex-1">
+                <div className="relative h-32 w-32 bg-white rounded-2xl overflow-hidden shadow-inner mt-2">
+                  <Image src={product.image} alt={product.name} fill className="object-contain p-4" />
+                </div>
+                
+                <div className="space-y-1 w-full">
+                  <h4 className="text-sm font-bold text-white line-clamp-2 min-h-[40px]">{product.name}</h4>
+                  <p className="text-xs text-gray-500 truncate">{product.category}</p>
+                  <div className="flex items-center justify-center gap-2 mt-3">
+                    <span className="text-[15px] font-bold text-blue-500">₹{product.price.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600 line-through">₹{(product.price * 1.2).toLocaleString()}</span>
                   </div>
+                </div>
+              </div>
+
+              {/* Card Footer */}
+              <div className="w-full px-5 py-3 border-t border-white/5 bg-white/[0.02] flex items-center justify-center">
+                <div className="flex items-center gap-1.5 text-[11px] text-yellow-500/80 font-bold uppercase tracking-widest">
+                  <Zap className="h-3.5 w-3.5 fill-current" />
+                  Featured Deal
                 </div>
               </div>
             </div>
