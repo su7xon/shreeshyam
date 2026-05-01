@@ -123,6 +123,7 @@ export default function SearchAutocomplete({
           className="flex-1 min-w-0 px-3 sm:px-4 text-sm focus:outline-none placeholder-gray-400"
           value={value}
           autoFocus={autoFocus}
+          suppressHydrationWarning
           onChange={(e) => {
             const nextValue = e.target.value;
             onChange(nextValue);
