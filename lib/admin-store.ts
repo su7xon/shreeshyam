@@ -531,6 +531,7 @@ const useAdminStore = create<AdminStore>()(
           banners: persistedBanners,
           brands: persistedBrands,
           categories: persistedCategories,
+          isLoading: false, // Force reset loading state to prevent deadlocks
         };
       },
     }
