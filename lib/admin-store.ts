@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from './data';
+import { expandedProducts } from './expanded-catalog';
 import * as productService from './services/productService';
 import * as brandService from './services/brandService';
 import * as bannerService from './services/bannerService';
@@ -166,7 +167,7 @@ interface AdminStore {
 
 // ==================== Default Data ====================
 
-const defaultProducts: AdminProduct[] = [];
+const defaultProducts: AdminProduct[] = expandedProducts as AdminProduct[];
 
 const defaultBanners: Banner[] = [
   {

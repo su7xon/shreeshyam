@@ -57,7 +57,7 @@ export default function NewsletterPopup() {
         ) : (
           <>
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Get 10% Off!</h3>
@@ -71,11 +71,11 @@ export default function NewsletterPopup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               />
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-opacity"
+                className="w-full bg-black text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-900 transition-colors"
               >
                 Subscribe & Get 10% Off
               </button>

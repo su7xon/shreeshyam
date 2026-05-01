@@ -5,10 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, Check, Zap, Heart, Share2, CreditCard, ChevronDown, ChevronUp } from 'lucide-react';
-import { products as defaultProducts } from '@/lib/data';
+import { expandedProducts } from '@/lib/expanded-catalog';
 import { useCartStore } from '@/lib/store';
 import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
 import useAdminStore from '@/lib/admin-store';
+import { useMemo } from 'react';
+import { deduplicateProducts } from '@/lib/utils';
 
 interface ProductDetailClientProps {
   id: string;
@@ -16,8 +18,13 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const admin = useAdminStore();
-  // Always fall back to defaultProducts — never show empty while Firebase loads
-  const products = admin.products.length > 0 ? admin.products : defaultProducts;
+  const products = useMemo(() => {
+    const combined = [...expandedProducts, ...admin.products];
+    // Deduplicate by ID
+    const unique = new Map();
+    combined.forEach(p => unique.set(p.id, p));
+    return Array.from(unique.values()) as any[];
+  }, [admin.products]);
   
   const directMatch = products.find((p) => p.id === id);
   const numericIndex = Number.parseInt(id, 10);
@@ -31,42 +38,207 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(admin.products.length === 0);
   
   // Pagination for You May Also Like
   const [currentPage, setCurrentPage] = useState(1);
   const RELATED_PER_PAGE = 24;
+  const getProductSpecs = (p: any) => {
+    if (!p) return { ram: '', storage: '' };
+    let ram = p.ram || '';
+    let storage = p.storage || '';
+    
+    // If we have both from the catalog, we're good
+    if (ram && storage) return { ram, storage };
 
-  const selectedVariant = product?.variants?.find(v => v.id === selectedVariantId) || (product?.variants && product.variants.length > 0 ? product.variants[0] : null);
-  const displayPrice = selectedVariant ? selectedVariant.price : (product?.price || 0);
-  const displayOriginalPrice = selectedVariant ? selectedVariant.originalPrice : product?.originalPrice;
-  const displayRam = selectedVariant ? selectedVariant.ram : product?.ram;
-  const displayStorage = selectedVariant ? selectedVariant.storage : product?.storage;
+    // Otherwise try to extract from name
+    const name = p.name || '';
+    
+    // Pattern: 8GB+128GB or 8/128 or 8+128 or 8GB/128
+    const combinedPattern = /(\d+)\s*(?:GB)?\s*[+/]\s*(?:GB)?\s*(\d+)\s*(?:GB)?/i;
+    const match = name.match(combinedPattern);
+    
+    if (match) {
+      const v1 = parseInt(match[1]);
+      const v2 = parseInt(match[2]);
+      // Heuristic: smaller is RAM, larger is Storage
+      if (v1 > v2 && v2 !== 0) {
+        if (!ram) ram = v2 + 'GB';
+        if (!storage) storage = v1 + 'GB';
+      } else {
+        if (!ram) ram = v1 + 'GB';
+        if (!storage) storage = v2 + 'GB';
+      }
+    } else {
+      // Individual matches
+      if (!ram) {
+        const ramMatch = name.match(/(\d+)\s*GB\s*RAM/i) || name.match(/(\d+)\s*GB(?!\s*(STORAGE|ROM))/i);
+        if (ramMatch) ram = ramMatch[1] + 'GB';
+      }
+      if (!storage) {
+        const storageMatch = name.match(/(\d+)\s*GB\s*(STORAGE|ROM)/i) || name.match(/(\d+)\s*GB/i);
+        // Avoid using same value for both if possible
+        if (storageMatch && storageMatch[1] + 'GB' !== ram) {
+          storage = storageMatch[1] + 'GB';
+        }
+      }
+    }
+    
+    return { ram, storage };
+  };
+
+  // Improved logic to find sibling variants (different RAM/Storage of same model)
+  const siblingVariants = useMemo(() => {
+    if (!product) return [];
+    
+    const brand = (product.brand || '').toUpperCase();
+    
+    // Helper to get significant model-related words from a name
+    const getModelWords = (name: string, brandName: string) => {
+      let n = name.toUpperCase();
+      // Remove brand
+      if (brandName) n = n.split(brandName.toUpperCase()).join(' ');
+      
+      // Remove specs (RAM, Storage, 5G, etc)
+      n = n.replace(/\d+\s*GB/gi, ' ');
+      n = n.replace(/\b[45]G\b/gi, ' ');
+      n = n.replace(/\d+\s*RAM/gi, ' ');
+      n = n.replace(/\d+\s*ROM/gi, ' ');
+      n = n.replace(/\d+\s*STORAGE/gi, ' ');
+      n = n.replace(/\d+\s*[\+\/]\s*\d+/g, ' ');
+      n = n.replace(/\(.*\)/g, ' '); // Remove parentheses content
+      
+      // Split into words and keep significant ones (length >= 2)
+      return n.replace(/[^A-Z0-9]/g, ' ')
+              .trim()
+              .split(/\s+/)
+              .filter(w => w.length >= 2);
+    };
+    
+    const currentWords = getModelWords(product.name, brand);
+    const currentFullName = product.name.toUpperCase();
+    
+    // Find siblings from the full catalog
+    const siblings = products.filter(p => {
+      // Must be same brand
+      if (!p.brand || p.brand.toUpperCase() !== brand) return false;
+      
+      const siblingWords = getModelWords(p.name, brand);
+      const siblingFullName = p.name.toUpperCase();
+      
+      // Match if they share ALL significant words of the current product
+      // This prevents "Narzo 90" matching "Narzo 90X" because 90X has "X" which 90 doesn't.
+      // But wait, it's safer to check if they share the same base model name.
+      
+      const intersection = currentWords.filter(w => siblingWords.includes(w));
+      const genericWords = ['DUAL', 'SIM', 'NEW', 'SMART', 'MOBILE', 'PHONE', '5G', '4G', 'LTE', 'WIFI', 'EDITION'];
+      const significantWords = currentWords.filter(w => !genericWords.includes(w));
+      
+      // If we have no significant words (unlikely), fallback to brand match (too broad, so we skip)
+      if (significantWords.length === 0) return false;
+
+      // Must contain ALL significant words of the source product
+      const matchesAll = significantWords.every(w => siblingWords.includes(w));
+      
+      // Also must NOT contain extra significant words that the source doesn't have
+      // e.g. "Narzo 90" should not match "Narzo 90X"
+      const siblingSignificantWords = siblingWords.filter(w => !genericWords.includes(w));
+      const noExtraWords = siblingSignificantWords.every(w => significantWords.includes(w));
+
+      return matchesAll && noExtraWords;
+    });
+
+    // Ensure current product is always in the list
+    if (!siblings.find(s => s.id === product.id)) {
+      siblings.push(product);
+    }
+
+    // Process all siblings to ensure they have RAM/Storage fields filled
+    const processedSiblings = siblings.map(s => {
+      const { ram, storage } = getProductSpecs(s);
+      return { ...s, ram, storage };
+    });
+
+    // Sort by RAM then Storage
+    const sorted = processedSiblings.sort((a, b) => {
+      const ramA = parseInt(a.ram) || 0;
+      const ramB = parseInt(b.ram) || 0;
+      if (ramA !== ramB) return ramA - ramB;
+      const storageA = parseInt(a.storage) || 0;
+      const storageB = parseInt(b.storage) || 0;
+      return storageA - storageB;
+    });
+
+    // Deduplicate by (RAM, Storage) pair to avoid showing 5 buttons for 5 colors of the same spec
+    const uniquePairs = new Map();
+    sorted.forEach(s => {
+      const key = `${s.ram}-${s.storage}`.trim();
+      if (!uniquePairs.has(key) || s.id === product.id) {
+        uniquePairs.set(key, s);
+      }
+    });
+
+    const result = Array.from(uniquePairs.values());
+    
+    // If only one variant total, and it's the current one, 
+    // and it has valid specs, we still show it to be clear
+    return result;
+  }, [product, products]);
+
+  // Helper to clean product name for display
+  const cleanProductName = (name: string) => {
+    let n = name;
+    // Remove category in brackets [MOBILE]
+    n = n.replace(/\[.*?\]/g, '');
+    // Remove color in parentheses (BLACK)
+    n = n.replace(/\(.*\)/g, '');
+    // Remove RAM+Storage patterns like 8GB+128GB, 8+128, 8GB/128 etc
+    n = n.replace(/\d+\s*(?:GB)?\s*[+/]\s*(?:GB)?\s*\d+\s*(?:GB)?/gi, '');
+    // Remove single RAM/ROM mentions
+    n = n.replace(/\d+\s*GB\s*(?:RAM|ROM|STORAGE)/gi, '');
+    n = n.replace(/\d+\s*GB/gi, '');
+    // Remove trailing symbols and extra whitespace
+    n = n.replace(/[+/]\s*$/g, '');
+    n = n.replace(/\s+/g, ' ');
+    // Remove redundant brand names
+    const words = n.trim().split(' ');
+    if (words.length > 1 && words[0].toUpperCase() === words[1].toUpperCase()) {
+      n = words.slice(1).join(' ');
+    }
+    return n.trim();
+  };
+
+  if (!product && !isLoading) {
+    notFound();
+    return null;
+  }
+
+  const { ram: displayRam, storage: displayStorage } = getProductSpecs(product);
+  const displayPrice = product?.price || 0;
+  const displayOriginalPrice = product?.originalPrice;
 
   useEffect(() => {
     setMounted(true);
-    // Give Firebase time to load products
-    const timer = setTimeout(() => {
+    // If products are already loaded, don't show skeleton again
+    if (admin.products.length > 0) {
       setIsLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
+    } else {
+      // Give Firebase time to load products on initial visit
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [admin.products.length]);
 
   // Only show skeleton on the very first render (SSR hydration)
   if (!mounted || isLoading) {
     return <ProductDetailSkeleton />;
   }
 
-  // Check if Firebase is still loading and we haven't found the product yet
-  if (!product && admin.isLoading) {
-    return <ProductDetailSkeleton />;
-  }
-
-  if (!product) {
-    notFound();
-  }
+  // Product is already checked above, but keep for type safety
+  if (!product) return null;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -77,14 +249,6 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   };
 
   const productToAdd = { ...product };
-  if (selectedVariant) {
-    productToAdd.price = selectedVariant.price;
-    productToAdd.originalPrice = selectedVariant.originalPrice;
-    productToAdd.ram = selectedVariant.ram;
-    productToAdd.storage = selectedVariant.storage;
-    productToAdd.id = `${product.id}-${selectedVariant.id}`;
-    productToAdd.name = `${product.name} (${selectedVariant.ram}, ${selectedVariant.storage})`;
-  }
 
   const handleAddToCart = () => {
     addItem(productToAdd);
@@ -218,7 +382,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                 )}
                 <div className="flex-1 relative">
                   <div className="relative aspect-square bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden">
-                    {discount > 0 && <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded z-10">{discount}% OFF</div>}
+                    {discount > 0 && <div className="absolute top-3 left-3 bg-[#ff8c00] text-black text-xs font-bold px-2 py-1 rounded z-10">{discount}% OFF</div>}
                     <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
                       <button className="bg-white border border-gray-200 rounded-full p-2 hover:bg-gray-50 shadow-sm transition-colors" aria-label="Wishlist">
                         <Heart className="h-4 w-4 text-gray-500" />
@@ -252,7 +416,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
           {/* RIGHT: Product Info */}
           <div className="w-full lg:w-[55%]">
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-2">
-              {product.name} { (displayRam || displayStorage) && `(${[displayRam, displayStorage].filter(Boolean).join(' + ')})` }
+              {cleanProductName(product.name)}
             </h1>
             <div className="mb-5">
               <div className="flex items-baseline gap-3 flex-wrap">
@@ -276,43 +440,38 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
             </div>
  
             {/* Variants Selector */}
-            {product.variants && product.variants.length > 0 ? (
-              <div className="mb-5">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">Select Variant</h3>
-                <div className="flex flex-wrap gap-2">
-                  {product.variants.map((v) => (
-                    <button
+            {siblingVariants.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+                  Select Variant <span className="text-xs font-normal text-gray-500">(RAM / Storage)</span>
+                </h3>
+                <div className="flex flex-wrap gap-2.5">
+                  {siblingVariants.map((v) => (
+                    <Link
                       key={v.id}
-                      onClick={() => setSelectedVariantId(v.id)}
-                      className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
-                        selectedVariant?.id === v.id
-                          ? 'border-gray-900 bg-gray-900 text-white'
-                          : 'border-gray-300 text-gray-700 hover:border-gray-400 bg-white'
+                      href={`/products/${v.id}`}
+                      scroll={false}
+                      className={`relative flex flex-col items-center justify-center py-1.5 px-3 rounded-lg border transition-all ${
+                        product.id === v.id
+                          ? 'border-black bg-black text-white shadow-sm'
+                          : 'border-gray-200 bg-white hover:border-gray-300'
                       }`}
                     >
-                      {[v.ram, v.storage].filter(Boolean).join(' / ')}
-                    </button>
+                      <span className="text-[13px] font-bold leading-tight">
+                        {[v.ram, v.storage]
+                          .filter(Boolean)
+                          .filter((val, i, arr) => arr.indexOf(val) === i)
+                          .join(' / ') || 'Standard'}
+                      </span>
+                      <span className={`text-[10px] mt-0.5 ${product.id === v.id ? 'text-gray-300' : 'text-gray-500'}`}>
+                        {formatPrice(v.price)}
+                      </span>
+                      {product.id === v.id && (
+                        <div className="absolute inset-0 border border-black rounded-lg pointer-events-none" />
+                      )}
+                    </Link>
                   ))}
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-row gap-4 mb-5">
-                {displayRam && (
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-900 mb-2">RAM</h3>
-                    <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
-                      {displayRam}
-                    </button>
-                  </div>
-                )}
-                {displayStorage && (
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-900 mb-2">Internal Storage</h3>
-                    <button className="px-4 py-2 rounded-lg border-2 border-gray-900 bg-gray-900 text-white text-sm font-medium">
-                      {displayStorage}
-                    </button>
-                  </div>
-                )}
               </div>
             )}
 
@@ -435,7 +594,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
                         <div className="relative aspect-square bg-gray-50 p-3">
                           {rpDiscount > 0 && (
-                            <div className="absolute top-2 left-2 bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded z-10">{rpDiscount}% off</div>
+                            <div className="absolute top-2 left-2 bg-[#ff8c00] text-black text-[10px] font-bold px-1.5 py-0.5 rounded z-10">{rpDiscount}% off</div>
                           )}
                           <Image src={rp.image || '/placeholder.png'} alt={rp.name} fill className="object-contain p-3" sizes="(max-width: 768px) 45vw, 22vw" referrerPolicy="no-referrer" />
                         </div>

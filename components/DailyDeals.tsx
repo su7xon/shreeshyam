@@ -71,10 +71,10 @@ export default function DailyDeals() {
               <div className="flex items-center gap-1 sm:gap-2">
                 {[time.h, time.m, time.s].map((val, i) => (
                   <div key={i} className="flex items-center gap-1 sm:gap-2">
-                    <div className="bg-blue-50 text-blue-700 font-bold px-1 sm:px-2 py-0.5 sm:py-1 rounded text-sm sm:text-lg min-w-[24px] sm:min-w-[32px] text-center">
+                    <div className="bg-gray-100 text-black font-bold px-1 sm:px-2 py-0.5 sm:py-1 rounded text-sm sm:text-lg min-w-[24px] sm:min-w-[32px] text-center border border-gray-200">
                       {val}
                     </div>
-                    {i < 2 && <span className="text-blue-700 font-bold text-xs sm:text-base">:</span>}
+                    {i < 2 && <span className="text-black font-bold text-xs sm:text-base">:</span>}
                   </div>
                 ))}
               </div>
@@ -100,7 +100,7 @@ export default function DailyDeals() {
               >
                 {/* Image Section */}
                 <div className="relative aspect-square bg-[#fafafa] flex items-center justify-center p-3 sm:p-4">
-                  <div className="absolute top-2.5 left-2.5 bg-green-600 text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm">
+                  <div className="absolute top-2.5 left-2.5 bg-[#ff8c00] text-black text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm uppercase tracking-wider">
                     {discount}% OFF
                   </div>
                   <Image
@@ -123,15 +123,15 @@ export default function DailyDeals() {
                   
                   <div className="flex items-end justify-between border-t border-[var(--color-border)] pt-3 mt-auto">
                     <div>
-                      <div className="font-extrabold text-base sm:text-lg text-[var(--color-text)] leading-none mb-1">
+                      <div className="font-extrabold text-base sm:text-lg text-black leading-none mb-1">
                         ₹{product.price.toLocaleString()}
                       </div>
-                      <div className="text-[11px] sm:text-xs text-[var(--color-text-muted)] line-through">
+                      <div className="text-[11px] sm:text-xs text-gray-400 line-through">
                         ₹{(product.price * 1.2).toLocaleString()}
                       </div>
                     </div>
                     
-                    <div className="bg-gray-100 text-black hover:bg-black hover:text-white h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-sm">
+                    <div className="bg-gray-100 text-black hover:bg-black hover:text-white h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm border border-gray-200">
                       <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                   </div>

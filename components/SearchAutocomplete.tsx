@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import useAdminStore from '@/lib/admin-store';
+import { deduplicateProducts } from '@/lib/utils';
 
 interface SearchResult {
   id: string;
@@ -33,8 +34,27 @@ export default function SearchAutocomplete({
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const admin = useAdminStore();
-  const storeProducts = (admin.products || []).length > 0 ? admin.products.filter(p => p.active !== false) : (admin.isLoading ? [] : defaultProducts);
+  const rawProducts = (admin.products || []).length > 0 ? admin.products.filter(p => p.active !== false) : (admin.isLoading ? [] : defaultProducts);
+  const storeProducts = useMemo(() => deduplicateProducts(rawProducts), [rawProducts]);
   const storeBrands = (admin.brands || []).length > 0 ? admin.brands.filter(b => b.active !== false).map(b => b.name) : (admin.isLoading ? [] : defaultBrands);
+  
+  // Combine static brands with brands actually present in products
+  const dynamicBrands = useMemo(() => {
+    const popularBrands = ['SAMSUNG', 'APPLE', 'VIVO', 'OPPO', 'REALME', 'ONEPLUS', 'XIAOMI', 'MOTOROLA', 'IQOO', 'POCO', 'NOTHING', 'GOOGLE'];
+    const brandsInProducts = Array.from(new Set(storeProducts.map(p => p.brand?.toUpperCase()).filter(Boolean)));
+    const allBrands = Array.from(new Set([...storeBrands.map(b => b.toUpperCase()), ...brandsInProducts]));
+    
+    return allBrands.sort((a, b) => {
+      const indexA = popularBrands.indexOf(a);
+      const indexB = popularBrands.indexOf(b);
+      
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      
+      return a.localeCompare(b);
+    });
+  }, [storeProducts, storeBrands]);
 
   const results = useMemo<SearchResult[]>(() => {
     if (!value.trim()) {
@@ -53,7 +73,7 @@ export default function SearchAutocomplete({
         price: p.price
       }));
 
-    const brandResults = storeBrands
+    const brandResults = dynamicBrands
       .filter(b => b.toLowerCase().includes(q))
       .slice(0, 2)
       .map(b => ({
@@ -122,7 +142,7 @@ export default function SearchAutocomplete({
         )}
         <button
           onClick={onSearch}
-          className="bg-[#d32f2f] hover:bg-[#b71c1c] w-10 sm:w-12 flex items-center justify-center transition-all text-white hover:scale-[1.02]"
+          className="bg-black hover:bg-gray-900 w-10 sm:w-12 flex items-center justify-center transition-all text-white hover:scale-[1.02]"
           aria-label="Search"
         >
           <Search className="h-5 w-5" />
@@ -154,7 +174,7 @@ export default function SearchAutocomplete({
                   <p className="font-medium text-gray-900 truncate">{result.name}</p>
                   <p className="text-sm text-gray-500">{result.brand}</p>
                   {result.price > 0 && (
-                    <p className="text-sm font-bold text-[#1f3a4f] mt-0.5">
+                    <p className="text-sm font-bold text-black mt-0.5">
                       {formatPrice(result.price)}
                     </p>
                   )}

@@ -6,8 +6,9 @@ import ProductCard from '@/components/ProductCard';
 import { products as defaultProducts, brands } from '@/lib/data';
 import useAdminStore from '@/lib/admin-store';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState, Suspense, useRef } from 'react';
+import { useEffect, useState, Suspense, useRef, useMemo } from 'react';
 import { CategorySkeleton, TestimonialSkeleton, BannerSkeleton, ProductSkeleton } from '@/components/SkeletonLoader';
+import { deduplicateProducts } from '@/lib/utils';
 import CategoryStrip from '@/components/CategoryStrip';
 import TrustBadges from '@/components/TrustBadges';
 import DailyDeals from '@/components/DailyDeals';
@@ -105,7 +106,8 @@ const resolveBannerHref = (link?: string) => {
 export default function Home() {
   const admin = useAdminStore();
   const isLoading = admin.isLoading;
-  const products = admin.products.length > 0 ? admin.products : defaultProducts;
+  const rawProducts = admin.products.length > 0 ? admin.products : defaultProducts;
+  const products = useMemo(() => deduplicateProducts(rawProducts), [rawProducts]);
   const activeBanners = admin.banners.filter((b) => b.active);
   const heroBanners = activeBanners
     .filter((b) => (b.placement || 'hero') === 'hero')
@@ -124,8 +126,11 @@ export default function Home() {
   const trendingProducts = featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5);
   const newArrivals = [...products].slice(-10).reverse();
   const activeBrands = admin.brands.filter(b => b.active);
-  const scrollingBrands = activeBrands.length > 0 ? [...activeBrands, ...activeBrands] : [];
-  const scrollingTestimonials = [...testimonials, ...testimonials];
+  // Repeat many times to ensure it fills any screen width and scrolls seamlessly
+  const scrollingBrands = activeBrands.length > 0 
+    ? [...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands] 
+    : [];
+  const scrollingTestimonials = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
   const [currentBanner, setCurrentBanner] = useState(0);
   
   // Refs for manual scroll control
@@ -141,6 +146,17 @@ export default function Home() {
       setCurrentBanner(0);
     }
   }, [currentBanner, heroBanners.length]);
+
+  // Auto-swipe logic
+  useEffect(() => {
+    if (heroBanners.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      nextBanner();
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [heroBanners.length, currentBanner]);
 
   const nextBanner = () => {
     if (heroBanners.length > 1) {
@@ -382,7 +398,7 @@ export default function Home() {
                   <div className="flex w-max animate-marquee gap-3 sm:gap-5">
                     {renderedBanners}
                     {renderedBanners}
-                    {/* Render a third time to ensure it bridges perfectly on very wide screens */}
+                    {renderedBanners}
                     {renderedBanners}
                   </div>
                 </div>

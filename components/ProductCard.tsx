@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
 import { useState } from 'react';
@@ -35,120 +35,63 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
     addItem(product);
   };
 
-  if (variant === 'editorial') {
-    return (
-      <Link href={`/products/${product.id}`} className="group block h-full reveal-fade-up">
-        <div className="rounded-2xl overflow-hidden transition-all duration-500 h-full flex flex-col bg-white border border-gray-100 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.08)]">
-          <div className="relative aspect-square p-4 sm:p-5 flex items-center justify-center overflow-hidden bg-[#fafafa]">
-            {discount > 0 && (
-              <div className="absolute top-3 left-3 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full z-10 shadow-sm tracking-wide">
-                {discount}% OFF
-              </div>
-            )}
-            {/* @ts-ignore */}
-            <Image
-              src={imgSrc}
-              alt={product.name}
-              fill
-              className="object-contain p-4 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
-              sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
-              onError={() => setImgSrc(fallbackImg)}
-              unoptimized
-            />
-          </div>
-
-          <div className="p-4 sm:p-5 flex flex-col flex-grow bg-white z-10 relative">
-            <div className="text-[10px] sm:text-xs text-black font-bold tracking-[0.18em] uppercase mb-1">
-              {product.brand}
-            </div>
-
-            <h3 className="text-base sm:text-[1.05rem] font-semibold text-[var(--color-text)] mb-3 line-clamp-2 leading-tight group-hover:text-[var(--color-primary)] transition-colors min-h-[2.8rem]">
-              {product.name}
-            </h3>
-
-            <div className="flex items-end justify-between border-t border-[var(--color-border)] pt-3 mt-auto">
-              <div>
-                <div className="font-extrabold text-base sm:text-lg text-[var(--color-text)] leading-none mb-1">
-                  {formatPrice(product.price)}
-                </div>
-                {product.originalPrice && (
-                  <div className="text-[11px] sm:text-xs text-[var(--color-text-muted)] line-through">
-                    {formatPrice(product.originalPrice)}
-                  </div>
-                )}
-              </div>
-
-              <button
-                onClick={handleAddToCart}
-                className="bg-gray-100 text-black hover:bg-black hover:text-white h-9 w-9 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-sm"
-                aria-label="Add to cart"
-                suppressHydrationWarning
-              >
-                <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </Link>
-    );
-  }
-
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
-      <div className="premium-surface rounded-2xl overflow-hidden transition-all duration-500 h-full flex flex-col relative hover:-translate-y-1 hover:shadow-[0_26px_38px_-28px_rgba(0,0,0,0.08)] bg-white border border-gray-100">
+      <div className="bg-white rounded-xl overflow-hidden transition-all duration-300 h-full flex flex-col relative border border-gray-100 hover:shadow-md">
+        
+        {/* Top Actions */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+          <button 
+            onClick={handleAddToCart}
+            className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-500 hover:text-black shadow-sm transition-colors"
+          >
+            <ShoppingBag className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="absolute top-3 right-3 z-10">
+          <button className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 shadow-sm transition-colors">
+            <Heart className="h-4 w-4" />
+          </button>
+        </div>
 
-        {/* Image */}
-        <div className="relative aspect-square p-5 sm:p-6 flex items-center justify-center overflow-hidden bg-[#fafafa]">
-          {discount > 0 && (
-            <div className="absolute top-3 left-3 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full z-10 shadow-sm tracking-wide">
-              {discount}% OFF
-            </div>
-          )}
+        {/* Image Section */}
+        <div className="relative aspect-[4/5] p-4 flex items-center justify-center overflow-hidden bg-white">
           {/* @ts-ignore */}
           <Image
             src={imgSrc}
             alt={product.name}
             fill
-            className="object-contain p-4 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
+            className="object-contain p-4 transition-transform duration-500"
             sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
             onError={() => setImgSrc(fallbackImg)}
             unoptimized
           />
+          
+          {/* Discount Badge */}
+          {discount > 0 && (
+            <div className="absolute bottom-2 left-2 bg-[#ff8c00] text-black text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+              {discount}% OFF
+            </div>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="p-4 sm:p-5 flex flex-col flex-grow z-10 bg-white">
-          {/* Brand */}
-          <div className="text-[10px] sm:text-xs text-[var(--color-primary)] font-bold tracking-[0.18em] uppercase mb-1">
-            {product.brand}
-          </div>
-
-          {/* Product Name */}
-          <h3 className="text-base sm:text-[1.05rem] font-semibold text-[var(--color-text)] mb-3 line-clamp-2 leading-tight group-hover:text-[var(--color-primary)] transition-colors min-h-[2.8rem]">
+        {/* Content Section */}
+        <div className="p-3 sm:p-4 flex flex-col flex-grow text-center bg-white border-t border-gray-50">
+          <h3 className="text-xs sm:text-[13px] font-medium text-gray-800 mb-2 line-clamp-2 leading-tight min-h-[2.5rem]">
             {product.name}
           </h3>
 
-          {/* Price & Action */}
-          <div className="flex items-end justify-between border-t border-[var(--color-border)] pt-3 mt-auto">
-            <div>
-              <div className="font-extrabold text-base sm:text-lg text-[var(--color-text)] leading-none mb-1">
-                {formatPrice(product.price)}
-              </div>
-              {product.originalPrice && (
-                <div className="text-[11px] sm:text-xs text-[var(--color-text-muted)] line-through">
+          <div className="mt-auto">
+            <div className="flex flex-col items-center gap-0.5">
+               {product.originalPrice && (
+                <span className="text-[10px] sm:text-[11px] text-gray-400 line-through">
                   {formatPrice(product.originalPrice)}
-                </div>
+                </span>
               )}
+              <span className="text-sm sm:text-[15px] font-bold text-black">
+                {formatPrice(product.price)}
+              </span>
             </div>
-
-            <button
-              onClick={handleAddToCart}
-              className="bg-gray-100 text-black hover:bg-black hover:text-white h-9 w-9 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-sm"
-              aria-label="Add to cart"
-              suppressHydrationWarning
-            >
-              <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
           </div>
         </div>
       </div>

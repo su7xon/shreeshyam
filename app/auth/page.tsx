@@ -68,178 +68,135 @@ function AuthContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Back Button */}
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
+    <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center px-4 py-12">
+      <div className="w-full max-w-lg">
+        {/* Page Title */}
+        <div className="text-center mb-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+            Login / Register
+          </h1>
+        </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
-            </h1>
-            <p className="text-gray-600">
-              {isLogin 
-                ? 'Sign in to access your account' 
-                : 'Sign up to get started'}
-            </p>
-          </div>
+        <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden">
+          <div className="p-8 sm:p-12">
+            {/* Box Header */}
+            <h2 className="text-lg font-medium text-gray-800 mb-8 pb-4 border-b border-gray-100">
+              {isLogin ? 'Account Login' : 'Create New Account'}
+            </h2>
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm">
-              {error}
-            </div>
-          )}
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6 text-sm">
+                {error}
+              </div>
+            )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {!isLogin && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {!isLogin && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-2">
+                    Full Name
+                  </label>
                   <input
                     type="text"
                     required
                     value={formData.displayName}
                     onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="John Doe"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:border-[#ff8c00] transition-colors"
+                    placeholder="Enter your name"
                   />
                 </div>
-              </div>
-            )}
+              )}
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Email Address <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-2">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:border-[#ff8c00] transition-colors"
+                  placeholder={isLogin ? "Enter Email" : "your@email.com"}
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Password <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-11 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="••••••••"
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
-              </div>
-            </div>
-
-            {!isLogin && (
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Phone Number
+                <label className="block text-sm font-medium text-gray-600 mb-2">
+                  Password
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="+91 98765 43210"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:border-[#ff8c00] transition-colors"
+                    placeholder="••••••••"
+                    minLength={6}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
                 </div>
               </div>
-            )}
 
-            {isLogin && (
-              <div className="flex justify-end">
-                <Link 
-                  href="/forgot-password" 
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Processing...
-                </span>
-              ) : (
-                isLogin ? 'Sign In' : 'Create Account'
+              {isLogin && (
+                <div className="flex justify-end">
+                  <Link 
+                    href="/forgot-password" 
+                    className="text-xs text-gray-500 hover:text-black transition-colors"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
               )}
-            </button>
-          </form>
 
-          {/* Toggle Login/Signup */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              {isLogin ? "Don't have an account? " : 'Already have an account? '}
               <button
-                type="button"
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  setError('');
-                }}
-                className="text-blue-600 hover:text-blue-700 font-semibold"
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 bg-[#ff8c00] text-black rounded-sm hover:bg-[#e67e00] transition-all font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
               >
-                {isLogin ? 'Sign Up' : 'Sign In'}
+                {loading ? 'Processing...' : (isLogin ? 'Login' : 'Register')}
               </button>
-            </p>
+            </form>
+
+            {/* Toggle Login/Signup */}
+            <div className="mt-8 pt-8 border-t border-gray-100 text-center">
+              <p className="text-sm text-gray-500">
+                {isLogin ? "Don't have an account? " : 'Already have an account? '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setError('');
+                  }}
+                  className="text-black font-bold hover:underline"
+                >
+                  {isLogin ? 'Register Now' : 'Login Now'}
+                </button>
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          By continuing, you agree to our{' '}
-          <Link href="/terms" className="text-blue-600 hover:underline">
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link href="/privacy" className="text-blue-600 hover:underline">
-            Privacy Policy
+        {/* Home Link */}
+        <div className="mt-8 text-center">
+          <Link 
+            href="/" 
+            className="text-sm text-gray-500 hover:text-black transition-colors inline-flex items-center gap-1"
+          >
+            <ArrowLeft className="h-3 w-3" />
+            Back to Home
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -249,7 +206,7 @@ export default function AuthPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ff8c00]"></div>
       </div>
     }>
       <AuthContent />

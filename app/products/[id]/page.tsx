@@ -1,6 +1,8 @@
 import { products as defaultProducts } from '@/lib/data';
 import ProductDetailClient from '@/components/ProductDetailClient';
 
+export const dynamicParams = true; // Allow dynamic IDs not caught by generateStaticParams
+
 import { db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 

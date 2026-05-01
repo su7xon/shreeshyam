@@ -11,6 +11,9 @@
     --color-primary-hover: #333333;
     --color-accent: #000000;
     --color-success: #3d6d48;
+    --color-happi-orange: #ff8c00;
+    --color-happi-orange-light: #f3f4f6;
+    --color-happi-bg: #f7f7f8;
 }
 
 html,
@@ -64,7 +67,7 @@ body {
 
 @layer utilities {
     .animate-marquee {
-        animation: marquee 25s linear infinite;
+        animation: marquee 35s linear infinite;
         display: flex;
         width: max-content;
     }
@@ -144,7 +147,7 @@ h6 {
     display: flex;
     align-items: center;
     gap: 0.625rem;
-    animation: brandMarquee 18s linear infinite;
+    animation: brandMarquee 40s linear infinite;
     pointer-events: auto;
 }
 
@@ -175,7 +178,7 @@ h6 {
     display: flex;
     align-items: stretch;
     gap: 0.75rem;
-    animation: testimonialMarquee 22s linear infinite;
+    animation: testimonialMarquee 50s linear infinite;
     pointer-events: auto;
 }
 

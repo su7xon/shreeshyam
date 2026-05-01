@@ -40,7 +40,8 @@ export interface Product {
 }
 
 export const brands = [
-  'Samsung', 'Apple', 'Vivo', 'Oppo', 'Realme', 'OnePlus', 'Xiaomi', 'Motorola', 'iQOO', 'Poco', 'Nothing', 'Google'
+  'Samsung', 'Apple', 'Vivo', 'Oppo', 'Realme', 'OnePlus', 'Xiaomi', 'Motorola', 'iQOO', 'Poco', 'Nothing', 'Google',
+  'Nokia', 'Infinix', 'Lava', 'Tecno', 'Micromax', 'Itel', 'Honor', 'Sony', 'Asus'
 ];
 
 export const ramOptions = ['4GB', '6GB', '8GB', '12GB', '16GB'];
