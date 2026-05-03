@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Shree Shyam Mobiles',
+    title: 'Shyam Mobiles',
   },
   appleTouchIcon: [
     {
