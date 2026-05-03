@@ -1,4 +1,4 @@
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import './globals.css'; // Global styles
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -19,6 +19,33 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'श्री श्याम Mobiles | Professional E-commerce',
   description: 'A modern and professional e-commerce website for selling mobile phones.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'TechDeals',
+  },
+  appleTouchIcon: [
+    {
+      url: '/icon-192.png',
+      sizes: '192x192',
+      type: 'image/png',
+    },
+    {
+      url: '/icon-512.png',
+      sizes: '512x512',
+      type: 'image/png',
+    },
+  ],
+  themeColor: '#000000',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#000000',
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

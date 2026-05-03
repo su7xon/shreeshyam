@@ -66,3 +66,7 @@ tsconfig.tsbuildinfo
 # Local Netlify folder
 .netlify
 .aider*
+
+# Serwist PWA
+public/sw*
+public/swe-worker*
