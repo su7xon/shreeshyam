@@ -27,9 +27,14 @@ export const metadata: Metadata = {
   },
   appleTouchIcon: [
     {
-      url: '/WhatsApp%20Image%202026-05-03%20at%203.30.41%20PM.jpeg',
-      sizes: '768x768',
-      type: 'image/jpeg',
+      url: '/icon-192.png',
+      sizes: '192x192',
+      type: 'image/png',
+    },
+    {
+      url: '/icon-512.png',
+      sizes: '512x512',
+      type: 'image/png',
     },
   ],
   themeColor: '#000000',
