@@ -92,8 +92,8 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <Image
-                    src="/WhatsApp_Image_2026-04-09_at_8.37.15_PM-removebg-preview.png"
-                    alt="श्री श्याम Mobiles Logo"
+                    src="/WhatsApp%20Image%202026-05-03%20at%203.30.41%20PM.jpeg"
+                    alt="Shyam Mobiles Logo"
                     width={220}
                     height={64}
                     priority

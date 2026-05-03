@@ -1,29 +1,21 @@
 {
-  "name": "Shyam Mobiles",
-  "short_name": "Shyam Mobiles",
-  "description": "Your trusted destination for mobile phones and accessories",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "categories": ["shopping", "electronics"],
-  "lang": "en",
-  "dir": "ltr",
-  "scope": "/",
-  "prefer_related_applications": false
+    "name": "Shyam Mobiles",
+    "short_name": "Shyam Mobiles",
+    "description": "Your trusted destination for mobile phones and accessories",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "orientation": "portrait-primary",
+    "icons": [{
+        "src": "/WhatsApp%20Image%202026-05-03%20at%203.30.41%20PM.jpeg",
+        "sizes": "768x768",
+        "type": "image/jpeg",
+        "purpose": "any"
+    }],
+    "categories": ["shopping", "electronics"],
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "/",
+    "prefer_related_applications": false
 }

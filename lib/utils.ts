@@ -7,30 +7,37 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function deduplicateProducts(products: Product[]): Product[] {
-  const seen = new Set<string>();
-  return products.filter(p => {
-    // Normalization logic same as my python script
+  const byModel = new Map<string, Product>();
+
+  for (const p of products) {
     const brand = (p.brand || '').toUpperCase();
-    const ram = (p.ram || '').toUpperCase().replace(/\s/g, '');
-    const storage = (p.storage || '').toUpperCase().replace(/\s/g, '');
-    
-    // Fuzzy model name extraction
+
+    // Normalize model name by stripping specs, colors, and common tokens
     let model = (p.name || '').toUpperCase();
-    
-    // Remove RAM/Storage/Brand from name for fuzzy matching
-    const toRemove = [brand, ram, storage, '5G', '4G', 'RAM', 'ROM', '(', ')', '+', ','];
+    const toRemove = [brand, '5G', '4G', 'RAM', 'ROM', '(', ')', '+', ',', 'GB'];
     toRemove.forEach(str => {
       if (str) model = model.split(str).join('');
     });
-    
+
+    model = model.replace(/\d+\s*[+\/]\s*\d+/g, ' ');
+    model = model.replace(/\d+\s*GB/gi, ' ');
+    model = model.replace(/\(.*?\)/g, ' ');
     const cleanModel = model.replace(/[^A-Z0-9]/g, '').trim();
-    
-    const key = `${brand}|${cleanModel}|${ram}|${storage}`;
-    
-    if (seen.has(key)) {
-      return false;
+
+    const key = `${brand}|${cleanModel}`;
+    const existing = byModel.get(key);
+
+    if (!existing) {
+      byModel.set(key, p);
+      continue;
     }
-    seen.add(key);
-    return true;
-  });
+
+    const existingPrice = Number(existing.price || 0);
+    const currentPrice = Number(p.price || 0);
+    if (currentPrice > 0 && (existingPrice === 0 || currentPrice < existingPrice)) {
+      byModel.set(key, p);
+    }
+  }
+
+  return Array.from(byModel.values());
 }

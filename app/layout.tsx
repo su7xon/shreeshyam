@@ -17,7 +17,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'श्री श्याम Mobiles | Professional E-commerce',
+  title: 'Shyam Mobiles | Professional E-commerce',
   description: 'A modern and professional e-commerce website for selling mobile phones.',
   manifest: '/manifest.json',
   appleWebApp: {
@@ -27,14 +27,9 @@ export const metadata: Metadata = {
   },
   appleTouchIcon: [
     {
-      url: '/icon-192.png',
-      sizes: '192x192',
-      type: 'image/png',
-    },
-    {
-      url: '/icon-512.png',
-      sizes: '512x512',
-      type: 'image/png',
+      url: '/WhatsApp%20Image%202026-05-03%20at%203.30.41%20PM.jpeg',
+      sizes: '768x768',
+      type: 'image/jpeg',
     },
   ],
   themeColor: '#000000',

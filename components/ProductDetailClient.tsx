@@ -88,6 +88,20 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     return { ram, storage };
   };
 
+  const getModelKey = (p: any) => {
+    const brand = (p.brand || '').toUpperCase();
+    let model = (p.name || '').toUpperCase();
+    const toRemove = [brand, '5G', '4G', 'RAM', 'ROM', '(', ')', '+', ',', 'GB'];
+    toRemove.forEach(str => {
+      if (str) model = model.split(str).join('');
+    });
+    model = model.replace(/\d+\s*[+\/]\s*\d+/g, ' ');
+    model = model.replace(/\d+\s*GB/gi, ' ');
+    model = model.replace(/\(.*?\)/g, ' ');
+    const cleanModel = model.replace(/[^A-Z0-9]/g, '').trim();
+    return `${brand}|${cleanModel}`;
+  };
+
   // Improved logic to find sibling variants (different RAM/Storage of same model)
   const siblingVariants = useMemo(() => {
     if (!product) return [];
@@ -318,8 +332,10 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const emiPerMonth = Math.round(displayPrice / 12);
   
   // Refined related products logic: Same brand first, then similar price
-  const relatedProducts = [...products]
-    .filter(p => p.id !== product.id)
+  const relatedBase = deduplicateProducts(products as any[]);
+  const currentModelKey = product ? getModelKey(product) : '';
+  const relatedProducts = [...relatedBase]
+    .filter(p => p.id !== product.id && getModelKey(p) !== currentModelKey)
     .sort((a, b) => {
       // 1. Same brand is higher priority
       const aSameBrand = a.brand === product.brand;
