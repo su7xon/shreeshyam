@@ -1,7 +1,7 @@
 {
-  "name": "Tech Deals - Electronics Store",
-  "short_name": "TechDeals",
-  "description": "Your go-to destination for the best electronics deals",
+  "name": "Shree Shyam Mobiles",
+  "short_name": "Shree Shyam",
+  "description": "Your trusted destination for mobile phones and accessories",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
