@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
-import { products as defaultProducts, brands } from '@/lib/data';
-import useAdminStore from '@/lib/admin-store';
+import { products as defaultProducts, brands as defaultBrandStrings } from '@/lib/data';
+import { useProducts, useBanners, useActiveBrands } from '@/lib/hooks/useStoreData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState, Suspense, useRef, useMemo } from 'react';
 import { CategorySkeleton, TestimonialSkeleton, BannerSkeleton, ProductSkeleton } from '@/components/SkeletonLoader';
@@ -41,12 +41,12 @@ const renderBrandLogo = (brandObj: any | string) => {
   const logo = typeof brandObj === 'object' && brandObj.logo ? brandObj.logo : null;
 
   if (logo) {
-    return <Image src={logo} alt={name} width={80} height={80} className="w-full h-full object-contain" unoptimized />;
+    return <Image src={logo} alt={name} width={80} height={80} className="w-full h-full object-contain"  />;
   }
 
   switch (name) {
     case 'Apple':
-      return <Image src="https://cdn.simpleicons.org/apple/333333" alt="Apple" width={48} height={48} className="w-3/4 h-3/4 object-contain drop-shadow-sm" unoptimized />;
+      return <Image src="https://cdn.simpleicons.org/apple/333333" alt="Apple" width={48} height={48} className="w-3/4 h-3/4 object-contain drop-shadow-sm"  />;
     case 'Samsung':
       return <span className="font-extrabold text-[#1428A0] tracking-tighter text-[16px] sm:text-[18px] select-none">SAMSUNG</span>;
     case 'Google':
@@ -63,14 +63,14 @@ const renderBrandLogo = (brandObj: any | string) => {
     case 'OnePlus':
       return (
         <div className="flex items-center gap-1 select-none text-gray-900">
-          <Image src="https://cdn.simpleicons.org/oneplus/F5010C" alt="OnePlus" width={36} height={36} className="h-8 w-8 object-contain drop-shadow-sm" unoptimized />
+          <Image src="https://cdn.simpleicons.org/oneplus/F5010C" alt="OnePlus" width={36} height={36} className="h-8 w-8 object-contain drop-shadow-sm"  />
           <span className="font-semibold tracking-tight text-[14px] sm:text-[16px]">OnePlus</span>
         </div>
       );
     case 'Xiaomi':
       return (
         <div className="flex items-center gap-1.5 select-none text-gray-800">
-          <Image src="https://cdn.simpleicons.org/xiaomi/FF6900" alt="Xiaomi" width={36} height={36} className="h-8 w-8 object-contain rounded-[6px] drop-shadow-sm" unoptimized />
+          <Image src="https://cdn.simpleicons.org/xiaomi/FF6900" alt="Xiaomi" width={36} height={36} className="h-8 w-8 object-contain rounded-[6px] drop-shadow-sm"  />
           <span className="font-bold tracking-tight text-[14px] sm:text-[16px]">Xiaomi</span>
         </div>
       );
@@ -83,7 +83,7 @@ const renderBrandLogo = (brandObj: any | string) => {
     case 'Motorola':
       return (
         <div className="flex items-center gap-1.5 select-none text-gray-800 tracking-tight">
-          <Image src="https://cdn.simpleicons.org/motorola/001489" alt="Motorola" width={36} height={36} className="h-8 w-8 object-contain" unoptimized />
+          <Image src="https://cdn.simpleicons.org/motorola/001489" alt="Motorola" width={36} height={36} className="h-8 w-8 object-contain"  />
           <span className="font-semibold text-[14px] sm:text-[16px]">motorola</span>
         </div>
       );
@@ -104,11 +104,17 @@ const resolveBannerHref = (link?: string) => {
 };
 
 export default function Home() {
-  const admin = useAdminStore();
-  const isLoading = admin.isLoading;
-  const rawProducts = admin.products.length > 0 ? admin.products : defaultProducts;
+  const { data: fetchedProducts, isLoading: productsLoading } = useProducts();
+  const { data: fetchedBanners, isLoading: bannersLoading } = useBanners();
+  const { data: fetchedBrands } = useActiveBrands();
+  
+  const isLoading = productsLoading || bannersLoading;
+
+  const rawProducts = fetchedProducts && fetchedProducts.length > 0 ? fetchedProducts : defaultProducts;
   const products = useMemo(() => deduplicateProducts(rawProducts), [rawProducts]);
-  const activeBanners = admin.banners.filter((b) => b.active);
+  
+  const activeBanners = fetchedBanners ? fetchedBanners.filter((b) => b.active) : [];
+  
   const heroBanners = activeBanners
     .filter((b) => (b.placement || 'hero') === 'hero')
     .sort((a, b) => a.order - b.order);
@@ -122,10 +128,12 @@ export default function Home() {
   const beforeAboutBanner = activeBanners
     .filter((b) => (b.placement || 'hero') === 'before-about')
     .sort((a, b) => b.order - a.order)[0];
+    
   const featuredProducts = products.filter((p) => p.featured).slice(0, 8);
   const trendingProducts = featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5);
   const newArrivals = [...products].slice(-10).reverse();
-  const activeBrands = admin.brands.filter(b => b.active);
+  
+  const activeBrands = fetchedBrands && fetchedBrands.length > 0 ? fetchedBrands : defaultBrandStrings;
   // Repeat many times to ensure it fills any screen width and scrolls seamlessly
   const scrollingBrands = activeBrands.length > 0 
     ? [...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands] 
@@ -259,7 +267,7 @@ export default function Home() {
                               fill
                               className="object-cover object-center"
                               priority={index === 0}
-                              unoptimized
+                              
                             />
                           )}
                         </>
@@ -305,16 +313,16 @@ export default function Home() {
               )}
             </div>
           ) : (
-            /* Default Hero — premium gradient, no admin banners needed */
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-none bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
-              {/* Decorative blobs */}
-              <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-red-600/20 to-transparent" />
-              <div className="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-red-600/10 blur-3xl" />
-              <div className="absolute -top-10 right-1/3 w-56 h-56 rounded-full bg-white/5 blur-2xl" />
-              {/* Content */}
-              {/* Content removed by user request */}
-              {/* Right side phone mockup decoration */}
-              <div className="absolute right-4 sm:right-12 lg:right-20 top-1/2 -translate-y-1/2 opacity-20 sm:opacity-30 select-none pointer-events-none text-[120px] sm:text-[180px] lg:text-[220px] leading-none">📱</div>
+            /* Default Hero — show a real banner when no admin banners exist */
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-none bg-[#111214]">
+              <Image
+                src="/trending-banner.jpg"
+                alt="Featured banner"
+                fill
+                className="object-cover object-center"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/30" />
             </div>
             )}
           </Suspense>
@@ -352,7 +360,7 @@ export default function Home() {
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                           sizes="(max-width: 768px) 50vw, 25vw"
-                          unoptimized
+                          
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none" />
@@ -454,7 +462,7 @@ export default function Home() {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="100vw"
                 priority
-                unoptimized
+                
               />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-text)] to-[var(--color-text-muted)]" />
@@ -496,17 +504,20 @@ export default function Home() {
             onMouseLeave={() => handleMouseUp(brandsRef)}
           >
             <div className="brand-marquee-track">
-              {scrollingBrands.map((brand, index) => (
-              <Link 
-                key={`${brand.id || brand.name || brand}-${index}`}
-                href={`/products?brand=${brand.name || brand}`}
-                className="bg-white rounded-[16px] sm:rounded-[20px] h-[6rem] sm:h-[7.5rem] w-[6rem] sm:w-[7.5rem] shrink-0 flex items-center justify-center p-3 sm:p-4 shadow-[0_2px_12px_-4px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_20px_-4px_rgb(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/20 border border-transparent overflow-hidden"
-              >
-                <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
-                  {renderBrandLogo(brand)}
-                </div>
-              </Link>
-            ))}
+              {scrollingBrands.map((brand, index) => {
+                const brandName = typeof brand === 'string' ? brand : (brand.name || brand);
+                return (
+                  <Link 
+                    key={`${brandName}-${index}`}
+                    href={`/products?brand=${brandName}`}
+                    className="bg-white rounded-[14px] sm:rounded-[18px] h-[5.25rem] sm:h-[6.5rem] w-[5.25rem] sm:w-[6.5rem] shrink-0 flex items-center justify-center p-2.5 sm:p-3 transition-all duration-200 overflow-hidden"
+                  >
+                    <div className="opacity-[0.85] hover:opacity-100 transition-opacity flex items-center justify-center w-full h-full">
+                      {renderBrandLogo(brand)}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -528,7 +539,7 @@ export default function Home() {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  unoptimized
+                  
                 />
               </Link>
             ) : (
@@ -635,6 +646,7 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter your email address"
+              aria-label="Email address for newsletter"
               className="flex-1 h-11 px-4 border border-gray-300 rounded-md sm:rounded-r-none focus:outline-none"
             />
             <button

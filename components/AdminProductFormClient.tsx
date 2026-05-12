@@ -14,7 +14,7 @@ export default function AdminProductFormClient({ id }: { id: string }) {
   const admin = useAdminStore();
   
   const isEditing = id !== 'new';
-  const existingProduct = isEditing ? (admin.getProduct(id) || defaultProducts.find(p => p.id === id)) : undefined;
+  const existingProduct = isEditing ? admin.getProduct(id) : undefined;
 
   const adminBrandNames = admin.brands.filter(b => b.active).map(b => b.name);
   const availableBrands = [...new Set([...adminBrandNames, ...(existingProduct ? [existingProduct.brand] : [])])];
@@ -41,45 +41,44 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     variants: existingProduct?.variants || [] as any[],
   });
 
+  const [isAddingNewBrand, setIsAddingNewBrand] = useState(false);
+  const [newBrandName, setNewBrandName] = useState('');
   const [newColor, setNewColor] = useState('');
   const [newImage, setNewImage] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saved, setSaved] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDragActive, setIsDragActive] = useState(false);
 
   // Sync form when existingProduct loads (if it was undefined initially)
   useEffect(() => {
-    if (isEditing && !existingProduct && !admin.isLoading) {
-      // Small delay to ensure store is ready if navigated directly
-      const timer = setTimeout(() => {
-        const p = admin.getProduct(id) || defaultProducts.find(prod => prod.id === id);
-        if (p) {
-          setForm({
-            id: p.id,
-            name: p.name,
-            brand: p.brand,
-            price: p.price,
-            originalPrice: p.originalPrice,
-            image: p.image,
-            images: Array.isArray(p.images) && p.images.length > 0 ? p.images : [p.image],
-            ram: p.ram,
-            storage: p.storage,
-            processor: p.processor,
-            battery: p.battery,
-            camera: p.camera,
-            display: p.display,
-            featured: p.featured || false,
-            description: p.description,
-            category: p.category || '',
-            colors: p.colors || [],
-            variants: p.variants || [],
-          });
-        }
-      }, 100);
-      return () => clearTimeout(timer);
+    if (isEditing && !form.name && !admin.isLoading) {
+      const p = admin.getProduct(id);
+      if (p) {
+        setForm({
+          id: p.id,
+          name: p.name,
+          brand: p.brand,
+          price: p.price,
+          originalPrice: p.originalPrice,
+          image: p.image,
+          images: Array.isArray(p.images) && p.images.length > 0 ? p.images : [p.image],
+          ram: p.ram,
+          storage: p.storage,
+          processor: p.processor,
+          battery: p.battery,
+          camera: p.camera,
+          display: p.display,
+          featured: p.featured || false,
+          description: p.description,
+          category: p.category || '',
+          colors: p.colors || [],
+          variants: p.variants || [],
+        });
+      }
     }
-  }, [id, admin.isLoading]);
+  }, [id, admin.isLoading, admin.products]);
 
   const updateForm = (field: string, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -122,6 +121,49 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     }
   };
 
+  const uploadImages = async (files: File[]) => {
+    if (files.length === 0) return;
+    try {
+      setIsUploading(true);
+      const urls: string[] = [];
+      for (const file of files) {
+        const url = await uploadToCloudinary(file);
+        urls.push(url);
+      }
+      if (urls.length > 0) {
+        const updated = [...form.images, ...urls];
+        updateForm('images', updated);
+        if (!form.image) {
+          updateForm('image', updated[0] || '');
+        }
+      }
+    } catch (error) {
+      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    } finally {
+      setIsUploading(false);
+      setIsDragActive(false);
+    }
+  };
+
+  const isDesktopDrop = () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    if (!isDesktopDrop()) return;
+    e.preventDefault();
+    setIsDragActive(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragActive(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    if (!isDesktopDrop()) return;
+    e.preventDefault();
+    const droppedFiles = Array.from(e.dataTransfer.files || []).filter((file) => file.type.startsWith('image/'));
+    await uploadImages(droppedFiles);
+  };
+
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
     if (!form.name.trim()) errs.name = 'Product name is required';
@@ -151,8 +193,32 @@ export default function AdminProductFormClient({ id }: { id: string }) {
       finalOriginalPrice = cheapest.originalPrice;
     }
 
+    const selectedBrand = isAddingNewBrand ? newBrandName.trim() : form.brand;
+    
+    if (!selectedBrand) {
+      setErrors({ brand: 'Brand is required' });
+      return;
+    }
+
+    // If it's a new brand, add it to the brands collection if it doesn't exist
+    if (isAddingNewBrand) {
+      const brandExists = admin.brands.some(b => b.name.toLowerCase() === selectedBrand.toLowerCase());
+      if (!brandExists) {
+        try {
+          await admin.addBrand({
+            name: selectedBrand,
+            logo: '',
+            active: true
+          });
+        } catch (err) {
+          console.error('Error adding brand:', err);
+        }
+      }
+    }
+
     const productData = {
       ...form,
+      brand: selectedBrand,
       price: finalPrice,
       originalPrice: finalOriginalPrice,
       image: form.images[0] || form.image,
@@ -167,14 +233,16 @@ export default function AdminProductFormClient({ id }: { id: string }) {
       }
 
       setSaved(true);
-      setTimeout(() => {
-        // Use window.location for static export compatibility
-        if (typeof window !== 'undefined') {
-          window.location.href = '/admin/products';
-        } else {
-          router.push('/admin/products');
-        }
-      }, 1000);
+      if (!isEditing) {
+        setTimeout(() => {
+          // Use window.location for static export compatibility
+          if (typeof window !== 'undefined') {
+            window.location.href = '/admin/products';
+          } else {
+            router.push('/admin/products');
+          }
+        }, 1000);
+      }
     } catch (error) {
       console.error('Failed to save product:', error);
       alert('Failed to save product. Please try again.');
@@ -223,16 +291,36 @@ export default function AdminProductFormClient({ id }: { id: string }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Brand *</label>
-              <select
-                value={form.brand}
-                onChange={(e) => updateForm('brand', e.target.value)}
-                className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
-              >
-                {availableBrands.map((brand) => (
-                  <option key={brand} value={brand}>{brand}</option>
-                ))}
-              </select>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-gray-300">Brand *</label>
+                <button 
+                  type="button" 
+                  onClick={() => setIsAddingNewBrand(!isAddingNewBrand)}
+                  className="text-[11px] text-[#b78b57] hover:underline"
+                >
+                  {isAddingNewBrand ? 'Select Existing' : '+ Add New Brand'}
+                </button>
+              </div>
+              {isAddingNewBrand ? (
+                <input
+                  type="text"
+                  value={newBrandName}
+                  onChange={(e) => setNewBrandName(e.target.value)}
+                  placeholder="Enter new brand name"
+                  className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+                  autoFocus
+                />
+              ) : (
+                <select
+                  value={form.brand}
+                  onChange={(e) => updateForm('brand', e.target.value)}
+                  className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+                >
+                  {availableBrands.map((brand) => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))}
+                </select>
+              )}
             </div>
 
             <div>
@@ -299,8 +387,8 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               onClick={() => {
                 const newVariant = {
                   id: `v-${Date.now()}`,
-                  ram: ramOptions[0],
-                  storage: storageOptions[0],
+                  ram: '',
+                  storage: '',
                   price: form.price || 0,
                   originalPrice: form.originalPrice,
                 };
@@ -314,6 +402,16 @@ export default function AdminProductFormClient({ id }: { id: string }) {
           
           {form.variants && form.variants.length > 0 ? (
             <div className="space-y-4 mb-8">
+              <datalist id="variant-ram-options">
+                {ramOptions.map((r) => (
+                  <option key={r} value={r} />
+                ))}
+              </datalist>
+              <datalist id="variant-storage-options">
+                {storageOptions.map((s) => (
+                  <option key={s} value={s} />
+                ))}
+              </datalist>
               {form.variants.map((variant, index) => (
                 <div key={variant.id} className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 bg-[#1f2937] border border-[#374151] rounded-xl relative group">
                   <button
@@ -330,32 +428,34 @@ export default function AdminProductFormClient({ id }: { id: string }) {
                   
                   <div className="sm:col-span-1">
                     <label className="block text-xs font-medium text-gray-400 mb-1">RAM</label>
-                    <select
-                      value={variant.ram}
+                    <input
+                      type="text"
+                      value={variant.ram || ''}
                       onChange={(e) => {
                         const updated = [...form.variants];
                         updated[index].ram = e.target.value;
                         updateForm('variants', updated);
                       }}
+                      placeholder="e.g., 8GB"
+                      list="variant-ram-options"
                       className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
-                    >
-                      {ramOptions.map(r => <option key={r} value={r}>{r}</option>)}
-                    </select>
+                    />
                   </div>
                   
                   <div className="sm:col-span-1">
                     <label className="block text-xs font-medium text-gray-400 mb-1">Storage</label>
-                    <select
-                      value={variant.storage}
+                    <input
+                      type="text"
+                      value={variant.storage || ''}
                       onChange={(e) => {
                         const updated = [...form.variants];
                         updated[index].storage = e.target.value;
                         updateForm('variants', updated);
                       }}
+                      placeholder="e.g., 256GB"
+                      list="variant-storage-options"
                       className="w-full px-3 py-2 border border-[#374151] rounded-lg text-sm text-white bg-[#111827] focus:outline-none focus:ring-1 focus:ring-[#b78b57]"
-                    >
-                      {storageOptions.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
+                    />
                   </div>
 
                   <div className="sm:col-span-1">
@@ -395,7 +495,13 @@ export default function AdminProductFormClient({ id }: { id: string }) {
 
         <div className="admin-card p-6">
           <h3 className="text-lg font-bold text-white mb-5">Product Images</h3>
-          <div className="flex flex-wrap gap-2 mb-4">
+          <p className="hidden lg:block text-xs text-gray-500 mb-3">Tip: Drag & drop images here to upload.</p>
+          <div
+            className={`flex flex-wrap gap-2 mb-4 rounded-2xl ${isDragActive ? 'ring-2 ring-[#b78b57] bg-[#111827]/70' : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <input
               type="text"
               value={newImage}
@@ -404,33 +510,17 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               className="flex-1 min-w-[200px] px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
             />
             <div className="relative">
-              <input 
-                type="file" 
-                accept="image/*" 
+              <input
+                type="file"
+                accept="image/*"
                 disabled={isUploading}
+                multiple
                 onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    try {
-                      setIsUploading(true);
-                      const url = await uploadToCloudinary(file);
-                      // Directly add to images array after upload
-                      const updated = [...form.images, url];
-                      updateForm('images', updated);
-                      if (!form.image) {
-                        updateForm('image', url);
-                      }
-                      setNewImage('');
-                    } catch (error) {
-                      alert('Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
-                    } finally {
-                      setIsUploading(false);
-                      // Reset file input
-                      e.target.value = '';
-                    }
-                  }
-                }} 
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" 
+                  const files = Array.from(e.target.files || []);
+                  await uploadImages(files);
+                  e.target.value = '';
+                }}
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
               />
               <button 
                 type="button" 

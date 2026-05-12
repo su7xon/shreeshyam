@@ -14,7 +14,6 @@ import { useAuth } from '@/lib/auth-context';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showDesktopMenu, setShowDesktopMenu] = useState(false);
 
   const [mounted, setMounted] = useState(false);
@@ -54,35 +53,11 @@ export default function Navbar() {
 
 
   return (
-    <nav className="bg-white/95 text-[#111] sticky top-0 z-50 border-b border-black/10 backdrop-blur">
+    <nav className="bg-white/95 text-[#111] sticky top-0 z-50 border-b border-[#e5e7eb] backdrop-blur-md">
 
 
       <div className="w-full px-2.5 sm:px-6 lg:px-8 py-2 sm:py-3">
-        {showMobileSearch ? (
-          /* Mobile Search View (Full Width Top) */
-          <div className="md:hidden flex items-center gap-3 w-full animate-in slide-in-from-top duration-200">
-            <button 
-              onClick={() => setShowMobileSearch(false)}
-              className="p-1 text-gray-500 hover:text-black"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </button>
-            <div className="flex-1">
-              <SearchAutocomplete
-                value={searchQuery}
-                onChange={setSearchQuery}
-                onSearch={() => {
-                  handleSearch();
-                  setShowMobileSearch(false);
-                }}
-                className="h-10"
-                autoFocus
-              />
-            </div>
-          </div>
-        ) : (
-          /* Default Navbar View */
-          <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink min-w-0 flex items-center gap-1 sm:gap-2">
               <Link href="/" className="flex items-center min-w-0">
@@ -117,6 +92,28 @@ export default function Navbar() {
 
             {/* Desktop Right Navigation */}
             <div className="hidden md:flex items-center gap-6">
+              {/* Top Nav Links */}
+              <div className="flex items-center gap-6">
+                <Link
+                  href="/products"
+                  className="text-[12px] font-semibold tracking-[0.22em] text-gray-700 hover:text-black transition-colors"
+                >
+                  SHOP
+                </Link>
+                <Link
+                  href="/about"
+                  className="text-[12px] font-semibold tracking-[0.22em] text-gray-700 hover:text-black transition-colors"
+                >
+                  STORY
+                </Link>
+                <Link
+                  href="/location"
+                  className="text-[12px] font-semibold tracking-[0.22em] text-gray-700 hover:text-black transition-colors"
+                >
+                  CONTACT
+                </Link>
+              </div>
+
               {/* Desktop Dropdown Menu */}
               <div className="relative">
                 <button 
@@ -130,50 +127,52 @@ export default function Navbar() {
                   </svg>
                 </button>
 
-                {/* Dropdown */}
+                {/* Dropdown - Modern Glass Effect */}
                 {showDesktopMenu && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 z-50">
+                  <div className="absolute right-0 mt-3 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-[#e5e7eb] py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <Link 
                       href="/admin/dashboard" 
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 mx-2 rounded-xl hover:bg-[#f3f4f6] transition-colors"
                       onClick={() => setShowDesktopMenu(false)}
                     >
-                      <svg className="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span className="text-sm font-medium text-gray-700">Admin Panel</span>
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#8b5cf6] to-[#6366f1] flex items-center justify-center">
+                        <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </div>
+                      <span className="text-sm font-medium text-[#111111]">Admin Panel</span>
                     </Link>
 
                     <Link 
                       href="/about" 
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 mx-2 rounded-xl hover:bg-[#f3f4f6] transition-colors"
                       onClick={() => setShowDesktopMenu(false)}
                     >
-                      <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 16v-4"/>
-                        <path d="M12 8h.01"/>
-                      </svg>
-                      <span className="text-sm font-medium text-gray-700">About</span>
+                      <div className="w-9 h-9 rounded-xl bg-[#f3f4f6] flex items-center justify-center">
+                        <svg className="h-4 w-4 text-[#6b7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <circle cx="12" cy="12" r="10"/>
+                          <path d="M12 16v-4"/>
+                          <path d="M12 8h.01"/>
+                        </svg>
+                      </div>
+                      <span className="text-sm font-medium text-[#111111]">About</span>
                     </Link>
 
-                    <div className="border-t border-gray-200 my-2"></div>
+                    <div className="border-t border-[#f3f4f6] my-2 mx-2"></div>
 
-                    <div className="px-4 py-3">
-                      <div className="flex items-start gap-3">
-                        <svg className="h-5 w-5 text-red-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                    <div className="px-4 py-3 mx-2">
+                      <div className="flex items-start gap-3 p-3 bg-[#fef2f2] rounded-xl">
+                        <div className="w-9 h-9 rounded-xl bg-[#ef4444]/10 flex items-center justify-center shrink-0">
+                          <svg className="h-4 w-4 text-[#ef4444]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </div>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900 mb-1">Our Address</p>
-                          <p className="text-xs text-gray-600 leading-relaxed">
-                            <span className="font-medium">Shakha No. 1 & 2</span><br />
-                            Shop No. 7 & Shop No. 6, Yash Complex,<br />
-                            Gokul Nagari Rees, Mohopada,<br />
-                            Near New Posari Gate, Taluka Khalapur,<br />
-                            District Raigad
+                          <p className="text-sm font-semibold text-[#111111] mb-1">Visit Our Store</p>
+                          <p className="text-xs text-[#6b7280] leading-relaxed">
+                            Yash Complex, Gokul Nagari Rees, Mohopada, Raigad
                           </p>
                         </div>
                       </div>
@@ -182,45 +181,61 @@ export default function Navbar() {
                 )}
               </div>
 
-              <button 
-                type="button" 
+              <Link
+                href="/cart"
+                className="relative text-gray-600 hover:text-black transition-colors"
+                aria-label="Cart"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {mounted && cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 h-5 min-w-[20px] px-1 rounded-full bg-black text-white text-[10px] font-bold flex items-center justify-center">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
+
+              <button
+                type="button"
                 onClick={() => user ? router.push('/account') : router.push('/auth')}
-                className="hover:text-black text-gray-600 transition-colors"
+                className="flex items-center gap-2 hover:text-black text-gray-600 transition-colors"
                 aria-label="Account"
                 title={user ? 'My Account' : 'Login / Sign Up'}
               >
                 <User className="h-5 w-5" />
+                <span className="text-[12px] font-semibold tracking-[0.18em]">ACCOUNT</span>
               </button>
             </div>
 
-            {/* Mobile actions */}
-            <div className="md:hidden flex items-center gap-1.5 min-w-0">
-              <button
-                onClick={() => setShowMobileSearch(true)}
-                className="text-gray-700 hover:text-black focus:outline-none p-1"
-                aria-label="Search"
-              >
-                <Search className="h-5 w-5" />
-              </button>
+            {/* Mobile search + actions */}
+            <div className="md:hidden flex items-center gap-2 flex-1 min-w-0 pl-3">
+              <div className="flex-1 min-w-0">
+                <SearchAutocomplete
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  onSearch={handleSearch}
+                  className="h-8"
+                />
+              </div>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-gray-700 hover:text-black focus:outline-none p-1"
+                aria-label="Menu"
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
-        )}
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-3 border-t border-black/10 shadow-xl max-h-[80vh] overflow-y-auto">
+        <div className="md:hidden bg-white/98 backdrop-blur-xl px-3 py-3 mx-2 my-2 space-y-3 rounded-2xl border border-[#e5e7eb] shadow-[0_18px_40px_-18px_rgba(0,0,0,0.25)] max-h-[80vh] overflow-y-auto">
           <div className="flex flex-col space-y-1">
+            <p className="px-3 pt-1 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wider">Shop</p>
 
             <Link 
               href="/products" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -231,7 +246,7 @@ export default function Navbar() {
             
             <Link 
               href="/accessories" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -240,11 +255,12 @@ export default function Navbar() {
               Accessories
             </Link>
 
-            <div className="border-t border-gray-200 my-2"></div>
+            <div className="h-px bg-[#f3f4f6] my-2"></div>
+            <p className="px-3 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wider">Info</p>
 
             <Link 
               href="/about" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -257,7 +273,7 @@ export default function Navbar() {
 
             <Link 
               href="/location" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <svg className="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -267,13 +283,14 @@ export default function Navbar() {
               Our Location
             </Link>
 
-            <div className="border-t border-gray-200 my-2"></div>
+            <div className="h-px bg-[#f3f4f6] my-2"></div>
+            <p className="px-3 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wider">Account</p>
 
             {user ? (
               <>
                 <Link 
                   href="/account" 
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
@@ -289,7 +306,7 @@ export default function Navbar() {
                     await logout();
                     setIsMenuOpen(false);
                   }}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-red-600 hover:bg-red-50 transition-colors w-full text-left"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-red-600 hover:bg-red-50 transition-colors w-full text-left"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -300,7 +317,7 @@ export default function Navbar() {
             ) : (
               <Link 
                 href="/auth" 
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-blue-600 hover:bg-blue-50 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -310,11 +327,12 @@ export default function Navbar() {
               </Link>
             )}
 
-            <div className="border-t border-gray-200 my-2"></div>
+            <div className="h-px bg-[#f3f4f6] my-2"></div>
+            <p className="px-3 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wider">Admin</p>
 
             <Link 
               href="/admin/dashboard" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium text-purple-600 hover:bg-purple-50 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-purple-600 hover:bg-purple-50 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

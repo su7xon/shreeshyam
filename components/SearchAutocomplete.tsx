@@ -21,7 +21,7 @@ export default function SearchAutocomplete({
   value, 
   onChange, 
   onSearch, 
-  className = '',
+  className = 'h-10',
   autoFocus = false
 }: { 
   value: string; 
@@ -113,14 +113,14 @@ export default function SearchAutocomplete({
 
   return (
     <div className={`relative ${className}`} ref={ref}>
-      <div className="flex items-stretch rounded-full bg-white shadow-sm overflow-hidden h-10 min-w-0">
+      <div className="flex items-stretch rounded-full bg-white shadow-sm overflow-hidden h-full min-w-0">
         <div className="hidden sm:flex items-center px-4 bg-gray-50 border-r border-gray-200 text-sm font-medium text-gray-600 whitespace-nowrap">
           All Phones <ChevronRight className="h-4 w-4 ml-1 opacity-60" />
         </div>
         <input
           type="text"
           placeholder="Search smartphones, brands..."
-          className="flex-1 min-w-0 px-3 sm:px-4 text-sm focus:outline-none placeholder-gray-400"
+          className="flex-1 min-w-0 px-3 sm:px-4 text-[13px] sm:text-sm focus:outline-none placeholder-gray-400"
           value={value}
           autoFocus={autoFocus}
           suppressHydrationWarning
