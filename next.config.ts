@@ -16,20 +16,48 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
     remotePatterns: [
-      { protocol: 'https', hostname: 'picsum.photos', pathname: '/**' },
-      { protocol: 'https', hostname: 'cdn.dummyjson.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'm.media-amazon.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'img.freepik.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'm-cdn.phonearena.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'encrypted-tbn0.gstatic.com', pathname: '/**' },
-      { protocol: 'https', hostname: '*.googleusercontent.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'placehold.co', pathname: '/**' },
-      { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
+      { protocol: 'https', hostname: '**', pathname: '/**' },
     ],
   },
   transpilePackages: ['motion'],
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: wss:; img-src 'self' data: https: blob:; media-src 'self' data: https:; connect-src 'self' https: wss:; font-src 'self' data: https:;",
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          }
+        ],
+      },
+    ];
+  },
 };
 
 export default withSerwist(nextConfig);

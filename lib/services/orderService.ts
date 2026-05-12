@@ -75,14 +75,20 @@ export const getOrdersByPhone = async (phone: string): Promise<Order[]> => {
   try {
     const ordersQuery = query(
       collection(db, ORDERS_COLLECTION),
-      where('customer.phone', '==', phone),
-      orderBy('createdAt', 'desc')
+      where('customer.phone', '==', phone)
     );
     const querySnapshot = await getDocs(ordersQuery);
-    return querySnapshot.docs.map(doc => ({
+    const orders = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as Order[];
+    
+    // Sort client-side by createdAt descending
+    return orders.sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA;
+    });
   } catch (error) {
     console.error('Error getting orders by phone:', error);
     return [];

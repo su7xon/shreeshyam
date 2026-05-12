@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart, Heart, ShoppingBag } from 'lucide-react';
+import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
 import { useState } from 'react';
+import { getProductImageUrl } from '@/lib/image-utils';
 
 interface ProductCardProps {
   product: Product;
@@ -14,8 +15,11 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const { addItem } = useCartStore();
-  const fallbackImg = `https://placehold.co/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(product.brand)}`;
-  const [imgSrc, setImgSrc] = useState(product.image || fallbackImg);
+  const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand)}`;
+  const optimizedSrc = product.image ? getProductImageUrl(product.image, 'card') : fallbackImg;
+  const [imgSrc, setImgSrc] = useState(optimizedSrc);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -36,66 +40,91 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
   };
 
   return (
-    <Link href={`/products/${product.id}`} className="group block h-full">
-      <div className="bg-white rounded-xl overflow-hidden transition-all duration-300 h-full flex flex-col relative border border-gray-100 hover:shadow-md">
+    <Link 
+      href={`/products/${product.id}`} 
+      className="group block h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative bg-white rounded-2xl overflow-hidden transition-all duration-400 h-full flex flex-col border border-[#f3f4f6] hover:border-[#e5e7eb] hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-1">
         
-        {/* Top Actions */}
-        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Top Actions - Glass effect */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
           <button 
             onClick={handleAddToCart}
-            className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-500 hover:text-black shadow-sm transition-colors"
+            className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm border border-white/50 flex items-center justify-center text-[#6b7280] hover:text-[#111111] hover:scale-110 shadow-lg shadow-black/5 transition-all duration-200 group-hover:opacity-100 opacity-100 sm:opacity-0"
           >
             <ShoppingBag className="h-4 w-4" />
           </button>
         </div>
         <div className="absolute top-3 right-3 z-10">
-          <button className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 shadow-sm transition-colors">
+          <button className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm border border-white/50 flex items-center justify-center text-[#9ca3af] hover:text-[#ef4444] hover:scale-110 shadow-lg shadow-black/5 transition-all duration-200 group-hover:opacity-100 opacity-100 sm:opacity-0">
             <Heart className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Image Section */}
-        <div className="relative aspect-[4/5] p-4 flex items-center justify-center overflow-hidden bg-white">
-          {/* @ts-ignore */}
+        {/* Image Section - With subtle gradient */}
+        <div className="relative aspect-[1/1] p-2 flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-[#fafafa]">
+          {!isImageLoaded && (
+            <div className="absolute inset-0 p-5">
+              <div className="w-full h-full rounded-xl overflow-hidden bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-shimmer bg-[length:200%_100%]" />
+            </div>
+          )}
+
           <Image
             src={imgSrc}
             alt={product.name}
             fill
-            className="object-contain p-4 transition-transform duration-500"
+            className={`object-contain p-2 transition-all duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'} ${isHovered ? 'scale-105' : 'scale-100'}`}
             sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
-            onError={() => setImgSrc(fallbackImg)}
-            unoptimized
+            onLoad={() => setIsImageLoaded(true)}
+            onError={() => {
+              setImgSrc(fallbackImg);
+              setIsImageLoaded(false);
+            }}
           />
-          
-          {/* Discount Badge */}
-          {discount > 0 && (
-            <div className="absolute bottom-2 left-2 bg-[#ff8c00] text-black text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">
-              {discount}% OFF
-            </div>
-          )}
+
+          {/* Quick view overlay on hover */}
+          <div className={`absolute inset-0 bg-black/5 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
         </div>
 
         {/* Content Section */}
-        <div className="p-3 sm:p-4 flex flex-col flex-grow text-center bg-white border-t border-gray-50">
-          <h3 className="text-xs sm:text-[13px] font-medium text-gray-800 mb-2 line-clamp-2 leading-tight min-h-[2.5rem]">
+        <div className="p-1.5 flex flex-col flex-grow text-center bg-white border-t border-[#f3f4f6]">
+          {discount > 0 && (
+            <div className="mb-1 text-left">
+              <span className="inline-flex items-center px-1.5 py-0.5 bg-[#f59e0b] text-[#111111] text-[8px] font-semibold rounded-md shadow">
+                {discount}% OFF
+              </span>
+            </div>
+          )}
+
+          <div className="mb-1">
+            <span className="text-[7px] font-medium text-[#3b82f6] uppercase tracking-wider bg-[#eff6ff] px-1.5 py-0.5 rounded">
+              {product.brand}
+            </span>
+          </div>
+          
+          <h3 className="text-[10px] sm:text-[11px] font-semibold text-[#111111] mb-1.5 line-clamp-2 leading-snug min-h-[2rem]">
             {product.name}
           </h3>
 
           <div className="mt-auto">
-            <div className="flex flex-col items-center gap-0.5">
+            <div className="flex flex-col items-center gap-1">
                {product.originalPrice && (
-                <span className="text-[10px] sm:text-[11px] text-gray-400 line-through">
-                  {formatPrice(product.originalPrice)}
-                </span>
-              )}
-              <span className="text-sm sm:text-[15px] font-bold text-black">
-                {formatPrice(product.price)}
-              </span>
+                 <span className="text-[9px] text-[#9ca3af] line-through">
+                   ₹{product.originalPrice.toLocaleString('en-IN')}
+                 </span>
+               )}
+               <span className="text-[13px] font-bold text-[#111111]">
+                 ₹{product.price.toLocaleString('en-IN')}
+               </span>
             </div>
           </div>
         </div>
+
+        {/* Bottom gradient line on hover */}
+        <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] transition-transform duration-300 origin-left ${isHovered ? 'scale-x-100' : 'scale-x-0'}`} />
       </div>
     </Link>
   );
 }
-

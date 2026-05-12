@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import useAdminStore from '@/lib/admin-store';
+import { useCategories } from '@/lib/hooks/useStoreData';
+import { getProductImageUrl } from '@/lib/image-utils';
 
 const defaultCategories = [
   { id: 'cat-1', name: 'Mobiles', image: '/categories/mobiles.png', active: true, order: 0 },
@@ -14,31 +15,33 @@ const defaultCategories = [
 ];
 
 export default function CategoryStrip() {
-  const { categories } = useAdminStore();
+  const { data: categories = [] } = useCategories();
   const storeCategories = categories.filter(c => c.active).sort((a, b) => a.order - b.order);
   const activeCategories = storeCategories.length > 0 ? storeCategories : defaultCategories;
 
   return (
     <section className="bg-white py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between sm:justify-center gap-4 sm:gap-14 overflow-x-auto no-scrollbar w-full pb-2">
-          {activeCategories.map((cat) => {
+        <div className="flex items-center justify-center gap-3 sm:gap-8 overflow-x-auto no-scrollbar w-full pb-2">
+          {activeCategories.map((cat, index) => {
             return (
               <Link
                 key={cat.id}
                 href={`/products?category=${encodeURIComponent(cat.name)}`}
-                className="group flex flex-col items-center gap-3 flex-shrink-0 min-w-[70px] sm:min-w-[100px]"
+                className="group flex flex-col items-center gap-2.5 sm:gap-3 flex-shrink-0 min-w-[70px] sm:min-w-[100px]"
               >
-                <div className="relative h-16 w-16 sm:h-24 sm:w-24 rounded-full bg-[#f3f6ff] border border-blue-50/50 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md">
-                  <div className="relative w-[80%] h-[80%] transition-transform duration-300 group-hover:scale-110">
+                <div className="relative h-16 w-16 sm:h-22 sm:w-22 rounded-2xl bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:border-[#3b82f6]/30">
+                  <div className="relative w-[75%] h-[75%] transition-transform duration-300 group-hover:scale-110">
                     <img
-                      src={cat.image}
+                      src={getProductImageUrl(cat.image, 'card')}
                       alt={cat.name}
                       className="w-full h-full object-contain"
                     />
                   </div>
+                  {/* Hover gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#3b82f6]/0 to-[#3b82f6]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <span className="text-[12px] sm:text-[15px] font-semibold text-gray-800 group-hover:text-blue-600 transition-colors text-center whitespace-nowrap">
+                <span className="text-[12px] sm:text-[14px] font-semibold text-[#64748b] group-hover:text-[#111111] group-hover:font-bold transition-all text-center whitespace-nowrap">
                   {cat.name}
                 </span>
               </Link>

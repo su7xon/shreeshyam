@@ -1,29 +1,42 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import useAdminStore from '@/lib/admin-store';
 import { products as defaultProducts } from '@/lib/data';
 import { Plus, Search, Edit, Trash2, Eye, Smartphone } from 'lucide-react';
 
-export default function AdminProductsPage() {
+function ProductsList() {
+  const searchParams = useSearchParams();
+  const initialBrand = searchParams.get('brand') || '';
+  
   const [mounted, setMounted] = useState(false);
   const admin = useAdminStore();
   
+  const [search, setSearch] = useState('');
+  const [filterBrand, setFilterBrand] = useState(initialBrand);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isDeletingBulk, setIsDeletingBulk] = useState(false);
+
   useEffect(() => {
     setMounted(true);
+    admin.initialize();
   }, []);
 
-  // Use the code-first products as the base, add any store products if they exist
-  const products = admin.products.length > 0 ? admin.products : defaultProducts;
-  
-  const [search, setSearch] = useState('');
-  const [filterBrand, setFilterBrand] = useState('');
-  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  // Update filterBrand if search params change
+  useEffect(() => {
+    const brand = searchParams.get('brand');
+    if (brand !== null) {
+      setFilterBrand(brand);
+    }
+  }, [searchParams]);
 
   // Avoid hydration mismatch by not rendering the list until mounted
   if (!mounted) return null;
 
+  const products = admin.products;
   const brands = [...new Set(products.map((p) => p.brand))].sort();
 
   const filtered = products.filter((p) => {
@@ -40,7 +53,30 @@ export default function AdminProductsPage() {
     setDeleteConfirm(null);
   };
 
+  const handleBulkDelete = async () => {
+    if (!selectedIds.length) return;
+    if (confirm(`Are you sure you want to delete ${selectedIds.length} products?`)) {
+      setIsDeletingBulk(true);
+      try {
+        await Promise.all(selectedIds.map(id => admin.deleteProduct(id)));
+        setSelectedIds([]);
+      } finally {
+        setIsDeletingBulk(false);
+      }
+    }
+  };
 
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === filtered.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filtered.map(p => p.id));
+    }
+  };
 
   return (
     <div className="space-y-5 pb-8">
@@ -51,6 +87,15 @@ export default function AdminProductsPage() {
           <p className="text-xs text-[#6b7280] mt-0.5">Control your storefront catalog</p>
         </div>
         <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <button 
+              onClick={handleBulkDelete}
+              disabled={isDeletingBulk}
+              className="px-4 py-2 bg-red-500/10 text-red-500 rounded-lg text-xs font-semibold hover:bg-red-500/20 transition-all border border-red-500/20 disabled:opacity-50"
+            >
+              {isDeletingBulk ? 'Deleting...' : `Delete ${selectedIds.length}`}
+            </button>
+          )}
           <Link href="/admin/products/new" className="admin-btn-primary text-xs sm:text-sm">
             <Plus className="h-4 w-4" /> Add Phone
           </Link>
@@ -87,6 +132,14 @@ export default function AdminProductsPage() {
           <table className="admin-table">
             <thead>
               <tr>
+                <th className="w-10">
+                  <input 
+                    type="checkbox" 
+                    checked={filtered.length > 0 && selectedIds.length === filtered.length}
+                    onChange={toggleSelectAll}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white/5"
+                  />
+                </th>
                 <th>Product</th>
                 <th>Brand</th>
                 <th>Price</th>
@@ -98,6 +151,14 @@ export default function AdminProductsPage() {
             <tbody>
               {filtered.map((product) => (
                 <tr key={product.id}>
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      checked={selectedIds.includes(product.id)}
+                      onChange={() => toggleSelect(product.id)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white/5"
+                    />
+                  </td>
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="h-12 w-12 rounded-lg bg-white/[0.04] overflow-hidden flex-shrink-0">
@@ -155,6 +216,14 @@ export default function AdminProductsPage() {
       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((product) => (
           <div key={product.id} className="admin-card p-3 flex gap-3 items-center relative overflow-hidden group">
+            <div className="absolute top-2 left-2 z-10">
+              <input 
+                type="checkbox" 
+                checked={selectedIds.includes(product.id)}
+                onChange={() => toggleSelect(product.id)}
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-black/40"
+              />
+            </div>
             {product.featured && (
               <div className="absolute top-0 right-0">
                 <div className="admin-badge admin-badge-green rounded-none rounded-bl-lg text-[9px] px-2 py-0.5">Featured</div>
@@ -189,12 +258,14 @@ export default function AdminProductsPage() {
       </div>
 
       {/* Empty State */}
-      {filtered.length === 0 && (
+      {!admin.isLoading && filtered.length === 0 && (
         <div className="admin-card">
           <div className="admin-empty-state">
             <div className="admin-empty-icon"><Smartphone className="h-6 w-6" /></div>
             <p className="admin-empty-title">No products found</p>
-            <p className="admin-empty-desc">Try adjusting your search or filters</p>
+            <p className="admin-empty-desc">
+              {admin.products.length === 0 ? "Your inventory is empty. Add your first product to get started." : "Try adjusting your search or filters."}
+            </p>
           </div>
         </div>
       )}
@@ -202,5 +273,17 @@ export default function AdminProductsPage() {
       {/* Count */}
       <p className="text-xs text-[#6b7280]">Showing {filtered.length} of {products.length} products</p>
     </div>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#b78b57]"></div>
+      </div>
+    }>
+      <ProductsList />
+    </Suspense>
   );
 }

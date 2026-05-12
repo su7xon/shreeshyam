@@ -8,6 +8,7 @@ import { CartProvider } from '@/lib/store';
 import { AuthProvider } from '@/lib/auth-context';
 import FirebaseInitializer from '@/components/FirebaseInitializer';
 import ConditionalLayout from '@/components/ConditionalLayout';
+import ReactQueryProvider from '@/components/ReactQueryProvider';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -17,9 +18,18 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Shyam Mobiles | Professional E-commerce',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shreeshyammobiles.com'),
+  title: {
+    default: 'Shyam Mobiles | Professional E-commerce',
+    template: '%s | Shyam Mobiles'
+  },
   description: 'A modern and professional e-commerce website for selling mobile phones.',
+  keywords: ['mobile phones', 'smartphones', 'buy phones online', 'apple', 'samsung', 'shyam mobiles'],
+  authors: [{ name: 'Shyam Mobiles' }],
   manifest: '/manifest.json',
+  alternates: {
+    canonical: '/',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -37,31 +47,102 @@ export const metadata: Metadata = {
       type: 'image/png',
     },
   ],
-  themeColor: '#000000',
+  openGraph: {
+    title: 'Shyam Mobiles | Professional E-commerce',
+    description: 'A modern and professional e-commerce website for selling mobile phones.',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shreeshyammobiles.com',
+    siteName: 'Shyam Mobiles',
+    images: [
+      {
+        url: '/store_icon.png',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Shyam Mobiles | Professional E-commerce',
+    description: 'A modern and professional e-commerce website for selling mobile phones.',
+    images: ['/store_icon.png'],
+  },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true, // WCAG 2.1 AA requires user zoom capability
   themeColor: '#000000',
 };
+
+// Organization + WebSite JSON-LD for rich search results
+function OrganizationJsonLd() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shreeshyammobiles.com';
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${baseUrl}/#organization`,
+        name: 'Shyam Mobiles',
+        url: baseUrl,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${baseUrl}/store_icon.png`,
+        },
+        sameAs: ['https://wa.me/917756935635'],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: '+91-7756935635',
+          contactType: 'sales',
+          areaServed: 'IN',
+          availableLanguage: ['English', 'Hindi'],
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${baseUrl}/#website`,
+        url: baseUrl,
+        name: 'Shyam Mobiles',
+        publisher: { '@id': `${baseUrl}/#organization` },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${baseUrl}/products?search={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <OrganizationJsonLd />
+      </head>
       <body
         suppressHydrationWarning
         className={`${poppins.variable} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]`}
       >
         <AuthProvider>
           <CartProvider>
-            <FirebaseInitializer />
-            <ConditionalLayout>
-              {children}
-            </ConditionalLayout>
-            <ModalManager />
+            <ReactQueryProvider>
+              <FirebaseInitializer />
+              <ConditionalLayout>
+                {children}
+              </ConditionalLayout>
+              <ModalManager />
+            </ReactQueryProvider>
           </CartProvider>
         </AuthProvider>
       </body>

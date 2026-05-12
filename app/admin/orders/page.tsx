@@ -107,7 +107,7 @@ function OrderDetailModal({ order, onClose, onUpdateStatus, onDelete }: {
               {order.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
                   <div className="relative h-12 w-12 bg-white/[0.04] rounded-lg flex-shrink-0">
-                    <Image src={item.image} alt={item.name} fill className="object-contain p-1" unoptimized />
+                    <Image src={item.image} alt={item.name} fill className="object-contain p-1"  />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-[#e5e7eb] truncate">{item.name}</p>

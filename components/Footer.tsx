@@ -13,7 +13,7 @@ export default function Footer() {
   if (pathname?.startsWith('/admin')) return null;
 
   return (
-    <footer className="bg-black text-gray-300 pt-10 sm:pt-14 pb-[84px] md:pb-8 border-t border-white/10">
+    <footer className="bg-[#0a0a0a] text-gray-400 pt-12 sm:pt-16 pb-[84px] md:pb-8 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-10">
           {/* Brand */}
@@ -30,11 +30,19 @@ export default function Footer() {
             <p className="text-sm text-gray-400 mb-5 leading-relaxed max-w-xs mx-auto md:mx-0">
               Curated smartphones and accessories for people who want performance with personality.
             </p>
-            <div className="flex space-x-4 justify-center md:justify-start">
-              <a href="#" className="text-gray-500 hover:text-white transition-colors"><Facebook className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-500 hover:text-white transition-colors"><Twitter className="h-5 w-5" /></a>
-              <a href="https://www.instagram.com/shree__shyam__mobile_?igsh=MXZ0bjluZDVqZGx3dg==" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="https://m.youtube.com/@shreeshyammobile5050" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors"><Youtube className="h-5 w-5" /></a>
+            <div className="flex space-x-3 justify-center md:justify-start">
+              <a href="#" className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#3b82f6] hover:text-white transition-all">
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a href="#" className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#1da1f2] hover:text-white transition-all">
+                <Twitter className="h-4 w-4" />
+              </a>
+              <a href="https://www.instagram.com/shree__shyam__mobile_?igsh=MXZ0bjluZDVqZGx3dg==" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gradient-to-r hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045] hover:text-white transition-all">
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a href="https://m.youtube.com/@shreeshyammobile5050" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#ff0000] hover:text-white transition-all">
+                <Youtube className="h-4 w-4" />
+              </a>
             </div>
           </div>
 

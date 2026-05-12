@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Zap } from 'lucide-react';
-import useAdminStore from '@/lib/admin-store';
+import { useDailyDeals, useProducts } from '@/lib/hooks/useStoreData';
+import { getProductImageUrl } from '@/lib/image-utils';
 
 const formatTime = (seconds: number) => {
   const h = Math.floor(seconds / 3600);
@@ -18,7 +19,8 @@ const formatTime = (seconds: number) => {
 };
 
 export default function DailyDeals() {
-  const { dailyDeals, products } = useAdminStore();
+  const { data: dailyDeals = [] } = useDailyDeals();
+  const { data: products = [] } = useProducts();
   const [timeLeft, setTimeLeft] = useState(8 * 3600 + 45 * 60 + 32); // Default to roughly 8h for initial render
 
   useEffect(() => {
@@ -103,11 +105,11 @@ export default function DailyDeals() {
                     {discount}% OFF
                   </div>
                   <Image
-                    src={product.image}
+                    src={product.image ? getProductImageUrl(product.image, 'card') : `https://placehold.co/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(product.brand)}`}
                     alt={product.name}
                     fill
                     className="object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
-                    unoptimized
+                    sizes="(max-width: 640px) 160px, (max-width: 1024px) 220px, 20vw"
                   />
                 </div>
 

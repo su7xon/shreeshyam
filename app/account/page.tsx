@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Package, User, LogOut, Settings, CreditCard, MapPin, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Package, User, LogOut, Settings, CreditCard, MapPin, ChevronRight, CircleCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AccountPage() {
@@ -170,7 +170,7 @@ export default function AccountPage() {
                       <div className="mt-2 sm:mt-0 flex items-center gap-2">
                          {order.status === 'Delivered' ? (
                            <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 px-2.5 py-1 rounded-full text-xs font-semibold">
-                             <CheckCircle2 className="w-3.5 h-3.5" />
+                             <CircleCheck className="w-3.5 h-3.5" />
                              {order.status}
                            </span>
                          ) : (

@@ -1,6 +1,6 @@
 // lib/services/categoryService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, setDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDocs, query, where, orderBy, Timestamp, limit } from 'firebase/firestore';
 
 const CATEGORIES_COLLECTION = 'categories';
 
@@ -12,18 +12,47 @@ export interface Category {
   order: number;
 }
 
-export const getCategories = async (): Promise<Category[]> => {
+/**
+ * Get all active categories (lightweight)
+ * Used for navigation and filters
+ */
+export const getCategories = async (includeInactive: boolean = false): Promise<Category[]> => {
   if (!db) return [];
   try {
-    const categoriesQuery = query(collection(db, CATEGORIES_COLLECTION), orderBy('order', 'asc'));
-    const querySnapshot = await getDocs(categoriesQuery);
-    return querySnapshot.docs.map(doc => ({
+    let q = query(collection(db, CATEGORIES_COLLECTION));
+
+    if (!includeInactive) {
+      q = query(collection(db, CATEGORIES_COLLECTION), where('active', '==', true));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const categories = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as Category[];
+
+    // Sort client-side to avoid composite index requirement
+    return categories.sort((a, b) => (a.order || 0) - (b.order || 0));
   } catch (error) {
     console.error('Error getting categories:', error);
     return [];
+  }
+};
+
+/**
+ * Get category by ID
+ */
+export const getCategoryById = async (id: string): Promise<Category | null> => {
+  if (!db) return null;
+  try {
+    const catDoc = await getDoc(doc(db, CATEGORIES_COLLECTION, id));
+    if (catDoc.exists()) {
+      return { id: catDoc.id, ...catDoc.data() } as Category;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting category:', error);
+    return null;
   }
 };
 

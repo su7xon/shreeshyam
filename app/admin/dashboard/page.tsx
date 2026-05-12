@@ -6,7 +6,7 @@ import useAdminStore from '@/lib/admin-store';
 import { products as defaultProducts } from '@/lib/data';
 import {
   Smartphone, Image, Tag, TrendingUp, Plus, Eye, AlertCircle,
-  ArrowUpRight, Package, Building2, BarChart3,
+  ArrowUpRight, Package, Building2, BarChart3, Edit,
 } from 'lucide-react';
 
 
@@ -22,15 +22,17 @@ export default function AdminDashboardPage() {
     admin.initialize();
   }, []);
 
-  const products = storeProducts.length > 0 ? storeProducts : defaultProducts;
-  const offers = storeOffers.length > 0 ? storeOffers : [];
+  const products = storeProducts;
+  const offers = storeOffers;
 
   const totalProducts = products.length;
   const featuredProducts = products.filter((p) => p.featured).length;
   const activeBanners = banners.filter((b) => b.active).length;
   const activeOffers = offers.filter((o) => o.active).length;
 
-  const brands = [...new Set(products.map((p) => p.brand))];
+  // Get brands from products AND from the admin store/data
+  const productBrands = [...new Set(products.map((p) => p.brand))];
+  const allBrands = [...new Set([...productBrands, ...admin.brands.map(b => b.name)])].filter(Boolean).sort();
 
   // Show loading state until mounted and data is loaded
   if (!mounted || isLoading) {
@@ -133,21 +135,26 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
         <div className="admin-card-body">
-          {brands.length > 0 ? (
+          {allBrands.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-              {brands.map((brand) => {
+              {allBrands.map((brand) => {
                 const count = products.filter((p) => p.brand === brand).length;
                 return (
                   <Link
                     key={brand}
                     href={`/admin/products?brand=${brand}`}
-                    className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#3b82f6]/20 hover:bg-white/[0.04] transition-all text-center group"
+                    className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#3b82f6]/20 hover:bg-white/[0.04] transition-all text-center group relative overflow-hidden"
                   >
                     <div className="h-8 w-8 rounded-lg bg-white/[0.06] flex items-center justify-center group-hover:bg-[#3b82f6]/10 transition-colors">
                       <Building2 className="h-4 w-4 text-[#6b7280] group-hover:text-[#60a5fa] transition-colors" />
                     </div>
                     <p className="text-xs font-medium text-[#9ca3af] truncate w-full">{brand}</p>
                     <p className="text-lg font-bold text-white leading-none">{count}</p>
+                    
+                    {/* Hover indicator */}
+                    <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Edit className="h-3 w-3 text-[#b78b57]" />
+                    </div>
                   </Link>
                 );
               })}

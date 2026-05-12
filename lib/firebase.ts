@@ -27,9 +27,7 @@ let analytics: any;
 if (isConfigValid) {
   try {
     app = initializeApp(firebaseConfig);
-    db = initializeFirestore(app, {
-      experimentalForceLongPolling: true,
-    });
+    db = initializeFirestore(app, {});
     auth = getAuth(app);
     storage = getStorage(app);
     

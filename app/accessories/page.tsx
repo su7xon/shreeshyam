@@ -107,7 +107,7 @@ export default function AccessoriesPage() {
                   fill
                   className="object-contain p-4 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
                   sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
-                  unoptimized
+                  
                 />
               </div>
 
