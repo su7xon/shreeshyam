@@ -69,7 +69,7 @@ export default function AdminBannersPage() {
     } else {
       const samePlacement = banners.filter((b) => b.placement === form.placement);
       const maxOrder = samePlacement.length > 0 ? Math.max(...samePlacement.map((b) => b.order)) : -1;
-      admin.addBanner({ id: `banner-${Date.now()}`, title: form.title.trim() || '', subtitle: form.subtitle, image: form.image, link: form.link, placement: form.placement, order: maxOrder + 1, active: form.active });
+      admin.addBanner({ title: form.title.trim() || '', subtitle: form.subtitle, image: form.image, link: form.link, placement: form.placement, order: maxOrder + 1, active: form.active });
     }
     resetForm();
   };

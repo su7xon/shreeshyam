@@ -4,6 +4,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from './data';
 import { expandedProducts } from './expanded-catalog';
+import { db } from './firebase';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import * as productService from './services/productService';
 import * as brandService from './services/brandService';
 import * as bannerService from './services/bannerService';
@@ -162,25 +164,18 @@ interface AdminStore {
 
     // Firebase Sync
     isLoading: boolean;
-    initialize: () => Promise<void>;
+    isInitialized: boolean;
+    initialize: () => (() => void);
 }
 
 // ==================== Default Data ====================
 
-const defaultProducts: AdminProduct[] = expandedProducts as AdminProduct[];
-
-const defaultBanners: Banner[] = [
-  {
-    id: "banner-1",
-    title: "Samsung Galaxy S25 Ultra",
-    subtitle: "The ultimate Galaxy AI experience",
-    image: "",
-    link: "/products",
-    placement: 'hero',
-    order: 0,
-    active: true,
-  },
-];
+// Default data is now only used as a very first initial state before hydration or sync
+const defaultProducts: AdminProduct[] = [];
+const defaultBanners: Banner[] = [];
+const defaultOffers: Offer[] = [];
+const defaultBrands: Brand[] = [];
+const defaultCategories: Category[] = [];
 
 const bannerSort = (a: Banner, b: Banner) => {
   if (a.placement === b.placement) return a.order - b.order;
@@ -194,135 +189,41 @@ const normalizeBanner = (banner: Partial<Banner> & Pick<Banner, 'id' | 'title' |
   placement: (banner.placement || 'hero') as BannerPlacement,
 });
 
-const defaultOffers: Offer[] = [
-  {
-    id: "offer-1",
-    title: "HDFC Bank Offer",
-    description: "10% instant discount up to ₹7,500 on HDFC Bank Credit Card EMI Transactions.",
-    icon: "🏦",
-    active: true,
-  },
-  {
-    id: "offer-2",
-    title: "No Cost EMI",
-    description: "No Cost EMI available on select credit cards. View details.",
-    icon: "💳",
-    active: true,
-  },
-  {
-    id: "offer-3",
-    title: "Exchange Offer",
-    description: "Save up to ₹20,000 when you exchange your old phone.",
-    icon: "🔄",
-    active: true,
-  },
-];
-
-const defaultBrands: Brand[] = [];
-
-const defaultCategories: Category[] = [
-  { id: 'cat-1', name: 'Mobiles', image: '/categories/mobiles.png', active: true, order: 0 },
-  { id: 'cat-2', name: 'Chargers', image: '/categories/chargers.png', active: true, order: 1 },
-  { id: 'cat-3', name: 'Earbuds', image: '/categories/earbuds.png', active: true, order: 2 },
-  { id: 'cat-4', name: 'Watches', image: '/categories/watches.png', active: true, order: 3 },
-  { id: 'cat-5', name: 'Tablets', image: '/categories/tablets.png', active: true, order: 4 },
-];
-
 // ==================== Store ====================
 
 const useAdminStore = create<AdminStore>()(
   persist(
     (set, get) => ({
       // Products
-      products: defaultProducts,
+      products: [],
       addProduct: async (product) => {
         const id = await productService.createProduct(product as any);
-        const newProduct = { ...product, id } as AdminProduct;
-        set((state) => ({ products: [...state.products, newProduct] }));
         return id;
       },
       updateProduct: async (id, updates) => {
         await productService.updateProduct(id, updates as any);
-        set((state) => ({
-          products: state.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
-        }));
       },
       deleteProduct: async (id) => {
         await productService.deleteProduct(id);
-        set((state) => ({
-          products: state.products.filter((p) => p.id !== id),
-        }));
       },
       getProduct: (id) => get().products.find((p) => p.id === id),
       importBulkProducts: async (products) => {
         await productService.createProductsBulk(products as any);
-        // Immediately fetch the new products from firestore to update the store
-        // We will call initialize() manually in the UI component so we don't have circular dependencies here,
-        // but wait, we can just fetch products here:
-        const freshProducts = await productService.getProducts();
-        set({ products: freshProducts });
       },
 
       // Banners
-      banners: defaultBanners,
+      banners: [],
       addBanner: async (banner) => {
         const id = await bannerService.createBanner(banner as any);
-        const nextBanner = normalizeBanner({ ...banner, id } as Banner);
-        
-        set((state) => {
-          const nextBanners =
-            nextBanner.placement === 'before-about' && nextBanner.active
-              ? state.banners.map((b) =>
-                  b.placement === 'before-about' ? { ...b, active: false } : b
-                )
-              : state.banners;
-
-          return { banners: [...nextBanners, nextBanner].sort(bannerSort) };
-        });
         return id;
       },
       updateBanner: async (id, updates) => {
         await bannerService.updateBanner(id, updates as any);
-        set((state) => {
-          const current = state.banners.find((b) => b.id === id);
-          if (!current) return { banners: state.banners };
-
-          const updated = normalizeBanner({ ...current, ...updates });
-          const shouldActivateExclusiveBeforeAbout =
-            updated.placement === 'before-about' && updated.active;
-
-          const nextBanners = state.banners.map((b) => {
-            if (b.id === id) return updated;
-            if (shouldActivateExclusiveBeforeAbout && b.placement === 'before-about') {
-              return { ...b, active: false };
-            }
-            return b;
-          });
-
-          return { banners: nextBanners.sort(bannerSort) };
-        });
       },
       deleteBanner: async (id) => {
         await bannerService.deleteBanner(id);
-        set((state) => ({
-          banners: state.banners.filter((b) => b.id !== id),
-        }));
       },
       reorderBanners: async (placement, bannerIds) => {
-        // Optimistic update locally
-        set((state) => {
-          const untouched = state.banners.filter((b) => b.placement !== placement);
-          const reordered = bannerIds
-            .map((id) => state.banners.find((b) => b.id === id && b.placement === placement))
-            .filter(Boolean)
-            .map((b, index) => ({ ...(b as Banner), order: index }));
-
-          return {
-            banners: [...untouched, ...reordered].sort(bannerSort),
-          };
-        });
-
-        // Sync items with new orders to Firebase
         const bannerUpdates = bannerIds.map((id, index) => 
           bannerService.updateBanner(id, { order: index } as any)
         );
@@ -330,58 +231,31 @@ const useAdminStore = create<AdminStore>()(
       },
 
       // Offers
-      offers: defaultOffers,
+      offers: [],
       addOffer: async (offer) => {
         const id = await offerService.createOffer(offer as any);
-        const newOffer = { ...offer, id } as Offer;
-        set((state) => ({ offers: [...state.offers, newOffer] }));
         return id;
       },
       updateOffer: async (id, updates) => {
         await offerService.updateOffer(id, updates as any);
-        set((state) => ({
-          offers: state.offers.map((o) => (o.id === id ? { ...o, ...updates } : o)),
-        }));
       },
       deleteOffer: async (id) => {
         await offerService.deleteOffer(id);
-        set((state) => ({
-          offers: state.offers.filter((o) => o.id !== id),
-        }));
       },
 
       // Categories
-      categories: defaultCategories,
+      categories: [],
       addCategory: async (category) => {
         const id = await categoryService.createCategory(category as any);
-        const newCategory = { ...category, id } as Category;
-        set((state) => ({ categories: [...state.categories, newCategory].sort((a, b) => a.order - b.order) }));
         return id;
       },
       updateCategory: async (id, updates) => {
         await categoryService.updateCategory(id, updates as any);
-        set((state) => ({
-          categories: state.categories.map((c) => (c.id === id ? { ...c, ...updates } : c)).sort((a, b) => a.order - b.order),
-        }));
       },
       deleteCategory: async (id) => {
         await categoryService.deleteCategory(id);
-        set((state) => ({
-          categories: state.categories.filter((c) => c.id !== id),
-        }));
       },
       reorderCategories: async (categoryIds) => {
-        set((state) => {
-          const reordered = categoryIds
-            .map((id) => state.categories.find((c) => c.id === id))
-            .filter(Boolean)
-            .map((c, index) => ({ ...(c as Category), order: index }));
-
-          return {
-            categories: reordered,
-          };
-        });
-
         const categoryUpdates = categoryIds.map((id, index) => 
           categoryService.updateCategory(id, { order: index } as any)
         );
@@ -392,21 +266,13 @@ const useAdminStore = create<AdminStore>()(
       dailyDeals: [],
       addDailyDeal: async (deal) => {
         const id = await dailyDealService.createDailyDeal(deal);
-        const newDeal = { ...deal, id } as DailyDeal;
-        set((state) => ({ dailyDeals: [...state.dailyDeals, newDeal] }));
         return id;
       },
       updateDailyDeal: async (id, updates) => {
         await dailyDealService.updateDailyDeal(id, updates);
-        set((state) => ({
-          dailyDeals: state.dailyDeals.map((d) => (d.id === id ? { ...d, ...updates } : d)),
-        }));
       },
       deleteDailyDeal: async (id) => {
         await dailyDealService.deleteDailyDeal(id);
-        set((state) => ({
-          dailyDeals: state.dailyDeals.filter((d) => d.id !== id),
-        }));
       },
 
        // Site config
@@ -414,99 +280,104 @@ const useAdminStore = create<AdminStore>()(
        setSiteName: (name) => set({ siteName: name }),
 
        // Brands
-       brands: defaultBrands,
+       brands: [],
        addBrand: async (brand) => {
          const id = await brandService.createBrand(brand as any);
-         const newBrand = { 
-           ...brand, 
-           id, 
-           createdAt: new Date().toISOString(), 
-           updatedAt: new Date().toISOString() 
-         } as Brand;
-         set((state) => ({ brands: [...state.brands, newBrand] }));
          return id;
        },
        updateBrand: async (id, updates) => {
          await brandService.updateBrand(id, updates as any);
-         set((state) => ({
-           brands: state.brands.map((b) => (b.id === id ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b)),
-         }));
        },
        deleteBrand: async (id) => {
          await brandService.deleteBrand(id);
-         set((state) => ({
-           brands: state.brands.filter((b) => b.id !== id),
-         }));
        },
        getBrand: (id) => get().brands.find((b) => b.id === id),
 
        // Firebase Sync
        isLoading: false,
-       initialize: async () => {
-         // Prevent multiple simultaneous initializations
-         if (get().isLoading) return;
+       isInitialized: false,
+       initialize: () => {
+         if (get().isInitialized || !db) return () => {};
          
-         set({ isLoading: true });
-         try {
-           const [products, brands, banners, offers, orders, categories, dailyDeals] = await Promise.all([
-             productService.getProducts().catch(err => { console.error('Products fetch failed:', err); return []; }),
-             brandService.getBrands().catch(err => { console.error('Brands fetch failed:', err); return []; }),
-             bannerService.getBanners().catch(err => { console.error('Banners fetch failed:', err); return []; }),
-             offerService.getOffers().catch(err => { console.error('Offers fetch failed:', err); return []; }),
-             orderService.getOrders().catch(err => { console.error('Orders fetch failed:', err); return []; }),
-             categoryService.getCategories().catch(err => { console.error('Categories fetch failed:', err); return []; }),
-              dailyDealService.getDailyDeals().catch(err => { console.error('Daily Deals fetch failed:', err); return []; }),
-           ]);
-           
-           set({ 
-             products: products || [], 
-             brands: brands || [], 
-             banners: banners || [], 
-             offers: offers || [], 
-             orders: orders || [],
-             categories: categories || [],
-              dailyDeals: dailyDeals || [],
-             isLoading: false 
-           });
-         } catch (error) {
-           console.error('Failed to initialize admin store:', error);
-           set({ isLoading: false });
-         }
+         set({ isLoading: true, isInitialized: true });
+         
+         // Setup real-time listeners for all main collections
+         const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
+           const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as AdminProduct[];
+           set({ products, isLoading: false });
+         });
+
+         const unsubBrands = onSnapshot(collection(db, 'brands'), (snapshot) => {
+           const brands = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Brand[];
+           set({ brands });
+         });
+
+         const unsubBanners = onSnapshot(collection(db, 'banners'), (snapshot) => {
+           const banners = snapshot.docs
+             .map((doc) => normalizeBanner({ ...doc.data(), id: doc.id } as any))
+             .sort(bannerSort);
+           set({ banners });
+         });
+
+         const unsubOffers = onSnapshot(collection(db, 'offers'), (snapshot) => {
+           const offers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Offer[];
+           set({ offers });
+         });
+
+         const unsubOrders = onSnapshot(query(collection(db, 'orders'), orderBy('createdAt', 'desc')), (snapshot) => {
+           const orders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Order[];
+           set({ orders });
+         });
+
+         const unsubCategories = onSnapshot(query(collection(db, 'categories'), orderBy('order', 'asc')), (snapshot) => {
+           const categories = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Category[];
+           set({ categories });
+         });
+
+         const unsubDeals = onSnapshot(collection(db, 'dailyDeals'), (snapshot) => {
+           const dailyDeals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DailyDeal[];
+           set({ dailyDeals });
+         });
+
+         // Return combined unsubscribe
+         return () => {
+           unsubProducts();
+           unsubBrands();
+           unsubBanners();
+           unsubOffers();
+           unsubOrders();
+           unsubCategories();
+           unsubDeals();
+           set({ isInitialized: false });
+         };
        },
 
        // Orders
        orders: [],
        addOrder: async (orderData) => {
          const id = await orderService.createOrder(orderData as any);
-         const now = new Date().toISOString();
-         const order: Order = {
-           ...orderData,
-           id,
-           orderNumber: orderData.orderNumber || `ORD-${id.slice(-6).toUpperCase()}`,
-           createdAt: now,
-           updatedAt: now,
-         };
-         set((state) => ({ orders: [order, ...state.orders] }));
          return id;
        },
        updateOrderStatus: async (orderId, status) => {
          await orderService.updateOrderStatus(orderId, status);
-         set((state) => ({
-           orders: state.orders.map((o) =>
-             o.id === orderId ? { ...o, status, updatedAt: new Date().toISOString() } : o
-           ),
-         }));
        },
        deleteOrder: async (orderId) => {
          await orderService.deleteOrder(orderId);
-         set((state) => ({
-           orders: state.orders.filter((o) => o.id !== orderId),
-         }));
        },
        getOrder: (orderId) => get().orders.find((o) => o.id === orderId),
     }),
     {
       name: 'mobimart-admin-store',
+      // Only persist lightweight config data, NOT large datasets
+      // Products (can be 2-3MB for 500+ items) are fetched fresh via React Query
+      partialize: (state) => ({
+        banners: state.banners,
+        offers: state.offers,
+        brands: state.brands,
+        categories: state.categories,
+        siteName: state.siteName,
+        // Excluded: products, orders, dailyDeals, isLoading
+      }),
       merge: (persistedState, currentState) => {
         const persisted = (persistedState || {}) as Partial<AdminStore>;
         const persistedBanners = Array.isArray(persisted.banners)
@@ -531,7 +402,7 @@ const useAdminStore = create<AdminStore>()(
           banners: persistedBanners,
           brands: persistedBrands,
           categories: persistedCategories,
-          isLoading: false, // Force reset loading state to prevent deadlocks
+          isLoading: false,
         };
       },
     }
