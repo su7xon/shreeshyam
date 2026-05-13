@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -9,8 +9,9 @@ import { expandedProducts } from '@/lib/expanded-catalog';
 import { useCartStore } from '@/lib/store';
 import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
 import useAdminStore from '@/lib/admin-store';
-import { useMemo } from 'react';
 import { deduplicateProducts } from '@/lib/utils';
+
+import { accessories } from '@/lib/accessories-data';
 
 interface ProductDetailClientProps {
   id: string;
@@ -18,8 +19,16 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const admin = useAdminStore();
+  
+  // Initialize admin store on mount
+  useEffect(() => {
+    const unsub = admin.initialize();
+    return () => unsub();
+  }, []);
+
   const products = useMemo(() => {
-    const combined = [...expandedProducts, ...admin.products];
+    // Combine all potential product sources
+    const combined = [...expandedProducts, ...accessories, ...admin.products];
     // Deduplicate by ID
     const unique = new Map();
     combined.forEach(p => unique.set(p.id, p));
@@ -39,212 +48,31 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(admin.products.length === 0);
   
-  // Pagination for You May Also Like
-  const [currentPage, setCurrentPage] = useState(1);
-  const RELATED_PER_PAGE = 24;
-  const getProductSpecs = (p: any) => {
-    if (!p) return { ram: '', storage: '' };
-    let ram = p.ram || '';
-    let storage = p.storage || '';
-    
-    // If we have both from the catalog, we're good
-    if (ram && storage) return { ram, storage };
-
-    // Otherwise try to extract from name
-    const name = p.name || '';
-    
-    // Pattern: 8GB+128GB or 8/128 or 8+128 or 8GB/128
-    const combinedPattern = /(\d+)\s*(?:GB)?\s*[+/]\s*(?:GB)?\s*(\d+)\s*(?:GB)?/i;
-    const match = name.match(combinedPattern);
-    
-    if (match) {
-      const v1 = parseInt(match[1]);
-      const v2 = parseInt(match[2]);
-      // Heuristic: smaller is RAM, larger is Storage
-      if (v1 > v2 && v2 !== 0) {
-        if (!ram) ram = v2 + 'GB';
-        if (!storage) storage = v1 + 'GB';
-      } else {
-        if (!ram) ram = v1 + 'GB';
-        if (!storage) storage = v2 + 'GB';
-      }
-    } else {
-      // Individual matches
-      if (!ram) {
-        const ramMatch = name.match(/(\d+)\s*GB\s*RAM/i) || name.match(/(\d+)\s*GB(?!\s*(STORAGE|ROM))/i);
-        if (ramMatch) ram = ramMatch[1] + 'GB';
-      }
-      if (!storage) {
-        const storageMatch = name.match(/(\d+)\s*GB\s*(STORAGE|ROM)/i) || name.match(/(\d+)\s*GB/i);
-        // Avoid using same value for both if possible
-        if (storageMatch && storageMatch[1] + 'GB' !== ram) {
-          storage = storageMatch[1] + 'GB';
-        }
-      }
-    }
-    
-    return { ram, storage };
-  };
-
-  const getModelKey = (p: any) => {
-    const brand = (p.brand || '').toUpperCase();
-    let model = (p.name || '').toUpperCase();
-    const toRemove = [brand, '5G', '4G', 'RAM', 'ROM', '(', ')', '+', ',', 'GB'];
-    toRemove.forEach(str => {
-      if (str) model = model.split(str).join('');
-    });
-    model = model.replace(/\d+\s*[+\/]\s*\d+/g, ' ');
-    model = model.replace(/\d+\s*GB/gi, ' ');
-    model = model.replace(/\(.*?\)/g, ' ');
-    const cleanModel = model.replace(/[^A-Z0-9]/g, '').trim();
-    return `${brand}|${cleanModel}`;
-  };
-
-  // Improved logic to find sibling variants (different RAM/Storage of same model)
-  const siblingVariants = useMemo(() => {
-    if (!product) return [];
-    
-    const brand = (product.brand || '').toUpperCase();
-    
-    // Helper to get significant model-related words from a name
-    const getModelWords = (name: string, brandName: string) => {
-      let n = name.toUpperCase();
-      // Remove brand
-      if (brandName) n = n.split(brandName.toUpperCase()).join(' ');
-      
-      // Remove specs (RAM, Storage, 5G, etc)
-      n = n.replace(/\d+\s*GB/gi, ' ');
-      n = n.replace(/\b[45]G\b/gi, ' ');
-      n = n.replace(/\d+\s*RAM/gi, ' ');
-      n = n.replace(/\d+\s*ROM/gi, ' ');
-      n = n.replace(/\d+\s*STORAGE/gi, ' ');
-      n = n.replace(/\d+\s*[\+\/]\s*\d+/g, ' ');
-      n = n.replace(/\(.*\)/g, ' '); // Remove parentheses content
-      
-      // Split into words and keep significant ones (length >= 2)
-      return n.replace(/[^A-Z0-9]/g, ' ')
-              .trim()
-              .split(/\s+/)
-              .filter(w => w.length >= 2);
-    };
-    
-    const currentWords = getModelWords(product.name, brand);
-    const currentFullName = product.name.toUpperCase();
-    
-    // Find siblings from the full catalog
-    const siblings = products.filter(p => {
-      // Must be same brand
-      if (!p.brand || p.brand.toUpperCase() !== brand) return false;
-      
-      const siblingWords = getModelWords(p.name, brand);
-      const siblingFullName = p.name.toUpperCase();
-      
-      // Match if they share ALL significant words of the current product
-      // This prevents "Narzo 90" matching "Narzo 90X" because 90X has "X" which 90 doesn't.
-      // But wait, it's safer to check if they share the same base model name.
-      
-      const intersection = currentWords.filter(w => siblingWords.includes(w));
-      const genericWords = ['DUAL', 'SIM', 'NEW', 'SMART', 'MOBILE', 'PHONE', '5G', '4G', 'LTE', 'WIFI', 'EDITION'];
-      const significantWords = currentWords.filter(w => !genericWords.includes(w));
-      
-      // If we have no significant words (unlikely), fallback to brand match (too broad, so we skip)
-      if (significantWords.length === 0) return false;
-
-      // Must contain ALL significant words of the source product
-      const matchesAll = significantWords.every(w => siblingWords.includes(w));
-      
-      // Also must NOT contain extra significant words that the source doesn't have
-      // e.g. "Narzo 90" should not match "Narzo 90X"
-      const siblingSignificantWords = siblingWords.filter(w => !genericWords.includes(w));
-      const noExtraWords = siblingSignificantWords.every(w => significantWords.includes(w));
-
-      return matchesAll && noExtraWords;
-    });
-
-    // Ensure current product is always in the list
-    if (!siblings.find(s => s.id === product.id)) {
-      siblings.push(product);
-    }
-
-    // Process all siblings to ensure they have RAM/Storage fields filled
-    const processedSiblings = siblings.map(s => {
-      const { ram, storage } = getProductSpecs(s);
-      return { ...s, ram, storage };
-    });
-
-    // Sort by RAM then Storage
-    const sorted = processedSiblings.sort((a, b) => {
-      const ramA = parseInt(a.ram) || 0;
-      const ramB = parseInt(b.ram) || 0;
-      if (ramA !== ramB) return ramA - ramB;
-      const storageA = parseInt(a.storage) || 0;
-      const storageB = parseInt(b.storage) || 0;
-      return storageA - storageB;
-    });
-
-    // Deduplicate by (RAM, Storage) pair to avoid showing 5 buttons for 5 colors of the same spec
-    const uniquePairs = new Map();
-    sorted.forEach(s => {
-      const key = `${s.ram}-${s.storage}`.trim();
-      if (!uniquePairs.has(key) || s.id === product.id) {
-        uniquePairs.set(key, s);
-      }
-    });
-
-    const result = Array.from(uniquePairs.values());
-    
-    // If only one variant total, and it's the current one, 
-    // and it has valid specs, we still show it to be clear
-    return result;
-  }, [product, products]);
-
-  // Helper to clean product name for display
-  const cleanProductName = (name: string) => {
-    let n = name;
-    // Remove category in brackets [MOBILE]
-    n = n.replace(/\[.*?\]/g, '');
-    // Remove color in parentheses (BLACK)
-    n = n.replace(/\(.*\)/g, '');
-    // Remove RAM+Storage patterns like 8GB+128GB, 8+128, 8GB/128 etc
-    n = n.replace(/\d+\s*(?:GB)?\s*[+/]\s*(?:GB)?\s*\d+\s*(?:GB)?/gi, '');
-    // Remove single RAM/ROM mentions
-    n = n.replace(/\d+\s*GB\s*(?:RAM|ROM|STORAGE)/gi, '');
-    n = n.replace(/\d+\s*GB/gi, '');
-    // Remove trailing symbols and extra whitespace
-    n = n.replace(/[+/]\s*$/g, '');
-    n = n.replace(/\s+/g, ' ');
-    // Remove redundant brand names
-    const words = n.trim().split(' ');
-    if (words.length > 1 && words[0].toUpperCase() === words[1].toUpperCase()) {
-      n = words.slice(1).join(' ');
-    }
-    return n.trim();
-  };
-
-  if (!product && !isLoading) {
-    notFound();
-    return null;
-  }
-
-  const { ram: displayRam, storage: displayStorage } = getProductSpecs(product);
-  const displayPrice = product?.price || 0;
-  const displayOriginalPrice = product?.originalPrice;
+  // Refined loading state: Only stop loading if we found the product OR if admin store is initialized and 800ms passed
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-    // If products are already loaded, don't show skeleton again
-    if (admin.products.length > 0) {
+    
+    // If product is already found (from static lists), we can stop loading
+    if (directMatch || indexMatch) {
+      setIsLoading(false);
+      return;
+    }
+
+    // Otherwise, wait for admin store to initialize
+    if (admin.isInitialized && admin.products.length > 0) {
       setIsLoading(false);
     } else {
-      // Give Firebase time to load products on initial visit
+      // Fallback timer to prevent infinite loading if product truly doesn't exist
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 800);
+      }, 1500); // Increased to 1.5s to give Firestore more time
       return () => clearTimeout(timer);
     }
-  }, [admin.products.length]);
+  }, [admin.isInitialized, admin.products.length, directMatch, indexMatch]);
+
 
   // Only show skeleton on the very first render (SSR hydration)
   if (!mounted || isLoading) {
@@ -261,6 +89,36 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
       maximumFractionDigits: 0,
     }).format(price);
   };
+
+  const displayPrice = product.price;
+  const displayOriginalPrice = product.originalPrice;
+  const displayRam = product.ram || 'N/A';
+  const displayStorage = product.storage || 'N/A';
+
+  const cleanProductName = (name: string) => {
+    return name.replace(/\([^)]*\)/g, '').trim();
+  };
+
+  const getModelKey = (p: any) => {
+    if (!p) return '';
+    return p.name.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/\(.*\)/g, '')
+      .split('-')[0];
+  };
+
+  // Find products with same model name to show as variants
+  const siblingVariants = useMemo(() => {
+    if (!product) return [];
+    const modelKey = getModelKey(product);
+    return products.filter(p => 
+      p.brand === product.brand && 
+      getModelKey(p) === modelKey
+    );
+  }, [product, products]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const RELATED_PER_PAGE = 4;
 
   const productToAdd = { ...product };
 
