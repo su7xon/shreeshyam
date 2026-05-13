@@ -33,7 +33,11 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   // Initialize admin store on mount
   useEffect(() => {
     const unsub = admin.initialize();
-    return () => unsub();
+    return () => {
+      if (typeof unsub === 'function') {
+        unsub();
+      }
+    };
   }, []);
 
   const products = useMemo(() => {
