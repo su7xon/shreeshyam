@@ -16,7 +16,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   return (
     <>
       <Navbar />
-      <main className="flex-grow pb-[68px] md:pb-0">
+      <main className="flex-grow pt-[64px] pb-[68px] md:pt-0 md:pb-0">
         {children}
       </main>
       <Footer />

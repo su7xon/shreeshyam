@@ -313,16 +313,15 @@ export default function Home() {
               )}
             </div>
           ) : (
-            /* Default Hero — show a real banner when no admin banners exist */
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-none bg-[#111214]">
-              <Image
-                src="/trending-banner.jpg"
-                alt="Featured banner"
-                fill
-                className="object-cover object-center"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/30" />
+            /* Default Hero — branded placeholder when no admin banners exist */
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/8] overflow-hidden rounded-none bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center px-6">
+                  <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">श्री श्याम Mobiles</h2>
+                  <p className="text-sm sm:text-lg text-white/60 mt-2 sm:mt-3">Best Deals on Smartphones & Accessories</p>
+                </div>
+              </div>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.15),transparent_60%)]" />
             </div>
             )}
           </Suspense>
@@ -333,66 +332,31 @@ export default function Home() {
       <CategoryStrip />
       
       {/* Trust Badges */}
+      {smallCardBanners.length > 0 && (
       <section className="pb-8 sm:pb-12 reveal-fade-up" style={{ animationDelay: '90ms' }}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6">
           <h2 className="text-[18px] sm:text-2xl font-bold text-[var(--color-text)] tracking-tight">Watch Out For This</h2>
         </div>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <Suspense fallback={
-            <div className="flex gap-3 sm:gap-5 overflow-hidden pb-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="w-[45vw] sm:w-[220px] shrink-0 aspect-[9/14] sm:aspect-[4/5]"><CategorySkeleton /></div>
-              ))}
-            </div>
-          }>
-            {(() => {
-              const renderedBanners = smallCardBanners.length > 0
-                ? smallCardBanners.map((banner) => (
-                    <Link
-                      key={banner.id}
-                      href={resolveBannerHref(banner.link)}
-                      className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#121212] w-[45vw] sm:w-[220px] shrink-0 flex flex-col items-center aspect-[9/14] sm:aspect-[4/5] border border-gray-800"
-                    >
-                      {banner.image && (
-                        <Image
-                          src={banner.image}
-                          alt={banner.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 768px) 50vw, 25vw"
-                          
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none" />
-                    </Link>
-                  ))
-                : (
-                    <>
-                      <Link href="/products?brand=Apple" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-black w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-gray-800 aspect-[9/14] sm:aspect-[4/5] text-center">
-                        <div className="absolute -bottom-8 sm:-bottom-12 right-0 left-0 w-full flex justify-center opacity-60 group-hover:opacity-80 transition-opacity">
-                          <div className="text-[110px] sm:text-[160px] drop-shadow-2xl">📱</div>
-                        </div>
-                      </Link>
-                      
-                      <Link href="/products?brand=Samsung" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-gradient-to-b from-[#bda3e2] to-[#7f5db0] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-[#9b76cc] aspect-[9/14] sm:aspect-[4/5] text-center">
-                        <div className="absolute -bottom-6 sm:-bottom-8 right-0 left-0 w-full flex justify-center opacity-90 group-hover:opacity-100 transition-transform group-hover:scale-105 duration-300">
-                          <div className="text-[120px] sm:text-[170px] drop-shadow-2xl">🌌</div>
-                        </div>
-                      </Link>
-
-                      <Link href="/accessories" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#0A0A0A] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-gray-800 aspect-[9/14] sm:aspect-[4/5] text-center">
-                        <div className="absolute -bottom-6 sm:-bottom-10 right-0 left-0 w-full flex justify-center opacity-50 group-hover:opacity-70 transition-opacity">
-                          <div className="text-[110px] sm:text-[160px]">🎧</div>
-                        </div>
-                      </Link>
-                      
-                      <Link href="/products?brand=OnePlus" className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-gradient-to-b from-[#cd1619] to-[#800709] w-[42vw] sm:w-[220px] shrink-0 flex flex-col border border-[#ff373a]/30 aspect-[9/14] sm:aspect-[4/5] text-center">
-                        <div className="absolute -bottom-8 sm:-bottom-12 right-0 left-0 w-full flex justify-center opacity-80 group-hover:scale-105 transition-transform duration-300">
-                          <div className="text-[120px] sm:text-[170px] drop-shadow-xl">🕹️</div>
-                        </div>
-                      </Link>
-                    </>
-                  );
+          {(() => {
+              const renderedBanners = smallCardBanners.map((banner) => (
+                <Link
+                  key={banner.id}
+                  href={resolveBannerHref(banner.link)}
+                  className="group relative rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#121212] w-[45vw] sm:w-[220px] shrink-0 flex flex-col items-center aspect-[9/14] sm:aspect-[4/5] border border-gray-800"
+                >
+                  {banner.image && (
+                    <Image
+                      src={banner.image}
+                      alt={banner.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none" />
+                </Link>
+              ));
 
               return (
                 <div 
@@ -412,9 +376,9 @@ export default function Home() {
                 </div>
               );
             })()}
-          </Suspense>
         </div>
       </section>
+      )}
 
       {/* Trust Badges moved here */}
       <TrustBadges />

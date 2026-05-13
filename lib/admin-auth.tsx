@@ -78,7 +78,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminAuthContext.Provider value={{ 
-      isAuthenticated: !!user && (user.email === ADMIN_EMAIL || user.email?.endsWith('@shreeshyammobiles.com')), 
+      isAuthenticated: !!user && (user.email === ADMIN_EMAIL || !!user.email?.endsWith('@shreeshyammobiles.com')), 
       user, 
       login, 
       logout 

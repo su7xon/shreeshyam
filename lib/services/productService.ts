@@ -28,7 +28,7 @@ export interface PaginatedResult<T> {
 
 const buildProductQuery = (
   filters: ProductFilters = {},
-  lastDoc?: QueryDocumentSnapshot,
+  lastDoc?: QueryDocumentSnapshot | null,
   pageSize: number = 24
 ) => {
   const constraints: any[] = [];
@@ -84,7 +84,7 @@ export const getPaginatedProducts = async (
       ...doc.data()
     })) as AdminProduct[];
 
-    const lastVisible = snapshot.docs[snapshot.docs.length - 1] || null;
+    const lastVisible = (snapshot.docs[snapshot.docs.length - 1] as unknown as QueryDocumentSnapshot<AdminProduct>) || null;
     const hasMore = snapshot.docs.length === pageSize;
 
     // Get total count (separate query for performance)
@@ -212,8 +212,15 @@ export const getNewArrivals = async (limitCount: number = 10): Promise<AdminProd
     
     return products
       .sort((a, b) => {
-        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        const getTime = (date: any) => {
+          if (!date) return 0;
+          if (typeof date === 'string' || typeof date === 'number') return new Date(date).getTime();
+          if (date.toMillis) return date.toMillis();
+          if (date.toDate) return date.toDate().getTime();
+          return 0;
+        };
+        const dateA = getTime(a.createdAt);
+        const dateB = getTime(b.createdAt);
         return dateB - dateA;
       })
       .slice(0, limitCount);

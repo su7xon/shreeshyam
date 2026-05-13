@@ -1,6 +1,6 @@
 // lib/services/categoryService.ts
 import { db } from '@/lib/firebase';
-import { collection, addDoc, setDoc, deleteDoc, doc, getDocs, query, where, orderBy, Timestamp, limit } from 'firebase/firestore';
+import { collection, addDoc, setDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, Timestamp, limit } from 'firebase/firestore';
 
 const CATEGORIES_COLLECTION = 'categories';
 

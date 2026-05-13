@@ -35,18 +35,20 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'Shyam Mobiles',
   },
-  appleTouchIcon: [
-    {
-      url: '/icon-192-v2.png',
-      sizes: '192x192',
-      type: 'image/png',
-    },
-    {
-      url: '/icon-512-v2.png',
-      sizes: '512x512',
-      type: 'image/png',
-    },
-  ],
+  icons: {
+    apple: [
+      {
+        url: '/icon-192-v2.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        url: '/icon-512-v2.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  },
   openGraph: {
     title: 'Shyam Mobiles | Professional E-commerce',
     description: 'A modern and professional e-commerce website for selling mobile phones.',

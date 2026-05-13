@@ -53,16 +53,16 @@ export default function Navbar() {
 
 
   return (
-    <nav className="bg-white/95 text-[#111] sticky top-0 z-50 border-b border-[#e5e7eb] backdrop-blur-md">
+    <nav className="bg-white/95 text-[#111] fixed top-0 left-0 right-0 md:sticky md:top-0 z-50 border-b border-[#e5e7eb] backdrop-blur-md">
 
 
-      <div className="w-full px-2.5 sm:px-6 lg:px-8 py-2 sm:py-3">
+      <div className="w-full px-3 sm:px-6 lg:px-8 py-3 sm:py-3">
         <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex-shrink min-w-0 flex items-center gap-1 sm:gap-2">
+            <div className="flex-shrink min-w-0 flex items-center gap-2 sm:gap-2">
               <Link href="/" className="flex items-center min-w-0">
                 {logoError ? (
-                  <div className="h-8 sm:h-11 px-2.5 sm:px-3 rounded bg-black flex items-center justify-center text-[10px] sm:text-sm font-bold text-white" aria-hidden="true">
+                  <div className="h-10 sm:h-11 px-2.5 sm:px-3 rounded bg-black flex items-center justify-center text-[10px] sm:text-sm font-bold text-white" aria-hidden="true">
                     SHYAM
                   </div>
                 ) : (
@@ -73,7 +73,7 @@ export default function Navbar() {
                     height={64}
                     priority
                     onError={() => setLogoError(true)}
-                    className="h-8 sm:h-11 w-auto max-w-[170px] sm:max-w-none object-contain"
+                    className="h-10 sm:h-11 w-auto max-w-[180px] sm:max-w-none object-contain"
                   />
                 )}
               </Link>
@@ -207,18 +207,18 @@ export default function Navbar() {
             </div>
 
             {/* Mobile search + actions */}
-            <div className="md:hidden flex items-center gap-2 flex-1 min-w-0 pl-3">
+            <div className="md:hidden flex items-center gap-2.5 flex-1 min-w-0 pl-2">
               <div className="flex-1 min-w-0">
                 <SearchAutocomplete
                   value={searchQuery}
                   onChange={setSearchQuery}
                   onSearch={handleSearch}
-                  className="h-8"
+                  className="h-10"
                 />
               </div>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 hover:text-black focus:outline-none p-1"
+                className="text-gray-700 hover:text-black focus:outline-none p-2"
                 aria-label="Menu"
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

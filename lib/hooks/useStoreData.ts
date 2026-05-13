@@ -25,7 +25,7 @@ export const queryKeys = {
     featured: ['products', 'featured'] as const,
     newArrivals: ['products', 'new-arrivals'] as const,
     detail: (id: string) => ['products', id] as const,
-    paginated: (filters?: Record<string, unknown>) =>
+    paginated: (filters?: productService.ProductFilters) =>
       ['products', 'paginated', filters] as const,
   },
   banners: {
