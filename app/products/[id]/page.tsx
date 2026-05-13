@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const title = `${product.name} — ${formatPrice(product.price)} | Shyam Mobiles`;
   const description = product.description
     ? product.description.slice(0, 160)
-    : `Buy ${product.name} by ${product.brand} at ${formatPrice(product.price)}. ${product.ram} RAM, ${product.storage} storage. Free delivery at Shyam Mobiles.`;
+    : `Buy ${product.name} by ${product.brand} at ${formatPrice(product.price)}.${product.ram ? ` ${product.ram} RAM,` : ''}${product.storage ? ` ${product.storage} storage.` : ''} Free delivery at Shyam Mobiles.`;
 
   return {
     title,

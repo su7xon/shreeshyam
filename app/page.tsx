@@ -131,7 +131,10 @@ export default function Home() {
     
   const featuredProducts = products.filter((p) => p.featured).slice(0, 8);
   const trendingProducts = featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5);
-  const newArrivals = [...products].slice(-10).reverse();
+  const manuallySelectedNewArrivals = products.filter(p => p.newArrival);
+  const newArrivals = manuallySelectedNewArrivals.length > 0 
+    ? manuallySelectedNewArrivals 
+    : [...products].slice(-10).reverse();
   
   const activeBrands = fetchedBrands && fetchedBrands.length > 0 ? fetchedBrands : defaultBrandStrings;
   // Repeat many times to ensure it fills any screen width and scrolls seamlessly

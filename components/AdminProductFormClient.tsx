@@ -28,17 +28,22 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     originalPrice: existingProduct?.originalPrice || undefined as number | undefined,
     image: existingProduct?.image || '',
     images: existingProduct ? (Array.isArray(existingProduct.images) && existingProduct.images.length > 0 ? existingProduct.images : [existingProduct.image]) : [] as string[],
-    ram: existingProduct?.ram || ramOptions[0],
-    storage: existingProduct?.storage || storageOptions[0],
+    ram: existingProduct?.ram || '',
+    storage: existingProduct?.storage || '',
     processor: existingProduct?.processor || '',
     battery: existingProduct?.battery || '',
     camera: existingProduct?.camera || '',
     display: existingProduct?.display || '',
     featured: existingProduct?.featured || false,
+    newArrival: existingProduct?.newArrival || false,
     description: existingProduct?.description || '',
     category: existingProduct?.category || '',
     colors: existingProduct?.colors || [] as string[],
     variants: existingProduct?.variants || [] as any[],
+    emiAvailable: (existingProduct as any)?.emiAvailable !== false,
+    emiMonths: (existingProduct as any)?.emiMonths || 12,
+    emiPerMonth: (existingProduct as any)?.emiPerMonth || 0,
+    emiNote: (existingProduct as any)?.emiNote || '',
   });
 
   const [isAddingNewBrand, setIsAddingNewBrand] = useState(false);
@@ -64,17 +69,22 @@ export default function AdminProductFormClient({ id }: { id: string }) {
           originalPrice: p.originalPrice,
           image: p.image,
           images: Array.isArray(p.images) && p.images.length > 0 ? p.images : [p.image],
-          ram: p.ram,
-          storage: p.storage,
+          ram: p.ram || '',
+          storage: p.storage || '',
           processor: p.processor,
           battery: p.battery,
           camera: p.camera,
           display: p.display,
           featured: p.featured || false,
+          newArrival: p.newArrival || false,
           description: p.description,
           category: p.category || '',
           colors: p.colors || [],
           variants: p.variants || [],
+          emiAvailable: (p as any).emiAvailable !== false,
+          emiMonths: (p as any).emiMonths || 12,
+          emiPerMonth: (p as any).emiPerMonth || 0,
+          emiNote: (p as any).emiNote || '',
         });
       }
     }
@@ -182,15 +192,18 @@ export default function AdminProductFormClient({ id }: { id: string }) {
     e.preventDefault();
     if (!validate()) return;
 
-    // if variants exist, ensure the lowest price is set as base price
     let finalPrice = form.price;
     let finalOriginalPrice = form.originalPrice;
+    let finalRam = form.ram;
+    let finalStorage = form.storage;
     
     if (form.variants && form.variants.length > 0) {
       // Find the cheapest variant
       const cheapest = [...form.variants].sort((a, b) => a.price - b.price)[0];
       finalPrice = cheapest.price;
       finalOriginalPrice = cheapest.originalPrice;
+      finalRam = cheapest.ram || '';
+      finalStorage = cheapest.storage || '';
     }
 
     const selectedBrand = isAddingNewBrand ? newBrandName.trim() : form.brand;
@@ -220,9 +233,26 @@ export default function AdminProductFormClient({ id }: { id: string }) {
       ...form,
       brand: selectedBrand,
       price: finalPrice,
-      originalPrice: finalOriginalPrice,
+      originalPrice: finalOriginalPrice ?? undefined,
+      ram: finalRam,
+      storage: finalStorage,
       image: form.images[0] || form.image,
+      featured: form.featured || false,
+      newArrival: form.newArrival || false,
+      active: true,
+      emiAvailable: form.emiAvailable,
+      emiMonths: form.emiMonths || 12,
+      emiPerMonth: form.emiPerMonth || 0,
+      emiNote: form.emiNote || '',
     };
+
+    // Sanitize variants to remove undefined values before sending to Firebase
+    if (productData.variants && productData.variants.length > 0) {
+      productData.variants = productData.variants.map((v: any) => ({
+        ...v,
+        originalPrice: v.originalPrice === undefined ? null : v.originalPrice
+      }));
+    }
 
     try {
       setIsSaving(true);
@@ -337,17 +367,31 @@ export default function AdminProductFormClient({ id }: { id: string }) {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Featured</label>
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.featured}
-                  onChange={(e) => updateForm('featured', e.target.checked)}
-                  className="h-5 w-5 rounded border-[#374151] bg-[#1f2937] text-[#b78b57] focus:ring-[#b78b57]"
-                />
-                <span className="text-sm text-gray-400">Show on homepage featured section</span>
-              </label>
+            <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Visibility & Featured</label>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={form.featured}
+                      onChange={(e) => updateForm('featured', e.target.checked)}
+                      className="h-5 w-5 rounded border-[#374151] bg-[#1f2937] text-[#b78b57] focus:ring-[#b78b57]"
+                    />
+                    <span className="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">Show on homepage featured section</span>
+                  </label>
+                  
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={form.newArrival}
+                      onChange={(e) => updateForm('newArrival', e.target.checked)}
+                      className="h-5 w-5 rounded border-[#374151] bg-[#1f2937] text-[#b78b57] focus:ring-[#b78b57]"
+                    />
+                    <span className="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">Show in New Arrivals section</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -376,6 +420,72 @@ export default function AdminProductFormClient({ id }: { id: string }) {
                 className="w-full px-4 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
               />
             </div>
+          </div>
+
+          {/* EMI Configuration */}
+          <div className="mt-6 pt-6 border-t border-[#374151]">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-sm font-bold text-white">EMI Configuration</h4>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.emiAvailable}
+                  onChange={(e) => updateForm('emiAvailable', e.target.checked)}
+                  className="h-4 w-4 rounded border-[#374151] bg-[#1f2937] text-[#b78b57] focus:ring-[#b78b57]"
+                />
+                <span className="text-xs text-gray-400">EMI Available</span>
+              </label>
+            </div>
+            {form.emiAvailable && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1.5">EMI Tenure (Months)</label>
+                  <select
+                    value={form.emiMonths}
+                    onChange={(e) => updateForm('emiMonths', Number(e.target.value))}
+                    className="w-full px-3 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+                  >
+                    <option value={3}>3 Months</option>
+                    <option value={6}>6 Months</option>
+                    <option value={9}>9 Months</option>
+                    <option value={12}>12 Months</option>
+                    <option value={18}>18 Months</option>
+                    <option value={24}>24 Months</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1.5">Custom EMI/Month (₹)</label>
+                  <input
+                    type="number"
+                    value={form.emiPerMonth || ''}
+                    onChange={(e) => updateForm('emiPerMonth', e.target.value ? Number(e.target.value) : 0)}
+                    placeholder={`Auto: ₹${form.price ? Math.round(form.price / (form.emiMonths || 12)) : 0}/mo`}
+                    className="w-full px-3 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+                  />
+                  <p className="text-[10px] text-gray-500 mt-1">Leave blank for auto-calculation (Price ÷ Months)</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1.5">EMI Note</label>
+                  <input
+                    type="text"
+                    value={form.emiNote}
+                    onChange={(e) => updateForm('emiNote', e.target.value)}
+                    placeholder="e.g., No Cost EMI, 0% Interest"
+                    className="w-full px-3 py-2.5 border border-[#374151] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 bg-[#1f2937]"
+                  />
+                </div>
+              </div>
+            )}
+            {form.emiAvailable && form.price > 0 && (
+              <div className="mt-3 px-3 py-2 bg-[#111827] border border-[#374151] rounded-lg">
+                <p className="text-xs text-gray-300">
+                  <span className="text-gray-500">Preview:</span>{' '}
+                  <span className="font-semibold text-white">₹{form.emiPerMonth || Math.round(form.price / (form.emiMonths || 12))}/mo</span>
+                  <span className="text-gray-500"> × {form.emiMonths || 12} months</span>
+                  {form.emiNote && <span className="text-[#b78b57] ml-2">({form.emiNote})</span>}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -564,6 +674,14 @@ export default function AdminProductFormClient({ id }: { id: string }) {
         <div className="admin-card p-6">
           <h3 className="text-lg font-bold text-white mb-5">Specifications</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Base RAM</label>
+              <input type="text" value={form.ram} onChange={(e) => updateForm('ram', e.target.value)} placeholder="e.g., 8GB (Leave blank if none)" className="w-full px-4 py-2.5 border border-[#374151] bg-[#1f2937] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Base Storage</label>
+              <input type="text" value={form.storage} onChange={(e) => updateForm('storage', e.target.value)} placeholder="e.g., 256GB (Leave blank if none)" className="w-full px-4 py-2.5 border border-[#374151] bg-[#1f2937] rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50" />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Processor *</label>
               <input type="text" value={form.processor} onChange={(e) => updateForm('processor', e.target.value)} className={`w-full px-4 py-2.5 border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#b78b57]/50 ${errors.processor ? 'border-red-500 bg-red-900/20' : 'border-[#374151] bg-[#1f2937]'}`} />

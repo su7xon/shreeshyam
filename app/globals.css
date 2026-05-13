@@ -631,10 +631,25 @@ h6 {
     display: none;
 }
 
-.admin-input::-webkit-credentials-auto-fill-button {
+.admin-input::-webkit-credentials-auto-fill-button,
+.admin-input::-webkit-contacts-auto-fill-button,
+.admin-input::-webkit-credit-card-auto-fill-button {
     visibility: hidden;
     pointer-events: none;
     position: absolute;
+    right: 0;
+    display: none !important;
+}
+
+/* Hide Chrome's password reveal and suggestions icons */
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-contacts-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+    margin: 0;
 }
 
 .admin-input::placeholder {

@@ -59,10 +59,18 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   // Find products with same model name to show as variants
   const getModelKey = (p: any) => {
     if (!p) return '';
-    return p.name.toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/\(.*\)/g, '')
-      .split('-')[0];
+    // Normalize name: lowercase, remove parenthetical text (colors etc.)
+    let cleaned = p.name.toLowerCase()
+      .replace(/\(.*?\)/g, '')       // remove (COLOR) info
+      .replace(/\b\d+gb\b/gi, '')    // remove RAM like 8gb, 4gb
+      .replace(/\b\d+\+\d+\b/g, '')  // remove specs like 8+256
+      .replace(/\b\d+g\b/gi, '')     // remove storage like 256g
+      .replace(/\b(black|white|blue|green|red|gold|silver|grey|gray|purple|cyan|yellow|pink|titanium|dynamic|marble|aurora|glacier|awesome|skyline|cloud|desert|gemstone|navy|iceblue|ice blue|light blue|light green|pulse green|safran|knight)\b/gi, '')
+      .replace(/\b(demo|ds|ss|dual sim|single sim|singal sim)\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    // Use brand + cleaned model name as key
+    return `${(p.brand || '').toLowerCase()}::${cleaned}`;
   };
 
   const siblingVariants = useMemo(() => {
@@ -209,7 +217,11 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     ? product.images as string[]
     : [product.image];
 
-  const emiPerMonth = Math.round(displayPrice / 12);
+  // EMI: Use admin-configured values if available, else auto-calculate
+  const emiMonths = product.emiMonths || 12;
+  const emiPerMonth = product.emiPerMonth || Math.round(displayPrice / emiMonths);
+  const emiAvailable = product.emiAvailable !== false; // default true
+  const emiNote = product.emiNote || '';
   
   const totalPages = Math.ceil(relatedProducts.length / RELATED_PER_PAGE);
   const currentRelated = relatedProducts.slice(
@@ -308,14 +320,17 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
               </div>
               <p className="text-xs text-gray-500 mt-1">(Incl. all Taxes)</p>
             </div>
-            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mb-5">
-              <CreditCard className="h-4 w-4 text-gray-500 flex-shrink-0" />
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-gray-600">OR</span>
-                <span className="font-bold text-gray-900">{formatPrice(emiPerMonth)}/mo*</span>
-                <Link href="#" className="text-blue-600 text-xs hover:underline">EMI Options</Link>
+            {emiAvailable && (
+              <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mb-5">
+                <CreditCard className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                <div className="flex items-center gap-2 text-sm flex-wrap">
+                  <span className="text-gray-600">OR</span>
+                  <span className="font-bold text-gray-900">{formatPrice(emiPerMonth)}/mo*</span>
+                  {emiNote && <span className="text-[10px] text-gray-500">({emiNote})</span>}
+                  <Link href="#" className="text-blue-600 text-xs hover:underline">EMI Options</Link>
+                </div>
               </div>
-            </div>
+            )}
  
             {/* Variants Selector */}
             {siblingVariants.length > 0 && (
@@ -493,47 +508,66 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
               })}
             </div>
             
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
-                <button
-                  onClick={() => { 
-                    setCurrentPage(p => Math.max(1, p - 1)); 
-                    document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
-                  }}
-                  disabled={currentPage === 1}
-                  className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  ← Prev
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            {/* Pagination Controls - single line with smart truncation */}
+            {totalPages > 1 && (() => {
+              // Build smart page numbers: 1 ... (current-1) current (current+1) ... last
+              const pages: (number | '...')[] = [];
+              if (totalPages <= 7) {
+                for (let i = 1; i <= totalPages; i++) pages.push(i);
+              } else {
+                pages.push(1);
+                if (currentPage > 3) pages.push('...');
+                const start = Math.max(2, currentPage - 1);
+                const end = Math.min(totalPages - 1, currentPage + 1);
+                for (let i = start; i <= end; i++) pages.push(i);
+                if (currentPage < totalPages - 2) pages.push('...');
+                pages.push(totalPages);
+              }
+              return (
+                <div className="flex items-center justify-center gap-1.5 mt-8">
                   <button
-                    key={page}
                     onClick={() => { 
-                      setCurrentPage(page); 
+                      setCurrentPage(p => Math.max(1, p - 1)); 
                       document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
                     }}
-                    className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${
-                      page === currentPage
-                        ? 'bg-black text-white shadow-sm'
-                        : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-                    }`}
+                    disabled={currentPage === 1}
+                    className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   >
-                    {page}
+                    ←
                   </button>
-                ))}
-                <button
-                  onClick={() => { 
-                    setCurrentPage(p => Math.min(totalPages, p + 1)); 
-                    document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
-                  }}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  Next →
-                </button>
-              </div>
-            )}
+                  {pages.map((page, idx) => 
+                    page === '...' ? (
+                      <span key={`dots-${idx}`} className="w-9 h-9 flex items-center justify-center text-gray-400 text-sm">…</span>
+                    ) : (
+                      <button
+                        key={page}
+                        onClick={() => { 
+                          setCurrentPage(page as number); 
+                          document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
+                        }}
+                        className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${
+                          page === currentPage
+                            ? 'bg-black text-white shadow-sm'
+                            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+                  <button
+                    onClick={() => { 
+                      setCurrentPage(p => Math.min(totalPages, p + 1)); 
+                      document.getElementById('related-products')?.scrollIntoView({ behavior: 'smooth' }); 
+                    }}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  >
+                    →
+                  </button>
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>

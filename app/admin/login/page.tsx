@@ -61,35 +61,34 @@ export default function AdminLoginPage() {
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Email Address</label>
-              <div className="relative group">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 group-focus-within:text-[#b78b57] transition-colors" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@example.com"
-                  className="admin-input pl-11 h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
-                  autoFocus
-                  required
-                />
-              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@example.com"
+                className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
+                autoFocus
+                required
+                autoComplete="off"
+              />
             </div>
             <div>
               <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Password</label>
-              <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 group-focus-within:text-[#b78b57] transition-colors" />
+              <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="admin-input pl-11 pr-11 h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
+                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
+                  style={{ paddingRight: '3rem' }}
                   required
+                  autoComplete="off"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>

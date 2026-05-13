@@ -6,7 +6,9 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   User,
-  UserCredential
+  UserCredential,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -59,6 +61,34 @@ export const signIn = async (
 ): Promise<UserCredential> => {
   if (!auth) throw new Error('Firebase auth not initialized');
   return await signInWithEmailAndPassword(auth, email, password);
+};
+
+// Sign In with Google
+export const signInWithGoogle = async (): Promise<UserCredential> => {
+  if (!auth) throw new Error('Firebase auth not initialized');
+  
+  const googleProvider = new GoogleAuthProvider();
+  const userCredential = await signInWithPopup(auth, googleProvider);
+  
+  // Create user profile in Firestore if it doesn't exist
+  if (userCredential.user && db) {
+    const userRef = doc(db, 'users', userCredential.user.uid);
+    const docSnap = await getDoc(userRef);
+    
+    if (!docSnap.exists()) {
+      const userProfile: UserProfile = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email || '',
+        displayName: userCredential.user.displayName || 'User',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      
+      await setDoc(userRef, userProfile);
+    }
+  }
+  
+  return userCredential;
 };
 
 // Sign Out

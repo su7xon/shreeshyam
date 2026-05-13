@@ -15,8 +15,26 @@ const defaultCategories = [
 ];
 
 export default function CategoryStrip() {
-  const { data: categories = [] } = useCategories();
+  const { data: categories = [], isLoading } = useCategories();
   const storeCategories = categories.filter(c => c.active).sort((a, b) => a.order - b.order);
+  
+  if (isLoading) {
+    return (
+      <section className="bg-white py-6 sm:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-3 sm:gap-8 overflow-x-auto no-scrollbar w-full pb-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="group flex flex-col items-center gap-2.5 sm:gap-3 flex-shrink-0 min-w-[70px] sm:min-w-[100px]">
+                <div className="h-16 w-16 sm:h-22 sm:w-22 rounded-2xl bg-gray-200 animate-pulse border border-[#e2e8f0]"></div>
+                <div className="h-3 sm:h-4 w-12 sm:w-16 bg-gray-200 rounded animate-pulse mt-1"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const activeCategories = storeCategories.length > 0 ? storeCategories : defaultCategories;
 
   return (

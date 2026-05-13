@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Package, User, LogOut, Settings, CreditCard, MapPin, ChevronRight, CircleCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { onAuthChange, logOut } from '@/lib/firebase-auth';
 
 export default function AccountPage() {
   const router = useRouter();
@@ -14,24 +15,30 @@ export default function AccountPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Replace with actual Auth logic (e.g., Firebase onAuthStateChanged)
-    const checkAuthStatus = () => {
+    const unsubscribe = onAuthChange((firebaseUser) => {
       setIsLoading(true);
-      // Currently set to NULL meaning user is NOT logged in.
-      // Simply populate setUser({ name: '...', email: '...', initials: '...' }) when they login.
-      setUser(null);
+      if (firebaseUser) {
+        const displayName = firebaseUser.displayName || 'User';
+        const initials = displayName.substring(0, 2).toUpperCase();
+        setUser({
+          name: displayName,
+          email: firebaseUser.email || '',
+          initials: initials
+        });
+      } else {
+        setUser(null);
+      }
       setOrders([]);
       setIsLoading(false);
-    };
+    });
 
-    checkAuthStatus();
+    return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {
-    // TODO: Replace with actual Auth logout logic (e.g., Firebase signOut(auth))
     try {
+      await logOut();
       setUser(null);
-      alert('You have successfully logged out!');
       // Use window.location for static export compatibility
       if (typeof window !== 'undefined') {
         window.location.href = '/';
@@ -59,7 +66,7 @@ export default function AccountPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Not Logged In</h2>
           <p className="text-gray-500 mb-6">Log in or create an account to view your profile, manage addresses, and check order history.</p>
           <button 
-            onClick={() => alert('Login modal/page will open here')}
+            onClick={() => { window.location.href = '/auth'; }}
             className="w-full bg-black text-white font-medium p-3 rounded-lg hover:bg-gray-800 transition-colors shadow-sm"
           >
             Login / Sign Up

@@ -7,29 +7,65 @@ import { notFound } from 'next/navigation';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, Check, Share2, Heart, ChevronDown, Zap } from 'lucide-react';
 import { accessories } from '@/lib/accessories-data';
 import { useCartStore } from '@/lib/store';
-import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
-import { getAccessoryImage } from '@/lib/image-resolver';
+import useAdminStore from '@/lib/admin-store';
+import { useMemo } from 'react';
 
 interface AccessoryDetailClientProps {
   id: string;
 }
 
 export default function AccessoryDetailClient({ id }: AccessoryDetailClientProps) {
-  const accessory = accessories.find((a) => a.id === id);
+  const admin = useAdminStore();
+  
+  // Initialize admin store on mount
+  useEffect(() => {
+    const unsub = admin.initialize();
+    return () => unsub();
+  }, []);
+
+  const allAccessories = useMemo(() => {
+    // Combine static accessories with any accessories in admin.products
+    const combined = [...accessories, ...admin.products];
+    // Deduplicate by ID
+    const unique = new Map();
+    combined.forEach(a => unique.set(a.id, a));
+    return Array.from(unique.values()) as any[];
+  }, [admin.products]);
+
+  const accessory = allAccessories.find((a) => a.id === id);
   const { addItem } = useCartStore();
   const [added, setAdded] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    
+    // If accessory is already found (from static lists), we can stop loading
+    if (accessories.find(a => a.id === id)) {
+      setIsLoading(false);
+      return;
+    }
 
-  if (!mounted) {
+    // Otherwise, wait for admin store to initialize
+    if (admin.isInitialized && admin.products.length > 0) {
+      setIsLoading(false);
+    } else {
+      // Fallback timer
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [admin.isInitialized, admin.products.length, id]);
+
+  if (!mounted || isLoading) {
     return <ProductDetailSkeleton />;
   }
 
   if (!accessory) {
     notFound();
+    return null;
   }
 
   const formatPrice = (price: number) => {
@@ -46,11 +82,11 @@ export default function AccessoryDetailClient({ id }: AccessoryDetailClientProps
       id: accessory.id,
       name: accessory.name,
       brand: accessory.brand,
-      price: accessory.unitPrice,
+      price: accessory.unitPrice || accessory.price,
       originalPrice: accessory.price,
-      image: getAccessoryImage(accessory.id),
-      images: [getAccessoryImage(accessory.id)],
-      specs: { color: accessory.color },
+      image: accessory.image || getAccessoryImage(accessory.id),
+      images: [accessory.image || getAccessoryImage(accessory.id)],
+      specs: { color: accessory.color || 'N/A' },
       details: [accessory.description],
     };
     
@@ -110,7 +146,7 @@ export default function AccessoryDetailClient({ id }: AccessoryDetailClientProps
           <div className="w-full md:w-1/2 p-4 sm:p-8 md:p-12 bg-white flex flex-col">
             <div className="relative aspect-square w-full max-w-[500px] mx-auto flex items-center justify-center mb-6 px-4">
               <Image
-                src={getAccessoryImage(accessory.id)}
+                src={accessory.image || getAccessoryImage(accessory.id)}
                 alt={accessory.name}
                 fill
                 className="object-contain drop-shadow-xl"

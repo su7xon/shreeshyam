@@ -31,10 +31,15 @@ export interface Product {
   color?: string;
   colors?: string[];
   featured?: boolean;
+  newArrival?: boolean;
   active?: boolean;
   images?: string[];
   description: string;
   variants?: ProductVariant[];
+  emiAvailable?: boolean;
+  emiMonths?: number;
+  emiPerMonth?: number;
+  emiNote?: string;
   createdAt?: string | FirestoreTimestamp;
   updatedAt?: string | FirestoreTimestamp;
 }
