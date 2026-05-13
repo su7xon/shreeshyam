@@ -141,7 +141,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     return name.replace(/\([^)]*\)/g, '').trim();
   };
 
-  const RELATED_PER_PAGE = 4;
+  const RELATED_PER_PAGE = 12; // 3 rows x 4 columns on desktop
   const productToAdd = { ...product };
 
   const handleAddToCart = () => {
