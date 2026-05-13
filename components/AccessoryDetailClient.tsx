@@ -9,6 +9,8 @@ import { accessories } from '@/lib/accessories-data';
 import { useCartStore } from '@/lib/store';
 import useAdminStore from '@/lib/admin-store';
 import { useMemo } from 'react';
+import { getAccessoryImage } from '@/lib/image-resolver';
+import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
 
 interface AccessoryDetailClientProps {
   id: string;
