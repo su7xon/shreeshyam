@@ -19,6 +19,16 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const admin = useAdminStore();
+  const { addItem } = useCartStore();
+  
+  // ALL STATE HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
+  const [added, setAdded] = useState(false);
+  const [selectedThumb, setSelectedThumb] = useState(0);
+  const [showAllSpecs, setShowAllSpecs] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   
   // Initialize admin store on mount
   useEffect(() => {
@@ -41,16 +51,44 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     ? products[numericIndex - 1]
     : undefined;
   const product = directMatch ?? indexMatch;
-  
-  const { addItem } = useCartStore();
-  const [added, setAdded] = useState(false);
-  const [selectedThumb, setSelectedThumb] = useState(0);
-  const [showAllSpecs, setShowAllSpecs] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  
-  // Refined loading state: Only stop loading if we found the product OR if admin store is initialized and 800ms passed
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Find products with same model name to show as variants
+  const getModelKey = (p: any) => {
+    if (!p) return '';
+    return p.name.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/\(.*\)/g, '')
+      .split('-')[0];
+  };
+
+  const siblingVariants = useMemo(() => {
+    if (!product) return [];
+    const modelKey = getModelKey(product);
+    return products.filter(p => 
+      p.brand === product.brand && 
+      getModelKey(p) === modelKey
+    );
+  }, [product, products]);
+
+  // Refined related products logic
+  const relatedBase = deduplicateProducts(products as any[]);
+  const currentModelKey = product ? getModelKey(product) : '';
+  const relatedProducts = useMemo(() => {
+    return [...relatedBase]
+      .filter(p => p.id !== product?.id && getModelKey(p) !== currentModelKey)
+      .sort((a, b) => {
+        // 1. Same brand is higher priority
+        const aSameBrand = a.brand === product?.brand;
+        const bSameBrand = b.brand === product?.brand;
+        if (aSameBrand && !bSameBrand) return -1;
+        if (!aSameBrand && bSameBrand) return 1;
+
+        // 2. Similar price range
+        const aPriceDiff = Math.abs(a.price - (product?.price || 0));
+        const bPriceDiff = Math.abs(b.price - (product?.price || 0));
+        return aPriceDiff - bPriceDiff;
+      });
+  }, [relatedBase, product, currentModelKey]);
 
   useEffect(() => {
     setMounted(true);
@@ -99,27 +137,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     return name.replace(/\([^)]*\)/g, '').trim();
   };
 
-  const getModelKey = (p: any) => {
-    if (!p) return '';
-    return p.name.toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/\(.*\)/g, '')
-      .split('-')[0];
-  };
-
-  // Find products with same model name to show as variants
-  const siblingVariants = useMemo(() => {
-    if (!product) return [];
-    const modelKey = getModelKey(product);
-    return products.filter(p => 
-      p.brand === product.brand && 
-      getModelKey(p) === modelKey
-    );
-  }, [product, products]);
-
-  const [currentPage, setCurrentPage] = useState(1);
   const RELATED_PER_PAGE = 4;
-
   const productToAdd = { ...product };
 
   const handleAddToCart = () => {
@@ -189,24 +207,6 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
 
   const emiPerMonth = Math.round(displayPrice / 12);
   
-  // Refined related products logic: Same brand first, then similar price
-  const relatedBase = deduplicateProducts(products as any[]);
-  const currentModelKey = product ? getModelKey(product) : '';
-  const relatedProducts = [...relatedBase]
-    .filter(p => p.id !== product.id && getModelKey(p) !== currentModelKey)
-    .sort((a, b) => {
-      // 1. Same brand is higher priority
-      const aSameBrand = a.brand === product.brand;
-      const bSameBrand = b.brand === product.brand;
-      if (aSameBrand && !bSameBrand) return -1;
-      if (!aSameBrand && bSameBrand) return 1;
-
-      // 2. Similar price range
-      const aPriceDiff = Math.abs(a.price - product.price);
-      const bPriceDiff = Math.abs(b.price - product.price);
-      return aPriceDiff - bPriceDiff;
-    });
-
   const totalPages = Math.ceil(relatedProducts.length / RELATED_PER_PAGE);
   const currentRelated = relatedProducts.slice(
     (currentPage - 1) * RELATED_PER_PAGE,
