@@ -7,6 +7,14 @@ import useAdminStore from '@/lib/admin-store';
 import { products as defaultProducts } from '@/lib/data';
 import { Plus, Search, Edit, Trash2, Eye, Smartphone } from 'lucide-react';
 
+// Helper function to get the view link for a product
+function getViewLink(product: any) {
+  if (product.category === 'accessories') {
+    return `/accessories/${product.id}`;
+  }
+  return `/products/${product.id}`;
+}
+
 function ProductsList() {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get('brand') || '';
@@ -179,7 +187,9 @@ function ProductsList() {
                       <p className="text-[11px] text-[#4b5563] line-through">₹{product.originalPrice.toLocaleString('en-IN')}</p>
                     )}
                   </td>
-                  <td className="text-[#9ca3af]">{product.ram} / {product.storage}</td>
+                  <td className="text-[#9ca3af]">
+                    {product.ram || product.storage ? `${product.ram || 'N/A'} / ${product.storage || 'N/A'}` : 'N/A'}
+                  </td>
                   <td>
                     <span className={`admin-badge ${product.featured ? 'admin-badge-green' : 'admin-badge-gray'}`}>
                       {product.featured ? 'Yes' : 'No'}
@@ -187,7 +197,7 @@ function ProductsList() {
                   </td>
                   <td className="text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <Link href={`/products/${product.id}`} target="_blank" className="admin-icon-btn p-2" title="View">
+                      <Link href={getViewLink(product)} target="_blank" className="admin-icon-btn p-2" title="View">
                         <Eye className="h-4 w-4" />
                       </Link>
                       <Link href={`/admin/products/${product.id}`} className="admin-icon-btn p-2" title="Edit">
@@ -240,10 +250,15 @@ function ProductsList() {
             <div className="flex-1 min-w-0 py-0.5">
               <p className="text-[10px] font-semibold tracking-wider text-[#60a5fa] uppercase">{product.brand}</p>
               <p className="text-sm font-medium text-[#e5e7eb] truncate mt-0.5">{product.name}</p>
-              <p className="text-[11px] text-[#6b7280] mt-0.5">{product.ram} · {product.storage}</p>
+              {product.ram || product.storage ? (
+                <p className="text-[11px] text-[#6b7280] mt-0.5">{product.ram || 'N/A'} · {product.storage || 'N/A'}</p>
+              ) : null}
               <div className="flex items-center justify-between mt-2">
                 <p className="text-sm font-bold text-white">₹{product.price.toLocaleString('en-IN')}</p>
                 <div className="flex gap-1">
+                  <Link href={getViewLink(product)} target="_blank" className="admin-icon-btn p-1.5" title="View">
+                    <Eye className="h-3.5 w-3.5" />
+                  </Link>
                   <Link href={`/admin/products/${product.id}`} className="admin-icon-btn p-1.5">
                     <Edit className="h-3.5 w-3.5" />
                   </Link>
