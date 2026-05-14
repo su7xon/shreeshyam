@@ -9,6 +9,7 @@ import { AuthProvider } from '@/lib/auth-context';
 import FirebaseInitializer from '@/components/FirebaseInitializer';
 import ConditionalLayout from '@/components/ConditionalLayout';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -36,17 +37,13 @@ export const metadata: Metadata = {
     title: 'Shyam Mobiles',
   },
   icons: {
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
     apple: [
-      {
-        url: '/icon-192-v2.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        url: '/icon-512-v2.png',
-        sizes: '512x512',
-        type: 'image/png',
-      },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -166,6 +163,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 {children}
               </ConditionalLayout>
               <ModalManager />
+              <PWAInstallPrompt />
             </ReactQueryProvider>
           </CartProvider>
         </AuthProvider>

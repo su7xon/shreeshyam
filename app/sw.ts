@@ -22,6 +22,13 @@ const serwist = new Serwist({
   runtimeCaching: defaultCache,
 });
 
+// Avoid intercepting Firebase Auth paths
+self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('/__/auth')) {
+    return;
+  }
+});
+
 serwist.addEventListeners();
 
 export {};

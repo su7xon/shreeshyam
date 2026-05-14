@@ -1,23 +1,46 @@
 {
-    "name": "Shyam Mobiles",
+    "name": "Shreeshyam Mobiles",
     "short_name": "Shyam Mobiles",
-    "description": "Your trusted destination for mobile phones and accessories",
-    "start_url": "/",
+    "description": "Your trusted destination for mobile phones and accessories in Pune",
+    "start_url": "/?source=pwa",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
     "orientation": "portrait-primary",
-    "icons": [{
-            "src": "/icon-192-v2.png",
+    "id": "com.shreeshyam.app",
+    "icons": [
+        {
+            "src": "/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/icon-512-v2.png",
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Shreeshyam Mobiles Store"
         }
     ],
     "categories": ["shopping", "electronics"],
