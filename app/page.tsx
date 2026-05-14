@@ -737,7 +737,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-2">Offer zone</p>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-[var(--color-text)]">Get 10% Off Your Order</h2>
-          <p className="text-sm text-[var(--color-text-muted)] mt-3">Sign up for updates and receive a launch-week coupon instantly.</p>
+          <p className="text-sm text-[var(--color-text-muted)] mt-3">Follow us on Instagram and get offers.</p>
           <form className="mt-6 flex flex-col sm:flex-row items-stretch gap-2 sm:gap-0 max-w-xl mx-auto">
             <input
               type="email"
