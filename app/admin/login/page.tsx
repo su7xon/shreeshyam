@@ -6,8 +6,7 @@ import { useAdminAuth } from '@/lib/admin-auth';
 import { Lock, User, Loader2, Store, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@shreeshyammobiles.com');
-  const [password, setPassword] = useState('admin123');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +18,14 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    const success = await login(email, password);
+    if (password !== 'shreeshyam') {
+      setError('Invalid password.');
+      setLoading(false);
+      return;
+    }
+
+    // Login with actual admin credentials behind the scenes
+    const success = await login('admin@shreeshyammobiles.com', 'admin123');
     if (success) {
       if (typeof window !== 'undefined') {
         window.location.href = '/admin/dashboard';
@@ -27,7 +33,7 @@ export default function AdminLoginPage() {
         router.push('/admin/dashboard');
       }
     } else {
-      setError('Invalid credentials. Please check your email and password.');
+      setError('System login failed. Please contact support.');
       setLoading(false);
     }
   };
@@ -60,29 +66,17 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Email Address</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@example.com"
-                className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
-                autoFocus
-                required
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Password</label>
+              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Admin Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter Password"
                   className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
                   style={{ paddingRight: '3rem' }}
                   required
+                  autoFocus
                   autoComplete="off"
                 />
                 <button
@@ -101,7 +95,7 @@ export default function AdminLoginPage() {
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> <span>Signing in…</span>
+                  <Loader2 className="h-4 w-4 animate-spin" /> <span>Authenticating…</span>
                 </div>
               ) : (
                 'Access Dashboard'
@@ -113,35 +107,7 @@ export default function AdminLoginPage() {
             <p className="text-[10px] text-gray-600 text-center font-medium tracking-wide">
               AUTHORIZED ACCESS ONLY • SECURED BY FIREBASE
             </p>
-            <p className="text-[11px] text-gray-500 text-center mt-2">
-              Default: <code className="text-[#b78b57] bg-[#b78b57]/5 px-2 py-0.5 rounded font-bold">admin@shreeshyammobiles.com / admin123</code>
-            </p>
           </div>
-          {/* Dev-only signup link for first time setup */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mt-6 pt-6 border-t border-white/[0.06] text-center">
-              <p className="text-xs text-[#6b7280] mb-2">First time? Initialize admin account:</p>
-              <button
-                type="button"
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    const { createUserWithEmailAndPassword } = await import('firebase/auth');
-                    const { auth } = await import('@/lib/firebase');
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    setError('Account created! Now you can login.');
-                  } catch (err: any) {
-                    setError(err.message);
-                  } finally {
-                    setLoading(false);
-                  }
-                }}
-                className="text-xs text-[#b78b57] hover:underline"
-              >
-                Create Admin in Firebase
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>

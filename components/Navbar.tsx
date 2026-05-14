@@ -130,19 +130,7 @@ export default function Navbar() {
                 {/* Dropdown - Modern Glass Effect */}
                 {showDesktopMenu && (
                   <div className="absolute right-0 mt-3 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-[#e5e7eb] py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <Link 
-                      href="/admin/dashboard" 
-                      className="flex items-center gap-3 px-4 py-3 mx-2 rounded-xl hover:bg-[#f3f4f6] transition-colors"
-                      onClick={() => setShowDesktopMenu(false)}
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#8b5cf6] to-[#6366f1] flex items-center justify-center">
-                        <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                      <span className="text-sm font-medium text-[#111111]">Admin Panel</span>
-                    </Link>
+
 
                     <Link 
                       href="/about" 
@@ -327,20 +315,7 @@ export default function Navbar() {
               </Link>
             )}
 
-            <div className="h-px bg-[#f3f4f6] my-2"></div>
-            <p className="px-3 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wider">Admin</p>
 
-            <Link 
-              href="/admin/dashboard" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-purple-600 hover:bg-purple-50 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              Admin Panel
-            </Link>
           </div>
         </div>
       )}

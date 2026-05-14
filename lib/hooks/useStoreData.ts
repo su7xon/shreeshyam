@@ -12,6 +12,7 @@ import * as brandService from '@/lib/services/brandService';
 import * as categoryService from '@/lib/services/categoryService';
 import * as dailyDealService from '@/lib/services/dailyDealService';
 import * as offerService from '@/lib/services/offerService';
+import * as reviewService from '@/lib/services/reviewService';
 import { AdminProduct } from '@/lib/admin-store';
 import { DailyDeal } from '@/lib/services/dailyDealService';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
@@ -41,6 +42,9 @@ export const queryKeys = {
   },
   dailyDeals: ['dailyDeals'] as const,
   offers: ['offers'] as const,
+  reviews: {
+    approved: ['reviews', 'approved'] as const,
+  },
 };
 
 // ==================== Product Hooks ====================
@@ -177,6 +181,20 @@ export function useOffers() {
     queryKey: queryKeys.offers,
     queryFn: () => offerService.getOffers(),
     staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
+}
+
+// ==================== Reviews Hooks ====================
+
+/**
+ * Fetch approved reviews for the homepage.
+ */
+export function useApprovedReviews() {
+  return useQuery({
+    queryKey: queryKeys.reviews.approved,
+    queryFn: () => reviewService.getApprovedReviews(),
+    staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 }

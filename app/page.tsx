@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import { products as defaultProducts, brands as defaultBrandStrings } from '@/lib/data';
-import { useProducts, useBanners, useActiveBrands } from '@/lib/hooks/useStoreData';
+import { useProducts, useBanners, useActiveBrands, useApprovedReviews } from '@/lib/hooks/useStoreData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState, Suspense, useRef, useMemo } from 'react';
 import { CategorySkeleton, TestimonialSkeleton, BannerSkeleton, ProductSkeleton } from '@/components/SkeletonLoader';
@@ -12,6 +12,7 @@ import { deduplicateProducts } from '@/lib/utils';
 import CategoryStrip from '@/components/CategoryStrip';
 import TrustBadges from '@/components/TrustBadges';
 import DailyDeals from '@/components/DailyDeals';
+import { addReview } from '@/lib/services/reviewService';
 
 const testimonials = [
   {
@@ -107,6 +108,8 @@ export default function Home() {
   const { data: fetchedProducts, isLoading: productsLoading } = useProducts();
   const { data: fetchedBanners, isLoading: bannersLoading } = useBanners();
   const { data: fetchedBrands } = useActiveBrands();
+  const { data: fetchedReviews } = useApprovedReviews();
+  const activeReviews = fetchedReviews || [];
   
   const isLoading = productsLoading || bannersLoading;
 
@@ -141,8 +144,13 @@ export default function Home() {
   const scrollingBrands = activeBrands.length > 0 
     ? [...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands, ...activeBrands] 
     : [];
-  const scrollingTestimonials = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
+  const scrollingTestimonials = activeReviews.length > 0 ? [...activeReviews, ...activeReviews, ...activeReviews, ...activeReviews] : [...testimonials, ...testimonials, ...testimonials, ...testimonials];
   const [currentBanner, setCurrentBanner] = useState(0);
+  
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewForm, setReviewForm] = useState({ name: '', text: '' });
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewSuccess, setReviewSuccess] = useState(false);
   
   // Refs for manual scroll control
   const brandsRef = useRef<HTMLDivElement>(null);
@@ -634,8 +642,95 @@ export default function Home() {
             </div>
           </div>
           </Suspense>
+          <div className="flex justify-end mt-4">
+            <button 
+              onClick={() => setIsReviewModalOpen(true)}
+              className="text-sm text-[var(--color-primary)] font-medium hover:underline flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+              Add Review
+            </button>
+          </div>
         </div>
       </section>
+
+      {/* Add Review Modal */}
+      {isReviewModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Add a Review</h3>
+              <button onClick={() => setIsReviewModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            {reviewSuccess ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <h4 className="text-lg font-bold text-gray-900">Thank You!</h4>
+                <p className="text-gray-500 text-sm mt-2">Your review has been submitted and is pending approval.</p>
+                <button onClick={() => setIsReviewModalOpen(false)} className="mt-6 px-6 py-2 bg-black text-white rounded-lg text-sm font-medium w-full">Close</button>
+              </div>
+            ) : (
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                if(!reviewForm.name.trim() || !reviewForm.text.trim()) return;
+                setReviewSubmitting(true);
+                try {
+                  const initials = reviewForm.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                  await addReview({
+                    name: reviewForm.name,
+                    text: reviewForm.text,
+                    initials: initials || 'C'
+                  });
+                  setReviewSuccess(true);
+                  setReviewForm({ name: '', text: '' });
+                } catch(err) {
+                  console.error(err);
+                  alert('Failed to submit review');
+                } finally {
+                  setReviewSubmitting(false);
+                }
+              }}>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={reviewForm.name}
+                      onChange={e => setReviewForm(prev => ({...prev, name: e.target.value}))}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none" 
+                      placeholder="e.g. Rahul Sharma"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                    <textarea 
+                      required
+                      rows={4}
+                      value={reviewForm.text}
+                      onChange={e => setReviewForm(prev => ({...prev, text: e.target.value}))}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none"
+                      placeholder="Tell us what you think..."
+                    />
+                  </div>
+                  <button 
+                    type="submit" 
+                    disabled={reviewSubmitting}
+                    className="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+                  >
+                    {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Newsletter CTA */}
       <section className="py-9 sm:py-16 reveal-fade-up" style={{ animationDelay: '340ms' }}>

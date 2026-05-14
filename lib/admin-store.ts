@@ -13,6 +13,8 @@ import * as offerService from './services/offerService';
 import * as orderService from './services/orderService';
 import * as categoryService from './services/categoryService';
 import * as dailyDealService from './services/dailyDealService';
+import * as reviewService from './services/reviewService';
+import { Review } from './services/reviewService';
 
 // ==================== Types ====================
 
@@ -161,6 +163,12 @@ interface AdminStore {
     updateOrderStatus: (orderId: string, status: OrderStatus) => Promise<void>;
     deleteOrder: (orderId: string) => Promise<void>;
     getOrder: (orderId: string) => Order | undefined;
+
+    // Reviews
+    reviews: Review[];
+    addReview: (review: Omit<Review, 'id' | 'createdAt' | 'status'>) => Promise<string>;
+    updateReviewStatus: (reviewId: string, status: 'approved' | 'rejected') => Promise<void>;
+    deleteReview: (reviewId: string) => Promise<void>;
 
     // Firebase Sync
     isLoading: boolean;
@@ -339,6 +347,11 @@ const useAdminStore = create<AdminStore>()(
            set({ dailyDeals });
          });
 
+         const unsubReviews = onSnapshot(query(collection(db, 'reviews'), orderBy('createdAt', 'desc')), (snapshot) => {
+           const reviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Review[];
+           set({ reviews });
+         });
+
          // Return combined unsubscribe
          return () => {
            unsubProducts();
@@ -348,6 +361,7 @@ const useAdminStore = create<AdminStore>()(
            unsubOrders();
            unsubCategories();
            unsubDeals();
+           unsubReviews();
            set({ isInitialized: false });
          };
        },
@@ -365,6 +379,19 @@ const useAdminStore = create<AdminStore>()(
          await orderService.deleteOrder(orderId);
        },
        getOrder: (orderId) => get().orders.find((o) => o.id === orderId),
+
+       // Reviews
+       reviews: [],
+       addReview: async (reviewData) => {
+         const id = await reviewService.addReview(reviewData);
+         return id;
+       },
+       updateReviewStatus: async (reviewId, status) => {
+         await reviewService.updateReviewStatus(reviewId, status);
+       },
+       deleteReview: async (reviewId) => {
+         await reviewService.deleteReview(reviewId);
+       },
     }),
     {
       name: 'mobimart-admin-store',

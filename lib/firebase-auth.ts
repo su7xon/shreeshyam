@@ -8,7 +8,8 @@ import {
   User,
   UserCredential,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithRedirect,
+  getRedirectResult
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -63,15 +64,22 @@ export const signIn = async (
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-// Sign In with Google
-export const signInWithGoogle = async (): Promise<UserCredential> => {
+// Sign In with Google using Redirect
+export const signInWithGoogleRedirect = async (): Promise<void> => {
   if (!auth) throw new Error('Firebase auth not initialized');
   
   const googleProvider = new GoogleAuthProvider();
-  const userCredential = await signInWithPopup(auth, googleProvider);
+  await signInWithRedirect(auth, googleProvider);
+};
+
+// Check Google Redirect Result
+export const checkGoogleRedirectResult = async (): Promise<UserCredential | null> => {
+  if (!auth) return null;
+  
+  const userCredential = await getRedirectResult(auth);
   
   // Create user profile in Firestore if it doesn't exist
-  if (userCredential.user && db) {
+  if (userCredential?.user && db) {
     const userRef = doc(db, 'users', userCredential.user.uid);
     const docSnap = await getDoc(userRef);
     

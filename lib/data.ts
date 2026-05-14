@@ -3,7 +3,7 @@ export interface ProductVariant {
   ram: string;
   storage: string;
   price: number;
-  originalPrice?: number;
+  originalPrice?: number | null;
   color?: string;
   inStock?: boolean;
 }
@@ -20,7 +20,7 @@ export interface Product {
   name: string;
   brand: string;
   price: number;
-  originalPrice?: number;
+  originalPrice?: number | null;
   image: string;
   ram: string;
   storage: string;

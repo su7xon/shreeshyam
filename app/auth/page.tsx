@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn, signUp, signInWithGoogle } from '@/lib/firebase-auth';
+import { signIn, signUp, signInWithGoogleRedirect, checkGoogleRedirectResult } from '@/lib/firebase-auth';
 import { Mail, Lock, User, Phone, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 function AuthContent() {
@@ -22,6 +22,21 @@ function AuthContent() {
     displayName: '',
     phone: ''
   });
+
+  useEffect(() => {
+    const checkRedirect = async () => {
+      try {
+        const result = await checkGoogleRedirectResult();
+        if (result) {
+          router.push(returnUrl);
+        }
+      } catch (err: any) {
+        console.error('Google Redirect error:', err);
+        setError(err.message || 'Failed to sign in with Google.');
+      }
+    };
+    checkRedirect();
+  }, [router, returnUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +86,8 @@ function AuthContent() {
     setError('');
     setLoading(true);
     try {
-      await signInWithGoogle();
-      router.push(returnUrl);
+      await signInWithGoogleRedirect();
+      // Browser will redirect, so no need to stop loading
     } catch (err: any) {
       console.error('Google Auth error:', err);
       setError(err.message || 'Failed to sign in with Google.');

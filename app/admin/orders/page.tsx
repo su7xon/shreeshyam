@@ -36,30 +36,24 @@ const paymentLabels: Record<string, string> = {
 };
 
 function OrderStatusBadge({ status, onChange }: { status: OrderStatus; onChange?: (status: OrderStatus) => void }) {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative inline-block">
-      <button
-        onClick={() => onChange && setIsOpen(!isOpen)}
-        className={`admin-badge ${statusColors[status]} ${onChange ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
-      >
+      <div className={`admin-badge ${statusColors[status]} ${onChange ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}>
         {statusIcons[status]}
         <span className="capitalize">{status}</span>
-        {onChange && (isOpen ? <ChevronUp className="h-2.5 w-2.5" /> : <ChevronDown className="h-2.5 w-2.5" />)}
-      </button>
-      {isOpen && onChange && (
-        <div className="absolute right-0 mt-1 w-36 bg-[#1e2028] rounded-lg shadow-xl border border-white/[0.08] z-50 overflow-hidden">
+        {onChange && <ChevronDown className="h-2.5 w-2.5" />}
+      </div>
+      {onChange && (
+        <select
+          value={status}
+          onChange={(e) => onChange(e.target.value as OrderStatus)}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          title="Change Status"
+        >
           {ORDER_STATUSES.map((s) => (
-            <button
-              key={s}
-              onClick={() => { onChange(s); setIsOpen(false); }}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium hover:bg-white/[0.04] text-[#d1d5db] ${s === status ? 'bg-white/[0.04]' : ''}`}
-            >
-              {statusIcons[s]}
-              <span className="capitalize">{s}</span>
-            </button>
+            <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
           ))}
-        </div>
+        </select>
       )}
     </div>
   );

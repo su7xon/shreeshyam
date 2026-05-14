@@ -25,6 +25,7 @@ import {
   Mail,
   PlusCircle,
   Layers,
+  MessageSquare,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 
@@ -37,6 +38,7 @@ const navItems = [
   { href: '/admin/daily-deals', label: 'Daily Deals', icon: Tag, group: 'Catalog' },
   { href: '/admin/orders', label: 'Orders', icon: Package, group: 'Commerce' },
   { href: '/admin/inquiries', label: 'Inquiries', icon: Mail, group: 'Commerce' },
+  { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare, group: 'Commerce' },
   { href: '/admin/banners', label: 'Banners', icon: Image, group: 'Content' },
   { href: '/admin/offers', label: 'Offers', icon: PlusCircle, group: 'Content' },
   { href: '/admin/settings', label: 'Settings', icon: Settings, group: 'System' },
