@@ -19,7 +19,7 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const admin = useAdminStore();
-  const { addItem } = useCartStore();
+  const { addItem, items } = useCartStore();
   
   // ALL STATE HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
   const [added, setAdded] = useState(false);
@@ -397,15 +397,20 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                 onClick={handleAddToCart}
                 disabled={added}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base transition-all ${
-                  added ? 'bg-green-500 text-white' : 'bg-black text-white hover:bg-gray-800 transition-all'
+                  added ? 'bg-green-500 text-white' : 'bg-[#ff8c00] text-white hover:bg-[#e67e00] shadow-md'
                 }`}
               >
                 {added ? <><Check className="h-4 w-4 sm:h-5 sm:w-5" /> Added</> : <><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" /> Add to Cart</>}
               </button>
               <Link
                 href="/checkout"
-                onClick={() => { if (!added) addItem(product); }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base bg-[#F7E493] text-[#453008] hover:bg-[#f0d87a] transition-all"
+                onClick={() => {
+                  const existingItem = items.find(i => i.id === product.id);
+                  if (!existingItem) {
+                    addItem(product);
+                  }
+                }}
+                className="flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-6 rounded-lg font-bold text-[13px] sm:text-base bg-[#1a3a5c] text-white hover:bg-[#142d48] shadow-md transition-all"
               >
                 <Zap className="h-4 w-4 sm:h-5 sm:w-5 fill-current" /> Buy Now
               </Link>

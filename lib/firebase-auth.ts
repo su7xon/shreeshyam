@@ -8,11 +8,21 @@ import {
   User,
   UserCredential,
   GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult
+  signInWithPopup
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+
+export interface SavedAddress {
+  id: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  isDefault: boolean;
+}
 
 export interface UserProfile {
   uid: string;
@@ -20,6 +30,8 @@ export interface UserProfile {
   displayName: string;
   phone?: string;
   address?: string;
+  savedAddresses?: SavedAddress[];
+  language?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -64,19 +76,12 @@ export const signIn = async (
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-// Sign In with Google using Redirect
-export const signInWithGoogleRedirect = async (): Promise<void> => {
+// Sign In with Google using Popup
+export const signInWithGoogle = async (): Promise<UserCredential> => {
   if (!auth) throw new Error('Firebase auth not initialized');
   
   const googleProvider = new GoogleAuthProvider();
-  await signInWithRedirect(auth, googleProvider);
-};
-
-// Check Google Redirect Result
-export const checkGoogleRedirectResult = async (): Promise<UserCredential | null> => {
-  if (!auth) return null;
-  
-  const userCredential = await getRedirectResult(auth);
+  const userCredential = await signInWithPopup(auth, googleProvider);
   
   // Create user profile in Firestore if it doesn't exist
   if (userCredential?.user && db) {

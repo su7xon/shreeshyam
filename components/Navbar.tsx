@@ -189,8 +189,14 @@ export default function Navbar() {
                 aria-label="Account"
                 title={user ? 'My Account' : 'Login / Sign Up'}
               >
-                <User className="h-5 w-5" />
-                <span className="text-[12px] font-semibold tracking-[0.18em]">ACCOUNT</span>
+                {user?.photoURL ? (
+                  <img src={user.photoURL} alt={profile?.displayName || "User"} className="h-6 w-6 rounded-full object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <User className="h-5 w-5" />
+                )}
+                <span className="text-[12px] font-semibold tracking-[0.18em]">
+                  {user ? (profile?.displayName?.split(' ')[0] || 'ACCOUNT').toUpperCase() : 'ACCOUNT'}
+                </span>
               </button>
             </div>
 
@@ -281,9 +287,13 @@ export default function Navbar() {
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[15px] font-semibold text-[#111111] hover:bg-[#f3f4f6] transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
-                    {(profile?.displayName || user.email || 'U').charAt(0).toUpperCase()}
-                  </div>
+                  {user?.photoURL ? (
+                    <img src={user.photoURL} alt={profile?.displayName || "User"} className="h-8 w-8 rounded-full object-cover" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
+                      {(profile?.displayName || user.email || 'U').charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{profile?.displayName || 'My Account'}</p>
                     <p className="text-xs text-gray-500 truncate">{user.email}</p>

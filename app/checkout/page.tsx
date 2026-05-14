@@ -4,11 +4,12 @@ import { useCartStore } from '@/lib/store';
 import useAdminStore from '@/lib/admin-store';
 import { useAuth } from '@/lib/auth-context';
 import { useState, useEffect } from 'react';
-import { CheckCircle, ArrowLeft, ShieldCheck, Truck, Sparkles } from 'lucide-react';
+import { CheckCircle, ArrowLeft, ShieldCheck, Truck, Sparkles, MapPin, Star } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createOrder } from '@/lib/services/orderService';
+import { getUserProfile, SavedAddress } from '@/lib/firebase-auth';
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCartStore();
@@ -19,6 +20,9 @@ export default function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [selectedSavedAddress, setSelectedSavedAddress] = useState<string | null>(null);
+  const [useNewAddress, setUseNewAddress] = useState(false);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -48,14 +52,14 @@ export default function CheckoutPage() {
 
   // Form state
   const [formData, setFormData] = useState({
-    email: '',
+    email: user.email || '',
     phone: '',
     firstName: '',
     lastName: '',
     address: '',
     city: '',
     postalCode: '',
-    paymentMethod: 'card' as 'card' | 'upi' | 'cod',
+    paymentMethod: 'card' as 'card' | 'upi' | 'cod' | 'whatsapp',
   });
 
   useEffect(() => {
@@ -63,12 +67,44 @@ export default function CheckoutPage() {
     setMounted(true);
   }, []);
 
+  // Load saved addresses from Firestore
+  useEffect(() => {
+    const loadAddresses = async () => {
+      if (user) {
+        try {
+          const userProfile = await getUserProfile(user.uid);
+          if (userProfile?.savedAddresses && userProfile.savedAddresses.length > 0) {
+            setSavedAddresses(userProfile.savedAddresses);
+            const defaultAddr = userProfile.savedAddresses.find(a => a.isDefault);
+            setSelectedSavedAddress(defaultAddr?.id || userProfile.savedAddresses[0].id);
+            setUseNewAddress(false);
+          } else {
+            setUseNewAddress(true);
+          }
+        } catch (err) {
+          console.error('Failed to load addresses:', err);
+          setUseNewAddress(true);
+        }
+      }
+    };
+    loadAddresses();
+  }, [user]);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
       maximumFractionDigits: 0,
     }).format(price);
+  };
+
+  const handleUpiPayment = () => {
+    const amount = totalPrice();
+    const upiId = 'shreeganesh1585-3@okaxis';
+    const merchantName = 'Shyam Mobiles';
+    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(merchantName)}&am=${amount}&cu=INR`;
+    
+    window.location.href = upiUrl;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,6 +121,29 @@ export default function CheckoutPage() {
 
     const subtotal = totalPrice();
 
+    // Resolve shipping address from saved or new
+    let shippingName = '';
+    let shippingAddress = '';
+    let shippingCity = '';
+    let shippingPostalCode = '';
+    let shippingPhone = formData.phone;
+
+    if (!useNewAddress && selectedSavedAddress) {
+      const addr = savedAddresses.find(a => a.id === selectedSavedAddress);
+      if (addr) {
+        shippingName = addr.fullName;
+        shippingAddress = addr.address;
+        shippingCity = `${addr.city}, ${addr.state}`;
+        shippingPostalCode = addr.pincode;
+        shippingPhone = addr.phone;
+      }
+    } else {
+      shippingName = `${formData.firstName} ${formData.lastName}`.trim();
+      shippingAddress = formData.address;
+      shippingCity = formData.city;
+      shippingPostalCode = formData.postalCode;
+    }
+
     try {
       const newOrderId = await addOrder({
         status: 'pending',
@@ -93,22 +152,34 @@ export default function CheckoutPage() {
         shipping: 0,
         total: subtotal,
         customer: {
-          name: `${formData.firstName} ${formData.lastName}`.trim(),
-          email: formData.email,
-          phone: formData.phone,
+          name: shippingName,
+          email: user.email || formData.email,
+          phone: shippingPhone,
         },
         shippingAddress: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          address: formData.address,
-          city: formData.city,
-          postalCode: formData.postalCode,
+          firstName: shippingName.split(' ')[0] || '',
+          lastName: shippingName.split(' ').slice(1).join(' ') || '',
+          address: shippingAddress,
+          city: shippingCity,
+          postalCode: shippingPostalCode,
         },
         paymentMethod: formData.paymentMethod,
         orderNumber: '', // Will be generated by the store/service
       });
 
-      setOrderNumber(`Order #${newOrderId.slice(-6).toUpperCase()}`); 
+      const generatedOrderNumber = `Order #${newOrderId.slice(-6).toUpperCase()}`;
+      setOrderNumber(generatedOrderNumber); 
+
+      // Payment Method Specific Actions
+      if (formData.paymentMethod === 'whatsapp') {
+        const itemsList = orderItems.map(i => `• ${i.name} (x${i.quantity}) - ₹${i.price.toLocaleString('en-IN')}`).join('%0A');
+        const whatsappMsg = `🛒 *New Order from श्री श्याम Mobiles*%0A%0AHi, I want to buy:%0A${itemsList}%0A%0A*Total: ₹${subtotal.toLocaleString('en-IN')}*%0A%0A📦 Ship to: ${shippingName}%0A📍 ${shippingAddress}, ${shippingCity} - ${shippingPostalCode}%0A📱 ${shippingPhone}%0A%0A${generatedOrderNumber}`;
+        const whatsappUrl = `https://wa.me/919828145878?text=${whatsappMsg}`;
+        window.open(whatsappUrl, '_blank');
+      } else if (formData.paymentMethod === 'upi') {
+        handleUpiPayment();
+      }
+
       setIsSuccess(true);
       clearCart();
     } catch (error) {
@@ -123,26 +194,37 @@ export default function CheckoutPage() {
 
   if (isSuccess) {
     return (
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
-        <div className="premium-surface p-6 sm:p-12 rounded-2xl shadow-xl">
-          <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-8">
-            <CheckCircle className="h-12 w-12 text-green-600" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--color-text)] mb-4">Order Placed Successfully!</h2>
-          <p className="text-lg text-[var(--color-text-muted)] mb-8">
-            Thank you for shopping with श्री श्याम Mobiles. Your order has been confirmed and will be shipped shortly.
-          </p>
-          <div className="bg-[var(--color-surface-soft)] p-6 rounded-xl mb-8 inline-block text-left border border-[var(--color-border)]">
-            <p className="text-sm text-[var(--color-text-muted)] mb-1">Order Number</p>
-            <p className="font-mono font-bold text-[var(--color-text)] text-lg">{orderNumber}</p>
-          </div>
-          <div>
-            <Link 
-              href="/" 
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-xl premium-btn-primary shadow-lg shadow-black/10"
-            >
-              Return to Home
-            </Link>
+      <div className="min-h-[70vh] flex items-center justify-center px-4 py-8 bg-gray-50">
+        <div className="max-w-sm w-full">
+          {/* Main Card */}
+          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 text-center">
+            
+            {/* Success Icon - Professional */}
+            <div className="mx-auto mb-5 w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+              <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Order Confirmed</h2>
+            <p className="text-gray-500 text-sm mb-6">Thank you for your purchase.</p>
+
+            {/* Order Number Card */}
+            <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Order Number</p>
+              <p className="font-mono font-bold text-gray-900 text-lg">{orderNumber}</p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <Link href="/products" className="block w-full py-3 px-4 bg-black text-white text-sm font-medium rounded-xl hover:bg-gray-800 transition-colors">
+                Continue Shopping
+              </Link>
+              <Link href="/account" className="block w-full py-3 px-4 bg-white text-gray-700 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+                View Order History
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -231,60 +313,134 @@ export default function CheckoutPage() {
             {/* Shipping Address */}
             <div className="premium-surface p-4 sm:p-8 rounded-xl">
               <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Shipping Address</h2>
-              <div className="grid grid-cols-1 gap-y-4 sm:gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                <div>
-                  <label htmlFor="first-name" className="block text-sm font-medium text-[var(--color-text)]">First name</label>
-                  <div className="mt-1">
-                    <input type="text" id="first-name" name="first-name" required value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+              
+              {/* Saved Addresses Selection */}
+              {savedAddresses.length > 0 && (
+                <div className="mb-6">
+                  <p className="text-sm font-medium text-[var(--color-text-muted)] mb-3">Choose a saved address:</p>
+                  <div className="space-y-2">
+                    {savedAddresses.map((addr) => (
+                      <label
+                        key={addr.id}
+                        className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                          selectedSavedAddress === addr.id && !useNewAddress
+                            ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]/20'
+                            : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-gray-400'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="address-choice"
+                          checked={selectedSavedAddress === addr.id && !useNewAddress}
+                          onChange={() => { setSelectedSavedAddress(addr.id); setUseNewAddress(false); }}
+                          className="mt-1 h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)] focus:ring-[var(--color-primary)]"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm text-[var(--color-text)]">{addr.fullName}</span>
+                            {addr.isDefault && (
+                              <span className="inline-flex items-center gap-0.5 bg-[#ff8c00]/10 text-[#ff8c00] px-1.5 py-0.5 rounded text-[10px] font-bold uppercase">
+                                <Star className="w-2.5 h-2.5 fill-current" /> Default
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-[var(--color-text-muted)] mt-0.5">{addr.address}, {addr.city}, {addr.state} - {addr.pincode}</p>
+                          <p className="text-xs text-[var(--color-text-muted)]">📱 {addr.phone}</p>
+                        </div>
+                      </label>
+                    ))}
+                    
+                    {/* Use new address option */}
+                    <label
+                      className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                        useNewAddress
+                          ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]/20'
+                          : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-gray-400'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="address-choice"
+                        checked={useNewAddress}
+                        onChange={() => setUseNewAddress(true)}
+                        className="h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)] focus:ring-[var(--color-primary)]"
+                      />
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-[var(--color-text-muted)]" />
+                        <span className="text-sm font-medium text-[var(--color-text)]">Use a new address</span>
+                      </div>
+                    </label>
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="last-name" className="block text-sm font-medium text-[var(--color-text)]">Last name</label>
-                  <div className="mt-1">
-                    <input type="text" id="last-name" name="last-name" required value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+              )}
+
+              {/* Manual Address Form (shown when useNewAddress or no saved addresses) */}
+              {useNewAddress && (
+                <div className="grid grid-cols-1 gap-y-4 sm:gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                  <div>
+                    <label htmlFor="first-name" className="block text-sm font-medium text-[var(--color-text)]">First name</label>
+                    <div className="mt-1">
+                      <input type="text" id="first-name" name="first-name" required value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="last-name" className="block text-sm font-medium text-[var(--color-text)]">Last name</label>
+                    <div className="mt-1">
+                      <input type="text" id="last-name" name="last-name" required value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="address" className="block text-sm font-medium text-[var(--color-text)]">Address</label>
+                    <div className="mt-1">
+                      <input type="text" id="address" name="address" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" placeholder="Street address, P.O. box, etc." />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-medium text-[var(--color-text)]">City</label>
+                    <div className="mt-1">
+                      <input type="text" id="city" name="city" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="postal-code" className="block text-sm font-medium text-[var(--color-text)]">Postal code</label>
+                    <div className="mt-1">
+                      <input type="text" id="postal-code" name="postal-code" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
+                    </div>
                   </div>
                 </div>
-                <div className="sm:col-span-2">
-                  <label htmlFor="address" className="block text-sm font-medium text-[var(--color-text)]">Address</label>
-                  <div className="mt-1">
-                    <input type="text" id="address" name="address" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" placeholder="Street address, P.O. box, etc." />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-[var(--color-text)]">City</label>
-                  <div className="mt-1">
-                    <input type="text" id="city" name="city" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="postal-code" className="block text-sm font-medium text-[var(--color-text)]">Postal code</label>
-                  <div className="mt-1">
-                    <input type="text" id="postal-code" name="postal-code" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} className="block w-full rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] sm:text-sm px-4 py-2.5 sm:py-3 text-sm" />
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Payment Method */}
             <div className="premium-surface p-4 sm:p-8 rounded-xl">
               <h2 className="text-lg sm:text-2xl font-semibold text-[var(--color-text)] mb-4 sm:mb-6">Payment Method</h2>
               <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                <div className={`flex items-center rounded-xl border px-3 sm:px-4 py-2.5 sm:py-3 cursor-pointer transition-all ${formData.paymentMethod === 'card' ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]/20' : 'border-[var(--color-border)] bg-[var(--color-surface)]'}`} onClick={() => setFormData({...formData, paymentMethod: 'card'})}>
                   <input id="payment-card" name="payment-method" type="radio" checked={formData.paymentMethod === 'card'} onChange={() => setFormData({...formData, paymentMethod: 'card'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-card" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
-                    Credit / Debit Card
+                  <label htmlFor="payment-card" className="ml-2 sm:ml-3 flex items-center gap-2 text-sm font-medium text-[var(--color-text)] cursor-pointer">
+                    💳 Credit / Debit Card
                   </label>
                 </div>
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                <div className={`flex items-center rounded-xl border px-3 sm:px-4 py-2.5 sm:py-3 cursor-pointer transition-all ${formData.paymentMethod === 'upi' ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]/20' : 'border-[var(--color-border)] bg-[var(--color-surface)]'}`} onClick={() => setFormData({...formData, paymentMethod: 'upi'})}>
                   <input id="payment-upi" name="payment-method" type="radio" checked={formData.paymentMethod === 'upi'} onChange={() => setFormData({...formData, paymentMethod: 'upi'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-upi" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
-                    UPI
+                  <label htmlFor="payment-upi" className="ml-2 sm:ml-3 flex items-center gap-2 text-sm font-medium text-[var(--color-text)] cursor-pointer">
+                    📱 UPI
                   </label>
                 </div>
-                <div className="flex items-center rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 sm:px-4 py-2.5 sm:py-3">
+                <div className={`flex items-center rounded-xl border px-3 sm:px-4 py-2.5 sm:py-3 cursor-pointer transition-all ${formData.paymentMethod === 'cod' ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]/20' : 'border-[var(--color-border)] bg-[var(--color-surface)]'}`} onClick={() => setFormData({...formData, paymentMethod: 'cod'})}>
                   <input id="payment-cod" name="payment-method" type="radio" checked={formData.paymentMethod === 'cod'} onChange={() => setFormData({...formData, paymentMethod: 'cod'})} className="focus:ring-[var(--color-primary)] h-4 w-4 text-[var(--color-primary)] border-[var(--color-border)]" />
-                  <label htmlFor="payment-cod" className="ml-2 sm:ml-3 block text-sm font-medium text-[var(--color-text)]">
-                    Cash on Delivery
+                  <label htmlFor="payment-cod" className="ml-2 sm:ml-3 flex items-center gap-2 text-sm font-medium text-[var(--color-text)] cursor-pointer">
+                    💰 Cash on Delivery
+                  </label>
+                </div>
+                <div className={`flex items-center rounded-xl border px-3 sm:px-4 py-2.5 sm:py-3 cursor-pointer transition-all ${formData.paymentMethod === 'whatsapp' ? 'border-[#25D366] bg-[#25D366]/5 ring-1 ring-[#25D366]/20' : 'border-[var(--color-border)] bg-[var(--color-surface)]'}`} onClick={() => setFormData({...formData, paymentMethod: 'whatsapp'})}>
+                  <input id="payment-whatsapp" name="payment-method" type="radio" checked={formData.paymentMethod === 'whatsapp'} onChange={() => setFormData({...formData, paymentMethod: 'whatsapp'})} className="focus:ring-[#25D366] h-4 w-4 text-[#25D366] border-[var(--color-border)]" />
+                  <label htmlFor="payment-whatsapp" className="ml-2 sm:ml-3 flex-1 cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-[var(--color-text)]">WhatsApp Order</span>
+                      <span className="text-[10px] font-bold text-white bg-[#25D366] px-1.5 py-0.5 rounded-full">EASY</span>
+                    </div>
+                    <p className="text-[11px] text-[var(--color-text-muted)] mt-0.5">Order via WhatsApp chat directly</p>
                   </label>
                 </div>
               </div>
@@ -297,7 +453,7 @@ export default function CheckoutPage() {
                 isSubmitting ? 'bg-[#556e81] cursor-not-allowed' : 'premium-btn-primary'
               }`}
             >
-              {isSubmitting ? 'Processing...' : `Pay ${formatPrice(totalPrice())}`}
+              {isSubmitting ? 'Processing...' : formData.paymentMethod === 'whatsapp' ? `Order via WhatsApp • ${formatPrice(totalPrice())}` : `Pay ${formatPrice(totalPrice())}`}
             </button>
           </form>
         </div>

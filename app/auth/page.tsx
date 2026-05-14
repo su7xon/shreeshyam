@@ -3,7 +3,8 @@
 import { useState, Suspense, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn, signUp, signInWithGoogleRedirect, checkGoogleRedirectResult } from '@/lib/firebase-auth';
+import { signIn, signUp, signInWithGoogle } from '@/lib/firebase-auth';
+import { useAuth } from '@/lib/auth-context';
 import { Mail, Lock, User, Phone, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 function AuthContent() {
@@ -23,20 +24,14 @@ function AuthContent() {
     phone: ''
   });
 
+  const { user } = useAuth();
+
+  // If user is already logged in, redirect to returnUrl
   useEffect(() => {
-    const checkRedirect = async () => {
-      try {
-        const result = await checkGoogleRedirectResult();
-        if (result) {
-          router.push(returnUrl);
-        }
-      } catch (err: any) {
-        console.error('Google Redirect error:', err);
-        setError(err.message || 'Failed to sign in with Google.');
-      }
-    };
-    checkRedirect();
-  }, [router, returnUrl]);
+    if (user) {
+      router.push(returnUrl);
+    }
+  }, [user, router, returnUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,10 +81,16 @@ function AuthContent() {
     setError('');
     setLoading(true);
     try {
-      await signInWithGoogleRedirect();
-      // Browser will redirect, so no need to stop loading
+      await signInWithGoogle();
+      // Popup returns immediately after success, redirect now
+      router.push(returnUrl);
     } catch (err: any) {
       console.error('Google Auth error:', err);
+      // User closed the popup - not an error
+      if (err.code === 'auth/popup-closed-by-user') {
+        setLoading(false);
+        return;
+      }
       setError(err.message || 'Failed to sign in with Google.');
       setLoading(false);
     }

@@ -28,6 +28,10 @@ export const createOrder = async (orderData: Omit<Order, 'id' | 'createdAt' | 'u
     const now = Timestamp.now();
     const orderWithMetadata = {
       ...orderData,
+      customer: {
+        ...orderData.customer,
+        email: orderData.customer.email.toLowerCase()
+      },
       createdAt: now,
       updatedAt: now,
       orderNumber: `SSM-${Date.now().toString().slice(-6)}-${Math.floor(1000 + Math.random() * 9000)}`
@@ -85,12 +89,44 @@ export const getOrdersByPhone = async (phone: string): Promise<Order[]> => {
     
     // Sort client-side by createdAt descending
     return orders.sort((a, b) => {
-      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA;
+      const getTime = (val: any) => {
+        if (!val) return 0;
+        if (typeof val.toDate === 'function') return val.toDate().getTime();
+        return new Date(val).getTime();
+      };
+      return getTime(b.createdAt) - getTime(a.createdAt);
     });
   } catch (error) {
     console.error('Error getting orders by phone:', error);
+    return [];
+  }
+};
+
+// Get orders by email (for customer lookup in accounts)
+export const getOrdersByEmail = async (email: string): Promise<Order[]> => {
+  if (!db || !email) return [];
+  try {
+    const ordersQuery = query(
+      collection(db, ORDERS_COLLECTION),
+      where('customer.email', '==', email.toLowerCase())
+    );
+    const querySnapshot = await getDocs(ordersQuery);
+    const orders = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Order[];
+    
+    // Sort client-side by createdAt descending
+    return orders.sort((a, b) => {
+      const getTime = (val: any) => {
+        if (!val) return 0;
+        if (typeof val.toDate === 'function') return val.toDate().getTime();
+        return new Date(val).getTime();
+      };
+      return getTime(b.createdAt) - getTime(a.createdAt);
+    });
+  } catch (error) {
+    console.error('Error getting orders by email:', error);
     return [];
   }
 };

@@ -131,11 +131,33 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <OrganizationJsonLd />
+        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: true
+            }, 'google_translate_element');
+          }
+          
+          // Force translation check on route changes or load
+          (function() {
+            var gtInterval = setInterval(function() {
+              if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+                clearInterval(gtInterval);
+                // The script will automatically pick up the googtrans cookie
+              }
+            }, 500);
+            setTimeout(function() { clearInterval(gtInterval); }, 10000);
+          })();
+        `}} />
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
       </head>
       <body
         suppressHydrationWarning
         className={`${poppins.variable} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]`}
       >
+        <div id="google_translate_element" style={{ position: 'fixed', bottom: '0', right: '0', zIndex: -1, opacity: 0, pointerEvents: 'none' }}></div>
         <AuthProvider>
           <CartProvider>
             <ReactQueryProvider>
