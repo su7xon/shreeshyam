@@ -36,4 +36,4 @@ def get_fingerprint(keystore_path):
     print("4. Paste it into public/.well-known/assetlinks.json")
 
 if __name__ == "__main__":
-    get_fingerprint('android.keystore')
+    get_fingerprint('android/android.keystore')

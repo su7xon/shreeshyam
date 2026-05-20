@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const keystorePath = path.join(__dirname, '..', 'android.keystore');
+const keystorePath = path.join(__dirname, '..', 'android', 'android.keystore');
 // Common bubblewrap passwords to try
 const passwords = ['android', 'android_ks_pass', ''];
 
