@@ -70,3 +70,10 @@ tsconfig.tsbuildinfo
 # Serwist PWA
 public/sw*
 public/swe-worker*
+
+# Android build artifacts and temp files
+app/build/
+*.apk
+*.aab
+*.idsig
+*.flat
