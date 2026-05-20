@@ -110,8 +110,6 @@ export default function Home() {
   const { data: fetchedBrands } = useActiveBrands();
   const { data: fetchedReviews } = useApprovedReviews();
   const activeReviews = fetchedReviews || [];
-  
-  const isLoading = productsLoading || bannersLoading;
 
   const rawProducts = fetchedProducts && fetchedProducts.length > 0 ? fetchedProducts : defaultProducts;
   const products = useMemo(() => deduplicateProducts(rawProducts), [rawProducts]);
@@ -470,8 +468,7 @@ export default function Home() {
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="100vw"
-                priority
-                
+                priority={true}
               />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-text)] to-[var(--color-text-muted)]" />
@@ -487,9 +484,9 @@ export default function Home() {
             </div>
           }>
           <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
-            {trendingProducts.map((product) => (
+            {trendingProducts.map((product, i) => (
               <div key={product.id} className="w-[160px] sm:w-auto shrink-0 sm:shrink">
-                <ProductCard product={product} variant="editorial" />
+                <ProductCard product={product} variant="editorial" priority={i < 4} />
               </div>
             ))}
           </div>
@@ -595,9 +592,9 @@ export default function Home() {
             </div>
           }>
             <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6 overflow-x-auto sm:overflow-visible no-scrollbar -mx-2.5 sm:mx-0 px-2.5 sm:px-0 pb-2 sm:pb-0">
-              {newArrivals.map((product) => (
+              {newArrivals.map((product, i) => (
                 <div key={`all-${product.id}`} className="w-[160px] sm:w-auto shrink-0 sm:shrink">
-                  <ProductCard product={product} variant="editorial" />
+                  <ProductCard product={product} variant="editorial" priority={i < 4} />
                 </div>
               ))}
             </div>

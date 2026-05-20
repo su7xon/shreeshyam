@@ -126,6 +126,10 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <OrganizationJsonLd />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://cdn.simpleicons.org" />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
         <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `
           function googleTranslateElementInit() {
             new google.translate.TranslateElement({

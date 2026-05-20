@@ -11,9 +11,10 @@ import { getProductImageUrl } from '@/lib/image-utils';
 interface ProductCardProps {
   product: Product;
   variant?: 'default' | 'editorial';
+  priority?: boolean;
 }
 
-export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
+export default function ProductCard({ product, variant = 'default', priority = false }: ProductCardProps) {
   const { addItem } = useCartStore();
   const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand)}`;
   const optimizedSrc = product.image ? getProductImageUrl(product.image, 'card') : fallbackImg;
@@ -65,24 +66,25 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
 
         {/* Image Section - With subtle gradient */}
         <div className="relative aspect-[1/1] p-2 flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-[#fafafa]">
-          {!isImageLoaded && (
-            <div className="absolute inset-0 p-5">
-              <div className="w-full h-full rounded-xl overflow-hidden bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-shimmer bg-[length:200%_100%]" />
-            </div>
-          )}
-
           <Image
             src={imgSrc}
             alt={product.name}
             fill
-            className={`object-contain p-2 transition-all duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'} ${isHovered ? 'scale-105' : 'scale-100'}`}
+            className={`object-contain p-2 transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
             sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
             onLoad={() => setIsImageLoaded(true)}
             onError={() => {
               setImgSrc(fallbackImg);
               setIsImageLoaded(false);
             }}
+            priority={priority}
           />
+          {/* Skeleton overlay */}
+          {!isImageLoaded && (
+            <div className="absolute inset-0 p-5 flex items-center justify-center">
+              <div className="w-full h-full rounded-xl bg-gray-100 animate-pulse" />
+            </div>
+          )}
 
           {/* Quick view overlay on hover */}
           <div className={`absolute inset-0 bg-black/5 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />

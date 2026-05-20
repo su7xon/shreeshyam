@@ -49,13 +49,14 @@ export default function CategoryStrip() {
                 className="group flex flex-col items-center gap-2.5 sm:gap-3 flex-shrink-0 min-w-[70px] sm:min-w-[100px]"
               >
                 <div className="relative h-16 w-16 sm:h-22 sm:w-22 rounded-2xl bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:border-[#3b82f6]/30">
-                  <div className="relative w-[75%] h-[75%] transition-transform duration-300 group-hover:scale-110">
-                    <img
-                      src={getProductImageUrl(cat.image, 'card')}
-                      alt={cat.name}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                  <Image
+                    src={getProductImageUrl(cat.image, 'card')}
+                    alt={cat.name}
+                    fill
+                    className="object-contain p-3"
+                    sizes="88px"
+                    priority={index < 5}
+                  />
                   {/* Hover gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#3b82f6]/0 to-[#3b82f6]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
