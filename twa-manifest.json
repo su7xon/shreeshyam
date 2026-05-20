@@ -20,8 +20,8 @@
     "path": "D:\\downloadss\\shreeshyam mobiles\\android.keystore",
     "alias": "android"
   },
-  "appVersionName": "1",
-  "appVersionCode": 1,
+  "appVersionName": "2",
+  "appVersionCode": 2,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://shreeshyammobilescom.netlify.app/manifest.json",
@@ -36,12 +36,17 @@
   "fullScopeUrl": "https://shreeshyammobilescom.netlify.app/",
   "minSdkVersion": 21,
   "orientation": "portrait-primary",
-  "fingerprints": [],
+  "fingerprints": [
+    {
+      "name": "upload-key",
+      "value": "99:1D:F0:B2:30:C4:8C:70:77:B2:61:8E:1B:71:5D:99:5A:32:74:88:0B:B4:9A:C1:AC:5D:99:B5:C9:7B:FA:CA"
+    }
+  ],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
   "protocolHandlers": [],
   "fileHandlers": [],
   "launchHandlerClientMode": "",
   "displayOverride": [],
-  "appVersion": "1"
+  "appVersion": "2"
 }
