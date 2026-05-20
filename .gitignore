@@ -74,6 +74,7 @@ public/swe-worker*
 # Android build artifacts and temp files
 app/build/
 *.apk
+!public/*.apk
 *.aab
 *.idsig
 *.flat
