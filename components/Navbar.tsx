@@ -59,10 +59,10 @@ export default function Navbar() {
       <div className="w-full px-3 sm:px-6 lg:px-8 py-3 sm:py-3">
         <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex-shrink min-w-0 flex items-center gap-2 sm:gap-2">
-              <Link href="/" className="flex items-center min-w-0">
+            <div className="flex-shrink-0 flex items-center gap-2 sm:gap-2">
+              <Link href="/" className="flex items-center">
                 {logoError ? (
-                  <div className="h-10 sm:h-11 px-2.5 sm:px-3 rounded bg-black flex items-center justify-center text-[10px] sm:text-sm font-bold text-white" aria-hidden="true">
+                  <div className="h-8 sm:h-10 px-2.5 sm:px-3 rounded bg-black flex items-center justify-center text-[10px] sm:text-sm font-bold text-white" aria-hidden="true">
                     SHYAM
                   </div>
                 ) : (
@@ -73,7 +73,7 @@ export default function Navbar() {
                     height={64}
                     priority
                     onError={() => setLogoError(true)}
-                    className="h-10 sm:h-11 w-auto max-w-[180px] sm:max-w-none object-contain"
+                    className="h-8 sm:h-10 w-auto object-contain"
                   />
                 )}
               </Link>
