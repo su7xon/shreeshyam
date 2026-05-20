@@ -9,14 +9,14 @@ The App Bundle has been signed with the local keystore in your project root. Kee
 
 | Item | Details |
 | :--- | :--- |
-| **Keystore File** | `android.keystore` (in the project root) |
+| **Keystore File** | `android/android.keystore` |
 | **Key Alias** | `android` |
 | **Keystore Password** | `123456` |
 | **Key Password** | `123456` |
 | **SHA256 Fingerprint** | `99:1D:F0:B2:30:C4:8C:70:77:B2:61:8E:1B:71:5D:99:5A:32:74:88:0B:B4:9A:C1:AC:5D:99:B5:C9:7B:FA:CA` |
 
 > [!CAUTION]
-> **DO NOT LOSE `android.keystore`!**  
+> **DO NOT LOSE `android/android.keystore`!**  
 > If you lose this keystore file or forget the passwords, you will **never** be able to update your app on the Google Play Store again. Back it up in a secure, private cloud folder (e.g., Google Drive, OneDrive) immediately.
 
 ---
@@ -64,7 +64,7 @@ When you upload an app for the first time, Google Play will ask about App Signin
 1. On the left sidebar, scroll down to **Release** and select **Production** (or **Internal testing** if you want to test with a small group first).
 2. Click **Create new release** in the top right.
 3. In the **App bundles** section, upload the file:
-   `d:\downloadss\shreeshyam mobiles\app-release-bundle.aab`
+   `d:\downloadss\shreeshyam mobiles\android\app-release-bundle.aab` (or `d:\downloadss\shreeshyam mobiles\app-release-bundle.aab` if using the existing one)
 4. The console will automatically parse the file and fill in the **Version name** (currently `3`) and **Version code** (currently `3`).
 5. Write your **Release notes** (e.g., "Initial release of the Shreeshyam Mobiles storefront app").
 6. Click **Save** and then **Review release**.
