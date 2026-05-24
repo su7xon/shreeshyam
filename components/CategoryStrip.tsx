@@ -53,9 +53,9 @@ export default function CategoryStrip() {
                     src={getProductImageUrl(cat.image, 'card')}
                     alt={cat.name}
                     fill
-                    className="object-contain p-3"
-                    sizes="88px"
-                    priority={index < 5}
+                    className="object-cover"
+                    sizes="(max-width: 640px) 80px, 112px"
+                    priority={true}
                   />
                   {/* Hover gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#3b82f6]/0 to-[#3b82f6]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
