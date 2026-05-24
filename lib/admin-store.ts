@@ -74,7 +74,7 @@ export interface Order {
     city: string;
     postalCode: string;
   };
-  paymentMethod: 'card' | 'upi' | 'cod';
+  paymentMethod: 'card' | 'upi' | 'cod' | 'whatsapp';
   createdAt: string;
   updatedAt: string;
 }
