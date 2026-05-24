@@ -57,7 +57,7 @@ export function useProducts() {
   return useQuery({
     queryKey: queryKeys.products.all,
     queryFn: () => productService.getProducts(),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     gcTime: 15 * 60 * 1000,
   });
 }
@@ -72,7 +72,7 @@ export function usePaginatedProducts(filters: productService.ProductFilters = {}
       productService.getPaginatedProducts(filters, pageParam as QueryDocumentSnapshot | null),
     initialPageParam: null as QueryDocumentSnapshot | null,
     getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.lastVisible : undefined,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
   });
 }
 
@@ -84,7 +84,7 @@ export function useFeaturedProducts(limit = 8) {
   return useQuery({
     queryKey: queryKeys.products.featured,
     queryFn: () => productService.getFeaturedProducts(limit),
-    staleTime: 10 * 60 * 1000, // 10 min — featured rarely changes
+    staleTime: 0, // 10 min — featured rarely changes
     gcTime: 30 * 60 * 1000,
   });
 }
@@ -96,7 +96,7 @@ export function useNewArrivals(limit = 10) {
   return useQuery({
     queryKey: queryKeys.products.newArrivals,
     queryFn: () => productService.getNewArrivals(limit),
-    staleTime: 10 * 60 * 1000,
+    staleTime: 0,
     gcTime: 30 * 60 * 1000,
   });
 }
@@ -109,7 +109,7 @@ export function useProduct(id: string) {
   return useQuery({
     queryKey: queryKeys.products.detail(id),
     queryFn: () => productService.getProductById(id),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     gcTime: 15 * 60 * 1000,
     enabled: !!id, // Don't fetch if no ID
   });
@@ -124,7 +124,7 @@ export function useBanners() {
   return useQuery({
     queryKey: queryKeys.banners.all,
     queryFn: () => bannerService.getBanners(),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     gcTime: 30 * 60 * 1000,
   });
 }
@@ -138,7 +138,7 @@ export function useActiveBrands() {
   return useQuery({
     queryKey: queryKeys.brands.active,
     queryFn: () => brandService.getActiveBrands(),
-    staleTime: 30 * 60 * 1000, // 30 min — brands rarely change
+    staleTime: 0, // Always revalidate in background
     gcTime: 60 * 60 * 1000,
   });
 }
@@ -152,7 +152,7 @@ export function useCategories() {
   return useQuery({
     queryKey: queryKeys.categories.all,
     queryFn: () => categoryService.getCategories(),
-    staleTime: 30 * 60 * 1000,
+    staleTime: 0, // Always revalidate in background
     gcTime: 60 * 60 * 1000,
   });
 }
@@ -166,7 +166,7 @@ export function useDailyDeals() {
   return useQuery<DailyDeal[]>({
     queryKey: queryKeys.dailyDeals,
     queryFn: () => dailyDealService.getDailyDeals(),
-    staleTime: 2 * 60 * 1000, // 2 min — deals are time-sensitive
+    staleTime: 0, // 2 min — deals are time-sensitive
     gcTime: 10 * 60 * 1000,
   });
 }
@@ -180,7 +180,7 @@ export function useOffers() {
   return useQuery({
     queryKey: queryKeys.offers,
     queryFn: () => offerService.getOffers(),
-    staleTime: 10 * 60 * 1000,
+    staleTime: 0,
     gcTime: 30 * 60 * 1000,
   });
 }
@@ -194,7 +194,7 @@ export function useApprovedReviews() {
   return useQuery({
     queryKey: queryKeys.reviews.approved,
     queryFn: () => reviewService.getApprovedReviews(),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     gcTime: 30 * 60 * 1000,
   });
 }

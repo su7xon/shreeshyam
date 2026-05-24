@@ -7,6 +7,8 @@ import HomeClient from './page-client';
 
 const serialize = (obj: any) => JSON.parse(JSON.stringify(obj));
 
+export const revalidate = 60; // Revalidate every minute
+
 export default async function HomePage() {
   const queryClient = new QueryClient();
 
