@@ -9,7 +9,7 @@ const crypto = require('crypto');
 
 const keystorePath = path.join(__dirname, '..', 'android', 'android.keystore');
 // Common bubblewrap passwords to try
-const passwords = ['android', 'android_ks_pass', ''];
+const passwords = ['123456', 'android', 'android_ks_pass', ''];
 
 const keystoreData = fs.readFileSync(keystorePath);
 const keystoreB64 = keystoreData.toString('binary');

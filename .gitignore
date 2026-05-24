@@ -73,6 +73,10 @@ public/swe-worker*
 
 # Android build artifacts and temp files
 app/build/
+android/app/build/
+android/.gradle/
+android/build/
+android/manifest-checksum.txt
 *.apk
 !public/*.apk
 *.aab
