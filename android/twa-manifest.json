@@ -1,6 +1,6 @@
 {
   "packageId": "com.shreeshyam.app",
-  "host": "shreeshyammobilescom.netlify.app",
+  "host": "shreeshyammobiles.in",
   "name": "Shyam Mobiles",
   "launcherName": "ShyamMob",
   "display": "standalone",
@@ -13,8 +13,8 @@
   "backgroundColor": "#FFFFFF",
   "enableNotifications": true,
   "startUrl": "/",
-  "iconUrl": "https://shreeshyammobilescom.netlify.app/pwa-icon.jpeg",
-  "maskableIconUrl": "https://shreeshyammobilescom.netlify.app/pwa-icon.jpeg",
+  "iconUrl": "https://shreeshyammobiles.in/pwa-icon.jpeg",
+  "maskableIconUrl": "https://shreeshyammobiles.in/pwa-icon.jpeg",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "D:\\downloadss\\shreeshyam mobiles\\android\\android.keystore",
@@ -24,7 +24,7 @@
   "appVersionCode": 5,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://shreeshyammobilescom.netlify.app/manifest.json",
+  "webManifestUrl": "https://shreeshyammobiles.in/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {
@@ -33,7 +33,7 @@
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
-  "fullScopeUrl": "https://shreeshyammobilescom.netlify.app/",
+  "fullScopeUrl": "https://shreeshyammobiles.in/",
   "minSdkVersion": 21,
   "orientation": "portrait-primary",
   "fingerprints": [
