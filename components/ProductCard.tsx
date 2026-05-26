@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getProductImageUrl } from '@/lib/image-utils';
 
 interface ProductCardProps {
@@ -18,9 +18,19 @@ export default function ProductCard({ product, variant = 'default', priority = f
   const { addItem } = useCartStore();
   const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand)}`;
   const optimizedSrc = product.image ? getProductImageUrl(product.image, 'card') : fallbackImg;
-  const [imgSrc, setImgSrc] = useState(optimizedSrc);
+  
+  // Use robust hasError & isImageLoaded states
+  const [hasError, setHasError] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Sync state when product or product.image changes
+  useEffect(() => {
+    setHasError(false);
+    setIsImageLoaded(false);
+  }, [product.id, product.image]);
+
+  const imgSrc = hasError ? fallbackImg : optimizedSrc;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -70,17 +80,18 @@ export default function ProductCard({ product, variant = 'default', priority = f
             src={imgSrc}
             alt={product.name}
             fill
-            className={`object-contain p-2 transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`object-contain p-2 transition-opacity duration-300 ${(isImageLoaded || hasError) ? 'opacity-100' : 'opacity-0'}`}
             sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, (max-width: 1200px) 22vw, 18vw"
             onLoad={() => setIsImageLoaded(true)}
             onError={() => {
-              setImgSrc(fallbackImg);
-              setIsImageLoaded(false);
+              setHasError(true);
             }}
             priority={priority}
+            referrerPolicy="no-referrer"
+            unoptimized={imgSrc.includes('amazon') || imgSrc.includes('media-amazon')}
           />
           {/* Skeleton overlay */}
-          {!isImageLoaded && (
+          {!isImageLoaded && !hasError && (
             <div className="absolute inset-0 p-5 flex items-center justify-center">
               <div className="w-full h-full rounded-xl bg-gray-100 animate-pulse" />
             </div>

@@ -474,6 +474,7 @@ export default function CheckoutPage() {
                       fill
                       className="object-contain p-1"
                       referrerPolicy="no-referrer"
+                      unoptimized={item.image?.includes('amazon') || item.image?.includes('media-amazon')}
                     />
                   </div>
                   <div className="flex-1 min-w-0">

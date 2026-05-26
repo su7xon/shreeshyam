@@ -276,6 +276,7 @@ export default function Home() {
                               fill
                               className="object-cover object-center"
                               priority={true}
+                              referrerPolicy="no-referrer"
                             />
                           )}
                         </>
@@ -367,6 +368,7 @@ export default function Home() {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 50vw, 25vw"
                       priority={true}
+                      referrerPolicy="no-referrer"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none" />
@@ -469,6 +471,7 @@ export default function Home() {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="100vw"
                 priority={true}
+                referrerPolicy="no-referrer"
               />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-text)] to-[var(--color-text-muted)]" />
@@ -545,7 +548,7 @@ export default function Home() {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  
+                  referrerPolicy="no-referrer"
                 />
               </Link>
             ) : (

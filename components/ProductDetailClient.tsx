@@ -265,7 +265,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                           selectedThumb === i ? 'border-blue-600 shadow-md' : 'border-gray-200 hover:border-gray-400'
                         }`}
                       >
-                        <Image src={thumb || '/placeholder.png'} alt={`${product.name} view ${i + 1}`} width={56} height={56} className="object-contain p-1" referrerPolicy="no-referrer" />
+                        <Image src={thumb || '/placeholder.png'} alt={`${product.name} view ${i + 1}`} width={56} height={56} className="object-contain p-1" referrerPolicy="no-referrer" unoptimized={thumb?.includes('amazon') || thumb?.includes('media-amazon')} />
                       </button>
                     ))}
                   </div>
@@ -281,7 +281,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                         <Share2 className="h-4 w-4 text-gray-500" />
                       </button>
                     </div>
-                    <Image src={thumbnails[selectedThumb] || '/placeholder.png'} alt={product.name || 'Product'} fill className="object-contain p-6 sm:p-10" priority sizes="(max-width: 768px) 100vw, 45vw" referrerPolicy="no-referrer" />
+                    <Image src={thumbnails[selectedThumb] || '/placeholder.png'} alt={product.name || 'Product'} fill className="object-contain p-6 sm:p-10" priority sizes="(max-width: 768px) 100vw, 45vw" referrerPolicy="no-referrer" unoptimized={thumbnails[selectedThumb]?.includes('amazon') || thumbnails[selectedThumb]?.includes('media-amazon')} />
                   </div>
                   {thumbnails.length > 1 && (
                     <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-2">
@@ -293,7 +293,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                             selectedThumb === i ? 'border-blue-600' : 'border-gray-200'
                           }`}
                         >
-                          <Image src={thumb || '/placeholder.png'} alt="" width={48} height={48} className="object-contain p-1" referrerPolicy="no-referrer" />
+                           <Image src={thumb || '/placeholder.png'} alt="" width={48} height={48} className="object-contain p-1" referrerPolicy="no-referrer" unoptimized={thumb?.includes('amazon') || thumb?.includes('media-amazon')} />
                         </button>
                       ))}
                     </div>
@@ -494,7 +494,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                           {rpDiscount > 0 && (
                             <div className="absolute top-2 left-2 bg-[#ff8c00] text-black text-[10px] font-bold px-1.5 py-0.5 rounded z-10">{rpDiscount}% off</div>
                           )}
-                          <Image src={rp.image || '/placeholder.png'} alt={rp.name} fill className="object-contain p-3" sizes="(max-width: 768px) 45vw, 22vw" referrerPolicy="no-referrer" />
+                           <Image src={rp.image || '/placeholder.png'} alt={rp.name} fill className="object-contain p-3" sizes="(max-width: 768px) 45vw, 22vw" referrerPolicy="no-referrer" unoptimized={rp.image?.includes('amazon') || rp.image?.includes('media-amazon')} />
                         </div>
                         <div className="p-2.5 flex flex-col flex-grow">
                           <p className="text-[10px] text-gray-400 uppercase">{rp.brand}</p>

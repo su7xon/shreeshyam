@@ -154,7 +154,8 @@ export default function AccessoryDetailClient({ id }: AccessoryDetailClientProps
                 className="object-contain drop-shadow-xl"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
-                
+                referrerPolicy="no-referrer"
+                unoptimized={(accessory.image || getAccessoryImage(accessory.id))?.includes('amazon') || (accessory.image || getAccessoryImage(accessory.id))?.includes('media-amazon')}
               />
               {discountValue > 0 && (
                 <div className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">

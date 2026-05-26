@@ -84,6 +84,7 @@ export default function CartPage() {
                       fill
                       className="object-contain p-2"
                       referrerPolicy="no-referrer"
+                      unoptimized={item.image?.includes('amazon') || item.image?.includes('media-amazon')}
                     />
                   </div>
                   

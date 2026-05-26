@@ -14,13 +14,29 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+// Filter out apk files from precaching so users don't download the large APK in background
+const precacheEntries = self.__SW_MANIFEST?.filter((entry) => {
+  if (typeof entry === 'string') {
+    return !entry.endsWith('.apk');
+  }
+  return !entry.url.endsWith('.apk');
+});
+
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries,
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
   runtimeCaching: defaultCache,
 });
+
+// Custom handler to bypass caching for .apk downloads entirely so they download at full network speed
+serwist.registerRoute(
+  ({ url }) => url.pathname.endsWith('.apk'),
+  async ({ request }) => {
+    return fetch(request);
+  }
+);
 
 // Avoid intercepting Firebase Auth paths
 self.addEventListener('fetch', (event) => {

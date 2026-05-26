@@ -168,6 +168,8 @@ export default function SearchAutocomplete({
                       fill
                       className="object-cover"
                       sizes="48px"
+                      referrerPolicy="no-referrer"
+                      unoptimized={result.image?.includes('amazon') || result.image?.includes('media-amazon')}
                     />
                   </div>
                 )}

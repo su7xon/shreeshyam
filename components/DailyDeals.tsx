@@ -110,6 +110,8 @@ export default function DailyDeals() {
                     fill
                     className="object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500 mix-blend-multiply"
                     sizes="(max-width: 640px) 160px, (max-width: 1024px) 220px, 20vw"
+                    referrerPolicy="no-referrer"
+                    unoptimized={product.image?.includes('amazon') || product.image?.includes('media-amazon')}
                   />
                 </div>
 
