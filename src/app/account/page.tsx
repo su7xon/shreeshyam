@@ -72,46 +72,46 @@ export default function AccountPage() {
     : 'Recently';
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gray-50 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
         
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Account</h1>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 bg-red-50 rounded-xl hover:bg-red-100 transition-colors sm:w-auto w-full"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
           </button>
         </div>
 
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
+        <div className="bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden">
+          <div className="px-4 py-5 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200">
             <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Profile Information</h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact info.</p>
+              <h3 className="text-lg font-bold text-gray-900">Profile Information</h3>
+              <p className="mt-1 text-sm text-gray-500">Personal details and contact info.</p>
             </div>
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
                 Edit Profile
               </button>
             ) : (
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full sm:w-auto">
                 <button
                   onClick={() => setIsEditing(false)}
                   disabled={saving}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                  className="flex-1 sm:flex-none px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="flex items-center gap-2 px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-black hover:bg-gray-800 transition-colors"
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 border border-transparent rounded-xl text-sm font-semibold text-white bg-black hover:bg-gray-800 transition-colors"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                   Save
@@ -120,84 +120,84 @@ export default function AccountPage() {
             )}
           </div>
           
-          <div className="px-4 py-5 sm:p-0">
-            <dl className="sm:divide-y sm:divide-gray-200">
+          <div className="px-0 sm:p-0">
+            <dl className="divide-y divide-gray-100 sm:divide-y sm:divide-gray-200">
               
               {/* Name */}
-              <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <User className="h-4 w-4" /> Full name
+                  <User className="h-4 w-4 text-[var(--color-primary)]" /> Full name
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
                   {isEditing ? (
                     <input
                       type="text"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
-                      className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm py-2 px-3 border outline-none"
+                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none transition-all"
                     />
                   ) : (
-                    <span className="font-medium">{profile?.displayName || 'Not set'}</span>
+                    <span className="font-semibold text-gray-900">{profile?.displayName || 'Not set'}</span>
                   )}
                 </dd>
               </div>
 
               {/* Email */}
-              <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Mail className="h-4 w-4" /> Email address
+                  <Mail className="h-4 w-4 text-[var(--color-primary)]" /> Email address
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {user.email} <span className="text-xs text-gray-400 ml-2">(Cannot be changed)</span>
+                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2 font-medium">
+                  {user.email} <span className="text-[10px] sm:text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md ml-2 font-normal">(Cannot be changed)</span>
                 </dd>
               </div>
 
               {/* Phone */}
-              <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Phone className="h-4 w-4" /> Phone number
+                  <Phone className="h-4 w-4 text-[var(--color-primary)]" /> Phone number
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
                   {isEditing ? (
                     <input
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+91 9876543210"
-                      className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm py-2 px-3 border outline-none"
+                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none transition-all"
                     />
                   ) : (
-                    <span>{profile?.phone || <span className="text-gray-400 italic">Not set</span>}</span>
+                    <span className="font-medium">{profile?.phone || <span className="text-gray-400 italic">Not set</span>}</span>
                   )}
                 </dd>
               </div>
 
               {/* Address */}
-              <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <MapPin className="h-4 w-4" /> Default Address
+                  <MapPin className="h-4 w-4 text-[var(--color-primary)]" /> Default Address
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
                   {isEditing ? (
                     <textarea
                       rows={3}
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder="Enter your full shipping address"
-                      className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm py-2 px-3 border outline-none"
+                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none resize-none transition-all"
                     />
                   ) : (
-                    <span>{profile?.address || <span className="text-gray-400 italic">Not set</span>}</span>
+                    <span className="font-medium leading-relaxed">{profile?.address || <span className="text-gray-400 italic">Not set</span>}</span>
                   )}
                 </dd>
               </div>
 
               {/* Join Date */}
-              <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50">
+              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50/50">
                 <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Calendar className="h-4 w-4" /> Member since
+                  <Calendar className="h-4 w-4 text-[var(--color-primary)]" /> Member since
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2 font-medium">
                   {joinDate}
                 </dd>
               </div>
