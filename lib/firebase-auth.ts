@@ -8,7 +8,9 @@ import {
   User,
   UserCredential,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -76,32 +78,77 @@ export const signIn = async (
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-// Sign In with Google using Popup
-export const signInWithGoogle = async (): Promise<UserCredential> => {
+// Helper: create/update Google user profile in Firestore
+const saveGoogleUserProfile = async (user: User): Promise<void> => {
+  if (!db) return;
+  const userRef = doc(db, 'users', user.uid);
+  const docSnap = await getDoc(userRef);
+  
+  if (!docSnap.exists()) {
+    const userProfile: UserProfile = {
+      uid: user.uid,
+      email: user.email || '',
+      displayName: user.displayName || 'User',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    await setDoc(userRef, userProfile);
+  }
+};
+
+// Sign In with Google — tries popup first, falls back to redirect (for mobile)
+export const signInWithGoogle = async (): Promise<UserCredential | null> => {
   if (!auth) throw new Error('Firebase auth not initialized');
   
   const googleProvider = new GoogleAuthProvider();
-  const userCredential = await signInWithPopup(auth, googleProvider);
+  googleProvider.addScope('email');
+  googleProvider.addScope('profile');
   
-  // Create user profile in Firestore if it doesn't exist
-  if (userCredential?.user && db) {
-    const userRef = doc(db, 'users', userCredential.user.uid);
-    const docSnap = await getDoc(userRef);
+  try {
+    // Try popup first (works on desktop)
+    const userCredential = await signInWithPopup(auth, googleProvider);
     
-    if (!docSnap.exists()) {
-      const userProfile: UserProfile = {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email || '',
-        displayName: userCredential.user.displayName || 'User',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      
-      await setDoc(userRef, userProfile);
+    // Save profile to Firestore
+    if (userCredential?.user) {
+      await saveGoogleUserProfile(userCredential.user);
     }
+    
+    return userCredential;
+  } catch (popupError: any) {
+    const errorCode = popupError?.code || '';
+    console.warn('Google popup sign-in failed:', errorCode, popupError?.message);
+    
+    // If popup was blocked or cancelled, fall back to redirect
+    if (
+      errorCode === 'auth/popup-blocked' ||
+      errorCode === 'auth/popup-closed-by-user' ||
+      errorCode === 'auth/cancelled-popup-request' ||
+      errorCode === 'auth/internal-error'
+    ) {
+      console.log('Falling back to redirect sign-in...');
+      await signInWithRedirect(auth, googleProvider);
+      return null; // redirect navigates away
+    }
+    
+    // Re-throw other errors (e.g., auth/unauthorized-domain, network)
+    throw popupError;
   }
+};
+
+// Handle redirect result on page load (call this once on app mount)
+export const handleGoogleRedirectResult = async (): Promise<UserCredential | null> => {
+  if (!auth) return null;
   
-  return userCredential;
+  try {
+    const result = await getRedirectResult(auth);
+    if (result?.user) {
+      await saveGoogleUserProfile(result.user);
+    }
+    return result;
+  } catch (error: any) {
+    console.error('Google redirect result error:', error?.code, error?.message);
+    throw error;
+  }
 };
 
 // Sign Out
