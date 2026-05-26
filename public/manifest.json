@@ -10,15 +10,15 @@
     "id": "com.shreeshyam.app",
     "icons": [
         {
-            "src": "/icon-192.png",
+            "src": "/pwa-icon.jpeg",
             "sizes": "192x192",
-            "type": "image/png",
+            "type": "image/jpeg",
             "purpose": "any"
         },
         {
-            "src": "/icon-512.png",
+            "src": "/pwa-icon.jpeg",
             "sizes": "512x512",
-            "type": "image/png",
+            "type": "image/jpeg",
             "purpose": "any"
         },
         {
@@ -28,15 +28,15 @@
             "purpose": "any"
         },
         {
-            "src": "/icon-192.png",
+            "src": "/pwa-icon.jpeg",
             "sizes": "192x192",
-            "type": "image/png",
+            "type": "image/jpeg",
             "purpose": "maskable"
         },
         {
-            "src": "/icon-512.png",
+            "src": "/pwa-icon.jpeg",
             "sizes": "512x512",
-            "type": "image/png",
+            "type": "image/jpeg",
             "purpose": "maskable"
         }
     ],
