@@ -153,102 +153,34 @@ async function updateFirestoreImage(docPath, imageUrl) {
 
 // ─── IMAGE SEARCH ──────────────────────────────────────────────────────────
 
-/**
- * Strategy 1: Use DuckDuckGo (no API key, free)
- * Returns first image URL found for the query
- */
-async function searchImageDDG(query) {
-  try {
-    // First get the vqd token
-    const searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&iax=images&ia=images`;
-    const html = await new Promise((resolve, reject) => {
-      https.get(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
-        let d = '';
-        res.on('data', c => d += c);
-        res.on('end', () => resolve(d));
-      }).on('error', reject);
-    });
-    
-    const vqdMatch = html.match(/vqd="([^"]+)"/);
-    if (!vqdMatch) return null;
-    const vqd = vqdMatch[1];
-
-    const imgUrl = `https://duckduckgo.com/i.js?q=${encodeURIComponent(query)}&vqd=${vqd}&f=,,,,,&p=1`;
-    const imgData = await fetchJSON(imgUrl);
-    
-    if (imgData.results && imgData.results.length > 0) {
-      return imgData.results[0].image;
-    }
-  } catch (e) {
-    // silently fail
-  }
-  return null;
-}
+const google = require('googlethis');
 
 /**
- * Strategy 2: GSMArena-style direct URL construction
- * Many phone images follow predictable patterns on manufacturer sites
- */
-function getManufacturerImageUrl(brand, modelName) {
-  const name = modelName.toLowerCase().trim();
-  
-  // Samsung official images
-  if (brand.toLowerCase() === 'samsung') {
-    // Try Samsung's CDN pattern
-    const modelCode = name
-      .replace(/samsung\s*/i, '')
-      .replace(/\s+/g, '-')
-      .replace(/[()]/g, '');
-    return `https://images.samsung.com/is/image/samsung/${modelCode}`;
-  }
-  
-  return null; // no static URL for other brands
-}
-
-/**
- * Strategy 3: Use a Google Image proxy (Serp API free tier)
- * This is a fallback if DDG fails
- */
-async function searchImageGoogle(query) {
-  // Using a public CORS proxy to search Google Images metadata
-  // This won't always work but is a good fallback
-  try {
-    const url = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query + ' smartphone official image')}&searchType=image&num=1&imgSize=large&key=FREE_TIER_PLACEHOLDER`;
-    // Note: Google CSE requires API key - skip if not configured
-    return null;
-  } catch(e) {
-    return null;
-  }
-}
-
-/**
- * Main image finder - tries multiple strategies
+ * Main image finder - uses googlethis to search GSMArena
  */
 async function findPhoneImage(product) {
   const { name, brand } = product;
   
-  // Strategy 1: Try manufacturer direct URL  
-  const directUrl = getManufacturerImageUrl(brand, name);
-  if (directUrl) {
-    console.log(`   🎯 Using direct manufacturer URL`);
-    return directUrl;
-  }
+  const query = `${brand} ${name} phone site:gsmarena.com`;
+  console.log(`   🔍 Searching Google Images for: "${query}"`);
   
-  // Strategy 2: DuckDuckGo Image Search
-  const queries = [
-    `${name} smartphone official product image`,
-    `${brand} ${name} phone`,
-    `${name} mobile phone`,
-  ];
-  
-  for (const query of queries) {
-    console.log(`   🔍 Searching: "${query}"`);
-    const url = await searchImageDDG(query);
-    if (url && url.startsWith('http')) {
-      console.log(`   ✅ Found: ${url.slice(0, 80)}...`);
-      return url;
+  try {
+    const options = { page: 0, safe: false, additional_params: { hl: 'en' } };
+    const response = await google.image(query, options);
+    
+    if (response && response.length > 0) {
+      for (const img of response) {
+        if (img.url && (img.url.includes('gsmarena.com') || img.url.includes('fdn'))) {
+          console.log(`   ✅ Found: ${img.url.slice(0, 80)}...`);
+          return img.url;
+        }
+      }
+      // Fallback to first image
+      console.log(`   ✅ Fallback Found: ${response[0].url.slice(0, 80)}...`);
+      return response[0].url;
     }
-    await sleep(500);
+  } catch (e) {
+    console.error(`   ⚠️ Search failed: ${e.message}`);
   }
   
   return null;
@@ -313,7 +245,7 @@ async function main() {
     if (ALL) return true;  // --all flag: update everything
     // Only process products with missing/empty/placeholder images
     const img = p.image || '';
-    return !img || img.includes('placeholder') || img.includes('picsum') || img.includes('via.placeholder');
+    return !img || img.includes('placeholder') || img.includes('picsum') || img.includes('via.placeholder') || img.startsWith('/images/products/') || img.includes('amazon.com');
   });
   
   // Filter by brand if specified

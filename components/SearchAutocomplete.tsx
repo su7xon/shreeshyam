@@ -145,6 +145,7 @@ export default function SearchAutocomplete({
           onClick={onSearch}
           className="bg-black hover:bg-gray-900 w-10 sm:w-12 flex items-center justify-center transition-all text-white hover:scale-[1.02]"
           aria-label="Search"
+          suppressHydrationWarning
         >
           <Search className="h-5 w-5" />
         </button>

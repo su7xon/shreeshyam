@@ -130,10 +130,11 @@ export default function ImportProductsPage() {
     };
   };
 
-  const handleImport = () => {
+  const handleImport = async () => {
     setImporting(true);
     const importedList: string[] = [];
     const duplicateList: string[] = [];
+    const productsToAdd: any[] = [];
 
     productsData.forEach((product) => {
       const exists = admin.products.some(
@@ -145,11 +146,9 @@ export default function ImportProductsPage() {
       } else {
         const specs = getProductSpecs(product.name, product.brand);
         const newProduct = {
-          id: `product-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
           name: product.name,
           brand: product.brand,
           price: product.price,
-          originalPrice: undefined as number | undefined,
           image: product.image,
           images: [product.image],
           ram: product.ram,
@@ -162,10 +161,18 @@ export default function ImportProductsPage() {
           description: specs.description,
           colors: [],
         };
-        admin.addProduct(newProduct);
+        productsToAdd.push(newProduct);
         importedList.push(product.name);
       }
     });
+
+    if (productsToAdd.length > 0) {
+      try {
+        await admin.importBulkProducts(productsToAdd);
+      } catch (e) {
+        console.error("Bulk import failed:", e);
+      }
+    }
 
     setImported(importedList);
     setDuplicates(duplicateList);
