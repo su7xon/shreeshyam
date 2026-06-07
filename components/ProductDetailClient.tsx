@@ -146,7 +146,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const displayStorage = product.storage || 'N/A';
 
   const cleanProductName = (name: string) => {
-    return name.replace(/\([^)]*\)/g, '').trim();
+    return (name || '').replace(/\([^)]*\)/g, '').trim();
   };
 
   const RELATED_PER_PAGE = 12; // 3 rows x 4 columns on desktop
