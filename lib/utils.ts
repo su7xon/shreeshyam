@@ -14,14 +14,29 @@ export function deduplicateProducts(products: Product[]): Product[] {
 
     // Normalize model name by stripping specs, colors, and common tokens
     let model = (p.name || '').toUpperCase();
-    const toRemove = [brand, '5G', '4G', 'RAM', 'ROM', '(', ')', '+', ',', 'GB'];
+    
+    // First remove colors in parentheses like "(PRISM VIOLET, ICY BLUE)"
+    model = model.replace(/\(.*?\)/g, ' ');
+
+    // Remove RAM/Storage patterns like "4+128", "8GB/256GB", "8+128GB"
+    model = model.replace(/\b\d+\s*[+/]\s*\d+\b/g, ' ');
+    
+    // Remove "GB", "5G", "4G"
+    const toRemove = [brand, '5G', '4G', 'RAM', 'ROM', 'GB'];
     toRemove.forEach(str => {
-      if (str) model = model.split(str).join('');
+      if (str) model = model.split(str).join(' ');
     });
 
-    model = model.replace(/\d+\s*[+\/]\s*\d+/g, ' ');
-    model = model.replace(/\d+\s*GB/gi, ' ');
-    model = model.replace(/\(.*?\)/g, ' ');
+    // Remove stray numbers that might be RAM/Storage
+    model = model.replace(/\b\d+\b/g, (match) => {
+      // If it's a known RAM/Storage size, remove it (e.g. 4, 6, 8, 12, 16, 32, 64, 128, 256, 512, 1024)
+      const num = parseInt(match, 10);
+      if ([2, 3, 4, 6, 8, 12, 16, 32, 64, 128, 256, 512, 1024].includes(num)) {
+        return ' ';
+      }
+      return match; // keep other numbers (like "14" in iPhone 14)
+    });
+
     const cleanModel = model.replace(/[^A-Z0-9]/g, '').trim();
 
     const key = `${brand}|${cleanModel}`;

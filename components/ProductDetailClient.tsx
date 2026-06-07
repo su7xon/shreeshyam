@@ -63,14 +63,17 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
     if (!p || !p.name) return '';
     // Normalize name: lowercase, remove parenthetical text (colors etc.)
     let cleaned = p.name.toLowerCase()
-      .replace(/\(.*?\)/g, '')       // remove (COLOR) info
-      .replace(/\b\d+gb\b/gi, '')    // remove RAM like 8gb, 4gb
-      .replace(/\b\d+\+\d+\b/g, '')  // remove specs like 8+256
-      .replace(/\b\d+g\b/gi, '')     // remove storage like 256g
-      .replace(/\b(black|white|blue|green|red|gold|silver|grey|gray|purple|cyan|yellow|pink|titanium|dynamic|marble|aurora|glacier|awesome|skyline|cloud|desert|gemstone|navy|iceblue|ice blue|light blue|light green|pulse green|safran|knight)\b/gi, '')
-      .replace(/\b(demo|ds|ss|dual sim|single sim|singal sim)\b/gi, '')
-      .replace(/\s+/g, ' ')
-      .trim();
+      .replace(/\(.*?\)/g, ' ')       // remove (COLOR) info
+      .replace(/\b\d+\s*[+/]\s*\d+\b/g, ' ')  // remove specs like 8+256, 8/128
+      .replace(/\b\d+\s*gb\b/gi, ' ')    // remove RAM like 8gb, 4gb
+      .replace(/\b\d+\s*g\b/gi, ' ')     // remove storage like 256g
+      .replace(/\b(black|white|blue|green|red|gold|silver|grey|gray|purple|cyan|yellow|pink|titanium|dynamic|marble|aurora|glacier|awesome|skyline|cloud|desert|gemstone|navy|iceblue|ice blue|light blue|light green|pulse green|safran|knight)\b/gi, ' ')
+      .replace(/\b(demo|ds|ss|dual sim|single sim|singal sim)\b/gi, ' ');
+      
+    // Remove isolated typical RAM/Storage numbers
+    cleaned = cleaned.replace(/\b(2|3|4|6|8|12|16|32|64|128|256|512|1024)\b/g, ' ');
+
+    cleaned = cleaned.replace(/[^a-z0-9]/g, '').trim();
     // Use brand + cleaned model name as key
     return `${(p.brand || '').toLowerCase()}::${cleaned}`;
   };
@@ -78,10 +81,26 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
   const siblingVariants = useMemo(() => {
     if (!product) return [];
     const modelKey = getModelKey(product);
-    return products.filter(p => 
+    const variants = products.filter(p => 
       p.brand === product.brand && 
       getModelKey(p) === modelKey
     );
+
+    // Deduplicate by RAM + Storage to prevent redundancy
+    const uniqueVariants = new Map();
+    variants.forEach(v => {
+      const variantKey = `${v.ram || ''}-${v.storage || ''}`.trim() || 'Standard';
+      // If duplicate, prioritize the one that matches current product
+      if (uniqueVariants.has(variantKey)) {
+        if (v.id === product.id) {
+          uniqueVariants.set(variantKey, v);
+        }
+      } else {
+        uniqueVariants.set(variantKey, v);
+      }
+    });
+
+    return Array.from(uniqueVariants.values()).sort((a, b) => (a.price || 0) - (b.price || 0));
   }, [product, products]);
 
   // Refined related products logic
