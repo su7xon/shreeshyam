@@ -189,6 +189,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 hover:text-black text-gray-600 transition-colors"
                 aria-label="Account"
                 title={user ? 'My Account' : 'Login / Sign Up'}
+                suppressHydrationWarning
               >
                 {user?.photoURL ? (
                   <img src={user.photoURL} alt={profile?.displayName || "User"} className="h-6 w-6 rounded-full object-cover" referrerPolicy="no-referrer" />
