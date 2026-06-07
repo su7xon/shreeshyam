@@ -58,7 +58,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
 
   // Find products with same model name to show as variants
   const getModelKey = (p: any) => {
-    if (!p) return '';
+    if (!p || !p.name) return '';
     // Normalize name: lowercase, remove parenthetical text (colors etc.)
     let cleaned = p.name.toLowerCase()
       .replace(/\(.*?\)/g, '')       // remove (COLOR) info
