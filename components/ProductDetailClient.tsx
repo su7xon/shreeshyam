@@ -133,15 +133,16 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   if (!product) return null;
 
   const formatPrice = (price: number) => {
+    const safePrice = typeof price === 'number' && !isNaN(price) ? price : 0;
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
       maximumFractionDigits: 0,
-    }).format(price);
+    }).format(safePrice);
   };
 
-  const displayPrice = product.price;
-  const displayOriginalPrice = product.originalPrice;
+  const displayPrice = Number(product.price) || 0;
+  const displayOriginalPrice = product.originalPrice ? Number(product.originalPrice) : undefined;
   const displayRam = product.ram || 'N/A';
   const displayStorage = product.storage || 'N/A';
 
@@ -306,7 +307,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
           {/* RIGHT: Product Info */}
           <div className="w-full lg:w-[55%]">
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-2">
-              {cleanProductName(product.name)}
+              {cleanProductName(product.name || 'Unknown Product')}
             </h1>
             <div className="mb-5">
               <div className="flex items-baseline gap-3 flex-wrap">
