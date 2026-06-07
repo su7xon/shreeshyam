@@ -121,6 +121,7 @@ export default function Navbar() {
                   onClick={() => setShowDesktopMenu(!showDesktopMenu)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   aria-label="Menu"
+                  suppressHydrationWarning
                 >
                   <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -214,6 +215,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-gray-700 hover:text-black focus:outline-none p-2"
                 aria-label="Menu"
+                suppressHydrationWarning
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
