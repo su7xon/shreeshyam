@@ -164,11 +164,11 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
 
   const displayPrice = Number(product.price) || 0;
   const displayOriginalPrice = product.originalPrice ? Number(product.originalPrice) : undefined;
-  const displayRam = product.ram || 'N/A';
-  const displayStorage = product.storage || 'N/A';
+  const displayRam = product.ram === 'nullGB' ? 'N/A' : (product.ram || 'N/A');
+  const displayStorage = product.storage === 'nullGB' ? 'N/A' : (product.storage || 'N/A');
 
   const cleanProductName = (name: string) => {
-    return (name || '').replace(/\([^)]*\)/g, '').trim();
+    return (name || '').replace(/null\+null/g, '').replace(/\([^)]*\)/g, '').trim();
   };
 
   const RELATED_PER_PAGE = 12; // 3 rows x 4 columns on desktop

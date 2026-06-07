@@ -16,8 +16,17 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, variant = 'default', priority = false }: ProductCardProps) {
   const { addItem } = useCartStore();
-  const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand)}`;
-  const optimizedSrc = product.image ? getProductImageUrl(product.image, 'card') : fallbackImg;
+  
+  // Clean up "null+null" or "nullGB" that might be stuck in the database
+  const displayName = product.name ? product.name.replace(/null\+null/g, '').trim() : '';
+  const displayRam = product.ram === 'nullGB' ? null : product.ram;
+  const displayStorage = product.storage === 'nullGB' ? null : product.storage;
+
+  const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand || 'Product')}`;
+  
+  // Use product.images[0] if available to perfectly sync with ProductDetailClient, otherwise product.image
+  const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : product.image;
+  const optimizedSrc = primaryImage ? getProductImageUrl(primaryImage, 'card') : fallbackImg;
   
   // Use robust hasError & isImageLoaded states
   const [hasError, setHasError] = useState(false);
@@ -118,7 +127,7 @@ export default function ProductCard({ product, variant = 'default', priority = f
           </div>
           
           <h3 className="text-[10px] sm:text-[11px] font-semibold text-[#111111] mb-1.5 line-clamp-2 leading-snug min-h-[2rem]">
-            {product.name}
+            {displayName} {displayRam && displayStorage ? `${displayRam}+${displayStorage}` : ''}
           </h3>
 
           <div className="mt-auto">

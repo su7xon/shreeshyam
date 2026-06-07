@@ -311,7 +311,15 @@ const useAdminStore = create<AdminStore>()(
          
          // Setup real-time listeners for all main collections
          const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
-           const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as AdminProduct[];
+           const products = snapshot.docs.map(doc => {
+             const data = doc.data() as AdminProduct;
+             if (data.name) {
+               data.name = data.name.replace(/null\+null/g, '').trim();
+             }
+             if (data.ram === 'nullGB') data.ram = '';
+             if (data.storage === 'nullGB') data.storage = '';
+             return { id: doc.id, ...data };
+           });
            set({ products, isLoading: false });
          });
 
