@@ -170,11 +170,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const { id } = await params;
 
   // Server-side product fetch for JSON-LD (structured data needs to be in initial HTML)
-  let product = defaultProducts.find(p => p.id === id);
+  const decodedId = decodeURIComponent(id);
+  let product = defaultProducts.find(p => p.id === id || p.id === decodedId);
 
   if (!product && db) {
     try {
-      const docSnap = await getDoc(doc(db, 'products', id));
+      const docSnap = await getDoc(doc(db, 'products', decodedId));
       if (docSnap.exists()) {
         product = { id: docSnap.id, ...docSnap.data() } as any;
       }
@@ -188,7 +189,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Structured data injected server-side for SEO crawlers */}
       <ProductJsonLd product={product} />
       <BreadcrumbJsonLd product={product} />
-      <ProductDetailClient id={id} />
+      <ProductDetailClient id={id} initialProduct={product} />
     </>
   );
 }

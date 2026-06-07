@@ -15,9 +15,10 @@ import { accessories } from '@/lib/accessories-data';
 
 interface ProductDetailClientProps {
   id: string;
+  initialProduct?: any;
 }
 
-export default function ProductDetailClient({ id }: ProductDetailClientProps) {
+export default function ProductDetailClient({ id, initialProduct }: ProductDetailClientProps) {
   const admin = useAdminStore();
   const { addItem, items } = useCartStore();
   
@@ -27,7 +28,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialProduct);
   const [currentPage, setCurrentPage] = useState(1);
   
   // Initialize admin store on mount
@@ -49,12 +50,13 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     return Array.from(unique.values()) as any[];
   }, [admin.products]);
   
-  const directMatch = products.find((p) => p.id === id);
+  const decodedId = decodeURIComponent(id);
+  const directMatch = products.find((p) => p.id === id || p.id === decodedId);
   const numericIndex = Number.parseInt(id, 10);
   const indexMatch = Number.isFinite(numericIndex) && numericIndex > 0
     ? products[numericIndex - 1]
     : undefined;
-  const product = directMatch ?? indexMatch;
+  const product = initialProduct ?? directMatch ?? indexMatch;
 
   // Find products with same model name to show as variants
   const getModelKey = (p: any) => {
