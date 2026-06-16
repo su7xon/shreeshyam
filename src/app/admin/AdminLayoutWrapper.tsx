@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAdminAuth } from '@/lib/admin-auth';
+import { Toaster } from 'react-hot-toast';
 import useAdminStore from '@/lib/admin-store';
 import {
   LayoutDashboard,
@@ -51,14 +52,15 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   const admin = useAdminStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const initialize = useAdminStore((state) => state.initialize);
 
   useEffect(() => {
     setMounted(true);
-    const unsubscribe = admin.initialize();
+    const unsubscribe = initialize();
     return () => {
       if (typeof unsubscribe === 'function') unsubscribe();
     };
-  }, [admin]);
+  }, [initialize]);
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -91,6 +93,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   return (
     <div className="admin-shell min-h-screen flex">
+      <Toaster position="top-right" />
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div

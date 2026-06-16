@@ -31,7 +31,7 @@ export default function AdminDailyDealsPage() {
   };
 
   const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    (p.name || '').toLowerCase().includes((searchQuery || '').toLowerCase()) &&
     !dailyDeals.some(d => d.productId === p.id)
   ).slice(0, 5);
 

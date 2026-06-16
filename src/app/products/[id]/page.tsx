@@ -165,6 +165,13 @@ function BreadcrumbJsonLd({ product }: { product: any }) {
   );
 }
 
+// ==================== Helpers ====================
+/** Serialize Firestore document to a plain object (converts Timestamps, etc.) */
+function serializeFirestoreDoc(doc: any): any {
+  if (!doc) return doc;
+  return JSON.parse(JSON.stringify(doc));
+}
+
 // ==================== Page Component ====================
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -184,12 +191,15 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     }
   }
 
+  // Serialize Firestore Timestamps to plain values before passing to Client Component
+  const serializedProduct = product ? serializeFirestoreDoc(product) : undefined;
+
   return (
     <>
       {/* Structured data injected server-side for SEO crawlers */}
       <ProductJsonLd product={product} />
       <BreadcrumbJsonLd product={product} />
-      <ProductDetailClient id={id} initialProduct={product} />
+      <ProductDetailClient id={id} initialProduct={serializedProduct} />
     </>
   );
 }

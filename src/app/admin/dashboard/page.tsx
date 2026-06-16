@@ -8,19 +8,27 @@ import {
   Smartphone, Image, Tag, TrendingUp, Plus, Eye, AlertCircle,
   ArrowUpRight, Package, Building2, BarChart3, Edit,
 } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+import { format, subDays, isSameDay } from 'date-fns';
 
 
 export default function AdminDashboardPage() {
   const [mounted, setMounted] = useState(false);
   const admin = useAdminStore();
-  const { products: storeProducts, banners, offers: storeOffers, isLoading } = admin;
+  const { products: storeProducts, banners, offers: storeOffers, orders = [], isLoading } = admin;
 
   // Fix hydration issue - wait for client-side mount
   useEffect(() => {
     setMounted(true);
-    // Initialize data from Firebase if available
-    admin.initialize();
   }, []);
+
+  // Generate last 7 days order data
+  const orderChartData = Array.from({ length: 7 }).map((_, i) => {
+    const d = subDays(new Date(), 6 - i);
+    const dateStr = format(d, 'MMM dd');
+    const dayOrders = orders.filter(o => o.createdAt && isSameDay(new Date(o.createdAt), d));
+    return { name: dateStr, orders: dayOrders.length };
+  });
 
   const products = storeProducts;
   const offers = storeOffers;
@@ -123,6 +131,28 @@ export default function AdminDashboardPage() {
               </div>
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* ─── Orders Chart ─── */}
+      <div className="admin-card">
+        <div className="admin-card-header">
+          <h3>Recent Orders (Last 7 Days)</h3>
+        </div>
+        <div className="admin-card-body h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={orderChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barSize={30}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+              <XAxis dataKey="name" stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} />
+              <YAxis stroke="#6b7280" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
+              <RechartsTooltip 
+                contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', color: '#e5e7eb' }}
+                itemStyle={{ color: '#60a5fa' }}
+                cursor={{ fill: 'rgba(255,255,255,0.02)' }}
+              />
+              <Bar dataKey="orders" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 

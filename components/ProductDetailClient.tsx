@@ -3,13 +3,13 @@
 import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw, Check, Zap, Heart, Share2, CreditCard, ChevronDown, ChevronUp } from 'lucide-react';
 import { expandedProducts } from '@/lib/expanded-catalog';
 import { useCartStore } from '@/lib/store';
 import { ProductDetailSkeleton } from '@/components/SkeletonLoader';
 import useAdminStore from '@/lib/admin-store';
 import { deduplicateProducts } from '@/lib/utils';
+import { useProduct } from '@/lib/hooks/useStoreData';
 
 import { accessories } from '@/lib/accessories-data';
 
@@ -22,13 +22,15 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
   const admin = useAdminStore();
   const { addItem, items } = useCartStore();
   
+  // Use React Query to fetch product by ID — handles loading, caching, retries
+  const { data: queryProduct, isLoading: isQueryLoading } = useProduct(id);
+  
   // ALL STATE HOOKS MUST BE AT THE TOP - BEFORE ANY RETURNS
   const [added, setAdded] = useState(false);
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [showAllSpecs, setShowAllSpecs] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(!initialProduct);
   const [currentPage, setCurrentPage] = useState(1);
   
   // Initialize admin store on mount
@@ -44,19 +46,55 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
   const products = useMemo(() => {
     // Combine all potential product sources
     const combined = [...expandedProducts, ...accessories, ...admin.products];
-    // Deduplicate by ID
+    // Add query product if available
+    if (queryProduct) {
+      combined.push(queryProduct);
+    }
+    // Deduplicate by ID but prioritize objects with data
     const unique = new Map();
-    combined.forEach(p => unique.set(p.id, p));
+    combined.forEach(p => {
+      if (!p) return;
+      const existing = unique.get(p.id);
+      // If the existing one has a name, and the new one doesn't, keep the existing one!
+      if (existing && existing.name && !p.name) {
+        return; 
+      }
+      unique.set(p.id, p);
+    });
     return Array.from(unique.values()) as any[];
-  }, [admin.products]);
+  }, [admin.products, queryProduct]);
   
   const decodedId = decodeURIComponent(id);
-  const directMatch = products.find((p) => p.id === id || p.id === decodedId);
+  const lowerId = id.toLowerCase();
+  const lowerDecodedId = decodedId.toLowerCase();
+  
+  // Find the matching product, but explicitly skip any empty ghost objects (must have a name)
+  const directMatch = products.find(
+    (p) => (p.id === id || 
+           p.id === decodedId || 
+           (p.id || '').toLowerCase() === lowerId || 
+           (p.id || '').toLowerCase() === lowerDecodedId) && 
+           p.name
+  );
+  
   const numericIndex = Number.parseInt(id, 10);
   const indexMatch = Number.isFinite(numericIndex) && numericIndex > 0
     ? products[numericIndex - 1]
     : undefined;
-  const product = initialProduct ?? directMatch ?? indexMatch;
+    
+  // Filter candidates to only those that actually have data to avoid empty ghost objects
+  const candidates = [initialProduct, queryProduct, directMatch, indexMatch]
+    .filter(p => p && typeof p === 'object' && Object.keys(p).length > 0);
+    
+  // Priority: Pick the first candidate with a name, or fallback to the first available object
+  const product = candidates.find(p => p.name) || candidates[0];
+
+  useEffect(() => {
+    console.log('[DEBUG] decodedId:', decodedId, 'lowerId:', lowerId);
+    console.log('[DEBUG] candidates:', candidates);
+    console.log('[DEBUG] final product:', product);
+    console.log('[DEBUG] admin.products length:', admin.products.length);
+  }, [decodedId, lowerId, candidates, product, admin.products.length]);
 
   // Find products with same model name to show as variants
   const getModelKey = (p: any) => {
@@ -125,33 +163,33 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
 
   useEffect(() => {
     setMounted(true);
-    
-    // If product is already found (from static lists), we can stop loading
-    if (directMatch || indexMatch) {
-      setIsLoading(false);
-      return;
-    }
+  }, []);
 
-    // Otherwise, wait for admin store to initialize
-    if (admin.isInitialized && admin.products.length > 0) {
-      setIsLoading(false);
-    } else {
-      // Fallback timer to prevent infinite loading if product truly doesn't exist
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 1500); // Increased to 1.5s to give Firestore more time
-      return () => clearTimeout(timer);
-    }
-  }, [admin.isInitialized, admin.products.length, directMatch, indexMatch]);
-
-
-  // Only show skeleton on the very first render (SSR hydration)
-  if (!mounted || isLoading) {
+  // Show skeleton while loading
+  if (!mounted || (isQueryLoading && !initialProduct && !product)) {
     return <ProductDetailSkeleton />;
   }
 
-  // Product is already checked above, but keep for type safety
-  if (!product) return null;
+  // Product not found - show proper message
+  if (!product) {
+    return (
+      <div className="bg-white min-h-screen flex items-center justify-center">
+        <div className="text-center px-4">
+          <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+            <ShoppingCart className="h-10 w-10 text-gray-400" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
+          <p className="text-gray-600 mb-6">The product you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 bg-[#1a3a5c] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#142d48] transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const formatPrice = (price: number) => {
     const safePrice = typeof price === 'number' && !isNaN(price) ? price : 0;

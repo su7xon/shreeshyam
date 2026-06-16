@@ -34,7 +34,19 @@ export default function AccessoryDetailClient({ id }: AccessoryDetailClientProps
     return Array.from(unique.values()) as any[];
   }, [admin.products]);
 
-  const accessory = allAccessories.find((a) => a.id === id);
+  const decodedId = decodeURIComponent(id);
+  const lowerId = id.toLowerCase();
+  const lowerDecodedId = decodedId.toLowerCase();
+  
+  const accessoryCandidates = allAccessories.filter((a) => 
+    (a.id === id || 
+    a.id === decodedId || 
+    (a.id || '').toLowerCase() === lowerId || 
+    (a.id || '').toLowerCase() === lowerDecodedId) &&
+    a.name
+  );
+  
+  const accessory = accessoryCandidates.find(a => a.name) || accessoryCandidates[0];
   const { addItem } = useCartStore();
   const [added, setAdded] = useState(false);
   const [mounted, setMounted] = useState(false);

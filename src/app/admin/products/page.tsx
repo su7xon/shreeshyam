@@ -48,10 +48,11 @@ function ProductsList() {
   const brands = [...new Set(products.map((p) => p.brand))].sort();
 
   const filtered = products.filter((p) => {
+    const searchLower = search.toLowerCase();
     const matchSearch =
       !search ||
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.brand.toLowerCase().includes(search.toLowerCase());
+      (p.name || '').toLowerCase().includes(searchLower) ||
+      (p.brand || '').toLowerCase().includes(searchLower);
     const matchBrand = !filterBrand || p.brand === filterBrand;
     return matchSearch && matchBrand;
   });
@@ -128,8 +129,8 @@ function ProductsList() {
           className="admin-select w-full sm:w-auto min-w-[140px]"
         >
           <option value="">All Brands</option>
-          {brands.map((brand) => (
-            <option key={brand} value={brand}>{brand}</option>
+          {brands.map((brand, index) => (
+            <option key={`${brand}-${index}`} value={brand}>{brand}</option>
           ))}
         </select>
       </div>
@@ -157,8 +158,8 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((product) => (
-                <tr key={product.id}>
+              {filtered.map((product, index) => (
+                <tr key={`${product.id}-${index}`}>
                   <td>
                     <input 
                       type="checkbox" 
@@ -182,9 +183,9 @@ function ProductsList() {
                   </td>
                   <td className="text-[#9ca3af]">{product.brand}</td>
                   <td>
-                    <p className="font-semibold text-[#e5e7eb]">₹{product.price.toLocaleString('en-IN')}</p>
+                    <p className="font-semibold text-[#e5e7eb]">₹{product.price?.toLocaleString('en-IN')}</p>
                     {product.originalPrice && (
-                      <p className="text-[11px] text-[#4b5563] line-through">₹{product.originalPrice.toLocaleString('en-IN')}</p>
+                      <p className="text-[11px] text-[#4b5563] line-through">₹{product.originalPrice?.toLocaleString('en-IN')}</p>
                     )}
                   </td>
                   <td className="text-[#9ca3af]">
@@ -224,8 +225,8 @@ function ProductsList() {
 
       {/* Mobile Cards */}
       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {filtered.map((product) => (
-          <div key={product.id} className="admin-card p-3 flex gap-3 items-center relative overflow-hidden group">
+        {filtered.map((product, index) => (
+          <div key={`${product.id}-${index}`} className="admin-card p-3 flex gap-3 items-center relative overflow-hidden group">
             <div className="absolute top-2 left-2 z-10">
               <input 
                 type="checkbox" 
@@ -254,7 +255,7 @@ function ProductsList() {
                 <p className="text-[11px] text-[#6b7280] mt-0.5">{product.ram || 'N/A'} · {product.storage || 'N/A'}</p>
               ) : null}
               <div className="flex items-center justify-between mt-2">
-                <p className="text-sm font-bold text-white">₹{product.price.toLocaleString('en-IN')}</p>
+                <p className="text-sm font-bold text-white">₹{product.price?.toLocaleString('en-IN')}</p>
                 <div className="flex gap-1">
                   <Link href={getViewLink(product)} target="_blank" className="admin-icon-btn p-1.5" title="View">
                     <Eye className="h-3.5 w-3.5" />
