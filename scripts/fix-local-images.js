@@ -1,6 +1,6 @@
 /**
- * FIX LOCAL IMAGES IN products-data.ts
- * Uses Bing Image Search to find better images for problematic generic URLs.
+ * FIX ALL PLACEHOLDER IMAGES IN products-data.ts
+ * Replaces any remaining `getProductImage(...)` calls with actual image URLs using Bing Image Search.
  */
 
 const fs = require('fs');
@@ -10,26 +10,6 @@ const http = require('http');
 
 const PRODUCTS_FILE = path.resolve(__dirname, '../products-data.ts');
 const DELAY_MS = 1500;
-
-const PROBLEMATIC_URLS = [
-  'https://m.media-amazon.com/images/I/71RVuS3q9QL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/81+GIkwqLIL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/61SOnZ8FidL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71R2H9+tIOL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71p0WfO8X9L._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71S6d6-Gv3L._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/61Gg9Y6C03L._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71z7R+Xv+PL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71S-J2fB79L._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/51r2XG5XFDL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71Y7y31uJdL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/81shKcv8FSL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/61+Rsh-XqxL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/61id8-fS2fL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71H7-N0BfAL._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/71s8p0yH61L._SX679_.jpg',
-  'https://m.media-amazon.com/images/I/41O2466KqKL.jpg',
-];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -108,6 +88,7 @@ async function main() {
   console.log('🔄 Loading products-data.ts...');
   let content = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
   
+  // Find all remaining getProductImage(...) calls
   const matches = [...content.matchAll(/getProductImage\("([^"]+)"\)/g)];
   const toFix = [];
 
@@ -121,20 +102,10 @@ async function main() {
     const productObjectMatch = surrounding.match(/brand:\s*['"]([^'"]+)['"]/i);
     if (productObjectMatch) brand = productObjectMatch[1];
 
-    const isLikelyWrong =
-      (/(pro|max|plus|ultra|lite|fe|note|series|\d+gb|\d+\.\d+)/i.test(productName)) &&
-      (PROBLEMATIC_URLS.some(url =>
-        ['Apple', 'Samsung', 'Vivo', 'Oppo', 'Realme', 'iQOO', 'OnePlus'].some(b =>
-          brand.toLowerCase().includes(b.toLowerCase())
-        )
-      ));
-
-    if (isLikelyWrong) {
-      toFix.push({ name: productName, brand, fullMatch });
-    }
+    toFix.push({ name: productName, brand, fullMatch });
   }
 
-  console.log(`🎯 Found ${toFix.length} problematic products. Starting update for all...`);
+  console.log(`🎯 Found ${toFix.length} placeholder image calls. Starting update...`);
   
   let fixedCount = 0;
 
@@ -145,8 +116,9 @@ async function main() {
     console.log(`   Cleaned search query: ${clean}`);
 
     const queries = [
-      clean + ' official phone image png',
-      clean + ' smartphone high res'
+      clean + ' official smartphone image transparent background',
+      clean + ' mobile phone high res',
+      clean + ' official phone image png'
     ];
 
     let finalUrl = null;
@@ -163,9 +135,6 @@ async function main() {
 
     if (finalUrl) {
       console.log(`   🔗 URL: ${finalUrl}`);
-      // Replace the problematic URL logic. 
-      // Wait, in products-data.ts, image is usually pulled from getProductImage().
-      // If we want to override it, we can replace the getProductImage call with the string literal.
       const replacementStr = `"${finalUrl}"`;
       // Replace the exact match
       content = content.replace(p.fullMatch, replacementStr);
@@ -178,7 +147,7 @@ async function main() {
 
   // Save the file
   fs.writeFileSync(PRODUCTS_FILE, content, 'utf-8');
-  console.log(`\n✅ Saved products-data.ts with ${fixedCount} new images!`);
+  console.log(`\n✅ Saved products-data.ts! Replaced ${fixedCount}/${toFix.length} placeholders with real images!`);
 }
 
 main().catch(console.error);
