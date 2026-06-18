@@ -5,6 +5,23 @@ import { AdminProduct } from '@/lib/admin-store';
 
 const PRODUCTS_COLLECTION = 'products';
 
+import { productsData } from '@/products-data';
+
+const overrideProductImage = (product: AdminProduct): AdminProduct => {
+  if (!product) return product;
+  if (!product.image || product.image.includes('media-amazon.com') || product.image.includes('placeholder') || product.image.includes('placehold.co')) {
+    const localMatch = productsData.find(p => p.name.toLowerCase().trim() === (product.name || '').toLowerCase().trim());
+    if (localMatch && localMatch.image && !localMatch.image.includes('media-amazon.com')) {
+      product.image = localMatch.image;
+      if (product.images && product.images.length > 0) {
+        product.images[0] = localMatch.image;
+      }
+    }
+  }
+  return product;
+};
+
+
 // ==================== Types ====================
 
 export interface ProductFilters {
@@ -79,10 +96,10 @@ export const getPaginatedProducts = async (
     const q = buildProductQuery(filters, lastDoc, pageSize);
     const snapshot = await getDocs(q);
 
-    const data = snapshot.docs.map(doc => ({
+    const data = snapshot.docs.map(doc => overrideProductImage({
       id: doc.id,
       ...doc.data()
-    })) as AdminProduct[];
+    } as AdminProduct));
 
     const lastVisible = (snapshot.docs[snapshot.docs.length - 1] as unknown as QueryDocumentSnapshot<AdminProduct>) || null;
     const hasMore = snapshot.docs.length === pageSize;
@@ -113,7 +130,7 @@ export const getProductById = async (id: string): Promise<AdminProduct | null> =
   try {
     const productDoc = await getDoc(doc(db, PRODUCTS_COLLECTION, id));
     if (productDoc.exists()) {
-      return { id: productDoc.id, ...productDoc.data() } as AdminProduct;
+      return overrideProductImage({ id: productDoc.id, ...productDoc.data() } as AdminProduct);
     }
     return null;
   } catch (error) {
@@ -140,7 +157,7 @@ export const getProductsByIds = async (ids: string[]): Promise<AdminProduct[]> =
 
       snapshots.forEach((snap, idx) => {
         if (snap.exists()) {
-          results.push({ id: snap.id, ...snap.data() } as AdminProduct);
+          results.push(overrideProductImage({ id: snap.id, ...snap.data() } as AdminProduct));
         }
       });
     }
@@ -167,10 +184,10 @@ export const getFeaturedProducts = async (limitCount: number = 8): Promise<Admin
     const querySnapshot = await getDocs(productsQuery);
     
     // Sort client-side by name and limit
-    const products = querySnapshot.docs.map(doc => ({
+    const products = querySnapshot.docs.map(doc => overrideProductImage({
       id: doc.id,
       ...doc.data()
-    })) as AdminProduct[];
+    } as AdminProduct));
     
     return products
       .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
@@ -205,10 +222,10 @@ export const getNewArrivals = async (limitCount: number = 10): Promise<AdminProd
     const querySnapshot = await getDocs(productsQuery);
     
     // Sort client-side by createdAt descending and limit
-    const products = querySnapshot.docs.map(doc => ({
+    const products = querySnapshot.docs.map(doc => overrideProductImage({
       id: doc.id,
       ...doc.data()
-    })) as AdminProduct[];
+    } as AdminProduct));
     
     return products
       .sort((a, b) => {
@@ -270,10 +287,10 @@ export const getAllProductsAdmin = async (): Promise<AdminProduct[]> => {
   try {
     const productsQuery = query(collection(db, PRODUCTS_COLLECTION));
     const querySnapshot = await getDocs(productsQuery);
-    return querySnapshot.docs.map(doc => ({
+    return querySnapshot.docs.map(doc => overrideProductImage({
       id: doc.id,
       ...doc.data()
-    })) as AdminProduct[];
+    } as AdminProduct));
   } catch (error) {
     console.error('Error getting all products (admin):', error);
     return [];
@@ -310,10 +327,10 @@ export const searchProducts = async (queryString: string, limitCount: number = 1
     );
 
     const snapshot = await getDocs(productsQuery);
-    return snapshot.docs.map(doc => ({
+    return snapshot.docs.map(doc => overrideProductImage({
       id: doc.id,
       ...doc.data()
-    })) as AdminProduct[];
+    } as AdminProduct));
   } catch (error) {
     console.error('Error searching products:', error);
     return [];

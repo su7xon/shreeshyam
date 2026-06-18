@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -55,6 +55,7 @@ export default function AdminProductFormClient({ id }: { id: string }) {
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDragActive, setIsDragActive] = useState(false);
+  const saveButtonRef = useRef<HTMLButtonElement>(null);
 
   // Sync form when existingProduct loads (if it was undefined initially)
   useEffect(() => {
@@ -256,6 +257,9 @@ export default function AdminProductFormClient({ id }: { id: string }) {
 
     try {
       setIsSaving(true);
+      // Remember scroll position before save
+      const scrollY = window.scrollY;
+      
       if (isEditing) {
         await admin.updateProduct(id, productData);
       } else {
@@ -263,7 +267,15 @@ export default function AdminProductFormClient({ id }: { id: string }) {
       }
 
       setSaved(true);
-      if (!isEditing) {
+      
+      if (isEditing) {
+        // Restore scroll position after save (prevents jumping to top)
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior });
+        });
+        // Auto-hide success message after 3 seconds
+        setTimeout(() => setSaved(false), 3000);
+      } else {
         setTimeout(() => {
           // Use window.location for static export compatibility
           if (typeof window !== 'undefined') {
@@ -297,11 +309,6 @@ export default function AdminProductFormClient({ id }: { id: string }) {
             </p>
           </div>
         </div>
-        {saved && (
-          <span className="text-emerald-400 font-medium text-sm bg-emerald-900/30 border border-emerald-800 px-4 py-2 rounded-lg">
-            ✓ Saved successfully!
-          </span>
-        )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -717,8 +724,14 @@ export default function AdminProductFormClient({ id }: { id: string }) {
         </div>
 
         <div className="flex items-center justify-end gap-4">
+          {saved && (
+            <span className="text-emerald-400 font-medium text-sm bg-emerald-900/30 border border-emerald-800 px-4 py-2 rounded-lg animate-pulse">
+              ✓ Saved successfully!
+            </span>
+          )}
           <Link href="/admin/products" className="px-6 py-2.5 border border-[#374151] text-gray-300 font-medium rounded-xl hover:bg-[#1f2937] transition-colors">Cancel</Link>
           <button
+            ref={saveButtonRef}
             type="submit"
             disabled={isUploading || isSaving}
             className="inline-flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-[#b78b57] to-[#d4a76a] text-white font-semibold rounded-xl hover:shadow-lg disabled:opacity-50 transition-all"

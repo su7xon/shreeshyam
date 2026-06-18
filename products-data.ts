@@ -190,7 +190,7 @@ export const productsData: ProductData[] = [
   { name: "A37 8+128", brand: "SAMSUNG", price: 41999, ram: "8GB", storage: "128GB", image: "https://onmyoji.ayakashi-web.com/img/0_irasuto_zyoseionnmyouzi.png" },
   { name: "A37 8+256", brand: "SAMSUNG", price: 47499, ram: "8GB", storage: "256GB", image: "https://i.pinimg.com/736x/67/95/46/6795464f23d6df57d4dffb5f5dcc8ba5.jpg" },
   { name: "A37 12+256", brand: "SAMSUNG", price: 52999, ram: "12GB", storage: "256GB", image: "https://static.vecteezy.com/system/resources/previews/020/796/142/non_2x/youtube-free-download-free-png.png" },
-  { name: "A57 8+256", brand: "SAMSUNG", price: 56999, ram: "8GB", storage: "256GB", image: "https://powerbox-na-file.trend.org/SFDC/DownloadFile_iv.php?jsonInfo={\" },
+  { name: "A57 8+256", brand: "SAMSUNG", price: 56999, ram: "8GB", storage: "256GB", image: "https://powerbox-na-file.trend.org/SFDC/DownloadFile_iv.php?jsonInfo=" },
   { name: "A57 12+256", brand: "SAMSUNG", price: 62499, ram: "12GB", storage: "256GB", image: "https://item-shopping.c.yimg.jp/i/n/tool-darake_20230406014_1_d_20230406131602" },
   { name: "X110NA (TAB A9 4/64) WIFI 4+64", brand: "SAMSUNG", price: 12999, ram: "4GB", storage: "64GB", image: "https://d1v92rgvep0bm6.cloudfront.net/img/goods/1/700F-577s1.jpg" },
   { name: "X115NA (TAB A9 4/64) LTE 4+64", brand: "SAMSUNG", price: 15999, ram: "4GB", storage: "64GB", image: "https://yt3.googleusercontent.com/jT1erohJ_tSrgdaXWsv8d_sfsLEBRFFdRVrzz1DUmvm3j6RGGVXwsaCcpoVW2HRr6HDUFQSzIGI=s900-c-k-c0x00ffffff-no-rj" },
