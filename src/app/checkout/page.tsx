@@ -192,7 +192,7 @@ export default function CheckoutPage() {
       if (formData.paymentMethod === 'whatsapp') {
         const itemsList = orderItems.map(i => `• ${i.name} (x${i.quantity}) - ₹${i.price.toLocaleString('en-IN')}`).join('%0A');
         const whatsappMsg = `🛒 *New Order from श्री श्याम Mobiles*%0A%0AHi, I want to buy:%0A${itemsList}%0A%0A*Total: ₹${subtotal.toLocaleString('en-IN')}*%0A%0A📦 Ship to: ${shippingName}%0A📍 ${shippingAddress}, ${shippingCity} - ${shippingPostalCode}%0A📱 ${shippingPhone}%0A%0A${generatedOrderNumber}`;
-        const whatsappUrl = `https://wa.me/919828145878?text=${whatsappMsg}`;
+        const whatsappUrl = `https://wa.me/917756935635?text=${whatsappMsg}`;
         window.open(whatsappUrl, '_blank');
       } else if (formData.paymentMethod === 'upi') {
         handleUpiPayment();
