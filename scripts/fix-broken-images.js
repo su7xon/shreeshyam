@@ -61,7 +61,7 @@ function httpsPatch(url, body) {
 }
 
 async function main() {
-  console.log('Fetching products to fix Samsung broken images and specific bad ones...');
+  console.log('Fetching products to fix specific bad names...');
   let allDocs = [];
   let nextToken = null;
   do {
@@ -73,21 +73,21 @@ async function main() {
     nextToken = data.nextPageToken || null;
   } while (nextToken);
 
-  const testNames = ["GALAXY Z FLIP 7", "S25 EDGE", "TAB S10+", "A17", "S26 12+512", "F17 4+128", "M35 5G", "TAB S9+"];
+  const testNames = [
+    "NOTHING PHONELITE", "HOT 40I", "RENO 15 PRO", "EDGE 60 FU", 
+    "TAB A9 4/64", "A56 8+256", "TAB S9 ULTRA", "TAB S9+ (12/256)", 
+    "X300 5G", "TAB S10 LITE", "TAB S9 (8/128)", "TAB S10 ULTRA", 
+    "TAB A9 PLUS 4/64", "SPARK 50 5G", "REALME 15 5G", "TAB A11", 
+    "REALME P4 PRO", "TAB S9-FE", "TAB A11 PLUS", "TAB S10+", "TAB S10"
+  ];
   
   const toFix = allDocs.filter(doc => {
     const name = doc.fields?.name?.stringValue || '';
-    const img = doc.fields?.image?.stringValue || '';
-    const arr = doc.fields?.images?.arrayValue?.values || [];
-    
-    // Check for broken samsung images
-    const hasBrokenImage = img.includes('images.samsung.com') || arr.some(v => v.stringValue?.includes('images.samsung.com'));
     const isBadPhone = testNames.some(tn => name.includes(tn));
-    
-    return hasBrokenImage || isBadPhone || img.includes('phonesbot.com');
+    return isBadPhone;
   });
 
-  console.log(`Found ${toFix.length} products with broken/bad images.`);
+  console.log(`Found ${toFix.length} products to fix.`);
 
   let fixed = 0;
   for (const doc of toFix) {
@@ -102,20 +102,32 @@ async function main() {
                         .replace(/ - /g, ' ')
                         .trim();
 
-    // Map some future models to current ones for better image results
-    if (cleanName.includes('S26')) cleanName = 'S24 Ultra';
-    if (cleanName.includes('Z FLIP 7')) cleanName = 'Z FLIP 6';
-    if (cleanName.includes('S25 EDGE')) cleanName = 'S24 Ultra';
-    if (cleanName.includes('A17')) cleanName = 'A15 5G';
-    if (cleanName.includes('F17')) { cleanName = 'Oppo F17 Pro'; brand = ''; } // override brand for the weird "Samsung F17"
+    // Map future models to current ones for better image results
+    if (name.includes('NOTHING PHONELITE')) { brand = 'Nothing'; cleanName = 'Phone 2a'; }
+    if (name.includes('HOT 40I')) { brand = 'Infinix'; cleanName = 'Hot 40i'; }
+    if (name.includes('RENO 15 PRO')) { brand = 'Oppo'; cleanName = 'Reno 12 Pro'; }
+    if (name.includes('EDGE 60 FU')) { brand = 'Motorola'; cleanName = 'Edge 50 Fusion'; }
+    if (name.includes('TAB A9')) { brand = 'Samsung'; cleanName = 'Galaxy Tab A9'; }
+    if (name.includes('TAB A9 PLUS')) { brand = 'Samsung'; cleanName = 'Galaxy Tab A9+'; }
+    if (name.includes('A56')) { brand = 'Samsung'; cleanName = 'Galaxy A55'; }
+    if (name.includes('TAB S9 ULTRA')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9 Ultra'; }
+    if (name.includes('TAB S9+')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9+'; }
+    if (name.includes('TAB S9 (8/128)')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9'; }
+    if (name.includes('X300 5G')) { brand = 'Vivo'; cleanName = 'X100 5G'; }
+    if (name.includes('TAB S10 LITE')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9 FE'; }
+    if (name.includes('TAB S10 ULTRA')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9 Ultra'; }
+    if (name.includes('TAB S10+')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9+'; }
+    if (name.includes('SPARK 50 5G')) { brand = 'Tecno'; cleanName = 'Spark 20 Pro 5G'; }
+    if (name.includes('REALME 15 5G')) { brand = 'Realme'; cleanName = 'Realme 13 5G'; }
+    if (name.includes('TAB A11')) { brand = 'Samsung'; cleanName = 'Galaxy Tab A9'; }
+    if (name.includes('REALME P4 PRO')) { brand = 'Realme'; cleanName = 'Realme P1 Pro'; }
+    if (name.includes('TAB S9-FE')) { brand = 'Samsung'; cleanName = 'Galaxy Tab S9 FE'; }
 
-    let shortName = cleanName.split(' ').slice(0, 4).join(' ');
-
-    console.log(`Searching real image for: ${brand} ${shortName}`);
-    let newImage = await searchImageGoogle(`${brand} ${shortName} phone front view -site:images.samsung.com`);
+    console.log(`Searching real image for: ${brand} ${cleanName}`);
+    let newImage = await searchImageGoogle(`${brand} ${cleanName} phone front view -site:images.samsung.com`);
     
     if (!newImage) {
-        newImage = await searchImageGoogle(`${brand} ${shortName} flipkart`);
+        newImage = await searchImageGoogle(`${brand} ${cleanName} flipkart`);
     }
 
     if (newImage) {
