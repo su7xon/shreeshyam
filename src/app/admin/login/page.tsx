@@ -1,31 +1,49 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/lib/admin-auth';
-import { Lock, User, Loader2, Store, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Lock, Loader2, Store, Eye, EyeOff, AlertCircle, Mail } from 'lucide-react';
+
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_SECONDS = 60;
 
 export default function AdminLoginPage() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [lockedUntil, setLockedUntil] = useState<Date | null>(null);
   const { login } = useAdminAuth();
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
 
-    if (password !== 'shreeshyam') {
-      setError('Invalid password.');
-      setLoading(false);
+    // Rate limiting
+    if (lockedUntil && new Date() < lockedUntil) {
+      const secsLeft = Math.ceil((lockedUntil.getTime() - Date.now()) / 1000);
+      setError(`Too many failed attempts. Try again in ${secsLeft}s.`);
       return;
     }
 
-    // Login with actual admin credentials behind the scenes
-    const success = await login('admin@shreeshyammobiles.com', 'admin123');
+    // Input validation
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (!password || password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+
+    setLoading(true);
+
+    const success = await login(trimmedEmail, password);
     if (success) {
       if (typeof window !== 'undefined') {
         window.location.href = '/admin/dashboard';
@@ -33,7 +51,16 @@ export default function AdminLoginPage() {
         router.push('/admin/dashboard');
       }
     } else {
-      setError('System login failed. Please contact support.');
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      if (newAttempts >= MAX_LOGIN_ATTEMPTS) {
+        const lockTime = new Date(Date.now() + LOCKOUT_SECONDS * 1000);
+        setLockedUntil(lockTime);
+        setAttempts(0);
+        setError(`Account temporarily locked for ${LOCKOUT_SECONDS} seconds due to too many failed attempts.`);
+      } else {
+        setError(`Invalid credentials. ${MAX_LOGIN_ATTEMPTS - newAttempts} attempts remaining.`);
+      }
       setLoading(false);
     }
   };
@@ -66,7 +93,24 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Admin Password</label>
+              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Admin Email</label>
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@shreeshyammobiles.com"
+                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
+                  style={{ paddingRight: '3rem' }}
+                  required
+                  autoFocus
+                  autoComplete="email"
+                />
+                <Mail className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+              </div>
+            </div>
+            <div>
+              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -76,8 +120,7 @@ export default function AdminLoginPage() {
                   className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
                   style={{ paddingRight: '3rem' }}
                   required
-                  autoFocus
-                  autoComplete="off"
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"

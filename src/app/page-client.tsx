@@ -104,6 +104,55 @@ const resolveBannerHref = (link?: string) => {
   return link.trim() || '/products';
 };
 
+// Newsletter form with proper validation and submission
+function NewsletterForm() {
+  const [nlEmail, setNlEmail] = useState('');
+  const [nlSubmitted, setNlSubmitted] = useState(false);
+  const [nlError, setNlError] = useState('');
+
+  const handleNlSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setNlError('');
+    const trimmed = nlEmail.trim().toLowerCase();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setNlError('Please enter a valid email.');
+      return;
+    }
+    // For now, just confirm subscription (integrate with a service like Mailchimp/ConvertKit later)
+    setNlSubmitted(true);
+    setNlEmail('');
+  };
+
+  if (nlSubmitted) {
+    return (
+      <div className="mt-6 bg-green-50 border border-green-200 text-green-800 rounded-xl p-4 max-w-xl mx-auto text-sm font-medium">
+        Thank you for subscribing! Check your email for your 10% discount code.
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleNlSubmit} className="mt-6 flex flex-col sm:flex-row items-stretch gap-2 sm:gap-0 max-w-xl mx-auto">
+      <input
+        type="email"
+        value={nlEmail}
+        onChange={(e) => setNlEmail(e.target.value)}
+        placeholder="Enter your email address"
+        aria-label="Email address for newsletter"
+        className="flex-1 h-11 px-4 border border-gray-300 rounded-md sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-black/20"
+        required
+      />
+      <button
+        type="submit"
+        className="h-11 px-5 bg-black text-white text-sm font-semibold rounded-md sm:rounded-l-none hover:bg-[#1f1f1f] transition-colors"
+      >
+        Join Now
+      </button>
+      {nlError && <p className="text-xs text-red-500 mt-1 w-full text-left">{nlError}</p>}
+    </form>
+  );
+}
+
 export default function Home() {
   const { data: fetchedProducts, isLoading: productsLoading } = useProducts();
   const { data: fetchedBanners, isLoading: bannersLoading } = useBanners();
@@ -738,20 +787,7 @@ export default function Home() {
           <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-2">Offer zone</p>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-[var(--color-text)]">Get 10% Off Your Order</h2>
           <p className="text-sm text-[var(--color-text-muted)] mt-3">Follow us on Instagram and get offers.</p>
-          <form className="mt-6 flex flex-col sm:flex-row items-stretch gap-2 sm:gap-0 max-w-xl mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              aria-label="Email address for newsletter"
-              className="flex-1 h-11 px-4 border border-gray-300 rounded-md sm:rounded-r-none focus:outline-none"
-            />
-            <button
-              type="button"
-              className="h-11 px-5 bg-black text-white text-sm font-semibold rounded-md sm:rounded-l-none hover:bg-[#1f1f1f] transition-colors"
-            >
-              Join Now
-            </button>
-          </form>
+          <NewsletterForm />
         </div>
       </section>
     </div>

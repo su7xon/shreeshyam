@@ -41,8 +41,18 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     if (!auth) return false;
+
+    // Input sanitization
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return false;
+    if (!password || password.length < 6) return false;
+
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
+      const result = await signInWithEmailAndPassword(auth, cleanEmail, password);
+      if (result.user) {
+        // Set a marker cookie for middleware to detect
+        document.cookie = '__admin_auth=1; path=/; max-age=86400; samesite=lax; secure';
+      }
       return result.user !== null;
     } catch (error: any) {
       // Don't use console.error for standard auth failures in dev mode
@@ -60,6 +70,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     if (!auth) return;
     try {
       await signOut(auth);
+      // Remove auth marker cookie
+      document.cookie = '__admin_auth=; path=/; max-age=0; samesite=lax; secure';
     } catch (error) {
       console.error('Admin logout error:', error);
     }

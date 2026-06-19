@@ -90,13 +90,8 @@ export default function ProductDetailClient({ id, initialProduct }: ProductDetai
   const product = candidates.find(p => p.name) || candidates[0];
 
   useEffect(() => {
-    console.log('[DEBUG] decodedId:', decodedId, 'lowerId:', lowerId);
-    console.log('[DEBUG] candidates:', candidates);
-    console.log('[DEBUG] final product:', product);
-    console.log('[DEBUG] admin.products length:', admin.products.length);
-  }, [decodedId, lowerId, candidates, product, admin.products.length]);
-
-  // Find products with same model name to show as variants
+    setMounted(true);
+  }, []);
   const getModelKey = (p: any) => {
     if (!p || !p.name) return '';
     // Normalize name: lowercase, remove parenthetical text (colors etc.)

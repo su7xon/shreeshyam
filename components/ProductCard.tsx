@@ -21,8 +21,8 @@ export default function ProductCard({ product, variant = 'default', priority = f
   const displayName = product.name ? product.name.replace(/null\+null/g, '').trim() : '';
   const displayRam = product.ram === 'nullGB' ? null : product.ram;
   const displayStorage = product.storage === 'nullGB' ? null : product.storage;
-
-  const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af?text=${encodeURIComponent(product.brand || 'Product')}`;
+  // Use placehold.co with .png to avoid SVG blocking in next.config.ts
+  const fallbackImg = `https://placehold.co/400x400/f5f5f7/9ca3af.png?text=${encodeURIComponent(product.brand || 'Product')}`;
   
   // Use product.images[0] if available to perfectly sync with ProductDetailClient, otherwise product.image
   const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : product.image;

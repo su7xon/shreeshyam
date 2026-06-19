@@ -111,6 +111,24 @@ export default function CheckoutPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Input validation
+    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,12}$/;
+    const trimmedPhone = formData.phone.trim();
+    if (!phoneRegex.test(trimmedPhone)) {
+      alert('Please enter a valid phone number.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (items.length === 0) {
+      alert('Your cart is empty. Please add items before checkout.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Sanitize customer info
+    const sanitize = (s: string) => s.replace(/[<>]/g, '').trim();
+
     const orderItems = items.map((item) => ({
       id: item.id,
       name: item.name,
@@ -126,22 +144,22 @@ export default function CheckoutPage() {
     let shippingAddress = '';
     let shippingCity = '';
     let shippingPostalCode = '';
-    let shippingPhone = formData.phone;
+    let shippingPhone = formData.phone.trim();
 
     if (!useNewAddress && selectedSavedAddress) {
       const addr = savedAddresses.find(a => a.id === selectedSavedAddress);
       if (addr) {
-        shippingName = addr.fullName;
-        shippingAddress = addr.address;
-        shippingCity = `${addr.city}, ${addr.state}`;
-        shippingPostalCode = addr.pincode;
-        shippingPhone = addr.phone;
+        shippingName = sanitize(addr.fullName);
+        shippingAddress = sanitize(addr.address);
+        shippingCity = sanitize(`${addr.city}, ${addr.state}`);
+        shippingPostalCode = sanitize(addr.pincode);
+        shippingPhone = sanitize(addr.phone);
       }
     } else {
-      shippingName = `${formData.firstName} ${formData.lastName}`.trim();
-      shippingAddress = formData.address;
-      shippingCity = formData.city;
-      shippingPostalCode = formData.postalCode;
+      shippingName = sanitize(`${formData.firstName} ${formData.lastName}`.trim());
+      shippingAddress = sanitize(formData.address);
+      shippingCity = sanitize(formData.city);
+      shippingPostalCode = sanitize(formData.postalCode);
     }
 
     try {

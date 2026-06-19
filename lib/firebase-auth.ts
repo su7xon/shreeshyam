@@ -47,18 +47,32 @@ export const signUp = async (
 ): Promise<UserCredential> => {
   if (!auth) throw new Error('Firebase auth not initialized');
   
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  // Input validation
+  const cleanEmail = email.trim().toLowerCase();
+  if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    throw new Error('Please provide a valid email address.');
+  }
+  if (!password || password.length < 6) {
+    throw new Error('Password must be at least 6 characters.');
+  }
+  const cleanName = displayName.replace(/[<>]/g, '').trim().slice(0, 100);
+  if (!cleanName || cleanName.length < 2) {
+    throw new Error('Name must be at least 2 characters.');
+  }
+  const cleanPhone = phone ? phone.replace(/[^\d+\-() ]/g, '').slice(0, 20) : undefined;
+  
+  const userCredential = await createUserWithEmailAndPassword(auth, cleanEmail, password);
   
   // Update profile with display name
   if (userCredential.user) {
-    await updateProfile(userCredential.user, { displayName });
+    await updateProfile(userCredential.user, { displayName: cleanName });
     
     // Save user profile to Firestore
     const userProfile: UserProfile = {
       uid: userCredential.user.uid,
       email: userCredential.user.email || '',
-      displayName,
-      phone,
+      displayName: cleanName,
+      phone: cleanPhone,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -75,7 +89,9 @@ export const signIn = async (
   password: string
 ): Promise<UserCredential> => {
   if (!auth) throw new Error('Firebase auth not initialized');
-  return await signInWithEmailAndPassword(auth, email, password);
+  const cleanEmail = email.trim().toLowerCase();
+  if (!cleanEmail) throw new Error('Email is required.');
+  return await signInWithEmailAndPassword(auth, cleanEmail, password);
 };
 
 // Helper: create/update Google user profile in Firestore
@@ -195,10 +211,25 @@ export const updateUserProfile = async (
   updates: Partial<UserProfile>
 ): Promise<void> => {
   if (!db) throw new Error('Firestore not initialized');
+  if (!uid) throw new Error('User ID is required');
+  
+  // Sanitize text fields
+  const sanitized: Record<string, any> = {
+    updatedAt: new Date().toISOString(),
+  };
+  if (updates.displayName !== undefined) {
+    sanitized.displayName = updates.displayName.replace(/[<>]/g, '').trim().slice(0, 100);
+  }
+  if (updates.phone !== undefined) {
+    sanitized.phone = updates.phone.replace(/[^\d+\-() ]/g, '').slice(0, 20);
+  }
+  if (updates.address !== undefined) {
+    sanitized.address = updates.address.replace(/[<>]/g, '').trim().slice(0, 500);
+  }
+  if (updates.language !== undefined) {
+    sanitized.language = updates.language.replace(/[^a-zA-Z-]/g, '').slice(0, 10);
+  }
   
   const userRef = doc(db, 'users', uid);
-  await setDoc(userRef, {
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  }, { merge: true });
+  await setDoc(userRef, sanitized, { merge: true });
 };

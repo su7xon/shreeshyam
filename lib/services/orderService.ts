@@ -47,6 +47,8 @@ export const createOrder = async (orderData: Omit<Order, 'id' | 'createdAt' | 'u
 
 // Update order status
 export const updateOrderStatus = async (id: string, status: OrderStatus): Promise<void> => {
+  if (!db) throw new Error('Firestore is not initialized');
+  if (!id || !status) throw new Error('Order ID and status are required');
   try {
     const orderDocRef = doc(db, ORDERS_COLLECTION, id);
     await setDoc(orderDocRef, {
@@ -61,6 +63,8 @@ export const updateOrderStatus = async (id: string, status: OrderStatus): Promis
 
 // Get order by ID
 export const getOrderById = async (id: string): Promise<Order | null> => {
+  if (!db) return null;
+  if (!id) return null;
   try {
     const orderDoc = await getDoc(doc(db, ORDERS_COLLECTION, id));
     if (orderDoc.exists()) {
@@ -133,6 +137,8 @@ export const getOrdersByEmail = async (email: string): Promise<Order[]> => {
 
 // Delete an order
 export const deleteOrder = async (id: string): Promise<void> => {
+  if (!db) throw new Error('Firestore is not initialized');
+  if (!id) throw new Error('Order ID is required');
   try {
     await deleteDoc(doc(db, ORDERS_COLLECTION, id));
   } catch (error) {

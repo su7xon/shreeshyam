@@ -10,6 +10,7 @@ import FirebaseInitializer from '@/components/FirebaseInitializer';
 import ConditionalLayout from '@/components/ConditionalLayout';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -157,18 +158,20 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         className={`${poppins.variable} min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]`}
       >
         <div id="google_translate_element" style={{ position: 'fixed', bottom: '0', right: '0', zIndex: -1, opacity: 0, pointerEvents: 'none' }}></div>
-        <AuthProvider>
-          <CartProvider>
-            <ReactQueryProvider>
-              <FirebaseInitializer />
-              <ConditionalLayout>
-                {children}
-              </ConditionalLayout>
-              <ModalManager />
-              <PWAInstallPrompt />
-            </ReactQueryProvider>
-          </CartProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <CartProvider>
+              <ReactQueryProvider>
+                <FirebaseInitializer />
+                <ConditionalLayout>
+                  {children}
+                </ConditionalLayout>
+                <ModalManager />
+                <PWAInstallPrompt />
+              </ReactQueryProvider>
+            </CartProvider>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
