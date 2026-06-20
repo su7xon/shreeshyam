@@ -1,0 +1,3198 @@
+{
+  "samePrice": [
+    {
+      "product_name": "realme C71",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 11999,
+      "original_price": 11519,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 29999,
+      "original_price": 28799,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 31999,
+      "original_price": 30719,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 33999,
+      "original_price": 32639,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 31999,
+      "original_price": 30719,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 33999,
+      "original_price": 32639,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Pro 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 35999,
+      "original_price": 34559,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Pro 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 38999,
+      "original_price": 37439,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15T 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 26879,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15T 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 29999,
+      "original_price": 28799,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15T 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 31999,
+      "original_price": 30719,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15x 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 23999,
+      "original_price": 23039,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15x 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 25999,
+      "original_price": 24959,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15x 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 27999,
+      "original_price": 26879,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme C85 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 22999,
+      "original_price": 22079,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 23999,
+      "original_price": 23039,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 26999,
+      "original_price": 25919,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 28999,
+      "original_price": 27839,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 30999,
+      "original_price": 29759,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Pro 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 32999,
+      "original_price": 31679,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Lite 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 17999,
+      "original_price": 17279,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Lite 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 19999,
+      "original_price": 19199,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Lite 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 21999,
+      "original_price": 21119,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P3 Lite 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 12999,
+      "original_price": 12479,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P3 Lite 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 13999,
+      "original_price": 13439,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 15 Pro 5G Game",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 44999,
+      "original_price": 43199,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme GT 8 Pro",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 72999,
+      "original_price": 70079,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme GT 8 Pro",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 78999,
+      "original_price": 75839,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme GT 8 Pro Dream Edition",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 79999,
+      "original_price": 76799,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4x 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 21499,
+      "original_price": 20639,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4x 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 23499,
+      "original_price": 22559,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4x 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 20999,
+      "original_price": 20159,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "REALME 16 PRO 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 36999,
+      "original_price": 35519,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "REALME 16 PRO 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 42999,
+      "original_price": 41279,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "REALME 16 PRO+ 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 48999,
+      "original_price": 47039,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Power 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 29999,
+      "original_price": 28799,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Power 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 31999,
+      "original_price": 30719,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Power 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 34999,
+      "original_price": 33599,
+      "remark": "Price Increase w.e.f 26th May'26",
+      "color": ""
+    },
+    {
+      "product_name": "realme C83 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 18499,
+      "original_price": 17452,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme C83 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 20499,
+      "original_price": 19339,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Lite 5G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 14999,
+      "original_price": 14399,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Lite 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 16499,
+      "original_price": 15839,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme P4 Lite 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 18499,
+      "original_price": 17759,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 16 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 33999,
+      "original_price": 32380,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 16T 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 29999,
+      "original_price": 28570,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 16T 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 31999,
+      "original_price": 30475,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "realme 16T 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 34999,
+      "original_price": 33332,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z Fold 7",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 186999,
+      "original_price": 185999,
+      "remark": "EMI:YES",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z Fold 7",
+      "ram_gb": 16,
+      "storage_gb": 1024,
+      "selling_price": 216999,
+      "original_price": 215999,
+      "remark": "EMI:YES",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 7",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 109999,
+      "original_price": 108999,
+      "remark": "(FLIP 7 & FLIP 7 FE) 10000 EMI / FULL SWIPE-10000(ALL BANK & UPI)",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 7",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 121999,
+      "original_price": 120999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 7 FE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 89999,
+      "original_price": 88999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 7 FE",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 95999,
+      "original_price": 94999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z Fold 6",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 164999,
+      "original_price": 163999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z Fold 6",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 176999,
+      "original_price": 175999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z Fold 6",
+      "ram_gb": 12,
+      "storage_gb": 1024,
+      "selling_price": 200999,
+      "original_price": 199999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 6",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 109999,
+      "original_price": 108999,
+      "remark": "11000 HDFC",
+      "color": ""
+    },
+    {
+      "product_name": "Galaxy Z FLIP 6",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 121999,
+      "original_price": 120999,
+      "remark": "11000 HDFC",
+      "color": ""
+    },
+    {
+      "product_name": "S25",
+      "ram_gb": 12,
+      "storage_gb": 128,
+      "selling_price": 74999,
+      "original_price": 73999,
+      "remark": "ALL BANK OR UPI-14000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 PLUS",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 99999,
+      "original_price": 98999,
+      "remark": "HDFC 14000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 PLUS",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 111999,
+      "original_price": 110999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "S25 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 119999,
+      "original_price": 118999,
+      "remark": "NBFC:YES | Special:5000 | ALL BANK OR UPI-14000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 139999,
+      "original_price": 138999,
+      "remark": "NBFC:YES | Special:5000 | ALL BANK OR UPI-19000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 1024,
+      "selling_price": 169999,
+      "original_price": 168999,
+      "remark": "NBFC:YES | Special:5000 | ALL BANK OR UPI-19000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 EDGE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 109999,
+      "original_price": 108999,
+      "remark": "Swipe:YES | Special:25000 | HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 EDGE",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 121999,
+      "original_price": 120999,
+      "remark": "Swipe:YES | Special:25000 | HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 FE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 59999,
+      "original_price": 58999,
+      "remark": "ALL BANK OR UPI-5000",
+      "color": ""
+    },
+    {
+      "product_name": "S25 FE",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 65999,
+      "original_price": 64999,
+      "remark": "ALL BANK OR UPI-1000",
+      "color": ""
+    },
+    {
+      "product_name": "S26",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 107999,
+      "original_price": 106999,
+      "remark": "Special:8000",
+      "color": ""
+    },
+    {
+      "product_name": "S26 PLUS",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 119999,
+      "original_price": 118999,
+      "remark": "Special:25000",
+      "color": ""
+    },
+    {
+      "product_name": "S26 PLUS",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 139999,
+      "original_price": 138999,
+      "remark": "Special:25000",
+      "color": ""
+    },
+    {
+      "product_name": "S26 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 139999,
+      "original_price": 138999,
+      "remark": "Special:9000",
+      "color": ""
+    },
+    {
+      "product_name": "S26 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 159999,
+      "original_price": 158999,
+      "remark": "Special:9000",
+      "color": ""
+    },
+    {
+      "product_name": "S26 ULTRA",
+      "ram_gb": 12,
+      "storage_gb": 1024,
+      "selling_price": 189999,
+      "original_price": 188999,
+      "remark": "Special:9000",
+      "color": ""
+    },
+    {
+      "product_name": "M06",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12499,
+      "original_price": 12499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M06",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 13999,
+      "original_price": 13999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M06",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 15999,
+      "original_price": 15999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M07",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 10399,
+      "original_price": 10399,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M16",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 13999,
+      "original_price": 13999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M16",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 15499,
+      "original_price": 15499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M17E",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 15499,
+      "original_price": 15499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M17E",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 17499,
+      "original_price": 17499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M17",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 20999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M36",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 21999,
+      "original_price": 21999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M36",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 23999,
+      "original_price": 23999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M36",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 27999,
+      "original_price": 27999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M56",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 27999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "M56",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 30999,
+      "original_price": 30999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F06",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12499,
+      "original_price": 12499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F06",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 13999,
+      "original_price": 13999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F06",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 16999,
+      "original_price": 16999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F07",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 10399,
+      "original_price": 10399,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F70E",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 16499,
+      "original_price": 16499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F70E",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 17499,
+      "original_price": 17499,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F17",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 19999,
+      "original_price": 19999,
+      "remark": "NBFC:1000",
+      "color": ""
+    },
+    {
+      "product_name": "F36",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 23999,
+      "original_price": 23999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F36",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 27999,
+      "original_price": 27999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "F56",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 24999,
+      "original_price": 24999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A06",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 13499,
+      "original_price": 12980,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A06",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 17499,
+      "original_price": 16826,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A07",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 18499,
+      "original_price": 17788,
+      "remark": "NBFC:962",
+      "color": ""
+    },
+    {
+      "product_name": "A26",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 23499,
+      "original_price": 22815,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A26",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 24999,
+      "original_price": 24271,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A26",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 27999,
+      "original_price": 27183,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "A36",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 37999,
+      "original_price": 36538,
+      "remark": "NBFC:YES | ALL BANK 3500 FULL SWIPE",
+      "color": ""
+    },
+    {
+      "product_name": "A36",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 43499,
+      "original_price": 41826,
+      "remark": "NBFC:YES | ALL BANK 3500 FULL SWIPE",
+      "color": ""
+    },
+    {
+      "product_name": "A56",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 42999,
+      "original_price": 41345,
+      "remark": "NBFC:YES | Special:1923 | ALL BANK 3500 FULL SWIPE",
+      "color": ""
+    },
+    {
+      "product_name": "A56",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 49999,
+      "original_price": 48191,
+      "remark": "NBFC:YES | Special:1923 | ALL BANK 3500 FULL SWIPE",
+      "color": ""
+    },
+    {
+      "product_name": "A37",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 52999,
+      "original_price": 50661,
+      "remark": "Special:6000",
+      "color": ""
+    },
+    {
+      "product_name": "A57",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 62499,
+      "original_price": 60095,
+      "remark": "Special:7000",
+      "color": ""
+    },
+    {
+      "product_name": "X110NA (TAB A9 4/64) WIFI",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12999,
+      "original_price": 12999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X210NA (TAB A9 Plus 4/64) WIFI",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 18999,
+      "original_price": 18999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X210NE (TAB A9 Plus 8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 20999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X216BE (TAB A9 Plus 8/128) LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 24999,
+      "original_price": 24999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X133NE (TAB A11 8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 22999,
+      "original_price": 22999,
+      "remark": "HDFC 2000",
+      "color": ""
+    },
+    {
+      "product_name": "X135GA (TAB A11 4/64) LTE",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 18999,
+      "original_price": 18999,
+      "remark": "HDFC 2000",
+      "color": ""
+    },
+    {
+      "product_name": "X135GE (TAB A11 8/128) LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 25999,
+      "original_price": 25999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X236BA (TAB A11 PLUS 6/128) LTE",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 31999,
+      "original_price": 31999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X230NE (TAB A11 PLUS 8/256) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 34999,
+      "original_price": 34999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X236BE (TAB A11 PLUS 8/256) LTE",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 39999,
+      "original_price": 39999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X510NA (TAB S9-FE 6/128) WIFI",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 36999,
+      "original_price": 36999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X510NE (TAB S9-FE 8/256) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 47999,
+      "original_price": 47999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X516BE (TAB S9-FE 8/256) LTE",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 55999,
+      "original_price": 55999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X610NA (TAB S9-FE Plus 8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 46999,
+      "original_price": 46999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X616BA (TAB S9-FE Plus 8/128) LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 54999,
+      "original_price": 54999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X610NE (TAB S9-FE Plus 12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 56999,
+      "original_price": 56999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X616BE (TAB S9-FE Plus 12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 64999,
+      "original_price": 64999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X400NE (TAB S10 LITE 8/256) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 48999,
+      "original_price": 48999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X406BA (TAB S10 LITE 5G 6/128) LTE",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 42999,
+      "original_price": 42999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X406BE (TAB S10 LITE 5G 8/256) LTE",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 53999,
+      "original_price": 53999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X826BA TAB S10+ (12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 120999,
+      "original_price": 120999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X926BA TAB S10 Ultra (12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 122999,
+      "original_price": 122999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X520NA TAB S10FE (8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 49999,
+      "original_price": 49999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X520NE TAB S10FE (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 61999,
+      "original_price": 61999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X526BA TAB S10FE (8/128) LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 58999,
+      "original_price": 58999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X526BE TAB S10FE (12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 70999,
+      "original_price": 70999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X620NA TAB S10FE PLUS (8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 63999,
+      "original_price": 63999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X620NE TAB S10FE PLUS (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 74999,
+      "original_price": 74999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X626BA TAB S10FE PLUS (8/128) LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 72999,
+      "original_price": 72999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X626BE TAB S10FE PLUS (12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 83999,
+      "original_price": 83999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X710NE TAB S9 (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 83999,
+      "original_price": 83999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X716BE TAB S9 (12/256) 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 96999,
+      "original_price": 96999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X910NA TAB S9 Ultra (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 108999,
+      "original_price": 108999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X730NA (TAB S11 12/128) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 128,
+      "selling_price": 91999,
+      "original_price": 91999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X730NE (TAB S11 12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 99999,
+      "original_price": 99999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X730NI (TAB S11 12/512) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 115999,
+      "original_price": 115999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X736BA (TAB S11 12/128) LTE",
+      "ram_gb": 12,
+      "storage_gb": 128,
+      "selling_price": 105999,
+      "original_price": 105999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X736BE (TAB S11 12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 114999,
+      "original_price": 114999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X930NA (TAB S11 ULTRA 12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 124999,
+      "original_price": 124999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X930NE (TAB S11 ULTRA 12/512) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 141999,
+      "original_price": 141999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X936BA (TAB S11 ULTRA 12/256) LTE",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 139999,
+      "original_price": 139999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "X936BE (TAB S11 ULTRA 12/512) LTE",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 155999,
+      "original_price": 155999,
+      "remark": "HDFC 5000",
+      "color": ""
+    },
+    {
+      "product_name": "L500NA (WATCH8 CLASSIC 47mm) BT",
+      "ram_gb": null,
+      "storage_gb": null,
+      "selling_price": 45999,
+      "original_price": 45999,
+      "remark": "1500",
+      "color": ""
+    },
+    {
+      "product_name": "A SERIES - A6X 4G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12999,
+      "original_price": 12263,
+      "remark": "Proc:QS 685 4G | Bat:6500 mah (15W)",
+      "color": "ICE BLUE, OLIVE GREEN"
+    },
+    {
+      "product_name": "A SERIES - A6X 5G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 16999,
+      "original_price": 16113,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "ICE BLUE, OLIVE GREEN"
+    },
+    {
+      "product_name": "A SERIES - A6X 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 18999,
+      "original_price": 18009,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "ICE BLUE, OLIVE GREEN"
+    },
+    {
+      "product_name": "A SERIES - A6X 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 19904,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "ICE BLUE, OLIVE GREEN"
+    },
+    {
+      "product_name": "A SERIES - A6S",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 19904,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "AURORA GOLD, PLUM PURPLE"
+    },
+    {
+      "product_name": "A SERIES - A6S",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 22999,
+      "original_price": 21800,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "AURORA GOLD, PLUM PURPLE"
+    },
+    {
+      "product_name": "A SERIES - A6",
+      "ram_gb": 6,
+      "storage_gb": 256,
+      "selling_price": 25999,
+      "original_price": 24644,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+      "color": "SAPPHIRE BLUE, ICE WHITE, SAKURA PINK"
+    },
+    {
+      "product_name": "A SERIES - A6PRO",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 26999,
+      "original_price": 25591,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (80W)",
+      "color": "AURORA GOLD, CAPPUCCINO BROWN"
+    },
+    {
+      "product_name": "A SERIES - A6PRO",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 29999,
+      "original_price": 28435,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (80W)",
+      "color": "AURORA GOLD, CAPPUCCINO BROWN"
+    },
+    {
+      "product_name": "K SERIES - K14X",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 14999,
+      "original_price": 14422,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "PRISM VIOLET, ICY BLUE"
+    },
+    {
+      "product_name": "K SERIES - K14X",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 16999,
+      "original_price": 16345,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "PRISM VIOLET, ICY BLUE"
+    },
+    {
+      "product_name": "K SERIES - K14X",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 18999,
+      "original_price": 18268,
+      "remark": "Proc:MTK D6300 | Bat:6500 mah (45W)",
+      "color": "PRISM VIOLET, ICY BLUE"
+    },
+    {
+      "product_name": "K SERIES - K14",
+      "ram_gb": 6,
+      "storage_gb": 256,
+      "selling_price": 21999,
+      "original_price": 21153,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+      "color": "PRISM VIOLET, ICY BLUE, PRISM WHITE"
+    },
+    {
+      "product_name": "K SERIES - K14",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 23999,
+      "original_price": 23076,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+      "color": "PRISM VIOLET, ICY BLUE, PRISM WHITE"
+    },
+    {
+      "product_name": "F SERIES - F31",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 26999,
+      "original_price": 25592,
+      "remark": "Proc:MTK D6300 | Bat:7000 mah (80W)",
+      "color": "BLOOM RED, CLOUD GREEN, MIDNIGHT BLUE"
+    },
+    {
+      "product_name": "F SERIES - F31 PRO",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 26539,
+      "remark": "Proc:MTK D7300 | Bat:7000 mah (80W)",
+      "color": "SPACE GREY, DESERT GOLD"
+    },
+    {
+      "product_name": "F SERIES - F31 PRO",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 29999,
+      "original_price": 28435,
+      "remark": "Proc:MTK D7300 | Bat:7000 mah (80W)",
+      "color": "SPACE GREY, DESERT GOLD"
+    },
+    {
+      "product_name": "F SERIES - F31 PRO",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 31999,
+      "original_price": 30331,
+      "remark": "Proc:MTK D7300 | Bat:7000 mah (80W)",
+      "color": "SPACE GREY, DESERT GOLD"
+    },
+    {
+      "product_name": "F SERIES - F33",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 31999,
+      "original_price": 30332,
+      "remark": "Proc:MTK D6360 MAX | Bat:7000 mah (80W)",
+      "color": "FOREST GREEN, PEARL WHITE"
+    },
+    {
+      "product_name": "F SERIES - F33",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 34999,
+      "original_price": 33176,
+      "remark": "Proc:MTK D6360 MAX | Bat:7000 mah (80W)",
+      "color": "FOREST GREEN, PEARL WHITE"
+    },
+    {
+      "product_name": "F SERIES - F33",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 37999,
+      "original_price": 36019,
+      "remark": "Proc:MTK D6360 MAX | Bat:7000 mah (80W)",
+      "color": "FOREST GREEN, PEARL WHITE"
+    },
+    {
+      "product_name": "F SERIES - F33 PRO",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 37999,
+      "original_price": 36019,
+      "remark": "Proc:MTK D6360 MAX | Bat:7000 mah (80W)",
+      "color": "MISTY FOREST, PASSION RED, STARRY BLUE"
+    },
+    {
+      "product_name": "F SERIES - F33 PRO",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 40999,
+      "original_price": 38863,
+      "remark": "Proc:MTK D6360 MAX | Bat:7000 mah (80W)",
+      "color": "MISTY FOREST, PASSION RED, STARRY BLUE"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15C",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 41999,
+      "original_price": 39809,
+      "remark": "Proc:QS 6 GEN1 | Bat:7000 mah (80W)",
+      "color": "TWILIGHT BLUE, AFTERGLOW PINK"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15C",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 44999,
+      "original_price": 42653,
+      "remark": "Proc:QS 6 GEN1 | Bat:7000 mah (80W)",
+      "color": "TWILIGHT BLUE, AFTERGLOW PINK"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 55999,
+      "original_price": 53081,
+      "remark": "Proc:QS 7 GEN4 | Bat:6500 mah (80W)",
+      "color": "TWILIGHT BLUE, GLACIER WHITE, AURORA BLUE"
+    },
+    {
+      "product_name": "FIND SERIES - FIND X9",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 74999,
+      "original_price": 71092,
+      "remark": "Proc:MTK D9500 | Bat:7025 mah (80W)/WIRELESS (50W)",
+      "color": "SPACE BLACK, TITANIUM GREY"
+    },
+    {
+      "product_name": "FIND SERIES - FIND X9",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 84999,
+      "original_price": 80571,
+      "remark": "Proc:MTK D9500 | Bat:7025 mah (80W)/WIRELESS (50W)",
+      "color": "SPACE BLACK, TITANIUM GREY"
+    },
+    {
+      "product_name": "FIND SERIES - FIND X9 PRO",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 109999,
+      "original_price": 104268,
+      "remark": "Proc:MTK D9500 | Bat:7500 mah (80W)/WIRELESS (50W)",
+      "color": "TITANIUM CHARCOAL, SILK WHITE"
+    },
+    {
+      "product_name": "Pova Curve 5G 8+128 (LI8K)",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 17999,
+      "original_price": 17142,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Pova Curve 5G 8+256 (LI8K)",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 19999,
+      "original_price": 19047,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "POVA Slim 5G 8+128 (KM9)",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 19999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Pova Curve 2 (8+128) (LK7K)",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 29999,
+      "original_price": 28570,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Pova Curve 2 (8+256) (LK7K)",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 31999,
+      "original_price": 30475,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X-Fold 5",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 149999,
+      "original_price": 141509,
+      "remark": "",
+      "color": "Gray"
+    },
+    {
+      "product_name": "X300 Ultra",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 159999,
+      "original_price": 150943,
+      "remark": "",
+      "color": "Victory Green, Eclipse Black"
+    },
+    {
+      "product_name": "X300 Pro 5G",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 109999,
+      "original_price": 103773,
+      "remark": "",
+      "color": "Elite Black, Dune Gold"
+    },
+    {
+      "product_name": "X300 5G",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 85999,
+      "original_price": 81132,
+      "remark": "",
+      "color": "Mist Blue, Summit Red, Elite Black"
+    },
+    {
+      "product_name": "X300 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 81999,
+      "original_price": 77358,
+      "remark": "",
+      "color": "Mist Blue, Summit Red, Elite Black"
+    },
+    {
+      "product_name": "X300 FE 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 89999,
+      "original_price": 85905,
+      "remark": "",
+      "color": "Lilac Purple, Noir Black, Urban Olive"
+    },
+    {
+      "product_name": "X300 FE 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 79999,
+      "original_price": 75471,
+      "remark": "",
+      "color": "Lilac Purple, Noir Black, Urban Olive"
+    },
+    {
+      "product_name": "X200 FE 5G",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 59999,
+      "original_price": 56603,
+      "remark": "",
+      "color": "Luxe Grey, Amber Yellow, Frost Blue"
+    },
+    {
+      "product_name": "X200 FE 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 54999,
+      "original_price": 51886,
+      "remark": "",
+      "color": "Luxe Grey, Amber Yellow, Frost Blue"
+    },
+    {
+      "product_name": "X200T 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 69999,
+      "original_price": 67307,
+      "remark": "",
+      "color": "Stellar Black, Seaside Lilac"
+    },
+    {
+      "product_name": "X200T 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 59999,
+      "original_price": 57692,
+      "remark": "",
+      "color": "Stellar Black, Seaside Lilac"
+    },
+    {
+      "product_name": "V70 Elite 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 61999,
+      "original_price": 58490,
+      "remark": "",
+      "color": "Red, Beige, Black"
+    },
+    {
+      "product_name": "V70 Elite 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 59999,
+      "original_price": 56603,
+      "remark": "",
+      "color": "Red, Beige, Black"
+    },
+    {
+      "product_name": "V70 Elite 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 54999,
+      "original_price": 51886,
+      "remark": "",
+      "color": "Red, Beige, Black"
+    },
+    {
+      "product_name": "V70 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 53999,
+      "original_price": 50943,
+      "remark": "",
+      "color": "Red, Yellow"
+    },
+    {
+      "product_name": "V70 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 49999,
+      "original_price": 47169,
+      "remark": "",
+      "color": "Red, Yellow"
+    },
+    {
+      "product_name": "V70 FE 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 44999,
+      "original_price": 42452,
+      "remark": "",
+      "color": "Monsoon Blue, Lights Purple"
+    },
+    {
+      "product_name": "V70 FE 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 40999,
+      "original_price": 38679,
+      "remark": "",
+      "color": "Monsoon Blue, Lights Purple"
+    },
+    {
+      "product_name": "V70 FE 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 37999,
+      "original_price": 35849,
+      "remark": "",
+      "color": "Monsoon Blue, Lights Purple"
+    },
+    {
+      "product_name": "V60 5G",
+      "ram_gb": 16,
+      "storage_gb": 512,
+      "selling_price": 45999,
+      "original_price": 43396,
+      "remark": "",
+      "color": "Auspicious Gold, Moonlit Blue, Mist Gray"
+    },
+    {
+      "product_name": "V60 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 40999,
+      "original_price": 38679,
+      "remark": "",
+      "color": "Auspicious Gold, Moonlit Blue, Mist Gray"
+    },
+    {
+      "product_name": "V60 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 38999,
+      "original_price": 36792,
+      "remark": "",
+      "color": "Auspicious Gold, Moonlit Blue, Mist Gray"
+    },
+    {
+      "product_name": "V60e 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 35999,
+      "original_price": 33962,
+      "remark": "",
+      "color": "Noble Gold, Elite Purple"
+    },
+    {
+      "product_name": "V60e 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 33999,
+      "original_price": 32075,
+      "remark": "",
+      "color": "Noble Gold, Elite Purple"
+    },
+    {
+      "product_name": "V60e 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 31999,
+      "original_price": 30188,
+      "remark": "",
+      "color": "Noble Gold, Elite Purple"
+    },
+    {
+      "product_name": "T5 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 33999,
+      "original_price": 32692,
+      "remark": "",
+      "color": "Glacier Blue, Cosmic Black"
+    },
+    {
+      "product_name": "T5 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 29999,
+      "original_price": 28846,
+      "remark": "",
+      "color": "Glacier Blue, Cosmic Black"
+    },
+    {
+      "product_name": "T4Pro 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 31999,
+      "original_price": 30769,
+      "remark": "",
+      "color": "Nitro Blue, Blaze Gold"
+    },
+    {
+      "product_name": "T4Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 29999,
+      "original_price": 28846,
+      "remark": "",
+      "color": "Nitro Blue, Blaze Gold"
+    },
+    {
+      "product_name": "T4Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 26923,
+      "remark": "",
+      "color": "Nitro Blue, Blaze Gold"
+    },
+    {
+      "product_name": "T4 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 28999,
+      "original_price": 27884,
+      "remark": "",
+      "color": "Emerald Blaze, Phantom Grey"
+    },
+    {
+      "product_name": "T4 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 26999,
+      "original_price": 25961,
+      "remark": "",
+      "color": "Emerald Blaze, Phantom Grey"
+    },
+    {
+      "product_name": "T4 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 24999,
+      "original_price": 24038,
+      "remark": "",
+      "color": "Emerald Blaze, Phantom Grey"
+    },
+    {
+      "product_name": "T4R 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 26999,
+      "original_price": 25961,
+      "remark": "",
+      "color": "Arctic White, Twilight Blue"
+    },
+    {
+      "product_name": "T4R 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 24999,
+      "original_price": 24038,
+      "remark": "",
+      "color": "Arctic White, Twilight Blue"
+    },
+    {
+      "product_name": "T4R 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 22999,
+      "original_price": 22115,
+      "remark": "",
+      "color": "Arctic White, Twilight Blue"
+    },
+    {
+      "product_name": "T5x 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 26999,
+      "original_price": 25961,
+      "remark": "",
+      "color": "Cyber Green, Star Silver, Fusion Red"
+    },
+    {
+      "product_name": "T5x 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 24999,
+      "original_price": 24038,
+      "remark": "",
+      "color": "Cyber Green, Star Silver, Fusion Red"
+    },
+    {
+      "product_name": "T4x 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 20999,
+      "original_price": 20192,
+      "remark": "",
+      "color": "Pronto Purple, Marine Blue"
+    },
+    {
+      "product_name": "T4 Lite 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 16999,
+      "original_price": 16346,
+      "remark": "",
+      "color": "Prism Blue, Titanium Gold"
+    },
+    {
+      "product_name": "T4 Lite 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 14999,
+      "original_price": 14423,
+      "remark": "",
+      "color": "Prism Blue, Titanium Gold"
+    },
+    {
+      "product_name": "T4 Lite 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 13999,
+      "original_price": 13461,
+      "remark": "",
+      "color": "Prism Blue, Titanium Gold"
+    },
+    {
+      "product_name": "T4 Lite 5G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12999,
+      "original_price": 12500,
+      "remark": "",
+      "color": "Prism Blue, Titanium Gold"
+    },
+    {
+      "product_name": "Y400 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 25999,
+      "original_price": 24528,
+      "remark": "",
+      "color": "Nebula Purple, Freestyle White, Fest Gold"
+    },
+    {
+      "product_name": "Y400 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 28999,
+      "original_price": 27358,
+      "remark": "",
+      "color": "Olive Green, Glam White"
+    },
+    {
+      "product_name": "Y31 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "selling_price": 30999,
+      "original_price": 29245,
+      "remark": "",
+      "color": "Festive Red, Noble Gold"
+    },
+    {
+      "product_name": "Y31 Pro 5G",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 26415,
+      "remark": "",
+      "color": "Festive Red, Noble Gold"
+    },
+    {
+      "product_name": "Y21 5G",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 20999,
+      "original_price": 19811,
+      "remark": "",
+      "color": "Midnight Blue, Champagne Gold"
+    },
+    {
+      "product_name": "Y11 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 16999,
+      "original_price": 16037,
+      "remark": "",
+      "color": "Midnight Blue, Sunrise Gold"
+    },
+    {
+      "product_name": "Y11 5G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 14999,
+      "original_price": 14150,
+      "remark": "",
+      "color": "Midnight Blue, Sunrise Gold"
+    },
+    {
+      "product_name": "Y19s 5G",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 13499,
+      "original_price": 12735,
+      "remark": "",
+      "color": "Titanium Silver, Majestic Green"
+    },
+    {
+      "product_name": "Y19s 5G",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 12499,
+      "original_price": 11792,
+      "remark": "",
+      "color": "Titanium Silver, Majestic Green"
+    },
+    {
+      "product_name": "Y19e",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 9999,
+      "original_price": 9434,
+      "remark": "",
+      "color": "Titanium Silver, Majestic Green"
+    }
+  ],
+  "differentPrice": [
+    {
+      "item": {
+        "product_name": "realme C85 5G",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 20999,
+        "original_price": 20159,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 15771.74,
+      "fbName": "Realme C85 5G"
+    },
+    {
+      "item": {
+        "product_name": "realme P4 5G",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 24999,
+        "original_price": 23999,
+        "remark": "Price Increase w.e.f 26th May'26",
+        "color": ""
+      },
+      "fbPrice": 30719,
+      "fbName": "Realme"
+    },
+    {
+      "item": {
+        "product_name": "REALME 16 PRO 5G",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 39999,
+        "original_price": 38399,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 48999,
+      "fbName": "REALME 16 PRO+ 5G 8+256"
+    },
+    {
+      "item": {
+        "product_name": "REALME 16 PRO+ 5G",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 46999,
+        "original_price": 45119,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 36999,
+      "fbName": "REALME 16 PRO 5G 8+128"
+    },
+    {
+      "item": {
+        "product_name": "REALME 16 PRO+ 5G",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 52999,
+        "original_price": 50879,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 42999,
+      "fbName": "REALME 16 PRO 5G 12+256"
+    },
+    {
+      "item": {
+        "product_name": "realme C83 5G",
+        "ram_gb": 4,
+        "storage_gb": 64,
+        "selling_price": 16499,
+        "original_price": 15565,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 12735,
+      "fbName": "Realme C83 5G"
+    },
+    {
+      "item": {
+        "product_name": "realme 16 5G",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 36999,
+        "original_price": 35237,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 32380,
+      "fbName": "Realme 16 5G"
+    },
+    {
+      "item": {
+        "product_name": "realme 16 5G",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 39999,
+        "original_price": 38094,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 32380,
+      "fbName": "Realme 16 5G"
+    },
+    {
+      "item": {
+        "product_name": "Galaxy Z Fold 7",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 174999,
+        "original_price": 173999,
+        "remark": "EMI:YES | (FOLD 7) 3000 EMI / FULL SWIPE-7000(ALL BANK & UPI)",
+        "color": ""
+      },
+      "fbPrice": 168779,
+      "fbName": "Samsung Galaxy Z Fold7"
+    },
+    {
+      "item": {
+        "product_name": "S25",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 80999,
+        "original_price": 79999,
+        "remark": "Special:3000 | ALL BANK OR UPI-14000",
+        "color": ""
+      },
+      "fbPrice": 99999,
+      "fbName": "S25 PLUS 12+256"
+    },
+    {
+      "item": {
+        "product_name": "S25",
+        "ram_gb": 12,
+        "storage_gb": 512,
+        "selling_price": 92999,
+        "original_price": 91999,
+        "remark": "Special:3000 | ALL BANK OR UPI-11000",
+        "color": ""
+      },
+      "fbPrice": 139999,
+      "fbName": "S25 ULTRA 12+512"
+    },
+    {
+      "item": {
+        "product_name": "S25 FE",
+        "ram_gb": 8,
+        "storage_gb": 512,
+        "selling_price": 77999,
+        "original_price": 76999,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 74689,
+      "fbName": "SAMSUNG GALAXY S25FE 8GB+512GB (JET BLACK)"
+    },
+    {
+      "item": {
+        "product_name": "S26",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 87999,
+        "original_price": 86999,
+        "remark": "Special:8000 | MULTIBUY OFFER BUDS 4 PRO & BUDS 4 WATCH 8 ULTRA FAMILY",
+        "color": ""
+      },
+      "fbPrice": 139999,
+      "fbName": "S26 ULTRA 12+256"
+    },
+    {
+      "item": {
+        "product_name": "M16",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 12499,
+        "original_price": 12499,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 32380,
+      "fbName": "Samsung GALAXY M16 5G"
+    },
+    {
+      "item": {
+        "product_name": "M17",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 16999,
+        "original_price": 16999,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 15499,
+      "fbName": "M17E 4+128"
+    },
+    {
+      "item": {
+        "product_name": "M17",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 18999,
+        "original_price": 18999,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 17499,
+      "fbName": "M17E 6+128"
+    },
+    {
+      "item": {
+        "product_name": "F17",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 17999,
+        "original_price": 17999,
+        "remark": "NBFC:1000",
+        "color": ""
+      },
+      "fbPrice": 16489,
+      "fbName": "Samsung Galaxy F17 5G"
+    },
+    {
+      "item": {
+        "product_name": "F17",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 21999,
+        "original_price": 21999,
+        "remark": "NBFC:1000",
+        "color": ""
+      },
+      "fbPrice": 16489,
+      "fbName": "Samsung Galaxy F17 5G"
+    },
+    {
+      "item": {
+        "product_name": "F56",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 27999,
+        "original_price": 27999,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 38999,
+      "fbName": "Samsung GALAXY F56 5G"
+    },
+    {
+      "item": {
+        "product_name": "A06",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 15499,
+        "original_price": 14903,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 12124,
+      "fbName": "Samsung Galaxy A06"
+    },
+    {
+      "item": {
+        "product_name": "A07",
+        "ram_gb": 4,
+        "storage_gb": 64,
+        "selling_price": 10999,
+        "original_price": 10999,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 9213.99,
+      "fbName": "Samsung Galaxy A074G"
+    },
+    {
+      "item": {
+        "product_name": "A07",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 16499,
+        "original_price": 15864,
+        "remark": "NBFC:962",
+        "color": ""
+      },
+      "fbPrice": 10829,
+      "fbName": "Samsung GALAXY A07 5G"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 21499,
+        "original_price": 20672,
+        "remark": "NBFC:962",
+        "color": ""
+      },
+      "fbPrice": 19120,
+      "fbName": "Samsung GALAXY A17 5G"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 23499,
+        "original_price": 22595,
+        "remark": "NBFC:962",
+        "color": ""
+      },
+      "fbPrice": 19119.67,
+      "fbName": "SAMSUNG GALAXY A17 6GB+128GB (GREY)"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 27999,
+        "original_price": 26922,
+        "remark": "NBFC:962",
+        "color": ""
+      },
+      "fbPrice": 19120,
+      "fbName": "Samsung GALAXY A17 5G"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 19499,
+        "original_price": 18931,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 19119.67,
+      "fbName": "SAMSUNG GALAXY A17 6GB+128GB (GREY)"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 20999,
+        "original_price": 20387,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 19120,
+      "fbName": "Samsung GALAXY A17 5G"
+    },
+    {
+      "item": {
+        "product_name": "A17",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 23999,
+        "original_price": 23300,
+        "remark": "",
+        "color": ""
+      },
+      "fbPrice": 19120,
+      "fbName": "Samsung GALAXY A17 5G"
+    },
+    {
+      "item": {
+        "product_name": "A36",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 33999,
+        "original_price": 32691,
+        "remark": "NBFC:YES | ALL BANK 3500 FULL SWIPE",
+        "color": ""
+      },
+      "fbPrice": 27999,
+      "fbName": "SAMSUNG SM-A366B GALAXY A36 5G 8GB+128GB (AWESOME NAVY)"
+    },
+    {
+      "item": {
+        "product_name": "A56",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 52499,
+        "original_price": 50480,
+        "remark": "NBFC:YES | Special:1923 | ALL BANK 3500 FULL SWIPE",
+        "color": ""
+      },
+      "fbPrice": 44999,
+      "fbName": "SAMSUNG SM-A566B GALAXY A56 5G 12GB+256GB (AWESOME ICEBLUE)"
+    },
+    {
+      "item": {
+        "product_name": "A37",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 41999,
+        "original_price": 40384,
+        "remark": "Special:6000",
+        "color": ""
+      },
+      "fbPrice": 39172,
+      "fbName": "Samsung Galaxy A37 5G"
+    },
+    {
+      "item": {
+        "product_name": "A37",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 47499,
+        "original_price": 45672,
+        "remark": "Special:6000",
+        "color": ""
+      },
+      "fbPrice": 39172,
+      "fbName": "Samsung Galaxy A37 5G"
+    },
+    {
+      "item": {
+        "product_name": "A57",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 56999,
+        "original_price": 54807,
+        "remark": "Special:7000",
+        "color": ""
+      },
+      "fbPrice": 53163,
+      "fbName": "Samsung Galaxy A57 5G"
+    },
+    {
+      "item": {
+        "product_name": "R410N Buds Core",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 4999,
+        "original_price": 4999,
+        "remark": "",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "R410N BUDS 3 FE",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 12999,
+        "original_price": 12999,
+        "remark": "3000",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "R530N Buds 3",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 14999,
+        "original_price": 14999,
+        "remark": "3000",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "R630N Buds 3 PRO",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 19999,
+        "original_price": 19999,
+        "remark": "2000",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "R540N BUDS 4",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 16999,
+        "original_price": 16999,
+        "remark": "MULTIBUY 2499",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "R640N BUDS4 PRO",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 22999,
+        "original_price": 22999,
+        "remark": "MULTIBUY 3499",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "L320N (WATCH8 40mm) BT",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 32999,
+        "original_price": 32999,
+        "remark": "1500",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "L325F (WATCH8 40mm) LTE",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 36999,
+        "original_price": 36999,
+        "remark": "1500",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "L330N (WATCH8 44mm) BT",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 35999,
+        "original_price": 35999,
+        "remark": "1500",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "L335F (WATCH8 44mm) LTE",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 39999,
+        "original_price": 39999,
+        "remark": "1500",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "L505FA (WATCH8 CLASSIC 47mm) LTE",
+        "ram_gb": null,
+        "storage_gb": null,
+        "selling_price": 50999,
+        "original_price": 50999,
+        "remark": "1500",
+        "color": ""
+      }
+    },
+    {
+      "item": {
+        "product_name": "A SERIES - A6",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 21999,
+        "original_price": 20852,
+        "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+        "color": "SAPPHIRE BLUE, ICE WHITE, SAKURA PINK"
+      },
+      "fbPrice": 18999,
+      "fbName": "A SERIES - A6X 5G 4+128 (ICE BLUE, OLIVE GREEN)"
+    },
+    {
+      "item": {
+        "product_name": "A SERIES - A6",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 23999,
+        "original_price": 22748,
+        "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+        "color": "SAPPHIRE BLUE, ICE WHITE, SAKURA PINK"
+      },
+      "fbPrice": 22999,
+      "fbName": "A SERIES - A6S 6+128 (AURORA GOLD, PLUM PURPLE)"
+    },
+    {
+      "item": {
+        "product_name": "K SERIES - K14",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 19999,
+        "original_price": 19230,
+        "remark": "Proc:MTK D6300 | Bat:7000 mah (45W)",
+        "color": "PRISM VIOLET, ICY BLUE, PRISM WHITE"
+      },
+      "fbPrice": 18999,
+      "fbName": "K SERIES - K14X 6+128 (PRISM VIOLET, ICY BLUE)"
+    },
+    {
+      "item": {
+        "product_name": "F SERIES - F31",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 28999,
+        "original_price": 27488,
+        "remark": "Proc:MTK D6300 | Bat:7000 mah (80W)",
+        "color": "BLOOM RED, CLOUD GREEN, MIDNIGHT BLUE"
+      },
+      "fbPrice": 29999,
+      "fbName": "F SERIES - F31 PRO 8+256 (SPACE GREY, DESERT GOLD)"
+    },
+    {
+      "item": {
+        "product_name": "F SERIES - F31 PRO+",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 32999,
+        "original_price": 31279,
+        "remark": "Proc:QS 7 GEN3 | Bat:7000 mah (80W)",
+        "color": "GENSTONE BLUE, HIMALAYAN WHITE, FESTIVAL PINK"
+      },
+      "fbPrice": 29999,
+      "fbName": "F SERIES - F31 PRO 8+256 (SPACE GREY, DESERT GOLD)"
+    },
+    {
+      "item": {
+        "product_name": "F SERIES - F31 PRO+",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 34999,
+        "original_price": 33174,
+        "remark": "Proc:QS 7 GEN3 | Bat:7000 mah (80W)",
+        "color": "GENSTONE BLUE, HIMALAYAN WHITE, FESTIVAL PINK"
+      },
+      "fbPrice": 31999,
+      "fbName": "F SERIES - F31 PRO 12+256 (SPACE GREY, DESERT GOLD)"
+    },
+    {
+      "item": {
+        "product_name": "RENO SERIES - RENO 15",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 47999,
+        "original_price": 45498,
+        "remark": "Proc:QS 7 GEN4 | Bat:6500 mah (80W)",
+        "color": "TWILIGHT BLUE, GLACIER WHITE, AURORA BLUE"
+      },
+      "fbPrice": 41999,
+      "fbName": "RENO SERIES - RENO 15C 8+256 (TWILIGHT BLUE, AFTERGLOW PINK)"
+    },
+    {
+      "item": {
+        "product_name": "RENO SERIES - RENO 15",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 50999,
+        "original_price": 48342,
+        "remark": "Proc:QS 7 GEN4 | Bat:6500 mah (80W)",
+        "color": "TWILIGHT BLUE, GLACIER WHITE, AURORA BLUE"
+      },
+      "fbPrice": 44999,
+      "fbName": "RENO SERIES - RENO 15C 12+256 (TWILIGHT BLUE, AFTERGLOW PINK)"
+    },
+    {
+      "item": {
+        "product_name": "X300 5G",
+        "ram_gb": 12,
+        "storage_gb": 256,
+        "selling_price": 75999,
+        "original_price": 71698,
+        "remark": "",
+        "color": "Mist Blue, Summit Red, Elite Black"
+      },
+      "fbPrice": 71698,
+      "fbName": "Vivo X300 5G"
+    },
+    {
+      "item": {
+        "product_name": "T5x 5G",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 22999,
+        "original_price": 22115,
+        "remark": "",
+        "color": "Cyber Green, Star Silver, Fusion Red"
+      },
+      "fbPrice": 18400,
+      "fbName": "Vivo T5X 5G"
+    },
+    {
+      "item": {
+        "product_name": "T4x 5G",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 18999,
+        "original_price": 18269,
+        "remark": "",
+        "color": "Pronto Purple, Marine Blue"
+      },
+      "fbPrice": 13899,
+      "fbName": "Vivo V2437 T4X 5G"
+    },
+    {
+      "item": {
+        "product_name": "T4x 5G",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 16999,
+        "original_price": 16346,
+        "remark": "",
+        "color": "Pronto Purple, Marine Blue"
+      },
+      "fbPrice": 14700,
+      "fbName": "Vivo V2437 T4X 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y400 Pro 5G",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 27999,
+        "original_price": 26415,
+        "remark": "",
+        "color": "Nebula Purple, Freestyle White, Fest Gold"
+      },
+      "fbPrice": 21585.59,
+      "fbName": "Vivo V2439 Y400 PRO 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y400 5G",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 31999,
+        "original_price": 30188,
+        "remark": "",
+        "color": "Olive Green, Glam White"
+      },
+      "fbPrice": 43396,
+      "fbName": "Vivo Y400 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y31 Pro 5G",
+        "ram_gb": 8,
+        "storage_gb": 256,
+        "selling_price": 21999,
+        "original_price": 20754,
+        "remark": "",
+        "color": "Mocha Brown, Dreamy White"
+      },
+      "fbPrice": 30999,
+      "fbName": "Y31 PRO 5G 8+256 (FESTIVE RED, NOBLE GOLD)"
+    },
+    {
+      "item": {
+        "product_name": "Y31 Pro 5G",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 19999,
+        "original_price": 18867,
+        "remark": "",
+        "color": "Mocha Brown, Dreamy White"
+      },
+      "fbPrice": 27999,
+      "fbName": "Y31 PRO 5G 8+128 (FESTIVE RED, NOBLE GOLD)"
+    },
+    {
+      "item": {
+        "product_name": "Y31 5G",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 23999,
+        "original_price": 22641,
+        "remark": "",
+        "color": "Diamond Green, Rose Red"
+      },
+      "fbPrice": 43396,
+      "fbName": "Vivo Y31 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y31 5G",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 19999,
+        "original_price": 18867,
+        "remark": "",
+        "color": "Diamond Green, Rose Red"
+      },
+      "fbPrice": 17924,
+      "fbName": "Vivo Y31 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y21 5G",
+        "ram_gb": 8,
+        "storage_gb": 128,
+        "selling_price": 22999,
+        "original_price": 21698,
+        "remark": "",
+        "color": "Midnight Blue, Champagne Gold"
+      },
+      "fbPrice": 21698.01,
+      "fbName": "Vivo Y21 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y21 5G",
+        "ram_gb": 4,
+        "storage_gb": 128,
+        "selling_price": 18999,
+        "original_price": 17924,
+        "remark": "",
+        "color": "Midnight Blue, Champagne Gold"
+      },
+      "fbPrice": 17924,
+      "fbName": "Vivo Y21 5G"
+    },
+    {
+      "item": {
+        "product_name": "Y19s 5G",
+        "ram_gb": 6,
+        "storage_gb": 128,
+        "selling_price": 15499,
+        "original_price": 14622,
+        "remark": "",
+        "color": "Titanium Silver, Majestic Green"
+      },
+      "fbPrice": 12264,
+      "fbName": "Vivo Y19S 5G"
+    }
+  ],
+  "notFound": [
+    {
+      "product_name": "X115NA (TAB A9 4/64) LTE",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 15999,
+      "original_price": 15999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X216BA (TAB A9 Plus 4/64) LTE",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 22999,
+      "original_price": 22999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X133NA (TAB A11 4/64) WIFI",
+      "ram_gb": 4,
+      "storage_gb": 64,
+      "selling_price": 15999,
+      "original_price": 15999,
+      "remark": "HDFC 2000",
+      "color": ""
+    },
+    {
+      "product_name": "X230NA (TAB A11 PLUS 6/128) WIFI",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 27999,
+      "original_price": 27999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X516BA (TAB S9-FE 6/128) LTE",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 44999,
+      "original_price": 44999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X400NA (TAB S10 LITE 6/128) WIFI",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 37999,
+      "original_price": 37999,
+      "remark": "HDFC 3000",
+      "color": ""
+    },
+    {
+      "product_name": "X820NA TAB S10+ (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 105999,
+      "original_price": 105999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X920NA TAB S10 Ultra (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 108999,
+      "original_price": 108999,
+      "remark": "HDFC 7000",
+      "color": ""
+    },
+    {
+      "product_name": "X920NE TAB S10 Ultra (12/512) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 119999,
+      "original_price": 119999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X926BE TAB S10 Ultra (12/512) LTE",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 133999,
+      "original_price": 133999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X710NA TAB S9 (8/128) WIFI",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 72999,
+      "original_price": 72999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X716BA TAB S9 (8/128) 5G LTE",
+      "ram_gb": 8,
+      "storage_gb": 128,
+      "selling_price": 85999,
+      "original_price": 85999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X810NA TAB S9+ (12/256) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 90999,
+      "original_price": 90999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X816BA TAB S9+ (12/256) 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 104999,
+      "original_price": 104999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X910NE TAB S9 Ultra (12/512) WIFI",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 119999,
+      "original_price": 119999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X916BA TAB S9 Ultra (12/256) 5G",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 122999,
+      "original_price": 122999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "X916BE TAB S9 Ultra (12/512) 5G",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 133999,
+      "original_price": 133999,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15 PRO MINI",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 59999,
+      "original_price": 56871,
+      "remark": "Proc:MTK D8450 | Bat:6200 mah (80W)",
+      "color": "COCOA BROWN, GLACIER WHITE"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15 PRO MINI",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 64999,
+      "original_price": 61610,
+      "remark": "Proc:MTK D8450 | Bat:6200 mah (80W)",
+      "color": "COCOA BROWN, GLACIER WHITE"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15 PRO",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "selling_price": 67999,
+      "original_price": 64454,
+      "remark": "Proc:MTK D8450 | Bat:6500 mah (80W)/WIRELESS (50W)",
+      "color": "COCOA BROWN, SUNSET GOLD"
+    },
+    {
+      "product_name": "RENO SERIES - RENO 15 PRO",
+      "ram_gb": 12,
+      "storage_gb": 512,
+      "selling_price": 72999,
+      "original_price": 69193,
+      "remark": "Proc:MTK D8450 | Bat:6500 mah (80W)/WIRELESS (50W)",
+      "color": "COCOA BROWN, SUNSET GOLD"
+    },
+    {
+      "product_name": "Spark 50 5G (4+128) (KN8)",
+      "ram_gb": 4,
+      "storage_gb": 128,
+      "selling_price": 18999,
+      "original_price": 18094,
+      "remark": "",
+      "color": ""
+    },
+    {
+      "product_name": "Spark 50 5G (6+128) (KN8)",
+      "ram_gb": 6,
+      "storage_gb": 128,
+      "selling_price": 21499,
+      "original_price": 20475,
+      "remark": "",
+      "color": ""
+    }
+  ]
+}

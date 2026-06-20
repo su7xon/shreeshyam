@@ -1,80 +1,42 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from './firebase';
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  signOut,
-  User 
-} from 'firebase/auth';
 
 interface AdminAuthContextType {
   isAuthenticated: boolean;
-  user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (password: string) => Promise<boolean>;
   logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
-// The primary admin email that has write permissions in firestore.rules
-const ADMIN_EMAIL = 'admin@shreeshyammobiles.com';
-
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth) {
-      setLoading(false);
-      return;
+    // Check for cookie on mount
+    const hasAuth = document.cookie.includes('__admin_auth=1');
+    if (hasAuth) {
+      setIsAuthenticated(true);
     }
-
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    if (!auth) return false;
-
-    // Input sanitization
-    const cleanEmail = email.trim().toLowerCase();
-    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return false;
-    if (!password || password.length < 6) return false;
-
-    try {
-      const result = await signInWithEmailAndPassword(auth, cleanEmail, password);
-      if (result.user) {
-        // Set a marker cookie for middleware to detect
-        document.cookie = '__admin_auth=1; path=/; max-age=86400; samesite=lax; secure';
-      }
-      return result.user !== null;
-    } catch (error: any) {
-      // Don't use console.error for standard auth failures in dev mode
-      // as it triggers annoying Next.js overlays.
-      if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-        console.warn('Login failed: Invalid credentials');
-      } else {
-        console.error('Admin login error:', error);
-      }
-      return false;
+  const login = async (password: string): Promise<boolean> => {
+    if (password === 'shreeshyam') {
+      const isSecure = window.location.protocol === 'https:' ? '; secure' : '';
+      document.cookie = `__admin_auth=1; path=/; max-age=86400; samesite=lax${isSecure}`;
+      setIsAuthenticated(true);
+      return true;
     }
+    return false;
   };
 
   const logout = async () => {
-    if (!auth) return;
-    try {
-      await signOut(auth);
-      // Remove auth marker cookie
-      document.cookie = '__admin_auth=; path=/; max-age=0; samesite=lax; secure';
-    } catch (error) {
-      console.error('Admin logout error:', error);
-    }
+    const isSecure = window.location.protocol === 'https:' ? '; secure' : '';
+    document.cookie = `__admin_auth=; path=/; max-age=0; samesite=lax${isSecure}`;
+    setIsAuthenticated(false);
   };
 
   if (loading) {
@@ -89,12 +51,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AdminAuthContext.Provider value={{ 
-      isAuthenticated: !!user && (user.email === ADMIN_EMAIL || !!user.email?.endsWith('@shreeshyammobiles.com')), 
-      user, 
-      login, 
-      logout 
-    }}>
+    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );

@@ -3,13 +3,12 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/lib/admin-auth';
-import { Lock, Loader2, Store, Eye, EyeOff, AlertCircle, Mail } from 'lucide-react';
+import { Lock, Loader2, Store, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_SECONDS = 60;
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,20 +29,14 @@ export default function AdminLoginPage() {
       return;
     }
 
-    // Input validation
-    const trimmedEmail = email.trim().toLowerCase();
-    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-    if (!password || password.length < 6) {
-      setError('Password must be at least 6 characters.');
+    if (!password) {
+      setError('Please enter the password.');
       return;
     }
 
     setLoading(true);
 
-    const success = await login(trimmedEmail, password);
+    const success = await login(password);
     if (success) {
       if (typeof window !== 'undefined') {
         window.location.href = '/admin/dashboard';
@@ -59,7 +52,7 @@ export default function AdminLoginPage() {
         setAttempts(0);
         setError(`Account temporarily locked for ${LOCKOUT_SECONDS} seconds due to too many failed attempts.`);
       } else {
-        setError(`Invalid credentials. ${MAX_LOGIN_ATTEMPTS - newAttempts} attempts remaining.`);
+        setError(`Invalid password. ${MAX_LOGIN_ATTEMPTS - newAttempts} attempts remaining.`);
       }
       setLoading(false);
     }
@@ -93,23 +86,6 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Admin Email</label>
-              <div className="relative">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@shreeshyammobiles.com"
-                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
-                  style={{ paddingRight: '3rem' }}
-                  required
-                  autoFocus
-                  autoComplete="email"
-                />
-                <Mail className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
-              </div>
-            </div>
-            <div>
               <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Password</label>
               <div className="relative">
                 <input
@@ -117,9 +93,10 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Password"
-                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20"
+                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20 w-full px-4"
                   style={{ paddingRight: '3rem' }}
                   required
+                  autoFocus
                   autoComplete="current-password"
                 />
                 <button
@@ -148,7 +125,7 @@ export default function AdminLoginPage() {
 
           <div className="mt-8 pt-6 border-t border-white/5">
             <p className="text-[10px] text-gray-600 text-center font-medium tracking-wide">
-              AUTHORIZED ACCESS ONLY • SECURED BY FIREBASE
+              AUTHORIZED ACCESS ONLY • SECURED SYSTEM
             </p>
           </div>
         </div>
