@@ -92,8 +92,8 @@ function ProductsList() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-white">Manage Products</h2>
-          <p className="text-xs text-[#6b7280] mt-0.5">Control your storefront catalog</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Manage Products</h2>
+          <p className="text-xs text-gray-800 mt-0.5">Control your storefront catalog</p>
         </div>
         <div className="flex items-center gap-2">
           {selectedIds.length > 0 && (
@@ -114,7 +114,7 @@ function ProductsList() {
       {/* Filters */}
       <div className="admin-card flex flex-col sm:flex-row gap-3 p-3 sm:p-4">
         <div className="flex-1 relative flex items-center">
-          <Search className="absolute left-3.5 h-4 w-4 text-[#9ca3af] z-10" />
+          <Search className="absolute left-3.5 h-4 w-4 text-gray-900 z-10" />
           <input
             type="text"
             placeholder="Search by name or brand…"
@@ -146,7 +146,7 @@ function ProductsList() {
                     type="checkbox" 
                     checked={filtered.length > 0 && selectedIds.length === filtered.length}
                     onChange={toggleSelectAll}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white/5"
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white"
                   />
                 </th>
                 <th>Product</th>
@@ -165,30 +165,30 @@ function ProductsList() {
                       type="checkbox" 
                       checked={selectedIds.includes(product.id)}
                       onChange={() => toggleSelect(product.id)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white/5"
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white"
                     />
                   </td>
                   <td>
                     <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 rounded-lg bg-white/[0.04] overflow-hidden flex-shrink-0">
+                      <div className="h-12 w-12 rounded-lg bg-gray-50 overflow-hidden flex-shrink-0">
                         {product.image && (
                           <img src={product.image} alt={product.name} className="h-full w-full object-contain p-1" referrerPolicy="no-referrer" />
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-[#e5e7eb] truncate max-w-[200px]">{product.name}</p>
-                        <p className="text-[11px] text-[#6b7280]">{product.processor}</p>
+                        <p className="text-sm font-medium text-gray-900 truncate max-w-[200px]">{product.name}</p>
+                        <p className="text-[11px] text-gray-800">{product.processor}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="text-[#9ca3af]">{product.brand}</td>
+                  <td className="text-gray-900">{product.brand}</td>
                   <td>
-                    <p className="font-semibold text-[#e5e7eb]">₹{product.price?.toLocaleString('en-IN')}</p>
+                    <p className="font-semibold text-gray-900">₹{product.price?.toLocaleString('en-IN')}</p>
                     {product.originalPrice && (
-                      <p className="text-[11px] text-[#4b5563] line-through">₹{product.originalPrice?.toLocaleString('en-IN')}</p>
+                      <p className="text-[11px] text-gray-800 line-through">₹{product.originalPrice?.toLocaleString('en-IN')}</p>
                     )}
                   </td>
-                  <td className="text-[#9ca3af]">
+                  <td className="text-gray-900">
                     {product.ram || product.storage ? `${product.ram || 'N/A'} / ${product.storage || 'N/A'}` : 'N/A'}
                   </td>
                   <td>
@@ -206,8 +206,8 @@ function ProductsList() {
                       </Link>
                       {deleteConfirm === product.id ? (
                         <div className="flex items-center gap-1">
-                          <button onClick={() => handleDelete(product.id)} className="px-2.5 py-1 text-[11px] font-semibold bg-[#ef4444] text-white rounded-md">Confirm</button>
-                          <button onClick={() => setDeleteConfirm(null)} className="px-2.5 py-1 text-[11px] font-semibold bg-white/[0.06] text-[#9ca3af] rounded-md">Cancel</button>
+                          <button onClick={() => handleDelete(product.id)} className="px-2.5 py-1 text-[11px] font-semibold bg-[#ef4444] text-gray-900 rounded-md">Confirm</button>
+                          <button onClick={() => setDeleteConfirm(null)} className="px-2.5 py-1 text-[11px] font-semibold bg-gray-100 text-gray-900 rounded-md">Cancel</button>
                         </div>
                       ) : (
                         <button onClick={() => setDeleteConfirm(product.id)} className="admin-icon-btn p-2 hover:!text-[#ef4444] hover:!bg-[#ef4444]/10" title="Delete">
@@ -232,7 +232,7 @@ function ProductsList() {
                 type="checkbox" 
                 checked={selectedIds.includes(product.id)}
                 onChange={() => toggleSelect(product.id)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-black/40"
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white"
               />
             </div>
             {product.featured && (
@@ -240,7 +240,7 @@ function ProductsList() {
                 <div className="admin-badge admin-badge-green rounded-none rounded-bl-lg text-[9px] px-2 py-0.5">Featured</div>
               </div>
             )}
-            <div className="h-20 w-20 rounded-lg bg-white/[0.04] overflow-hidden flex-shrink-0 flex items-center justify-center p-1.5">
+            <div className="h-20 w-20 rounded-lg bg-gray-50 overflow-hidden flex-shrink-0 flex items-center justify-center p-1.5">
               <img
                 src={product.image}
                 alt={product.name}
@@ -249,13 +249,13 @@ function ProductsList() {
               />
             </div>
             <div className="flex-1 min-w-0 py-0.5">
-              <p className="text-[10px] font-semibold tracking-wider text-[#60a5fa] uppercase">{product.brand}</p>
-              <p className="text-sm font-medium text-[#e5e7eb] truncate mt-0.5">{product.name}</p>
+              <p className="text-[10px] font-semibold tracking-wider text-blue-600 uppercase">{product.brand}</p>
+              <p className="text-sm font-medium text-gray-900 truncate mt-0.5">{product.name}</p>
               {product.ram || product.storage ? (
-                <p className="text-[11px] text-[#6b7280] mt-0.5">{product.ram || 'N/A'} · {product.storage || 'N/A'}</p>
+                <p className="text-[11px] text-gray-800 mt-0.5">{product.ram || 'N/A'} · {product.storage || 'N/A'}</p>
               ) : null}
               <div className="flex items-center justify-between mt-2">
-                <p className="text-sm font-bold text-white">₹{product.price?.toLocaleString('en-IN')}</p>
+                <p className="text-sm font-bold text-gray-900">₹{product.price?.toLocaleString('en-IN')}</p>
                 <div className="flex gap-1">
                   <Link href={getViewLink(product)} target="_blank" className="admin-icon-btn p-1.5" title="View">
                     <Eye className="h-3.5 w-3.5" />
@@ -287,7 +287,7 @@ function ProductsList() {
       )}
 
       {/* Count */}
-      <p className="text-xs text-[#6b7280]">Showing {filtered.length} of {products.length} products</p>
+      <p className="text-xs text-gray-800">Showing {filtered.length} of {products.length} products</p>
     </div>
   );
 }

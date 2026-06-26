@@ -39,7 +39,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-900">Loading...</p>
         </div>
       </div>
     );
@@ -192,7 +192,7 @@ export default function CheckoutPage() {
       if (formData.paymentMethod === 'whatsapp') {
         const itemsList = orderItems.map(i => `• ${i.name} (x${i.quantity}) - ₹${i.price.toLocaleString('en-IN')}`).join('%0A');
         const whatsappMsg = `🛒 *New Order from श्री श्याम Mobiles*%0A%0AHi, I want to buy:%0A${itemsList}%0A%0A*Total: ₹${subtotal.toLocaleString('en-IN')}*%0A%0A📦 Ship to: ${shippingName}%0A📍 ${shippingAddress}, ${shippingCity} - ${shippingPostalCode}%0A📱 ${shippingPhone}%0A%0A${generatedOrderNumber}`;
-        const whatsappUrl = `https://wa.me/917756935635?text=${whatsappMsg}`;
+        const whatsappUrl = `https://wa.me/919309415594?text=${whatsappMsg}`;
         window.open(whatsappUrl, '_blank');
       } else if (formData.paymentMethod === 'upi') {
         handleUpiPayment();
@@ -226,11 +226,11 @@ export default function CheckoutPage() {
 
             {/* Title */}
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Order Confirmed</h2>
-            <p className="text-gray-500 text-sm mb-6">Thank you for your purchase.</p>
+            <p className="text-gray-800 text-sm mb-6">Thank you for your purchase.</p>
 
             {/* Order Number Card */}
             <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Order Number</p>
+              <p className="text-xs font-medium text-gray-800 uppercase tracking-wide mb-1">Order Number</p>
               <p className="font-mono font-bold text-gray-900 text-lg">{orderNumber}</p>
             </div>
 
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-        <p className="text-gray-500 mb-8">Please add some items to your cart before proceeding to checkout.</p>
+        <p className="text-gray-800 mb-8">Please add some items to your cart before proceeding to checkout.</p>
         <Link 
           href="/products" 
           className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-black hover:bg-gray-800 transition-all"

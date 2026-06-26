@@ -1,14 +1,14 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 :root {
-    /* ─── Brand ─── */
+    /* â”€â”€â”€ Brand â”€â”€â”€ */
     --font-body: "Poppins", sans-serif;
-    /* ─── Colors ─── */
+    /* â”€â”€â”€ Colors â”€â”€â”€ */
     --color-bg: #fafafa;
     --color-surface: #ffffff;
     --color-surface-soft: #f5f5f7;
     --color-text: #111111;
-    --color-text-muted: #6b7280;
+    --color-text-muted: #374151;
     --color-border: #e5e7eb;
     --color-primary: #111111;
     --color-primary-hover: #2a2a2a;
@@ -18,7 +18,7 @@
     --color-success: #10b981;
     --color-warning: #f59e0b;
     --color-error: #ef4444;
-    /* ─── Type Scale ─── */
+    /* â”€â”€â”€ Type Scale â”€â”€â”€ */
     --text-xs: 0.75rem;
     --text-sm: 0.875rem;
     --text-base: 1rem;
@@ -30,7 +30,7 @@
     --leading-tight: 1.25;
     --leading-snug: 1.375;
     --leading-normal: 1.6;
-    /* ─── Spacing ─── */
+    /* â”€â”€â”€ Spacing â”€â”€â”€ */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
     --space-3: 0.75rem;
@@ -40,13 +40,13 @@
     --space-10: 2.5rem;
     --space-12: 3rem;
     --space-16: 4rem;
-    /* ─── Radius ─── */
+    /* â”€â”€â”€ Radius â”€â”€â”€ */
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
     --radius-2xl: 1.25rem;
-    /* ─── Shadows ─── */
+    /* â”€â”€â”€ Shadows â”€â”€â”€ */
     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
     --shadow-card-hover: 0 10px 25px -8px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
     --shadow-dropdown: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
@@ -98,7 +98,7 @@ body {
 }
 
 
-/* ─── Marquee Animation ─── */
+/* â”€â”€â”€ Marquee Animation â”€â”€â”€ */
 
 @keyframes marquee {
     0% {
@@ -351,33 +351,34 @@ h6 {
 }
 
 
-/* ──────────────────────────────────────────────────────────
-   ADMIN PANEL — Premium Dark Design System
-   ────────────────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   ADMIN PANEL â€” Clean Light Design System
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .admin-shell {
-    background: #0a0d14;
-    color: #e5e7eb;
+    background: #f8f9fb;
+    color: #1a1a2e;
     font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
 }
 
 
-/* ─── Sidebar ─── */
+/* â”€â”€â”€ Sidebar â”€â”€â”€ */
 
 .admin-sidebar {
-    background: #0d1117;
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
     height: 100vh;
     top: 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
 }
 
 .admin-sidebar-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid #f3f4f6;
 }
 
 .admin-sidebar-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid #f3f4f6;
 }
 
 .admin-logo-icon {
@@ -396,20 +397,20 @@ h6 {
 }
 
 .admin-nav-active {
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
+    background: #eff6ff;
+    color: #2563eb;
     border-left: 3px solid #3b82f6;
     margin-left: -3px;
     font-weight: 600;
 }
 
 .admin-nav-active:hover {
-    background: rgba(59, 130, 246, 0.15);
+    background: #dbeafe;
 }
 
 .admin-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.08) transparent;
 }
 
 .admin-scrollbar::-webkit-scrollbar {
@@ -417,18 +418,18 @@ h6 {
 }
 
 .admin-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.08);
     border-radius: 4px;
 }
 
 
-/* ─── Top Bar ─── */
+/* â”€â”€â”€ Top Bar â”€â”€â”€ */
 
 .admin-topbar {
-    background: rgba(13, 17, 23, 0.9);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .admin-icon-btn {
@@ -436,37 +437,39 @@ h6 {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    color: #6b7280;
+    color: #374151;
     transition: all 0.2s;
 }
 
 .admin-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #e5e7eb;
+    background: #f3f4f6;
+    color: #111827;
 }
 
 .admin-user-badge {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
 }
 
 
-/* ─── Admin Cards ─── */
+/* â”€â”€â”€ Admin Cards â”€â”€â”€ */
 
 .admin-card {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
     transition: all 0.25s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .admin-card:hover {
-    border-color: rgba(59, 130, 246, 0.3);
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
 }
 
 .admin-card-header {
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -476,7 +479,7 @@ h6 {
 .admin-card-header h3 {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #f9fafb;
+    color: #111827;
     letter-spacing: -0.01em;
 }
 
@@ -485,16 +488,17 @@ h6 {
 }
 
 
-/* ─── Stat Cards ─── */
+/* â”€â”€â”€ Stat Cards â”€â”€â”€ */
 
 .admin-stat-card {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
     padding: 1.25rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .admin-stat-card::before {
@@ -506,13 +510,13 @@ h6 {
     height: 3px;
     border-radius: 16px 16px 0 0;
     background: linear-gradient(90deg, var(--stat-color, #3b82f6), transparent);
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 .admin-stat-card:hover {
-    border-color: rgba(59, 130, 246, 0.3);
+    border-color: #3b82f6;
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
 }
 
 .admin-stat-icon {
@@ -528,7 +532,7 @@ h6 {
 .admin-stat-value {
     font-size: 1.875rem;
     font-weight: 700;
-    color: #f9fafb;
+    color: #111827;
     letter-spacing: -0.02em;
     line-height: 1;
 }
@@ -536,12 +540,12 @@ h6 {
 .admin-stat-label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: #6b7280;
+    color: #374151;
     margin-top: 0.5rem;
 }
 
 
-/* ─── Admin Buttons ─── */
+/* â”€â”€â”€ Admin Buttons â”€â”€â”€ */
 
 .admin-btn-primary {
     display: inline-flex;
@@ -562,7 +566,7 @@ h6 {
 }
 
 .admin-btn-primary:hover {
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
     transform: translateY(-1px);
 }
 
@@ -572,9 +576,9 @@ h6 {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.625rem 1.25rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #d1d5db;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: #374151;
     font-size: 0.8125rem;
     font-weight: 500;
     border-radius: 10px;
@@ -584,9 +588,9 @@ h6 {
 }
 
 .admin-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #f9fafb;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #111827;
 }
 
 .admin-btn-danger {
@@ -595,9 +599,9 @@ h6 {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.625rem 1.25rem;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #f87171;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
     font-size: 0.8125rem;
     font-weight: 500;
     border-radius: 10px;
@@ -606,20 +610,20 @@ h6 {
 }
 
 .admin-btn-danger:hover {
-    background: rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.3);
+    background: #fee2e2;
+    border-color: #fca5a5;
 }
 
 
-/* ─── Admin Inputs ─── */
+/* â”€â”€â”€ Admin Inputs â”€â”€â”€ */
 
 .admin-input {
     width: 100%;
     padding: 0.625rem 0.875rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-    color: #f9fafb;
+    color: #111827;
     font-size: 0.8125rem;
     transition: all 0.2s;
     appearance: none;
@@ -653,22 +657,22 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 .admin-input::placeholder {
-    color: #6b7280;
+    color: #4b5563;
 }
 
 .admin-input:focus {
     outline: none;
     border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: #ffffff;
 }
 
 .admin-select {
     padding: 0.625rem 2.5rem 0.625rem 0.875rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-    color: #f9fafb;
+    color: #111827;
     font-size: 0.8125rem;
     appearance: none;
     cursor: pointer;
@@ -681,32 +685,33 @@ input::-webkit-contacts-auto-fill-button {
 .admin-select:focus {
     outline: none;
     border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .admin-select option {
-    background: #1f2937;
-    color: #f9fafb;
+    background: #ffffff;
+    color: #111827;
 }
 
 .admin-label {
     display: block;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #9ca3af;
+    color: #374151;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 
-/* ─── Admin Table ─── */
+/* â”€â”€â”€ Admin Table â”€â”€â”€ */
 
 .admin-table-wrap {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .admin-table {
@@ -714,15 +719,15 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 .admin-table thead {
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .admin-table th {
     padding: 0.875rem 1.25rem;
     font-size: 0.6875rem;
     font-weight: 600;
-    color: #6b7280;
+    color: #374151;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     text-align: left;
@@ -732,8 +737,8 @@ input::-webkit-contacts-auto-fill-button {
 .admin-table td {
     padding: 1rem 1.25rem;
     font-size: 0.8125rem;
-    color: #d1d5db;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
 }
 
 .admin-table tbody tr {
@@ -741,7 +746,7 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 .admin-table tbody tr:hover {
-    background: rgba(59, 130, 246, 0.04);
+    background: #f9fafb;
 }
 
 .admin-table tbody tr:last-child td {
@@ -749,7 +754,7 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 
-/* ─── Badges ─── */
+/* â”€â”€â”€ Badges â”€â”€â”€ */
 
 .admin-badge {
     display: inline-flex;
@@ -765,47 +770,47 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 .admin-badge-blue {
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
 }
 
 .admin-badge-blue:hover {
-    background: rgba(59, 130, 246, 0.2);
+    background: #dbeafe;
 }
 
 .admin-badge-green {
-    background: rgba(34, 197, 94, 0.12);
-    color: #4ade80;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
 }
 
 .admin-badge-amber {
-    background: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
 }
 
 .admin-badge-red {
-    background: rgba(239, 68, 68, 0.12);
-    color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
 }
 
 .admin-badge-purple {
-    background: rgba(139, 92, 246, 0.12);
-    color: #a78bfa;
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: #faf5ff;
+    color: #7c3aed;
+    border: 1px solid #ddd6fe;
 }
 
 .admin-badge-gray {
-    background: rgba(107, 114, 128, 0.12);
-    color: #9ca3af;
-    border: 1px solid rgba(107, 114, 128, 0.2);
+    background: #f9fafb;
+    color: #374151;
+    border: 1px solid #e5e7eb;
 }
 
 
-/* ─── Quick Action Links ─── */
+/* â”€â”€â”€ Quick Action Links â”€â”€â”€ */
 
 .admin-action-link {
     display: flex;
@@ -813,18 +818,20 @@ input::-webkit-contacts-auto-fill-button {
     gap: 1rem;
     padding: 1.25rem;
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     transition: all 0.2s;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .admin-action-link:hover {
-    background: rgba(59, 130, 246, 0.06);
-    border-color: rgba(59, 130, 246, 0.2);
+    background: #f9fafb;
+    border-color: #3b82f6;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
 }
 
 .admin-action-icon {
@@ -838,7 +845,7 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 
-/* ─── Admin Alert ─── */
+/* â”€â”€â”€ Admin Alert â”€â”€â”€ */
 
 .admin-alert {
     display: flex;
@@ -850,34 +857,35 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 .admin-alert-warn {
-    background: rgba(245, 158, 11, 0.08);
-    border: 1px solid rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
 }
 
 .admin-alert-success {
-    background: rgba(34, 197, 94, 0.08);
-    border: 1px solid rgba(34, 197, 94, 0.15);
-    color: #4ade80;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
 }
 
 
-/* ─── Form Panel ─── */
+/* â”€â”€â”€ Form Panel â”€â”€â”€ */
 
 .admin-form-panel {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
     padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 
-/* ─── Spinner ─── */
+/* â”€â”€â”€ Spinner â”€â”€â”€ */
 
 .admin-spinner {
     width: 32px;
     height: 32px;
-    border: 3px solid rgba(59, 130, 246, 0.1);
+    border: 3px solid #e5e7eb;
     border-top-color: #3b82f6;
     border-radius: 50%;
     animation: adminSpin 0.7s linear infinite;
@@ -890,7 +898,7 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 
-/* ─── Admin Empty State ─── */
+/* â”€â”€â”€ Admin Empty State â”€â”€â”€ */
 
 .admin-empty-state {
     display: flex;
@@ -905,7 +913,7 @@ input::-webkit-contacts-auto-fill-button {
     width: 64px;
     height: 64px;
     border-radius: 16px;
-    background: rgba(59, 130, 246, 0.08);
+    background: #eff6ff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -916,18 +924,18 @@ input::-webkit-contacts-auto-fill-button {
 .admin-empty-title {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: #d1d5db;
+    color: #374151;
     margin-bottom: 0.375rem;
 }
 
 .admin-empty-desc {
     font-size: 0.8125rem;
-    color: #6b7280;
+    color: #374151;
     max-width: 280px;
 }
 
 
-/* ─── Mobile Admin Optimizations ─── */
+/* â”€â”€â”€ Mobile Admin Optimizations â”€â”€â”€ */
 
 @media (max-width: 1024px) {
     .admin-sidebar {

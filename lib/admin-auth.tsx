@@ -11,17 +11,12 @@ interface AdminAuthContextType {
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check for cookie on mount
-    const hasAuth = document.cookie.includes('__admin_auth=1');
-    if (hasAuth) {
-      setIsAuthenticated(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof document !== 'undefined') {
+      return document.cookie.includes('__admin_auth=1');
     }
-    setLoading(false);
-  }, []);
+    return false;
+  });
 
   const login = async (password: string): Promise<boolean> => {
     if (password === 'shreeshyam') {
@@ -38,17 +33,6 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     document.cookie = `__admin_auth=; path=/; max-age=0; samesite=lax${isSecure}`;
     setIsAuthenticated(false);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-[#b78b57] border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-sm text-gray-500 font-medium animate-pulse">Verifying session…</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <AdminAuthContext.Provider value={{ isAuthenticated, login, logout }}>

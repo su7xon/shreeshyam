@@ -39,8 +39,8 @@ export default function AdminOffersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-white">Offers & Deals</h2>
-          <p className="text-xs text-[#6b7280] mt-0.5">Manage bank offers, EMI deals, and exchange offers</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Offers & Deals</h2>
+          <p className="text-xs text-gray-800 mt-0.5">Manage bank offers, EMI deals, and exchange offers</p>
         </div>
         <button onClick={() => { resetForm(); setShowForm(true); }} className="admin-btn-primary text-xs sm:text-sm">
           <Plus className="h-4 w-4" /> Add Offer
@@ -51,7 +51,7 @@ export default function AdminOffersPage() {
       {showForm && (
         <div className="admin-form-panel">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white">{editingId ? 'Edit Offer' : 'New Offer'}</h3>
+            <h3 className="text-sm font-semibold text-gray-900">{editingId ? 'Edit Offer' : 'New Offer'}</h3>
             <button onClick={resetForm} className="admin-icon-btn p-1.5"><X className="h-4 w-4" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -68,7 +68,7 @@ export default function AdminOffersPage() {
               <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Describe the offer…" rows={3} className="admin-input resize-none" />
             </div>
             <div>
-              <label className="flex items-center gap-2.5 cursor-pointer text-sm text-[#9ca3af]">
+              <label className="flex items-center gap-2.5 cursor-pointer text-sm text-gray-900">
                 <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6]" />
                 Active
               </label>
@@ -94,8 +94,8 @@ export default function AdminOffersPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <h4 className="text-sm font-semibold text-[#e5e7eb] truncate">{offer.title}</h4>
-                    <p className="text-xs text-[#6b7280] mt-1 line-clamp-2">{offer.description}</p>
+                    <h4 className="text-sm font-semibold text-gray-900 truncate">{offer.title}</h4>
+                    <p className="text-xs text-gray-800 mt-1 line-clamp-2">{offer.description}</p>
                   </div>
                   <div className="flex items-center gap-0.5 flex-shrink-0">
                     <button onClick={() => toggleActive(offer.id)} className={`admin-icon-btn p-1.5 ${offer.active ? '!text-[#4ade80]' : ''}`} title={offer.active ? 'Deactivate' : 'Activate'}>

@@ -318,7 +318,8 @@ const useAdminStore = create<AdminStore>()(
              }
              if (data.ram === 'nullGB') data.ram = '';
              if (data.storage === 'nullGB') data.storage = '';
-             return { id: doc.id, ...data };
+             data.id = doc.id;
+             return data;
            });
            set({ products, isLoading: false });
          });

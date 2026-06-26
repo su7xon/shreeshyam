@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { updateUserProfile } from '@/lib/firebase-auth';
-import { User, Mail, MapPin, Phone, Calendar, Loader2, Save, LogOut } from 'lucide-react';
+import { User, Mail, MapPin, Phone, Calendar, Loader2, Save, LogOut, ChevronRight, ShoppingBag, Search, Settings, Edit3, X, Check } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AccountPage() {
@@ -13,6 +13,7 @@ export default function AccountPage() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   
   // Form fields
   const [displayName, setDisplayName] = useState('');
@@ -45,7 +46,8 @@ export default function AccountPage() {
         address
       });
       setIsEditing(false);
-      // Wait a bit for the onAuthChange listener to refresh context or handle it via local state if needed
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
       alert('Failed to update profile. Please try again.');
@@ -61,8 +63,11 @@ export default function AccountPage() {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader2 className="h-8 w-8 animate-spin text-black" />
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f7f8]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-[#111]" />
+          <p className="text-sm text-gray-800">Loading your account...</p>
+        </div>
       </div>
     );
   }
@@ -71,166 +76,236 @@ export default function AccountPage() {
     ? new Date(profile.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : 'Recently';
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Account</h1>
-          <button
-            onClick={handleLogout}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 bg-red-50 rounded-xl hover:bg-red-100 transition-colors sm:w-auto w-full"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </button>
-        </div>
+  const initials = (profile?.displayName || user.email || 'U')
+    .split(' ')
+    .map((n: string) => n.charAt(0))
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 
-        <div className="bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden">
-          <div className="px-4 py-5 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">Profile Information</h3>
-              <p className="mt-1 text-sm text-gray-500">Personal details and contact info.</p>
+  return (
+    <div className="min-h-screen bg-[#f7f7f8] pb-24 md:pb-8">
+      
+      {/* Profile Hero Card */}
+      <div className="bg-white border-b border-[#e5e7eb]">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+            {/* Avatar */}
+            <div className="relative">
+              {user?.photoURL ? (
+                <img 
+                  src={user.photoURL} 
+                  alt={profile?.displayName || "User"} 
+                  className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl object-cover shadow-lg ring-4 ring-white" 
+                  referrerPolicy="no-referrer" 
+                />
+              ) : (
+                <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-[#111] to-[#333] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg ring-4 ring-white">
+                  {initials}
+                </div>
+              )}
+              <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-green-500 rounded-lg border-2 border-white flex items-center justify-center">
+                <Check className="h-3 w-3 text-white" strokeWidth={3} />
+              </div>
             </div>
-            {!isEditing ? (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-              >
-                Edit Profile
-              </button>
-            ) : (
-              <div className="flex gap-2 w-full sm:w-auto">
+
+            {/* Info */}
+            <div className="text-center sm:text-left flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#111] tracking-tight">
+                {profile?.displayName || 'Welcome!'}
+              </h1>
+              <p className="text-sm text-gray-800 mt-0.5">{user.email}</p>
+              <div className="flex items-center justify-center sm:justify-start gap-3 mt-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#f3f4f6] rounded-lg text-[11px] font-semibold text-gray-900">
+                  <Calendar className="h-3 w-3" />
+                  Member since {joinDate}
+                </span>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2 sm:flex-col">
+              {!isEditing ? (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-[#111] bg-[#f3f4f6] rounded-xl hover:bg-[#e5e7eb] transition-colors"
+                >
+                  <Edit3 className="h-4 w-4" />
+                  Edit
+                </button>
+              ) : (
                 <button
                   onClick={() => setIsEditing(false)}
-                  disabled={saving}
-                  className="flex-1 sm:flex-none px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-800 bg-[#f3f4f6] rounded-xl hover:bg-[#e5e7eb] transition-colors"
                 >
+                  <X className="h-4 w-4" />
                   Cancel
                 </button>
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 border border-transparent rounded-xl text-sm font-semibold text-white bg-black hover:bg-gray-800 transition-colors"
-                >
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                  Save
-                </button>
-              </div>
+              )}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-600 bg-red-50 rounded-xl hover:bg-red-100 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Success Toast */}
+      {saveSuccess && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-semibold animate-[slideDown_0.3s_ease-out]">
+          <Check className="h-4 w-4" />
+          Profile updated successfully!
+        </div>
+      )}
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-4">
+        
+        {/* Profile Details Card */}
+        <div className="bg-white rounded-2xl border border-[#e5e7eb] shadow-sm overflow-hidden">
+          <div className="px-5 py-4 border-b border-[#f3f4f6] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4 text-[#3b82f6]" />
+              <h3 className="text-sm font-bold text-[#111] uppercase tracking-wider">Profile Details</h3>
+            </div>
+            {isEditing && (
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="flex items-center gap-2 px-4 py-2 bg-[#111] text-white rounded-xl text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
+              >
+                {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
             )}
           </div>
-          
-          <div className="px-0 sm:p-0">
-            <dl className="divide-y divide-gray-100 sm:divide-y sm:divide-gray-200">
-              
-              {/* Name */}
-              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <User className="h-4 w-4 text-[var(--color-primary)]" /> Full name
-                </dt>
-                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none transition-all"
-                    />
-                  ) : (
-                    <span className="font-semibold text-gray-900">{profile?.displayName || 'Not set'}</span>
-                  )}
-                </dd>
-              </div>
 
-              {/* Email */}
-              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-[var(--color-primary)]" /> Email address
-                </dt>
-                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2 font-medium">
-                  {user.email} <span className="text-[10px] sm:text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md ml-2 font-normal">(Cannot be changed)</span>
-                </dd>
+          <div className="divide-y divide-[#f3f4f6]">
+            {/* Name */}
+            <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
+              <div className="sm:w-1/3 flex items-center gap-2 text-sm text-gray-800">
+                <User className="h-4 w-4 text-[#3b82f6]" />
+                <span className="font-medium">Full Name</span>
               </div>
-
-              {/* Phone */}
-              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-[var(--color-primary)]" /> Phone number
-                </dt>
-                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
-                  {isEditing ? (
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+91 9876543210"
-                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none transition-all"
-                    />
-                  ) : (
-                    <span className="font-medium">{profile?.phone || <span className="text-gray-400 italic">Not set</span>}</span>
-                  )}
-                </dd>
+              <div className="sm:w-2/3">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    className="w-full border border-[#e5e7eb] rounded-xl px-4 py-2.5 text-sm text-[#111] focus:ring-2 focus:ring-[#3b82f6]/20 focus:border-[#3b82f6] outline-none transition-all bg-[#f9fafb]"
+                    placeholder="Enter your full name"
+                  />
+                ) : (
+                  <span className="text-sm font-semibold text-[#111]">{profile?.displayName || <span className="text-gray-700 italic font-normal">Not set</span>}</span>
+                )}
               </div>
+            </div>
 
-              {/* Address */}
-              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-[var(--color-primary)]" /> Default Address
-                </dt>
-                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2">
-                  {isEditing ? (
-                    <textarea
-                      rows={3}
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      placeholder="Enter your full shipping address"
-                      className="block w-full max-w-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-black/20 focus:border-black sm:text-sm py-2.5 px-3 outline-none resize-none transition-all"
-                    />
-                  ) : (
-                    <span className="font-medium leading-relaxed">{profile?.address || <span className="text-gray-400 italic">Not set</span>}</span>
-                  )}
-                </dd>
+            {/* Email */}
+            <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
+              <div className="sm:w-1/3 flex items-center gap-2 text-sm text-gray-800">
+                <Mail className="h-4 w-4 text-[#3b82f6]" />
+                <span className="font-medium">Email</span>
               </div>
-
-              {/* Join Date */}
-              <div className="py-4 px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50/50">
-                <dt className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-[var(--color-primary)]" /> Member since
-                </dt>
-                <dd className="mt-1.5 sm:mt-0 text-sm text-gray-900 sm:col-span-2 font-medium">
-                  {joinDate}
-                </dd>
+              <div className="sm:w-2/3 flex items-center gap-2">
+                <span className="text-sm font-medium text-[#111]">{user.email}</span>
+                <span className="text-[10px] text-gray-700 bg-[#f3f4f6] px-2 py-0.5 rounded-md font-medium">Verified</span>
               </div>
+            </div>
 
-            </dl>
+            {/* Phone */}
+            <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
+              <div className="sm:w-1/3 flex items-center gap-2 text-sm text-gray-800">
+                <Phone className="h-4 w-4 text-[#3b82f6]" />
+                <span className="font-medium">Phone</span>
+              </div>
+              <div className="sm:w-2/3">
+                {isEditing ? (
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 9876543210"
+                    className="w-full border border-[#e5e7eb] rounded-xl px-4 py-2.5 text-sm text-[#111] focus:ring-2 focus:ring-[#3b82f6]/20 focus:border-[#3b82f6] outline-none transition-all bg-[#f9fafb]"
+                  />
+                ) : (
+                  <span className="text-sm font-medium text-[#111]">{profile?.phone || <span className="text-gray-700 italic font-normal">Not set</span>}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-0">
+              <div className="sm:w-1/3 flex items-center gap-2 text-sm text-gray-800 pt-2">
+                <MapPin className="h-4 w-4 text-[#3b82f6]" />
+                <span className="font-medium">Address</span>
+              </div>
+              <div className="sm:w-2/3">
+                {isEditing ? (
+                  <textarea
+                    rows={3}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter your full shipping address"
+                    className="w-full border border-[#e5e7eb] rounded-xl px-4 py-2.5 text-sm text-[#111] focus:ring-2 focus:ring-[#3b82f6]/20 focus:border-[#3b82f6] outline-none resize-none transition-all bg-[#f9fafb]"
+                  />
+                ) : (
+                  <span className="text-sm font-medium text-[#111] leading-relaxed">{profile?.address || <span className="text-gray-700 italic font-normal">Not set</span>}</span>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/cart" className="bg-white shadow rounded-lg p-6 flex items-center gap-4 hover:shadow-md transition-shadow group">
-            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Link href="/cart" className="group bg-white rounded-2xl border border-[#e5e7eb] p-5 flex items-center gap-4 hover:border-[#3b82f6]/30 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+              <ShoppingBag className="w-5 h-5" />
             </div>
-            <div>
-              <h3 className="text-lg font-medium text-gray-900">My Orders</h3>
-              <p className="text-sm text-gray-500">View and track your past orders.</p>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-[#111]">My Cart</h3>
+              <p className="text-xs text-gray-800 mt-0.5">View items in your cart</p>
             </div>
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-[#3b82f6] transition-colors" />
           </Link>
           
-          <Link href="/products" className="bg-white shadow rounded-lg p-6 flex items-center gap-4 hover:shadow-md transition-shadow group">
-            <div className="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+          <Link href="/products" className="group bg-white rounded-2xl border border-[#e5e7eb] p-5 flex items-center gap-4 hover:border-[#3b82f6]/30 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+              <Search className="w-5 h-5" />
             </div>
-            <div>
-              <h3 className="text-lg font-medium text-gray-900">Continue Shopping</h3>
-              <p className="text-sm text-gray-500">Browse the latest products and deals.</p>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-[#111]">Continue Shopping</h3>
+              <p className="text-xs text-gray-800 mt-0.5">Browse latest products</p>
             </div>
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-green-600 transition-colors" />
           </Link>
+
+          <Link href="/location" className="group bg-white rounded-2xl border border-[#e5e7eb] p-5 flex items-center gap-4 hover:border-[#3b82f6]/30 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-[#111]">Visit Store</h3>
+              <p className="text-xs text-gray-800 mt-0.5">Get directions to our shop</p>
+            </div>
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-red-600 transition-colors" />
+          </Link>
+
+          <a href="https://wa.me/919309415594" target="_blank" rel="noopener noreferrer" className="group bg-white rounded-2xl border border-[#e5e7eb] p-5 flex items-center gap-4 hover:border-[#25d366]/30 hover:shadow-md transition-all">
+            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+              <Phone className="w-5 h-5" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-[#111]">WhatsApp Support</h3>
+              <p className="text-xs text-gray-800 mt-0.5">Chat with us directly</p>
+            </div>
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-emerald-600 transition-colors" />
+          </a>
         </div>
 
       </div>

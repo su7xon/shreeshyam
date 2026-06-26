@@ -389,7 +389,7 @@ export default function ImportProductsPage() {
             <button
               onClick={handleClearAll}
               disabled={importing || admin.products.length === 0}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-500/10 text-red-600 border border-red-200 text-sm font-semibold rounded-xl hover:bg-red-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-500/10 text-red-600 border border-red-200 text-sm font-semibold rounded-xl hover:bg-red-500 hover:text-gray-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Trash2 className="h-4 w-4" />
               Clear All
@@ -397,7 +397,7 @@ export default function ImportProductsPage() {
             <button
               onClick={handleFixImages}
               disabled={admin.products.length === 0}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-500/10 text-blue-600 border border-blue-200 text-sm font-semibold rounded-xl hover:bg-blue-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-500/10 text-blue-600 border border-blue-200 text-sm font-semibold rounded-xl hover:bg-blue-500 hover:text-gray-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <RefreshCw className="h-4 w-4" />
               Fix Images
@@ -405,7 +405,7 @@ export default function ImportProductsPage() {
             <button
               onClick={handleFixDescriptions}
               disabled={admin.products.length === 0}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500/10 text-green-600 border border-green-200 text-sm font-semibold rounded-xl hover:bg-green-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500/10 text-green-600 border border-green-200 text-sm font-semibold rounded-xl hover:bg-green-500 hover:text-gray-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FileText className="h-4 w-4" />
               Add Descriptions
@@ -413,7 +413,7 @@ export default function ImportProductsPage() {
             <button
               onClick={handleImport}
               disabled={importing}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-gray-900 text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {importing ? (
                 <>
@@ -518,7 +518,7 @@ export default function ImportProductsPage() {
           <button
             onClick={handleBulkPriceUpdate}
             disabled={importing || !priceUpdateText.trim()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-gray-900 text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {importing ? (
               <>
@@ -599,7 +599,7 @@ export default function ImportProductsPage() {
             type="file"
             accept=".csv"
             onChange={handleCsvFileSelect}
-            className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-primary)] file:text-white hover:file:bg-opacity-90"
+            className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[var(--color-primary)] file:text-gray-900 hover:file:bg-opacity-90"
           />
           {csvData.length > 0 && (
             <div className="text-sm text-green-600">
@@ -609,7 +609,7 @@ export default function ImportProductsPage() {
           <button
             onClick={handleCsvPriceUpdate}
             disabled={importing || csvData.length === 0}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-gray-900 text-sm font-semibold rounded-xl hover:bg-[var(--color-primary-hover)] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {importing ? (
               <>

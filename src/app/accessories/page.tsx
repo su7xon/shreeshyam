@@ -43,7 +43,7 @@ export default function AccessoriesPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex text-sm text-gray-500 gap-2 items-center">
+          <nav className="flex text-sm text-gray-800 gap-2 items-center">
             <Link href="/" className="hover:text-black">Home</Link>
             <span>/</span>
             <span className="text-gray-900 font-medium">Accessories</span>
@@ -53,7 +53,7 @@ export default function AccessoriesPage() {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Accessories</h1>
-        <p className="text-gray-600 mb-6">Power adapters, earbuds, smartwatches, and more.</p>
+        <p className="text-gray-900 mb-6">Power adapters, earbuds, smartwatches, and more.</p>
 
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-8">
@@ -96,7 +96,7 @@ export default function AccessoriesPage() {
                   />
                 </div>
                 <div className="p-3">
-                  <p className="text-[10px] text-gray-400 uppercase font-medium">{accessory.brand}</p>
+                  <p className="text-[10px] text-gray-700 uppercase font-medium">{accessory.brand}</p>
                   <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2">{accessory.name}</h3>
                   <div className="flex items-center justify-between">
                     <p className="text-base font-bold text-gray-900">{formatPrice(accessory.price)}</p>
@@ -105,7 +105,7 @@ export default function AccessoriesPage() {
                       className={`p-2 rounded-lg transition-colors ${
                         addedId === accessory.id
                           ? 'bg-green-500 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-black hover:text-white'
+                          : 'bg-gray-100 text-gray-900 hover:bg-black hover:text-white'
                       }`}
                       aria-label="Add to cart"
                     >
@@ -118,7 +118,7 @@ export default function AccessoriesPage() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <p className="text-gray-500">No accessories found in this category.</p>
+            <p className="text-gray-800">No accessories found in this category.</p>
           </div>
         )}
       </div>

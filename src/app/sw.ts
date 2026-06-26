@@ -1,6 +1,6 @@
 import { defaultCache } from '@serwist/next/worker';
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
-import { Serwist } from 'serwist';
+import { Serwist, Route } from 'serwist';
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -32,10 +32,12 @@ const serwist = new Serwist({
 
 // Custom handler to bypass caching for .apk downloads entirely so they download at full network speed
 serwist.registerRoute(
-  ({ url }) => url.pathname.endsWith('.apk'),
-  async ({ request }) => {
-    return fetch(request);
-  }
+  new Route(
+    ({ url }: { url: URL }) => url.pathname.endsWith('.apk'),
+    async ({ request }: { request: Request }) => {
+      return fetch(request);
+    }
+  )
 );
 
 // Avoid intercepting Firebase Auth paths

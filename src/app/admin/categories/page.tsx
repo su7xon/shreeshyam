@@ -89,11 +89,11 @@ export default function AdminCategoriesPage() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
             <Grid className="h-6 w-6 text-[#3b82f6]" />
             Category Management
           </h2>
-          <p className="text-sm text-[#6b7280] mt-1">Manage product categories and their featured icons</p>
+          <p className="text-sm text-gray-800 mt-1">Manage product categories and their featured icons</p>
         </div>
         <button 
           onClick={() => { resetForm(); setShowForm(true); }} 
@@ -106,14 +106,14 @@ export default function AdminCategoriesPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Sidebar Info */}
         <div className="lg:col-span-3 space-y-4">
-          <div className="p-4 rounded-xl bg-[#1e293b] border border-white/5 space-y-3">
-             <h3 className="text-xs font-bold text-[#4b5563] uppercase tracking-widest">Stats</h3>
+          <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 space-y-3">
+             <h3 className="text-xs font-bold text-gray-800 uppercase tracking-widest">Stats</h3>
              <div className="flex justify-between items-center">
-               <span className="text-sm text-[#9ca3af]">Total Categories</span>
-               <span className="text-sm font-bold text-white">{categories.length}</span>
+               <span className="text-sm text-gray-900">Total Categories</span>
+               <span className="text-sm font-bold text-gray-900">{categories.length}</span>
              </div>
              <div className="flex justify-between items-center">
-               <span className="text-sm text-[#9ca3af]">Visible</span>
+               <span className="text-sm text-gray-900">Visible</span>
                <span className="text-sm font-bold text-green-400">{categories.filter(c => c.active).length}</span>
              </div>
           </div>
@@ -123,9 +123,9 @@ export default function AdminCategoriesPage() {
               <Info className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase">Requirements</span>
             </div>
-            <p className="text-[11px] text-[#94a3b8] leading-relaxed">
+            <p className="text-[11px] text-gray-900 leading-relaxed">
               For best results, use PNG images with transparent backgrounds.<br/>
-              Recommended size: <span className="text-white font-medium">400x400px</span>
+              Recommended size: <span className="text-gray-900 font-medium">400x400px</span>
             </p>
           </div>
         </div>
@@ -134,24 +134,24 @@ export default function AdminCategoriesPage() {
         <div className="lg:col-span-9 space-y-4">
           {/* Category Form */}
           {showForm && (
-            <div className="admin-card border-[#3b82f6]/30 bg-[#1e293b]/50 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-300 mb-6 border-2 ring-4 ring-[#3b82f6]/5">
-              <div className="admin-card-header border-b border-white/5">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <div className="admin-card border-[#3b82f6]/30 bg-gray-50/50 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-300 mb-6 border-2 ring-4 ring-[#3b82f6]/5">
+              <div className="admin-card-header border-b border-gray-200">
+                <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   {editingId ? <Edit2 className="h-4 w-4 text-blue-400" /> : <Plus className="h-4 w-4 text-blue-400" />}
                   {editingId ? 'Modify Category' : 'Create New Category'}
                 </h3>
-                <button onClick={resetForm} className="admin-icon-btn p-1.5 hover:bg-white/10"><X className="h-4 w-4" /></button>
+                <button onClick={resetForm} className="admin-icon-btn p-1.5 hover:bg-gray-200"><X className="h-4 w-4" /></button>
               </div>
               <div className="p-5 space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="admin-label text-[#94a3b8]">Category Name</label>
+                    <label className="admin-label text-gray-900">Category Name</label>
                     <input 
                       type="text" 
                       value={form.name} 
                       onChange={(e) => setForm({ ...form, name: e.target.value })} 
                       placeholder="e.g., Smartwatches" 
-                      className="admin-input bg-[#0f1117] border-white/10" 
+                      className="admin-input bg-white border-gray-300" 
                     />
                   </div>
 
@@ -164,21 +164,21 @@ export default function AdminCategoriesPage() {
                           onChange={(e) => setForm({ ...form, active: e.target.checked })} 
                           className="sr-only peer"
                         />
-                        <div className="w-10 h-6 bg-white/10 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#3b82f6]"></div>
+                        <div className="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#3b82f6]"></div>
                       </div>
-                      <span className="text-sm font-medium text-[#9ca3af] group-hover:text-white transition-colors">Visible in Home Strip</span>
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-gray-900 transition-colors">Visible in Home Strip</span>
                     </label>
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="admin-label text-[#94a3b8]">Category Icon (Required)</label>
+                    <label className="admin-label text-gray-900">Category Icon (Required)</label>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <input 
                         type="text" 
                         value={form.image} 
                         onChange={(e) => setForm({ ...form, image: e.target.value })} 
                         placeholder="Direct URL or upload using button →" 
-                        className="admin-input flex-1 bg-[#0f1117] border-white/10" 
+                        className="admin-input flex-1 bg-white border-gray-300" 
                       />
                       <div className="relative shrink-0">
                         <input type="file" accept="image/*" disabled={isUploading} onChange={async (e) => {
@@ -189,7 +189,7 @@ export default function AdminCategoriesPage() {
                             finally { setIsUploading(false); if (e.target) e.target.value = ''; }
                           }
                         }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
-                        <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[120px] bg-white/5 border-white/10 hover:bg-white/10 text-white">
+                        <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[120px] bg-gray-100 border-gray-300 hover:bg-gray-200 text-gray-900">
                           {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-4 w-4" /> Upload Icon</>}
                         </button>
                       </div>
@@ -199,19 +199,19 @@ export default function AdminCategoriesPage() {
 
                 {/* Preview */}
                 {form.image && (
-                   <div className="flex items-center gap-4 p-4 rounded-xl bg-[#0f1117] border border-white/5">
-                      <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center p-2">
+                   <div className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-200">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center p-2">
                         <img src={form.image} alt="Preview" className="w-full h-full object-contain" />
                       </div>
                       <div>
-                        <p className="text-xs text-[#64748b] mb-1">Preview</p>
-                        <p className="text-sm font-bold text-white">{form.name || 'Category Name'}</p>
+                        <p className="text-xs text-gray-800 mb-1">Preview</p>
+                        <p className="text-sm font-bold text-gray-900">{form.name || 'Category Name'}</p>
                       </div>
                    </div>
                 )}
 
                 <div className="flex items-center justify-end gap-3 pt-2">
-                  <button onClick={resetForm} className="px-5 py-2.5 text-sm font-medium text-[#9ca3af] hover:text-white transition-colors">Discard</button>
+                  <button onClick={resetForm} className="px-5 py-2.5 text-sm font-medium text-gray-900 hover:text-gray-900 transition-colors">Discard</button>
                   <button 
                     onClick={handleSave} 
                     disabled={isUploading} 
@@ -237,13 +237,13 @@ export default function AdminCategoriesPage() {
                 }`}
               >
                 <div className="p-4 flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-[#0a0c10] flex items-center justify-center p-2 relative shrink-0 group-hover:bg-[#0c0f14] transition-colors">
+                  <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center p-2 relative shrink-0 group-hover:bg-gray-200 transition-colors">
                     <img src={category.image} alt={category.name} className="w-full h-full object-contain" />
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold text-white truncate">{category.name}</h4>
-                    <p className="text-[10px] text-[#64748b] mt-0.5">Order: {category.order + 1}</p>
+                    <h4 className="text-sm font-bold text-gray-900 truncate">{category.name}</h4>
+                    <p className="text-[10px] text-gray-800 mt-0.5">Order: {category.order + 1}</p>
                   </div>
 
                   <div className="flex items-center gap-1">
@@ -251,14 +251,14 @@ export default function AdminCategoriesPage() {
                       <button 
                         onClick={() => moveCategory(category.id, 'up')} 
                         disabled={index === 0}
-                        className="p-1 rounded text-[#9ca3af] hover:text-white hover:bg-white/10 disabled:opacity-20"
+                        className="p-1 rounded text-gray-900 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-20"
                       >
                         <ArrowUp className="h-3 w-3" />
                       </button>
                       <button 
                         onClick={() => moveCategory(category.id, 'down')} 
                         disabled={index === categories.length - 1}
-                        className="p-1 rounded text-[#9ca3af] hover:text-white hover:bg-white/10 disabled:opacity-20"
+                        className="p-1 rounded text-gray-900 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-20"
                       >
                         <ArrowDown className="h-3 w-3" />
                       </button>
@@ -266,13 +266,13 @@ export default function AdminCategoriesPage() {
 
                     <button 
                       onClick={() => toggleActive(category.id)} 
-                      className={`p-2 rounded-lg transition-all ${category.active ? 'text-[#4ade80] bg-[#4ade80]/10' : 'text-[#64748b] bg-white/5 hover:text-white'}`}
+                      className={`p-2 rounded-lg transition-all ${category.active ? 'text-[#4ade80] bg-[#4ade80]/10' : 'text-gray-800 bg-gray-100 hover:text-gray-900'}`}
                     >
                       {category.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                     </button>
                     <button 
                       onClick={() => handleEdit(category)} 
-                      className="p-2 rounded-lg text-white bg-white/5 hover:bg-white/10 transition-all"
+                      className="p-2 rounded-lg text-gray-900 bg-gray-100 hover:bg-gray-200 transition-all"
                     >
                       <Edit2 className="h-4 w-4" />
                     </button>
@@ -289,10 +289,10 @@ export default function AdminCategoriesPage() {
           </div>
 
           {categories.length === 0 && (
-            <div className="admin-card border-dashed border-2 border-white/5 bg-transparent py-16">
+            <div className="admin-card border-dashed border-2 border-gray-200 bg-transparent py-16">
               <div className="admin-empty-state text-center">
                 <div className="admin-empty-icon opacity-20 mb-4 flex justify-center"><ImageIcon className="h-10 w-10" /></div>
-                <p className="admin-empty-title text-[#9ca3af]">No categories defined yet</p>
+                <p className="admin-empty-title text-gray-900">No categories defined yet</p>
                 <button 
                   onClick={() => setShowForm(true)}
                   className="text-xs text-blue-400 mt-2 underline"

@@ -99,11 +99,11 @@ export default function AdminBannersPage() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
             <Layout className="h-6 w-6 text-[#3b82f6]" />
             Banner Management
           </h2>
-          <p className="text-sm text-[#6b7280] mt-1">Control visual promotions across the storefront</p>
+          <p className="text-sm text-gray-800 mt-1">Control visual promotions across the storefront</p>
         </div>
         <button 
           onClick={() => { resetForm(); setShowForm(true); }} 
@@ -116,15 +116,15 @@ export default function AdminBannersPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Sidebar Navigation - Tabs */}
         <div className="lg:col-span-3 space-y-2">
-          <p className="text-[10px] font-bold text-[#4b5563] uppercase tracking-widest px-3 mb-2">Placements</p>
+          <p className="text-[10px] font-bold text-gray-800 uppercase tracking-widest px-3 mb-2">Placements</p>
           {BANNER_PLACEMENTS.map((p) => (
             <button
               key={p}
               onClick={() => setActiveTab(p)}
               className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 activeTab === p 
-                ? 'bg-[#1e293b] text-[#3b82f6] shadow-sm border border-[#3b82f6]/20' 
-                : 'text-[#9ca3af] hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gray-50 text-[#3b82f6] shadow-sm border border-[#3b82f6]/20' 
+                : 'text-gray-900 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -134,7 +134,7 @@ export default function AdminBannersPage() {
                 {p === 'before-about' && <Layout className="h-4 w-4" />}
                 <span>{placementLabel[p]}</span>
               </div>
-              <span className="text-[10px] bg-white/5 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded-full">
                 {banners.filter(b => b.placement === p).length}
               </span>
             </button>
@@ -146,9 +146,9 @@ export default function AdminBannersPage() {
               <Info className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase">Pro Tip</span>
             </div>
-            <p className="text-[11px] text-[#94a3b8] leading-relaxed">
+            <p className="text-[11px] text-gray-900 leading-relaxed">
               Recommended for {placementLabel[activeTab]}:<br/>
-              <span className="text-white font-medium">{placementSpecs[activeTab]}</span>
+              <span className="text-gray-900 font-medium">{placementSpecs[activeTab]}</span>
             </p>
           </div>
         </div>
@@ -158,65 +158,65 @@ export default function AdminBannersPage() {
           {/* Active Tab Content Header */}
           <div className="flex items-center justify-between mb-4 px-1">
             <div>
-              <h3 className="text-base font-semibold text-white">{placementLabel[activeTab]}</h3>
-              <p className="text-[11px] text-[#6b7280]">Currently displaying {filteredBanners.length} banners</p>
+              <h3 className="text-base font-semibold text-gray-900">{placementLabel[activeTab]}</h3>
+              <p className="text-[11px] text-gray-800">Currently displaying {filteredBanners.length} banners</p>
             </div>
           </div>
 
           {/* Banner Form (Modal-like Inline) */}
           {showForm && (
-            <div className="admin-card border-[#3b82f6]/30 bg-[#1e293b]/50 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-300 mb-6 border-2 ring-4 ring-[#3b82f6]/5">
-              <div className="admin-card-header border-b border-white/5">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <div className="admin-card border-[#3b82f6]/30 bg-gray-50/50 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-300 mb-6 border-2 ring-4 ring-[#3b82f6]/5">
+              <div className="admin-card-header border-b border-gray-200">
+                <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   {editingId ? <Edit2 className="h-4 w-4 text-blue-400" /> : <Plus className="h-4 w-4 text-blue-400" />}
                   {editingId ? 'Modify Existing Banner' : 'Compose New Banner'}
                 </h3>
-                <button onClick={resetForm} className="admin-icon-btn p-1.5 hover:bg-white/10"><X className="h-4 w-4" /></button>
+                <button onClick={resetForm} className="admin-icon-btn p-1.5 hover:bg-gray-200"><X className="h-4 w-4" /></button>
               </div>
               <div className="p-5 space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="md:col-span-2">
-                    <label className="admin-label text-[#94a3b8]">Placement</label>
+                    <label className="admin-label text-gray-900">Placement</label>
                     <select 
                       value={form.placement} 
                       onChange={(e) => setForm({ ...form, placement: e.target.value as BannerPlacement })} 
-                      className="admin-select w-full bg-[#0f1117] border-white/10"
+                      className="admin-select w-full bg-white border-gray-300"
                     >
                       {BANNER_PLACEMENTS.map((p) => <option key={p} value={p}>{placementLabel[p]}</option>)}
                     </select>
                   </div>
                   
                   <div>
-                    <label className="admin-label text-[#94a3b8]">Headline</label>
+                    <label className="admin-label text-gray-900">Headline</label>
                     <input 
                       type="text" 
                       value={form.title} 
                       onChange={(e) => setForm({ ...form, title: e.target.value })} 
                       placeholder="e.g., iPhone 15 Pro Max" 
-                      className="admin-input bg-[#0f1117] border-white/10" 
+                      className="admin-input bg-white border-gray-300" 
                     />
                   </div>
                   
                   <div>
-                    <label className="admin-label text-[#94a3b8]">Sub-headline</label>
+                    <label className="admin-label text-gray-900">Sub-headline</label>
                     <input 
                       type="text" 
                       value={form.subtitle} 
                       onChange={(e) => setForm({ ...form, subtitle: e.target.value })} 
                       placeholder="e.g., Titanium Design. Action Button." 
-                      className="admin-input bg-[#0f1117] border-white/10" 
+                      className="admin-input bg-white border-gray-300" 
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="admin-label text-[#94a3b8]">Image Resource (Required)</label>
+                    <label className="admin-label text-gray-900">Image Resource (Required)</label>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <input 
                         type="text" 
                         value={form.image} 
                         onChange={(e) => setForm({ ...form, image: e.target.value })} 
                         placeholder="Direct URL or upload using button →" 
-                        className="admin-input flex-1 bg-[#0f1117] border-white/10" 
+                        className="admin-input flex-1 bg-white border-gray-300" 
                       />
                       <div className="relative shrink-0">
                         <input type="file" accept="image/*" disabled={isUploading} onChange={async (e) => {
@@ -227,7 +227,7 @@ export default function AdminBannersPage() {
                             finally { setIsUploading(false); if (e.target) e.target.value = ''; }
                           }
                         }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
-                        <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[120px] bg-white/5 border-white/10 hover:bg-white/10 text-white">
+                        <button type="button" disabled={isUploading} className="admin-btn-secondary h-full min-w-[120px] bg-gray-100 border-gray-300 hover:bg-gray-200 text-gray-900">
                           {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-4 w-4" /> Upload File</>}
                         </button>
                       </div>
@@ -235,13 +235,13 @@ export default function AdminBannersPage() {
                   </div>
 
                   <div>
-                    <label className="admin-label text-[#94a3b8]">Destination Link</label>
+                    <label className="admin-label text-gray-900">Destination Link</label>
                     <input 
                       type="text" 
                       value={form.link} 
                       onChange={(e) => setForm({ ...form, link: e.target.value })} 
                       placeholder="e.g., /products/iphone-15" 
-                      className="admin-input bg-[#0f1117] border-white/10" 
+                      className="admin-input bg-white border-gray-300" 
                     />
                   </div>
 
@@ -254,24 +254,24 @@ export default function AdminBannersPage() {
                           onChange={(e) => setForm({ ...form, active: e.target.checked })} 
                           className="sr-only peer"
                         />
-                        <div className="w-10 h-6 bg-white/10 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#3b82f6]"></div>
+                        <div className="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#3b82f6]"></div>
                       </div>
-                      <span className="text-sm font-medium text-[#9ca3af] group-hover:text-white transition-colors">Visible to customers</span>
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-gray-900 transition-colors">Visible to customers</span>
                     </label>
                   </div>
                 </div>
 
                 {/* Live Preview Card */}
                 {form.image && (
-                  <div className="relative group overflow-hidden rounded-2xl bg-[#0f1117] border border-white/5 h-48 sm:h-56 flex items-center justify-center p-8">
+                  <div className="relative group overflow-hidden rounded-2xl bg-white border border-gray-200 h-48 sm:h-56 flex items-center justify-center p-8">
                     <div className="absolute inset-0 opacity-20 pointer-events-none">
                        <img src={form.image} alt="bg" className="w-full h-full object-cover blur-2xl" />
                     </div>
                     <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6 w-full max-w-2xl">
                       <div className="flex-1 text-center sm:text-left min-w-0">
                         <span className="text-[10px] text-[#3b82f6] font-bold tracking-widest uppercase mb-1 block">Live Preview</span>
-                        <h4 className="text-lg sm:text-xl font-bold text-white leading-tight truncate">{form.title || 'Untitled Banner'}</h4>
-                        {form.subtitle && <p className="text-[#64748b] text-sm mt-1 line-clamp-1">{form.subtitle}</p>}
+                        <h4 className="text-lg sm:text-xl font-bold text-gray-900 leading-tight truncate">{form.title || 'Untitled Banner'}</h4>
+                        {form.subtitle && <p className="text-gray-800 text-sm mt-1 line-clamp-1">{form.subtitle}</p>}
                       </div>
                       <div className="h-32 sm:h-40 aspect-[4/3] relative flex-shrink-0">
                         <img src={form.image} alt="Preview" className="w-full h-full object-contain drop-shadow-2xl" />
@@ -281,7 +281,7 @@ export default function AdminBannersPage() {
                 )}
 
                 <div className="flex items-center justify-end gap-3 pt-2">
-                  <button onClick={resetForm} className="px-5 py-2.5 text-sm font-medium text-[#9ca3af] hover:text-white transition-colors">Discard</button>
+                  <button onClick={resetForm} className="px-5 py-2.5 text-sm font-medium text-gray-900 hover:text-gray-900 transition-colors">Discard</button>
                   <button 
                     onClick={handleSave} 
                     disabled={isUploading} 
@@ -308,7 +308,7 @@ export default function AdminBannersPage() {
               >
                 <div className="flex flex-col sm:flex-row">
                   {/* Visual Preview Section */}
-                  <div className="sm:w-64 h-40 sm:h-auto bg-[#0a0c10] flex items-center justify-center p-6 relative group-hover:bg-[#0c0f14] transition-colors overflow-hidden">
+                  <div className="sm:w-64 h-40 sm:h-auto bg-gray-100 flex items-center justify-center p-6 relative group-hover:bg-gray-200 transition-colors overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-blue-500/20 to-purple-500/20"></div>
                     {banner.image ? (
                       <img 
@@ -321,7 +321,7 @@ export default function AdminBannersPage() {
                       <ImageIcon className="h-8 w-8 text-[#1f2937]" />
                     )}
                     <div className="absolute bottom-2 left-2 flex items-center gap-1.5 z-10">
-                      <span className="text-[9px] font-bold bg-black/60 backdrop-blur-md text-white px-2 py-0.5 rounded border border-white/5">
+                      <span className="text-[9px] font-bold bg-black/60 backdrop-blur-md text-gray-900 px-2 py-0.5 rounded border border-gray-200">
                         {index + 1}
                       </span>
                     </div>
@@ -333,16 +333,16 @@ export default function AdminBannersPage() {
                       <div className="space-y-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           {!banner.active && (
-                            <span className="text-[9px] font-bold bg-white/5 text-[#9ca3af] px-1.5 py-0.5 rounded uppercase tracking-wider">Draft</span>
+                            <span className="text-[9px] font-bold bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded uppercase tracking-wider">Draft</span>
                           )}
                           <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">{placementLabel[banner.placement]}</span>
                         </div>
-                        <h4 className="text-base font-bold text-white truncate">{banner.title || 'Untitled Banner'}</h4>
-                        <p className="text-xs text-[#64748b] line-clamp-1">{banner.subtitle || 'No description provided'}</p>
+                        <h4 className="text-base font-bold text-gray-900 truncate">{banner.title || 'Untitled Banner'}</h4>
+                        <p className="text-xs text-gray-800 line-clamp-1">{banner.subtitle || 'No description provided'}</p>
                         {banner.link && (
-                          <div className="flex items-center gap-1.5 text-[10px] text-[#4b5563] mt-2">
+                          <div className="flex items-center gap-1.5 text-[10px] text-gray-800 mt-2">
                              <span className="w-1.5 h-1.5 rounded-full bg-blue-500/40"></span>
-                             Destination: <span className="text-[#9ca3af] italic">{banner.link}</span>
+                             Destination: <span className="text-gray-900 italic">{banner.link}</span>
                           </div>
                         )}
                       </div>
@@ -350,20 +350,20 @@ export default function AdminBannersPage() {
                       {/* Controls Area */}
                       <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3">
                         {/* Order Controls */}
-                        <div className="flex items-center gap-1 p-1 bg-white/5 rounded-lg border border-white/5">
+                        <div className="flex items-center gap-1 p-1 bg-gray-100 rounded-lg border border-gray-200">
                           <button 
                             onClick={() => moveBanner(banner.id, 'up')} 
                             disabled={index === 0} 
-                            className="p-1.5 rounded-md text-[#9ca3af] hover:text-white hover:bg-white/10 disabled:opacity-20 transition-all"
+                            className="p-1.5 rounded-md text-gray-900 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-20 transition-all"
                             title="Move Up"
                           >
                             <ArrowUp className="h-3.5 w-3.5" />
                           </button>
-                          <div className="w-[1px] h-4 bg-white/5"></div>
+                          <div className="w-[1px] h-4 bg-gray-100"></div>
                           <button 
                             onClick={() => moveBanner(banner.id, 'down')} 
                             disabled={index === filteredBanners.length - 1} 
-                            className="p-1.5 rounded-md text-[#9ca3af] hover:text-white hover:bg-white/10 disabled:opacity-20 transition-all"
+                            className="p-1.5 rounded-md text-gray-900 hover:text-gray-900 hover:bg-gray-200 disabled:opacity-20 transition-all"
                             title="Move Down"
                           >
                             <ArrowDown className="h-3.5 w-3.5" />
@@ -374,14 +374,14 @@ export default function AdminBannersPage() {
                         <div className="flex items-center gap-1">
                           <button 
                             onClick={() => toggleActive(banner.id)} 
-                            className={`p-2 rounded-lg transition-all ${banner.active ? 'text-[#4ade80] bg-[#4ade80]/10' : 'text-[#64748b] bg-white/5 hover:text-white'}`}
+                            className={`p-2 rounded-lg transition-all ${banner.active ? 'text-[#4ade80] bg-[#4ade80]/10' : 'text-gray-800 bg-gray-100 hover:text-gray-900'}`}
                             title={banner.active ? 'Hide from store' : 'Show on store'}
                           >
                             {banner.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                           </button>
                           <button 
                             onClick={() => handleEdit(banner)} 
-                            className="p-2 rounded-lg text-white bg-white/5 hover:bg-white/10 transition-all"
+                            className="p-2 rounded-lg text-gray-900 bg-gray-100 hover:bg-gray-200 transition-all"
                             title="Edit content"
                           >
                             <Edit2 className="h-4 w-4" />
@@ -402,11 +402,11 @@ export default function AdminBannersPage() {
             ))}
 
             {filteredBanners.length === 0 && (
-              <div className="admin-card border-dashed border-2 border-white/5 bg-transparent py-16">
+              <div className="admin-card border-dashed border-2 border-gray-200 bg-transparent py-16">
                 <div className="admin-empty-state">
                   <div className="admin-empty-icon opacity-20"><ImageIcon className="h-10 w-10" /></div>
-                  <p className="admin-empty-title text-[#9ca3af]">No active banners for this placement</p>
-                  <p className="text-xs text-[#4b5563] mt-2 max-w-[240px]">Use the "Add New Banner" button to start populating the {placementLabel[activeTab]} section.</p>
+                  <p className="admin-empty-title text-gray-900">No active banners for this placement</p>
+                  <p className="text-xs text-gray-800 mt-2 max-w-[240px]">Use the "Add New Banner" button to start populating the {placementLabel[activeTab]} section.</p>
                 </div>
               </div>
             )}

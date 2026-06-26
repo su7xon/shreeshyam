@@ -70,12 +70,12 @@ function OrderDetailModal({ order, onClose, onUpdateStatus, onDelete }: {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-[#181a22] border border-white/[0.08] rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto admin-scrollbar" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#181a22] border border-gray-300 rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto admin-scrollbar" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="sticky top-0 bg-[#181a22] border-b border-white/[0.06] px-5 py-4 flex items-center justify-between rounded-t-2xl z-10">
           <div>
-            <h2 className="text-sm font-semibold text-white">Order Details</h2>
-            <p className="text-xs text-[#6b7280] font-mono mt-0.5">{order.orderNumber}</p>
+            <h2 className="text-sm font-semibold text-gray-900">Order Details</h2>
+            <p className="text-xs text-gray-800 font-mono mt-0.5">{order.orderNumber}</p>
           </div>
           <div className="flex items-center gap-1.5">
             <button onClick={() => { if (confirm('Delete this order?')) { onDelete(order.id); onClose(); } }} className="admin-icon-btn p-2 hover:!text-[#ef4444]">
@@ -90,24 +90,24 @@ function OrderDetailModal({ order, onClose, onUpdateStatus, onDelete }: {
         {/* Content */}
         <div className="p-5 space-y-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#6b7280]">Status</span>
+            <span className="text-xs font-medium text-gray-800">Status</span>
             <OrderStatusBadge status={order.status} onChange={(s) => onUpdateStatus(order.id, s)} />
           </div>
 
           {/* Items */}
           <div>
-            <h3 className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider mb-2.5">Items ({order.items.length})</h3>
+            <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-2.5">Items ({order.items.length})</h3>
             <div className="space-y-2">
               {order.items.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-                  <div className="relative h-12 w-12 bg-white/[0.04] rounded-lg flex-shrink-0">
+                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                  <div className="relative h-12 w-12 bg-gray-100 rounded-lg flex-shrink-0">
                     <Image src={item.image} alt={item.name} fill className="object-contain p-1"  />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[#e5e7eb] truncate">{item.name}</p>
-                    <p className="text-[11px] text-[#6b7280]">Qty: {item.quantity}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
+                    <p className="text-[11px] text-gray-800">Qty: {item.quantity}</p>
                   </div>
-                  <p className="text-sm font-semibold text-[#e5e7eb]">{formatPrice(item.price * item.quantity)}</p>
+                  <p className="text-sm font-semibold text-gray-900">{formatPrice(item.price * item.quantity)}</p>
                 </div>
               ))}
             </div>
@@ -115,45 +115,45 @@ function OrderDetailModal({ order, onClose, onUpdateStatus, onDelete }: {
 
           {/* Customer & Shipping */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="p-3.5 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-              <h3 className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 className="text-[10px] font-semibold text-gray-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Mail className="h-3 w-3" /> Customer
               </h3>
               <div className="space-y-1.5">
-                <p className="text-sm text-[#e5e7eb] font-medium">{order.customer.name}</p>
-                <p className="text-xs text-[#6b7280] flex items-center gap-1.5"><Mail className="h-3 w-3" /> {order.customer.email}</p>
-                <p className="text-xs text-[#6b7280] flex items-center gap-1.5"><Phone className="h-3 w-3" /> {order.customer.phone}</p>
+                <p className="text-sm text-gray-900 font-medium">{order.customer.name}</p>
+                <p className="text-xs text-gray-800 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {order.customer.email}</p>
+                <p className="text-xs text-gray-800 flex items-center gap-1.5"><Phone className="h-3 w-3" /> {order.customer.phone}</p>
               </div>
             </div>
-            <div className="p-3.5 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-              <h3 className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 className="text-[10px] font-semibold text-gray-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <MapPin className="h-3 w-3" /> Shipping
               </h3>
               <div className="space-y-1">
-                <p className="text-sm text-[#e5e7eb]">{order.shippingAddress.firstName} {order.shippingAddress.lastName}</p>
-                <p className="text-xs text-[#6b7280]">{order.shippingAddress.address}</p>
-                <p className="text-xs text-[#6b7280]">{order.shippingAddress.city} - {order.shippingAddress.postalCode}</p>
+                <p className="text-sm text-gray-900">{order.shippingAddress.firstName} {order.shippingAddress.lastName}</p>
+                <p className="text-xs text-gray-800">{order.shippingAddress.address}</p>
+                <p className="text-xs text-gray-800">{order.shippingAddress.city} - {order.shippingAddress.postalCode}</p>
               </div>
             </div>
           </div>
 
           {/* Payment */}
-          <div className="p-3.5 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-            <h3 className="text-[10px] font-semibold text-[#6b7280] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+          <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-200">
+            <h3 className="text-[10px] font-semibold text-gray-800 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
               <CreditCard className="h-3 w-3" /> Payment & Summary
             </h3>
             <div className="space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-[#6b7280]">Method</span><span className="text-[#e5e7eb] font-medium">{paymentLabels[order.paymentMethod]}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-[#6b7280]">Subtotal</span><span className="text-[#e5e7eb]">{formatPrice(order.subtotal)}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-[#6b7280]">Shipping</span><span className="text-[#4ade80]">{order.shipping === 0 ? 'Free' : formatPrice(order.shipping)}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-800">Method</span><span className="text-gray-900 font-medium">{paymentLabels[order.paymentMethod]}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-800">Subtotal</span><span className="text-gray-900">{formatPrice(order.subtotal)}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-800">Shipping</span><span className="text-[#4ade80]">{order.shipping === 0 ? 'Free' : formatPrice(order.shipping)}</span></div>
               <div className="border-t border-white/[0.06] pt-2 flex justify-between">
-                <span className="text-sm font-semibold text-[#9ca3af]">Total</span>
-                <span className="text-lg font-bold text-white">{formatPrice(order.total)}</span>
+                <span className="text-sm font-semibold text-gray-900">Total</span>
+                <span className="text-lg font-bold text-gray-900">{formatPrice(order.total)}</span>
               </div>
             </div>
           </div>
 
-          <div className="text-[11px] text-[#4b5563] space-y-0.5">
+          <div className="text-[11px] text-gray-800 space-y-0.5">
             <p>Created: {formatDate(order.createdAt)}</p>
             <p>Updated: {formatDate(order.updatedAt)}</p>
           </div>
@@ -202,7 +202,7 @@ export default function AdminOrdersPage() {
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h1 className="text-lg sm:text-xl font-semibold text-white">Orders</h1>
+        <h1 className="text-lg sm:text-xl font-semibold text-gray-900">Orders</h1>
         <button onClick={handleExportCSV} className="admin-btn-primary text-xs sm:text-sm">
           <Download className="h-4 w-4" /> Download CSV
         </button>
@@ -231,7 +231,7 @@ export default function AdminOrdersPage() {
       <div className="admin-card p-3 sm:p-4">
         <div className="flex flex-col lg:flex-row gap-3">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4b5563]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-800" />
             <input type="text" placeholder="Search orders…" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="admin-input pl-9" />
           </div>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as OrderStatus | 'all')} className="admin-select w-full lg:w-auto min-w-[150px]">
@@ -256,11 +256,11 @@ export default function AdminOrdersPage() {
         columns={[
           {
             key: 'orderNumber', header: 'Invoice', sortable: true,
-            render: (order: Order) => <span className="text-sm font-semibold text-[#e5e7eb] font-mono">{order.orderNumber}</span>,
+            render: (order: Order) => <span className="text-sm font-semibold text-gray-900 font-mono">{order.orderNumber}</span>,
           },
           {
             key: 'createdAt', header: 'Date', sortable: true,
-            render: (order: Order) => <span className="text-sm text-[#9ca3af]">{formatDate(order.createdAt)}</span>,
+            render: (order: Order) => <span className="text-sm text-gray-900">{formatDate(order.createdAt)}</span>,
           },
           {
             key: 'status', header: 'Status', sortable: true,
@@ -270,14 +270,14 @@ export default function AdminOrdersPage() {
             key: 'customer', header: 'Customer', sortable: true,
             render: (order: Order) => (
               <div>
-                <p className="text-sm font-medium text-[#e5e7eb]">{order.customer.name}</p>
-                <p className="text-[11px] text-[#6b7280]">{order.customer.email}</p>
+                <p className="text-sm font-medium text-gray-900">{order.customer.name}</p>
+                <p className="text-[11px] text-gray-800">{order.customer.email}</p>
               </div>
             ),
           },
           {
             key: 'total', header: 'Total', sortable: true,
-            render: (order: Order) => <span className="text-sm font-semibold text-[#e5e7eb]">{formatPrice(order.total)}</span>,
+            render: (order: Order) => <span className="text-sm font-semibold text-gray-900">{formatPrice(order.total)}</span>,
           },
           {
             key: 'actions', header: '',

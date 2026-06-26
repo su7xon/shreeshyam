@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { useCartStore } from '@/lib/store';
 import { useState, useEffect } from 'react';
@@ -32,6 +32,7 @@ export default function ProductCard({ product, variant = 'default', priority = f
   const [hasError, setHasError] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   // Sync state when product or product.image changes
   useEffect(() => {
@@ -41,14 +42,6 @@ export default function ProductCard({ product, variant = 'default', priority = f
 
   const imgSrc = hasError ? fallbackImg : optimizedSrc;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -57,6 +50,8 @@ export default function ProductCard({ product, variant = 'default', priority = f
     e.preventDefault();
     e.stopPropagation();
     addItem(product);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 1200);
   };
 
   return (
@@ -68,20 +63,14 @@ export default function ProductCard({ product, variant = 'default', priority = f
     >
       <div className="relative bg-white rounded-2xl overflow-hidden transition-all duration-400 h-full flex flex-col border border-[#f3f4f6] hover:border-[#e5e7eb] hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-1">
         
-        {/* Top Actions - Glass effect */}
-        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
-          <button 
-            onClick={handleAddToCart}
-            className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm border border-white/50 flex items-center justify-center text-[#6b7280] hover:text-[#111111] hover:scale-110 shadow-lg shadow-black/5 transition-all duration-200 group-hover:opacity-100 opacity-100 sm:opacity-0"
-          >
-            <ShoppingBag className="h-4 w-4" />
-          </button>
-        </div>
-        <div className="absolute top-3 right-3 z-10">
-          <button className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm border border-white/50 flex items-center justify-center text-[#9ca3af] hover:text-[#ef4444] hover:scale-110 shadow-lg shadow-black/5 transition-all duration-200 group-hover:opacity-100 opacity-100 sm:opacity-0">
-            <Heart className="h-4 w-4" />
-          </button>
-        </div>
+        {/* Discount badge */}
+        {discount > 0 && (
+          <div className="absolute top-2.5 left-2.5 z-10">
+            <span className="inline-flex items-center px-2 py-0.5 bg-[#f59e0b] text-[#111111] text-[9px] sm:text-[10px] font-bold rounded-lg shadow-sm">
+              {discount}% OFF
+            </span>
+          </div>
+        )}
 
         {/* Image Section - With subtle gradient */}
         <div className="relative aspect-[1/1] p-2 flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-[#fafafa]">
@@ -111,35 +100,42 @@ export default function ProductCard({ product, variant = 'default', priority = f
         </div>
 
         {/* Content Section */}
-        <div className="p-1.5 flex flex-col flex-grow text-center bg-white border-t border-[#f3f4f6]">
-          {discount > 0 && (
-            <div className="mb-1 text-left">
-              <span className="inline-flex items-center px-1.5 py-0.5 bg-[#f59e0b] text-[#111111] text-[8px] font-semibold rounded-md shadow">
-                {discount}% OFF
-              </span>
-            </div>
-          )}
-
-          <div className="mb-1">
-            <span className="text-[7px] font-medium text-[#3b82f6] uppercase tracking-wider bg-[#eff6ff] px-1.5 py-0.5 rounded">
+        <div className="p-2.5 sm:p-3 flex flex-col flex-grow bg-white border-t border-[#f3f4f6]">
+          <div className="mb-1.5">
+            <span className="text-[9px] sm:text-[10px] font-semibold text-[#3b82f6] uppercase tracking-wider bg-[#eff6ff] px-1.5 py-0.5 rounded">
               {product.brand}
             </span>
           </div>
           
-          <h3 className="text-[10px] sm:text-[11px] font-semibold text-[#111111] mb-1.5 line-clamp-2 leading-snug min-h-[2rem]">
+          <h3 className="text-[12px] sm:text-[13px] font-semibold text-[#111111] mb-2 line-clamp-2 leading-snug min-h-[2.2rem]">
             {displayName} {displayRam && displayStorage ? `${displayRam}+${displayStorage}` : ''}
           </h3>
 
           <div className="mt-auto">
-            <div className="flex flex-col items-center gap-1">
-               {product.originalPrice && (
-                 <span className="text-[9px] text-[#9ca3af] line-through">
-                   ₹{product.originalPrice.toLocaleString('en-IN')}
-                 </span>
-               )}
-               <span className="text-[13px] font-bold text-[#111111]">
-                 ₹{product.price.toLocaleString('en-IN')}
-               </span>
+            <div className="flex items-end justify-between gap-2">
+              <div className="flex flex-col">
+                {product.originalPrice && (
+                  <span className="text-[10px] sm:text-[11px] text-[#9ca3af] line-through">
+                    ₹{product.originalPrice.toLocaleString('en-IN')}
+                  </span>
+                )}
+                <span className="text-[15px] sm:text-[17px] font-bold text-[#111111]">
+                  ₹{product.price.toLocaleString('en-IN')}
+                </span>
+              </div>
+              
+              {/* Always visible Add to Cart button */}
+              <button 
+                onClick={handleAddToCart}
+                className={`flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all duration-200 ${
+                  addedToCart 
+                    ? 'bg-green-500 text-white scale-95' 
+                    : 'bg-[#111111] text-white hover:bg-[#333] active:scale-95'
+                }`}
+              >
+                <ShoppingBag className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                {addedToCart ? '✓' : 'Add'}
+              </button>
             </div>
           </div>
         </div>

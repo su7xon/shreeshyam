@@ -80,7 +80,7 @@ export default function DataTable<T extends Record<string, any>>({
                     checked={isAllSelected}
                     ref={(el) => { if (el) el.indeterminate = isSomeSelected; }}
                     onChange={(e) => handleSelectAll(e.target.checked)}
-                    className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
+                    className="h-4 w-4 rounded bg-white border-gray-300 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
                   />
                 </th>
               )}
@@ -88,7 +88,7 @@ export default function DataTable<T extends Record<string, any>>({
                 <th
                   key={column.key}
                   onClick={() => column.sortable && handleSort(column.key)}
-                  className={`${column.sortable ? 'cursor-pointer hover:text-[#d1d5db]' : ''} ${column.className || ''}`}
+                  className={`${column.sortable ? 'cursor-pointer hover:text-gray-900' : ''} ${column.className || ''}`}
                 >
                   <div className="flex items-center gap-1.5">
                     {column.header}
@@ -107,7 +107,7 @@ export default function DataTable<T extends Record<string, any>>({
           <tbody>
             {sortedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + (onSelectionChange ? 1 : 0)} className="px-4 py-12 text-center text-[#6b7280]">
+                <td colSpan={columns.length + (onSelectionChange ? 1 : 0)} className="px-4 py-12 text-center text-gray-500">
                   {emptyMessage}
                 </td>
               </tr>
@@ -123,7 +123,7 @@ export default function DataTable<T extends Record<string, any>>({
                           type="checkbox"
                           checked={isSelected}
                           onChange={(e) => handleSelectRow(id, e.target.checked)}
-                          className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
+                          className="h-4 w-4 rounded bg-white border-gray-300 text-[#3b82f6] focus:ring-[#3b82f6] cursor-pointer"
                         />
                       </td>
                     )}

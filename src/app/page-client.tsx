@@ -95,7 +95,7 @@ const renderBrandLogo = (brandObj: any | string) => {
     case 'Oppo':
       return <span className="font-extrabold text-[#007656] tracking-tighter text-[18px] sm:text-[20px] select-none">OPPO</span>;
     default:
-      return <span className="font-bold text-gray-600 text-sm tracking-wide">{name}</span>;
+      return <span className="font-bold text-gray-900 text-sm tracking-wide">{name}</span>;
   }
 };
 
@@ -104,54 +104,7 @@ const resolveBannerHref = (link?: string) => {
   return link.trim() || '/products';
 };
 
-// Newsletter form with proper validation and submission
-function NewsletterForm() {
-  const [nlEmail, setNlEmail] = useState('');
-  const [nlSubmitted, setNlSubmitted] = useState(false);
-  const [nlError, setNlError] = useState('');
 
-  const handleNlSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setNlError('');
-    const trimmed = nlEmail.trim().toLowerCase();
-    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setNlError('Please enter a valid email.');
-      return;
-    }
-    // For now, just confirm subscription (integrate with a service like Mailchimp/ConvertKit later)
-    setNlSubmitted(true);
-    setNlEmail('');
-  };
-
-  if (nlSubmitted) {
-    return (
-      <div className="mt-6 bg-green-50 border border-green-200 text-green-800 rounded-xl p-4 max-w-xl mx-auto text-sm font-medium">
-        Thank you for subscribing! Check your email for your 10% discount code.
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleNlSubmit} className="mt-6 flex flex-col sm:flex-row items-stretch gap-2 sm:gap-0 max-w-xl mx-auto">
-      <input
-        type="email"
-        value={nlEmail}
-        onChange={(e) => setNlEmail(e.target.value)}
-        placeholder="Enter your email address"
-        aria-label="Email address for newsletter"
-        className="flex-1 h-11 px-4 border border-gray-300 rounded-md sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-black/20"
-        required
-      />
-      <button
-        type="submit"
-        className="h-11 px-5 bg-black text-white text-sm font-semibold rounded-md sm:rounded-l-none hover:bg-[#1f1f1f] transition-colors"
-      >
-        Join Now
-      </button>
-      {nlError && <p className="text-xs text-red-500 mt-1 w-full text-left">{nlError}</p>}
-    </form>
-  );
-}
 
 export default function Home() {
   const { data: fetchedProducts, isLoading: productsLoading } = useProducts();
@@ -482,7 +435,7 @@ export default function Home() {
 
       {/* WhatsApp Floating Button (Homepage Only) */}
       <a 
-        href="https://wa.me/917756935635" 
+        href="https://wa.me/919309415594" 
         target="_blank" 
         rel="noopener noreferrer"
         className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[90] bg-[#25D366] text-white p-2.5 sm:p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all cursor-pointer flex items-center justify-center"
@@ -682,7 +635,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-gray-900">{item.name}</p>
-                      <p className="text-[11px] text-gray-500">Verified Buyer</p>
+                      <p className="text-[11px] text-gray-800">Verified Buyer</p>
                     </div>
                   </div>
                   <p className="text-xs leading-relaxed text-gray-700">{item.text}</p>
@@ -693,6 +646,7 @@ export default function Home() {
           </Suspense>
           <div className="flex justify-end mt-4">
             <button 
+              suppressHydrationWarning
               onClick={() => setIsReviewModalOpen(true)}
               className="text-sm text-[var(--color-primary)] font-medium hover:underline flex items-center gap-1"
             >
@@ -709,7 +663,7 @@ export default function Home() {
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-gray-900">Add a Review</h3>
-              <button onClick={() => setIsReviewModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setIsReviewModalOpen(false)} className="text-gray-700 hover:text-gray-900">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -720,7 +674,7 @@ export default function Home() {
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <h4 className="text-lg font-bold text-gray-900">Thank You!</h4>
-                <p className="text-gray-500 text-sm mt-2">Your review has been submitted and is pending approval.</p>
+                <p className="text-gray-800 text-sm mt-2">Your review has been submitted and is pending approval.</p>
                 <button onClick={() => setIsReviewModalOpen(false)} className="mt-6 px-6 py-2 bg-black text-white rounded-lg text-sm font-medium w-full">Close</button>
               </div>
             ) : (
@@ -781,15 +735,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Newsletter CTA */}
-      <section className="py-9 sm:py-16 reveal-fade-up" style={{ animationDelay: '340ms' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-2">Offer zone</p>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-[var(--color-text)]">Get 10% Off Your Order</h2>
-          <p className="text-sm text-[var(--color-text-muted)] mt-3">Follow us on Instagram and get offers.</p>
-          <NewsletterForm />
-        </div>
-      </section>
+
     </div>
   );
 }

@@ -31,15 +31,15 @@ export default function AdminReviewsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-white">Customer Reviews</h2>
-          <p className="text-sm text-gray-400 mt-1">Manage and moderate testimonials.</p>
+          <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
+          <p className="text-sm text-gray-700 mt-1">Manage and moderate testimonials.</p>
         </div>
       </div>
 
       <div className="bg-[#1f2937] border border-[#374151] rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-300">
-            <thead className="bg-[#111827]/50 text-xs uppercase font-semibold text-gray-400 border-b border-[#374151]">
+            <thead className="bg-[#111827]/50 text-xs uppercase font-semibold text-gray-700 border-b border-[#374151]">
               <tr>
                 <th className="px-6 py-4">Customer</th>
                 <th className="px-6 py-4">Review</th>
@@ -51,7 +51,7 @@ export default function AdminReviewsPage() {
             <tbody className="divide-y divide-[#374151]">
               {reviews.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-gray-400 italic">
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-700 italic">
                     No reviews found.
                   </td>
                 </tr>
@@ -60,10 +60,10 @@ export default function AdminReviewsPage() {
                   <tr key={review.id} className="hover:bg-[#374151]/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#b78b57] flex items-center justify-center text-white font-bold text-xs">
+                        <div className="w-8 h-8 rounded-full bg-[#b78b57] flex items-center justify-center text-gray-900 font-bold text-xs">
                           {review.initials}
                         </div>
-                        <span className="font-medium text-white">{review.name}</span>
+                        <span className="font-medium text-gray-900">{review.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -83,7 +83,7 @@ export default function AdminReviewsPage() {
                         {review.status.charAt(0).toUpperCase() + review.status.slice(1)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+                    <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
                       {review.createdAt ? new Date(review.createdAt.seconds * 1000).toLocaleDateString() : 'Just now'}
                     </td>
                     <td className="px-6 py-4">
@@ -108,7 +108,7 @@ export default function AdminReviewsPage() {
                         )}
                         <button
                           onClick={() => handleDelete(review.id!)}
-                          className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors ml-2"
+                          className="p-1.5 text-gray-700 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors ml-2"
                           title="Delete"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>

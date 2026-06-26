@@ -40,8 +40,8 @@ export default function AdminDailyDealsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white">Daily Deals</h2>
-          <p className="text-sm text-[#6b7280] mt-1">Select products to feature in the "Deals of the Day" section</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Daily Deals</h2>
+          <p className="text-sm text-gray-800 mt-1">Select products to feature in the "Deals of the Day" section</p>
         </div>
         {!showForm && (
           <button onClick={() => setShowForm(true)} className="admin-btn-primary">
@@ -54,13 +54,13 @@ export default function AdminDailyDealsPage() {
       {showForm && (
         <div className="admin-form-panel max-w-2xl">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-semibold text-white font-serif">Select Product for Deal</h3>
+            <h3 className="text-base font-semibold text-gray-900 font-serif">Select Product for Deal</h3>
             <button onClick={resetForm} className="admin-icon-btn p-1.5"><X className="h-5 w-5" /></button>
           </div>
           
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-800" />
               <input 
                 type="text" 
                 value={searchQuery} 
@@ -74,14 +74,14 @@ export default function AdminDailyDealsPage() {
             <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {searchQuery.length > 0 ? (
                 filteredProducts.map(product => (
-                  <div key={product.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/5 hover:border-white/10 transition-all">
+                  <div key={product.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
                     <div className="flex items-center gap-3">
                       <div className="relative h-12 w-12 rounded-lg bg-white overflow-hidden">
                         <Image src={product.image} alt={product.name} fill className="object-contain p-1" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-white">{product.name}</p>
-                        <p className="text-xs text-gray-500">₹{product.price.toLocaleString()}</p>
+                        <p className="text-sm font-medium text-gray-900">{product.name}</p>
+                        <p className="text-xs text-gray-800">₹{product.price.toLocaleString()}</p>
                       </div>
                     </div>
                     <button 
@@ -93,10 +93,10 @@ export default function AdminDailyDealsPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-gray-500 text-center py-4">Type to search for products</p>
+                <p className="text-sm text-gray-800 text-center py-4">Type to search for products</p>
               )}
               {searchQuery.length > 0 && filteredProducts.length === 0 && (
-                <p className="text-sm text-gray-500 text-center py-4">No products found</p>
+                <p className="text-sm text-gray-800 text-center py-4">No products found</p>
               )}
             </div>
           </div>
@@ -114,14 +114,14 @@ export default function AdminDailyDealsPage() {
               {/* Card Header with Actions */}
               <div className="flex items-start justify-between p-4 pb-0">
                 <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider ${deal.active ? 'bg-green-500/20 text-green-500' : 'bg-gray-500/20 text-gray-400'}`}>
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider ${deal.active ? 'bg-green-500/20 text-green-500' : 'bg-gray-500/20 text-gray-700'}`}>
                     {deal.active ? 'Active' : 'Inactive'}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 z-10">
                   <button 
                     onClick={() => toggleActive(deal.id)}
-                    className={`p-2 rounded-lg transition-colors ${deal.active ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'bg-gray-500/10 text-gray-400 hover:bg-gray-500/20'}`}
+                    className={`p-2 rounded-lg transition-colors ${deal.active ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'bg-gray-500/10 text-gray-700 hover:bg-gray-500/20'}`}
                     title={deal.active ? 'Deactivate' : 'Activate'}
                   >
                     {deal.active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -143,17 +143,17 @@ export default function AdminDailyDealsPage() {
                 </div>
                 
                 <div className="space-y-1 w-full">
-                  <h4 className="text-sm font-bold text-white line-clamp-2 min-h-[40px]">{product.name}</h4>
-                  <p className="text-xs text-gray-500 truncate">{product.category}</p>
+                  <h4 className="text-sm font-bold text-gray-900 line-clamp-2 min-h-[40px]">{product.name}</h4>
+                  <p className="text-xs text-gray-800 truncate">{product.category}</p>
                   <div className="flex items-center justify-center gap-2 mt-3">
                     <span className="text-[15px] font-bold text-blue-500">₹{product.price.toLocaleString()}</span>
-                    <span className="text-[11px] text-gray-600 line-through">₹{(product.price * 1.2).toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-900 line-through">₹{(product.price * 1.2).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
 
               {/* Card Footer */}
-              <div className="w-full px-5 py-3 border-t border-white/5 bg-white/[0.02] flex items-center justify-center">
+              <div className="w-full px-5 py-3 border-t border-gray-200 bg-gray-50 flex items-center justify-center">
                 <div className="flex items-center gap-1.5 text-[11px] text-yellow-500/80 font-bold uppercase tracking-widest">
                   <Zap className="h-3.5 w-3.5 fill-current" />
                   Featured Deal
@@ -166,11 +166,11 @@ export default function AdminDailyDealsPage() {
 
       {dailyDeals.length === 0 && (
         <div className="admin-card py-16 text-center">
-          <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">
-            <Zap className="h-8 w-8 text-gray-600" />
+          <div className="w-16 h-16 bg-[#1a1a1a] rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-200">
+            <Zap className="h-8 w-8 text-gray-900" />
           </div>
-          <h3 className="text-lg font-semibold text-white">No active deals</h3>
-          <p className="text-sm text-gray-500 max-w-sm mx-auto mt-2">Select products to showcase them in the daily deals section on your homepage.</p>
+          <h3 className="text-lg font-semibold text-gray-900">No active deals</h3>
+          <p className="text-sm text-gray-800 max-w-sm mx-auto mt-2">Select products to showcase them in the daily deals section on your homepage.</p>
           <button 
             onClick={() => setShowForm(true)}
             className="mt-6 admin-btn-primary mx-auto"

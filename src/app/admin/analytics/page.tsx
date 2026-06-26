@@ -57,8 +57,8 @@ export default function AdminAnalyticsPage() {
     <div className="space-y-5 pb-8">
       {/* Header */}
       <div>
-        <h2 className="text-lg sm:text-xl font-semibold text-white">Analytics</h2>
-        <p className="text-xs text-[#6b7280] mt-0.5">Overview of your store performance</p>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Analytics</h2>
+        <p className="text-xs text-gray-800 mt-0.5">Overview of your store performance</p>
       </div>
 
       {/* Stats Grid */}
@@ -124,7 +124,7 @@ export default function AdminAnalyticsPage() {
               <RechartsTooltip 
                 contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', color: '#e5e7eb' }}
                 itemStyle={{ color: '#60a5fa' }}
-                formatter={(value: number) => [formatPrice(value), 'Revenue']}
+                formatter={(value: any) => [formatPrice(value as number), 'Revenue']}
               />
               <Area type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
             </AreaChart>
@@ -148,10 +148,10 @@ export default function AdminAnalyticsPage() {
               ) : (
                 topProducts.map(([id, data], index) => (
                   <div key={id} className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[#4b5563] w-5 text-center">#{index + 1}</span>
+                    <span className="text-xs font-bold text-gray-800 w-5 text-center">#{index + 1}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#e5e7eb] truncate">{data.name}</p>
-                      <p className="text-[11px] text-[#6b7280]">{data.quantity} sold</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{data.name}</p>
+                      <p className="text-[11px] text-gray-800">{data.quantity} sold</p>
                     </div>
                     <p className="text-sm font-semibold text-[#60a5fa]">{formatPrice(data.revenue)}</p>
                   </div>
@@ -180,12 +180,12 @@ export default function AdminAnalyticsPage() {
                       <Package className="h-4 w-4 text-[#60a5fa]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#e5e7eb] truncate font-mono">{order.orderNumber}</p>
-                      <p className="text-[11px] text-[#6b7280]">{order.customer.name}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate font-mono">{order.orderNumber}</p>
+                      <p className="text-[11px] text-gray-800">{order.customer.name}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-[#e5e7eb]">{formatPrice(order.total)}</p>
-                      <p className="text-[10px] text-[#6b7280] capitalize">{order.status}</p>
+                      <p className="text-sm font-semibold text-gray-900">{formatPrice(order.total)}</p>
+                      <p className="text-[10px] text-gray-800 capitalize">{order.status}</p>
                     </div>
                   </div>
                 ))

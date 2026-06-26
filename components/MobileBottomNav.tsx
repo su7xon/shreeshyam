@@ -4,16 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Store, ShoppingBag, User } from 'lucide-react';
 import clsx from 'clsx';
+import { useCartStore } from '@/lib/store';
+import { useState, useEffect } from 'react';
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
+  const { totalItems } = useCartStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (pathname?.startsWith('/admin')) return null;
+
+  const cartCount = mounted ? totalItems() : 0;
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Shop', href: '/products', icon: Store },
-    { name: 'Cart', href: '/cart', icon: ShoppingBag },
+    { name: 'Cart', href: '/cart', icon: ShoppingBag, badge: cartCount },
     { name: 'Account', href: '/account', icon: User },
   ];
 
@@ -40,7 +50,7 @@ export default function MobileBottomNav() {
             )}
             
             <div className={clsx(
-              'p-1.5 rounded-xl transition-all duration-200',
+              'p-1.5 rounded-xl transition-all duration-200 relative',
               isActive && 'bg-[#f3f4f6]'
             )}>
               <Icon 
@@ -50,6 +60,12 @@ export default function MobileBottomNav() {
                 )} 
                 strokeWidth={isActive ? 2.5 : 2} 
               />
+              {/* Cart badge */}
+              {item.badge !== undefined && item.badge > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-[#111111] text-white text-[9px] font-bold flex items-center justify-center">
+                  {item.badge > 99 ? '99+' : item.badge}
+                </span>
+              )}
             </div>
             <span className={clsx(
               "text-[10px] font-semibold tracking-wide",

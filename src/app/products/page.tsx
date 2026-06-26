@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import { products as defaultProducts, brands, ramOptions, storageOptions } from '@/lib/data';
-import { Filter, X, Search, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
+import { Filter, X, Search, ChevronDown, ChevronUp, SlidersHorizontal, ChevronRight } from 'lucide-react';
 import { usePaginatedProducts, useActiveBrands, useCategories } from '@/lib/hooks/useStoreData';
 import { ProductSkeleton, FilterSkeleton } from '@/components/SkeletonLoader';
 import { deduplicateProducts } from '@/lib/utils';
 import FilterAccordion from '@/components/ui/FilterAccordion';
+import ShopChatbot from '@/components/ShopChatbot';
+
 
 function ProductsContent() {
   const searchParams = useSearchParams();
@@ -151,12 +153,12 @@ function ProductsContent() {
       {/* Breadcrumbs */}
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex text-xs sm:text-sm text-gray-500 gap-2 items-center">
+          <nav className="flex text-xs sm:text-sm text-gray-800 gap-2 items-center">
             <Link href="/" className="hover:text-black">Home</Link>
             <span>/</span>
             <Link href="/products" className="hover:text-black">mobiles</Link>
             <span>/</span>
-            <span className="text-gray-400">all</span>
+            <span className="text-gray-700">all</span>
           </nav>
         </div>
       </div>
@@ -338,12 +340,6 @@ function ProductsContent() {
                       </span>
                     )}
                   </button>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#6b7280] font-medium">Showing</span>
-                    <span className="bg-[#111111] text-white text-[10px] px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider">
-                      {filteredProducts.length} Products
-                    </span>
-                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between w-full sm:w-auto gap-4 sm:gap-6">
@@ -376,6 +372,8 @@ function ProductsContent() {
               </div>
             </div>
 
+
+
             {/* Product Grid */}
             {filteredProducts.length > 0 ? (
             <>
@@ -400,8 +398,8 @@ function ProductsContent() {
                       </>
                     ) : (
                       <>
-                        Load More
-                        <ChevronDown className="w-4 h-4" />
+                        Next Page
+                        <ChevronRight className="w-4 h-4" />
                       </>
                     )}
                   </button>
@@ -411,10 +409,10 @@ function ProductsContent() {
           ) : (
             <div className="bg-white p-12 rounded-2xl border border-gray-200/80 text-center shadow-sm">
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                <Filter className="h-7 w-7 text-gray-400" />
+                <Filter className="h-7 w-7 text-gray-700" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">No products found</h3>
-              <p className="text-gray-500 mb-6">Try adjusting your filters or search query.</p>
+              <p className="text-gray-800 mb-6">Try adjusting your filters or search query.</p>
               <button
                 onClick={clearFilters}
                 className="bg-black text-white px-6 py-2.5 rounded-full hover:bg-gray-800 transition-colors font-medium text-sm"
@@ -432,23 +430,27 @@ function ProductsContent() {
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-8">
-        <div className="flex flex-col md:flex-row gap-3 sm:gap-6">
-          <div className="md:w-56 lg:w-64 flex-shrink-0 hidden md:block">
-            <FilterSkeleton />
-          </div>
-          <div className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <ProductSkeleton key={i} />
-              ))}
+    <>
+      <Suspense fallback={
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-8">
+          <div className="flex flex-col md:flex-row gap-3 sm:gap-6">
+            <div className="md:w-56 lg:w-64 flex-shrink-0 hidden md:block">
+              <FilterSkeleton />
+            </div>
+            <div className="flex-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <ProductSkeleton key={i} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    }>
-      <ProductsContent />
-    </Suspense>
+      }>
+        <ProductsContent />
+      </Suspense>
+      <ShopChatbot />
+    </>
   );
 }
+

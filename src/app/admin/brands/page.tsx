@@ -47,8 +47,8 @@ export default function AdminBrandsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-white">Brand Management</h2>
-          <p className="text-xs text-[#6b7280] mt-0.5">Manage your store brands</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Brand Management</h2>
+          <p className="text-xs text-gray-800 mt-0.5">Manage your store brands</p>
         </div>
         <button onClick={() => { resetForm(); setShowForm(true); }} className="admin-btn-primary text-xs sm:text-sm">
           <Plus className="h-4 w-4" /> Add Brand
@@ -59,7 +59,7 @@ export default function AdminBrandsPage() {
       {showForm && (
         <div className="admin-form-panel">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white">{editingId ? 'Edit Brand' : 'Add New Brand'}</h3>
+            <h3 className="text-sm font-semibold text-gray-900">{editingId ? 'Edit Brand' : 'Add New Brand'}</h3>
             <button onClick={resetForm} className="admin-icon-btn p-1.5"><X className="h-4 w-4" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -91,7 +91,7 @@ export default function AdminBrandsPage() {
               <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Short description…" rows={3} className="admin-input resize-none" />
             </div>
             <div>
-              <label className="flex items-center gap-2.5 cursor-pointer text-sm text-[#9ca3af]">
+              <label className="flex items-center gap-2.5 cursor-pointer text-sm text-gray-900">
                 <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="h-4 w-4 rounded bg-transparent border-white/20 text-[#3b82f6] focus:ring-[#3b82f6]" />
                 Active (show in brand list)
               </label>
@@ -100,19 +100,19 @@ export default function AdminBrandsPage() {
 
           {/* Preview */}
           {form.name && (
-            <div className="mt-4 p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-              <p className="text-[10px] text-[#6b7280] font-medium uppercase tracking-wider mb-2">Preview</p>
+            <div className="mt-4 p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <p className="text-[10px] text-gray-800 font-medium uppercase tracking-wider mb-2">Preview</p>
               <div className="flex items-center gap-3">
                 {form.logo ? (
-                  <img src={form.logo} alt={form.name} className="h-10 w-10 object-contain rounded-lg bg-white/[0.06] p-1" />
+                  <img src={form.logo} alt={form.name} className="h-10 w-10 object-contain rounded-lg bg-gray-200 p-1" />
                 ) : (
                   <div className="h-10 w-10 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center">
                     <span className="text-lg font-bold text-[#60a5fa]">{form.name[0]}</span>
                   </div>
                 )}
                 <div>
-                  <p className="text-sm font-medium text-[#e5e7eb]">{form.name}</p>
-                  {form.description && <p className="text-[11px] text-[#6b7280] mt-0.5">{form.description}</p>}
+                  <p className="text-sm font-medium text-gray-900">{form.name}</p>
+                  {form.description && <p className="text-[11px] text-gray-800 mt-0.5">{form.description}</p>}
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function AdminBrandsPage() {
 
       {/* Search */}
       <div className="admin-card p-3 relative">
-        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4b5563]" />
+        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-800" />
         <input type="text" placeholder="Search brands…" value={search} onChange={(e) => setSearch(e.target.value)} className="admin-input pl-9" />
       </div>
 
@@ -143,7 +143,7 @@ export default function AdminBrandsPage() {
               <div className="p-4">
                 <div className="flex items-start gap-3">
                   {brand.logo ? (
-                    <img src={brand.logo} alt={brand.name} className="h-11 w-11 object-contain rounded-lg bg-white/[0.06] p-1 flex-shrink-0" />
+                    <img src={brand.logo} alt={brand.name} className="h-11 w-11 object-contain rounded-lg bg-gray-200 p-1 flex-shrink-0" />
                   ) : (
                     <div className="h-11 w-11 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center flex-shrink-0">
                       <span className="text-lg font-bold text-[#60a5fa]">{brand.name[0]}</span>
@@ -151,20 +151,20 @@ export default function AdminBrandsPage() {
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-[#e5e7eb] truncate">{brand.name}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{brand.name}</p>
                       <span className={`admin-badge text-[9px] ${brand.active ? 'admin-badge-green' : 'admin-badge-gray'}`}>
                         {brand.active ? 'Active' : 'Inactive'}
                       </span>
                     </div>
-                    {brand.description && <p className="text-[11px] text-[#6b7280] mt-0.5 line-clamp-2">{brand.description}</p>}
-                    <p className="text-[11px] text-[#4b5563] mt-1.5 flex items-center gap-1">
+                    {brand.description && <p className="text-[11px] text-gray-800 mt-0.5 line-clamp-2">{brand.description}</p>}
+                    <p className="text-[11px] text-gray-800 mt-1.5 flex items-center gap-1">
                       <Smartphone className="h-3 w-3" /> {productCount} product{productCount !== 1 ? 's' : ''}
                     </p>
                   </div>
                 </div>
               </div>
               {/* Actions */}
-              <div className="px-4 py-2.5 bg-white/[0.02] border-t border-white/[0.04] flex items-center justify-between">
+              <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-0.5">
                   <button onClick={() => toggleActive(brand.id)} className={`admin-icon-btn p-1.5 ${brand.active ? '!text-[#4ade80]' : ''}`} title={brand.active ? 'Deactivate' : 'Activate'}>
                     {brand.active ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
@@ -175,8 +175,8 @@ export default function AdminBrandsPage() {
                 </div>
                 {deleteConfirm === brand.id ? (
                   <div className="flex items-center gap-1">
-                    <button onClick={() => handleDelete(brand.id)} className="px-2 py-1 text-[10px] font-semibold bg-[#ef4444] text-white rounded-md">Yes</button>
-                    <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 text-[10px] font-semibold bg-white/[0.06] text-[#9ca3af] rounded-md">No</button>
+                    <button onClick={() => handleDelete(brand.id)} className="px-2 py-1 text-[10px] font-semibold bg-[#ef4444] text-gray-900 rounded-md">Yes</button>
+                    <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 text-[10px] font-semibold bg-gray-200 text-gray-900 rounded-md">No</button>
                   </div>
                 ) : (
                   <button onClick={() => setDeleteConfirm(brand.id)} className="admin-icon-btn p-1.5 hover:!text-[#ef4444] hover:!bg-[#ef4444]/10" title="Delete">

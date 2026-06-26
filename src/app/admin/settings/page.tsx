@@ -19,8 +19,8 @@ export default function AdminSettingsPage() {
     <div className="space-y-5 max-w-3xl pb-8">
       {/* Header */}
       <div>
-        <h2 className="text-lg sm:text-xl font-semibold text-white">Settings</h2>
-        <p className="text-xs text-[#6b7280] mt-0.5">Configure your store settings</p>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Settings</h2>
+        <p className="text-xs text-gray-800 mt-0.5">Configure your store settings</p>
       </div>
 
       {saved && (
@@ -38,8 +38,8 @@ export default function AdminSettingsPage() {
               <Store className="h-5 w-5 text-[#60a5fa]" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[#e5e7eb]">Store Information</h3>
-              <p className="text-[11px] text-[#6b7280]">Basic store details</p>
+              <h3 className="text-sm font-semibold text-gray-900">Store Information</h3>
+              <p className="text-[11px] text-gray-800">Basic store details</p>
             </div>
           </div>
         </div>
@@ -67,21 +67,21 @@ export default function AdminSettingsPage() {
               <Palette className="h-5 w-5 text-[#a78bfa]" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[#e5e7eb]">Appearance</h3>
-              <p className="text-[11px] text-[#6b7280]">Theme and styling</p>
+              <h3 className="text-sm font-semibold text-gray-900">Appearance</h3>
+              <p className="text-[11px] text-gray-800">Theme and styling</p>
             </div>
           </div>
         </div>
         <div className="admin-card-body space-y-4">
-          <p className="text-sm text-[#9ca3af]">
+          <p className="text-sm text-gray-900">
             The site uses a warm cream palette with the Poppins font. Theme customization will be available in future updates.
           </p>
-          <div className="flex items-center gap-2.5 p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-            <div className="h-8 w-8 rounded-full bg-[#f8f4ee] border border-white/10" />
+          <div className="flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl border border-gray-200">
+            <div className="h-8 w-8 rounded-full bg-[#f8f4ee] border border-gray-300" />
             <div className="h-8 w-8 rounded-full bg-[#1f3a4f]" />
             <div className="h-8 w-8 rounded-full bg-[#b78b57]" />
             <div className="h-8 w-8 rounded-full bg-[#3d6d48]" />
-            <span className="text-[11px] text-[#6b7280] ml-2">Current theme</span>
+            <span className="text-[11px] text-gray-800 ml-2">Current theme</span>
           </div>
         </div>
       </div>
@@ -94,13 +94,13 @@ export default function AdminSettingsPage() {
               <Database className="h-5 w-5 text-[#fbbf24]" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[#e5e7eb]">Data Management</h3>
-              <p className="text-[11px] text-[#6b7280]">Export, import, or reset</p>
+              <h3 className="text-sm font-semibold text-gray-900">Data Management</h3>
+              <p className="text-[11px] text-gray-800">Export, import, or reset</p>
             </div>
           </div>
         </div>
         <div className="admin-card-body space-y-4">
-          <p className="text-sm text-[#9ca3af]">
+          <p className="text-sm text-gray-900">
             All data is stored locally. Clearing browser data will reset all changes.
           </p>
           <div className="flex flex-wrap gap-2">

@@ -92,7 +92,9 @@ export default function DailyDeals() {
         {/* Products Scroll Container */}
         <div className="flex gap-3 sm:gap-6 overflow-x-auto no-scrollbar pb-6 -mx-2.5 sm:mx-0 px-2.5 sm:px-0">
           {dealProducts.map((product: any) => {
-            const discount = 20; 
+            const discount = product.originalPrice 
+              ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+              : 0;
             return (
               <Link 
                 key={product.id} 
@@ -101,9 +103,11 @@ export default function DailyDeals() {
               >
                 {/* Image Section */}
                 <div className="relative aspect-square bg-[#fafafa] flex items-center justify-center p-3 sm:p-4">
-                  <div className="absolute top-2.5 left-2.5 bg-[#ff8c00] text-black text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm uppercase tracking-wider">
-                    {discount}% OFF
-                  </div>
+                  {discount > 0 && (
+                    <div className="absolute top-2.5 left-2.5 bg-[#ff8c00] text-black text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm uppercase tracking-wider">
+                      {discount}% OFF
+                    </div>
+                  )}
                   <Image
                     src={product.image ? getProductImageUrl(product.image, 'card') : `https://placehold.co/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(product.brand)}`}
                     alt={product.name}
@@ -129,9 +133,11 @@ export default function DailyDeals() {
                       <div className="font-extrabold text-base sm:text-lg text-black leading-none mb-1">
                         ₹{product.price.toLocaleString()}
                       </div>
-                      <div className="text-[11px] sm:text-xs text-gray-400 line-through">
-                        ₹{(product.price * 1.2).toLocaleString()}
-                      </div>
+                      {product.originalPrice && (
+                        <div className="text-[11px] sm:text-xs text-gray-400 line-through">
+                          ₹{product.originalPrice.toLocaleString('en-IN')}
+                        </div>
+                      )}
                     </div>
                     
                     <div className="bg-gray-100 text-black hover:bg-black hover:text-white h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm border border-gray-200">

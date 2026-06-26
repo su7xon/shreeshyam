@@ -67,14 +67,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   }, [pathname]);
 
   if (!mounted) {
-    return (
-      <div className="admin-shell min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="admin-spinner" />
-          <p className="text-sm text-[#6b7280] font-medium">Loading admin...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const isLoginPage = pathname === '/admin/login';
@@ -114,16 +107,16 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         <div className="admin-sidebar-header flex items-center justify-between px-5 py-4">
           <Link href="/admin/dashboard" className="flex items-center gap-3 min-w-0">
             <div className="admin-logo-icon flex-shrink-0">
-              <Store className="h-5 w-5 text-white" />
+              <Store className="h-5 w-5 text-gray-900" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-[0.9rem] font-bold text-white leading-tight truncate">श्री श्याम Mobiles</h2>
-              <p className="text-[10px] text-[#4b5563] font-medium tracking-[0.06em] uppercase mt-0.5">Admin Console</p>
+              <h2 className="text-[0.9rem] font-bold text-[#111827] leading-tight truncate">श्री श्याम Mobiles</h2>
+              <p className="text-[10px] text-gray-900 font-medium tracking-[0.06em] uppercase mt-0.5">Admin Console</p>
             </div>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 rounded-lg text-[#6b7280] hover:text-white hover:bg-white/[0.06] transition-colors"
+            className="lg:hidden p-2 rounded-lg text-gray-800 hover:text-[#111827] hover:bg-[#f3f4f6] transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -140,7 +133,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             return (
               <div key={item.href}>
                 {showGroupHeader && (
-                  <div className="px-3 pb-1.5 text-[10px] font-bold text-[#374151] uppercase tracking-[0.1em] mt-2 first:mt-0">
+                  <div className="px-3 pb-1.5 text-[10px] font-bold text-gray-900 uppercase tracking-[0.1em] mt-2 first:mt-0">
                     {item.group}
                   </div>
                 )}
@@ -150,7 +143,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
                     'admin-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200',
                     isActive
                       ? 'admin-nav-active'
-                      : 'text-[#8b8fa3] hover:text-white hover:bg-white/[0.04]'
+                      : 'text-gray-800 hover:text-[#111827] hover:bg-[#f3f4f6]'
                   )}
                 >
                   <Icon className="h-[18px] w-[18px] flex-shrink-0" />
@@ -167,7 +160,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-[#6b7280] hover:text-white hover:bg-white/[0.04] transition-colors mb-1"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-800 hover:text-[#111827] hover:bg-[#f3f4f6] transition-colors mb-1"
           >
             <ExternalLink className="h-[18px] w-[18px] flex-shrink-0" />
             <span>View Store</span>
@@ -178,7 +171,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
               if (typeof window !== 'undefined') window.location.href = '/admin/login';
               else router.push('/admin/login');
             }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-[#6b7280] hover:text-[#f87171] hover:bg-[#f87171]/[0.06] transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-800 hover:text-[#dc2626] hover:bg-[#fef2f2] transition-colors"
           >
             <LogOut className="h-[18px] w-[18px] flex-shrink-0" />
             <span>Sign Out</span>
@@ -200,7 +193,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
             {/* Page Title */}
             <div>
-              <h1 className="text-sm sm:text-base font-semibold text-white leading-tight">
+              <h1 className="text-sm sm:text-base font-semibold text-[#111827] leading-tight">
                 {currentPage?.label || 'Dashboard'}
               </h1>
             </div>
@@ -213,9 +206,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             </button>
             <div className="admin-user-badge flex items-center gap-2 px-2.5 py-1.5 rounded-xl">
               <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#6366f1] flex items-center justify-center">
-                <User className="h-3.5 w-3.5 text-white" />
+                <User className="h-3.5 w-3.5 text-gray-900" />
               </div>
-              <span className="hidden sm:inline text-xs font-medium text-[#d1d5db]">Admin</span>
+              <span className="hidden sm:inline text-xs font-medium text-[#374151]">Admin</span>
             </div>
           </div>
         </header>

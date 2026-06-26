@@ -16,7 +16,7 @@ export default function GlobalError({
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h2>
-        <p className="text-gray-600 text-sm mb-6">
+        <p className="text-gray-900 text-sm mb-6">
           An unexpected error occurred. Please try again.
         </p>
         {process.env.NODE_ENV === 'development' && (

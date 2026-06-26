@@ -94,7 +94,7 @@ export default function AdminInquiriesPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="admin-card p-4">
-              <p className="text-sm text-gray-500 mb-1">Total</p>
+              <p className="text-sm text-gray-800 mb-1">Total</p>
               <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
             </div>
             <div className="admin-card p-4">
@@ -115,7 +115,7 @@ export default function AdminInquiriesPage() {
           <div className="admin-card p-4 mb-6">
             <div className="flex flex-col md:flex-row gap-3">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-700" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -143,7 +143,7 @@ export default function AdminInquiriesPage() {
             {filteredInquiries.length === 0 ? (
               <div className="admin-card p-12 text-center">
                 <Mail className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">No inquiries found</p>
+                <p className="text-gray-800">No inquiries found</p>
               </div>
             ) : (
               filteredInquiries.map((inquiry) => (
@@ -153,7 +153,7 @@ export default function AdminInquiriesPage() {
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900 mb-1">{inquiry.name}</h3>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-800">
                             {new Date(inquiry.createdAt).toLocaleDateString('en-IN', {
                               year: 'numeric',
                               month: 'short',
@@ -170,14 +170,14 @@ export default function AdminInquiriesPage() {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                         <div className="flex items-center gap-2 text-sm">
-                          <Phone className="h-4 w-4 text-gray-400" />
+                          <Phone className="h-4 w-4 text-gray-700" />
                           <a href={`tel:${inquiry.phone}`} className="text-gray-700 hover:text-blue-600">
                             {inquiry.phone}
                           </a>
                         </div>
                         {inquiry.email && (
                           <div className="flex items-center gap-2 text-sm">
-                            <Mail className="h-4 w-4 text-gray-400" />
+                            <Mail className="h-4 w-4 text-gray-700" />
                             <a href={`mailto:${inquiry.email}`} className="text-gray-700 hover:text-blue-600">
                               {inquiry.email}
                             </a>
@@ -197,7 +197,7 @@ export default function AdminInquiriesPage() {
                       </div>
 
                       {inquiry.message && (
-                        <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-900 bg-gray-50 p-3 rounded-lg">
                           {inquiry.message}
                         </p>
                       )}
@@ -206,7 +206,7 @@ export default function AdminInquiriesPage() {
                     <div className="flex md:flex-col gap-2">
                       <button
                         onClick={() => setSelectedInquiry(inquiry)}
-                        className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                         title="View Details"
                       >
                         <Eye className="h-4 w-4" />
@@ -244,18 +244,18 @@ export default function AdminInquiriesPage() {
                 onClick={() => setSelectedInquiry(null)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
               >
-                <XCircle className="h-5 w-5 text-gray-600" />
+                <XCircle className="h-5 w-5 text-gray-900" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Name</p>
+                  <p className="text-sm text-gray-800 mb-1">Name</p>
                   <p className="font-semibold text-gray-900">{selectedInquiry.name}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Phone</p>
+                  <p className="text-sm text-gray-800 mb-1">Phone</p>
                   <a href={`tel:${selectedInquiry.phone}`} className="font-semibold text-blue-600 hover:underline">
                     {selectedInquiry.phone}
                   </a>
@@ -264,7 +264,7 @@ export default function AdminInquiriesPage() {
 
               {selectedInquiry.email && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Email</p>
+                  <p className="text-sm text-gray-800 mb-1">Email</p>
                   <a href={`mailto:${selectedInquiry.email}`} className="font-semibold text-blue-600 hover:underline">
                     {selectedInquiry.email}
                   </a>
@@ -273,11 +273,11 @@ export default function AdminInquiriesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Type</p>
+                  <p className="text-sm text-gray-800 mb-1">Type</p>
                   <p className="font-semibold text-gray-900">{typeLabels[selectedInquiry.inquiryType]}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Status</p>
+                  <p className="text-sm text-gray-800 mb-1">Status</p>
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${statusColors[selectedInquiry.status]}`}>
                     {selectedInquiry.status}
                   </span>
@@ -286,20 +286,20 @@ export default function AdminInquiriesPage() {
 
               {selectedInquiry.productName && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Product</p>
+                  <p className="text-sm text-gray-800 mb-1">Product</p>
                   <p className="font-semibold text-gray-900">{selectedInquiry.productName}</p>
                 </div>
               )}
 
               {selectedInquiry.message && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Message</p>
+                  <p className="text-sm text-gray-800 mb-1">Message</p>
                   <p className="text-gray-700 bg-gray-50 p-4 rounded-lg">{selectedInquiry.message}</p>
                 </div>
               )}
 
               <div>
-                <p className="text-sm text-gray-500 mb-1">Submitted</p>
+                <p className="text-sm text-gray-800 mb-1">Submitted</p>
                 <p className="text-gray-900">
                   {new Date(selectedInquiry.createdAt).toLocaleString('en-IN')}
                 </p>
@@ -309,13 +309,13 @@ export default function AdminInquiriesPage() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => updateStatus(selectedInquiry.id, 'contacted')}
-                className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium"
+                className="flex-1 px-4 py-3 bg-blue-600 text-gray-900 rounded-xl hover:bg-blue-700 font-medium"
               >
                 Mark Contacted
               </button>
               <button
                 onClick={() => updateStatus(selectedInquiry.id, 'converted')}
-                className="flex-1 px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 font-medium"
+                className="flex-1 px-4 py-3 bg-green-600 text-gray-900 rounded-xl hover:bg-green-700 font-medium"
               >
                 Mark Converted
               </button>

@@ -38,11 +38,7 @@ export default function AdminLoginPage() {
 
     const success = await login(password);
     if (success) {
-      if (typeof window !== 'undefined') {
-        window.location.href = '/admin/dashboard';
-      } else {
-        router.push('/admin/dashboard');
-      }
+      router.push('/admin/dashboard');
     } else {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
@@ -69,14 +65,14 @@ export default function AdminLoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#b78b57] to-[#d4a76a] shadow-lg shadow-[#b78b57]/25 mb-4">
-            <Store className="h-8 w-8 text-white" />
+            <Store className="h-8 w-8 text-gray-900" />
           </div>
-          <h1 className="text-xl font-bold text-white tracking-tight font-serif">Admin Console</h1>
-          <p className="text-xs text-[#6b7280] font-medium tracking-[0.1em] uppercase mt-1">Shree Shyam Mobiles</p>
+          <h1 className="text-xl font-bold text-gray-900 tracking-tight font-serif">Admin Console</h1>
+          <p className="text-xs text-gray-800 font-medium tracking-[0.1em] uppercase mt-1">Shree Shyam Mobiles</p>
         </div>
 
         {/* Card */}
-        <div className="admin-form-panel border border-white/5 backdrop-blur-xl bg-white/[0.02]">
+        <div className="admin-form-panel border border-gray-200 backdrop-blur-xl bg-gray-50">
           {error && (
             <div className="admin-alert bg-red-500/10 border border-red-500/20 text-red-400 mb-5 rounded-xl flex gap-3 p-4">
               <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
@@ -86,14 +82,14 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="admin-label text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block ml-1">Password</label>
+              <label className="admin-label text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2 block ml-1">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Password"
-                  className="admin-input h-12 bg-white/[0.03] border-white/10 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20 w-full px-4"
+                  className="admin-input h-12 bg-white/[0.03] border-gray-300 rounded-xl focus:border-[#b78b57]/50 focus:ring-[#b78b57]/20 w-full px-4"
                   style={{ paddingRight: '3rem' }}
                   required
                   autoFocus
@@ -102,7 +98,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-800 hover:text-gray-900 transition-colors p-1"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -113,18 +109,12 @@ export default function AdminLoginPage() {
               disabled={loading}
               className="admin-btn-primary w-full h-12 text-sm font-bold bg-[#b78b57] hover:bg-[#d4a76a] shadow-lg shadow-[#b78b57]/20 rounded-xl transition-all active:scale-[0.98] disabled:opacity-50"
             >
-              {loading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> <span>Authenticating…</span>
-                </div>
-              ) : (
-                'Access Dashboard'
-              )}
+              Access Dashboard
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/5">
-            <p className="text-[10px] text-gray-600 text-center font-medium tracking-wide">
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-[10px] text-gray-900 text-center font-medium tracking-wide">
               AUTHORIZED ACCESS ONLY • SECURED SYSTEM
             </p>
           </div>

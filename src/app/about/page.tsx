@@ -15,7 +15,7 @@ export default function AboutPage() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
             About Shree Shyam Mobiles
           </h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-gray-900 max-w-2xl mx-auto">
             Your trusted destination for the latest smartphones and accessories at the best prices.
           </p>
         </div>
@@ -58,8 +58,8 @@ export default function AboutPage() {
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
               <p className="font-semibold text-gray-900">Shree Shyam Mobiles</p>
-              <p className="text-gray-600 mt-1">Yash Complex, Gokul Nagari Rees, Mohopada, Raigad</p>
-              <p className="text-gray-600 mt-1">Phone: +91 7756935635</p>
+              <p className="text-gray-900 mt-1">Yash Complex, Gokul Nagari Rees, Mohopada, Raigad</p>
+              <p className="text-gray-900 mt-1">Phone: +91 93094 15594</p>
             </div>
           </section>
         </div>

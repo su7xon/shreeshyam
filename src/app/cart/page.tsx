@@ -48,12 +48,12 @@ export default function CartPage() {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 text-center">
         <div className="max-w-md mx-auto">
           <div className="bg-gray-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-          <p className="text-gray-500 mb-8">Looks like you haven&apos;t added any smartphones to your cart yet.</p>
+          <p className="text-gray-800 mb-8">Looks like you haven&apos;t added any smartphones to your cart yet.</p>
           <Link 
             href="/products" 
             className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-black hover:bg-gray-800 transition-all shadow-lg shadow-gray-200"
@@ -96,12 +96,12 @@ export default function CartPage() {
                             {item.name}
                           </Link>
                         </h3>
-                        <p className="text-[10px] sm:text-sm text-gray-500 mb-1">{item.ram} | {item.storage}</p>
+                        <p className="text-[10px] sm:text-sm text-gray-800 mb-1">{item.ram} | {item.storage}</p>
                       </div>
                       <div className="text-left sm:text-right">
                         <p className="text-sm sm:text-base font-bold text-gray-900">{formatPrice(item.price)}</p>
                         {item.originalPrice && (
-                          <p className="text-xs sm:text-sm text-gray-500 line-through">{formatPrice(item.originalPrice)}</p>
+                          <p className="text-xs sm:text-sm text-gray-800 line-through">{formatPrice(item.originalPrice)}</p>
                         )}
                       </div>
                     </div>
@@ -110,7 +110,7 @@ export default function CartPage() {
                       <div className="flex items-center border border-gray-300 rounded-md">
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-l-md transition-colors"
+                          className="p-2 text-gray-900 hover:bg-gray-100 rounded-l-md transition-colors"
                           disabled={item.quantity <= 1}
                           suppressHydrationWarning
                         >
@@ -121,7 +121,7 @@ export default function CartPage() {
                         </span>
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-r-md transition-colors"
+                          className="p-2 text-gray-900 hover:bg-gray-100 rounded-r-md transition-colors"
                           suppressHydrationWarning
                         >
                           <Plus className="h-4 w-4" />
@@ -150,15 +150,15 @@ export default function CartPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
             
             <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-gray-900">
                 <span>Subtotal ({items.length} items)</span>
                 <span>{formatPrice(totalPrice())}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-gray-900">
                 <span>Shipping Estimate</span>
                 <span className="text-green-600 font-medium">Free</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-gray-900">
                 <span>Tax Estimate</span>
                 <span>Calculated at checkout</span>
               </div>

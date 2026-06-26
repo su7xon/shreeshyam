@@ -33,8 +33,8 @@ export default function PageHeader({
       {breadcrumbs && <Breadcrumb items={breadcrumbs} />}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-lg sm:text-xl font-semibold text-white">{title}</h1>
-          {subtitle && <p className="text-xs text-[#6b7280] mt-0.5">{subtitle}</p>}
+          <h1 className="text-lg sm:text-xl font-semibold text-gray-900">{title}</h1>
+          {subtitle && <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>}
         </div>
         {actionLabel && onAction && (
           <button onClick={onAction} className="admin-btn-primary text-xs sm:text-sm self-start">

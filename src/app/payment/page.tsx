@@ -39,7 +39,7 @@ export default function PaymentPage() {
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-900 mb-6">
             Your inquiry has been submitted successfully. Our team will contact you within 24 hours.
           </p>
           <Link
@@ -59,7 +59,7 @@ export default function PaymentPage() {
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
           <Link href="/" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <ArrowLeft className="h-5 w-5 text-gray-600" />
+            <ArrowLeft className="h-5 w-5 text-gray-900" />
           </Link>
           <h1 className="text-xl font-bold text-gray-900">Payment & Offers</h1>
         </div>
