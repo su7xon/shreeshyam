@@ -51,7 +51,7 @@ export default function ProductCard({ product, variant = 'default', priority = f
     e.stopPropagation();
     addItem(product);
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 1200);
+    setTimeout(() => setAddedToCart(false), 900);
   };
 
   return (
@@ -108,15 +108,22 @@ export default function ProductCard({ product, variant = 'default', priority = f
           </div>
           
           <h3 className="text-[12px] sm:text-[13px] font-semibold text-[#111111] mb-2 line-clamp-2 leading-snug min-h-[2.2rem]">
-            {displayName} {displayRam && displayStorage ? `${displayRam}+${displayStorage}` : ''}
+            {displayName}{displayRam && displayStorage ? ` ${displayRam}+${displayStorage}` : ''}
           </h3>
+
+          {/* Reserve space to prevent grid layout shift when RAM/Storage is missing */}
+          <div className="h-[1px] w-full" />
 
           <div className="mt-auto">
             <div className="flex items-end justify-between gap-2">
               <div className="flex flex-col">
-                {product.originalPrice && (
-                  <span className="text-[10px] sm:text-[11px] text-[#9ca3af] line-through">
+                {product.originalPrice ? (
+                  <span className="text-[10px] sm:text-[11px] text-[#9ca3af] line-through min-h-[1.2rem] flex items-center">
                     ₹{product.originalPrice.toLocaleString('en-IN')}
+                  </span>
+                ) : (
+                  <span className="text-[10px] sm:text-[11px] text-transparent line-through min-h-[1.2rem] flex items-center">
+                    ₹0
                   </span>
                 )}
                 <span className="text-[15px] sm:text-[17px] font-bold text-[#111111]">

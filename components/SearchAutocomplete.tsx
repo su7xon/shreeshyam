@@ -111,6 +111,11 @@ export default function SearchAutocomplete({
     }).format(price);
   };
 
+  const brandInitial = (brandName: string) => {
+    const c = (brandName || '').trim().toUpperCase()[0];
+    return c ? c : '#';
+  };
+
   return (
     <div className={`relative ${className}`} ref={ref}>
       <div className="flex items-stretch rounded-full bg-white shadow-sm overflow-hidden h-full min-w-0">
@@ -154,37 +159,50 @@ export default function SearchAutocomplete({
       {showDropdown && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 animate-in fade-in zoom-in duration-200">
           <div className="py-1 max-h-80 overflow-y-auto">
-            {results.map((result) => (
-              <Link
-                key={result.id}
-                href={result.price > 0 ? `/products/${result.id}` : `/products?brand=${result.brand}`}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group"
-                onClick={() => setShowDropdown(false)}
-              >
-                {result.image && (
+            {results.length === 0 ? (
+              <div className="px-4 py-3 text-sm text-gray-500">
+                No results found.
+              </div>
+            ) : (
+              results.map((result) => (
+                <Link
+                  key={result.id}
+                  href={result.price > 0 ? `/products/${result.id}` : `/products?brand=${result.brand}`}
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group"
+                  onClick={() => setShowDropdown(false)}
+                >
                   <div className="relative flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-gray-100 group-hover:bg-gray-200 transition-colors">
-                    <Image
-                      src={result.image}
-                      alt={result.name}
-                      fill
-                      className="object-cover"
-                      sizes="48px"
-                      referrerPolicy="no-referrer"
-                      unoptimized={result.image?.includes('amazon') || result.image?.includes('media-amazon')}
-                    />
+                    {result.image ? (
+                      <Image
+                        src={result.image}
+                        alt={result.name}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                        referrerPolicy="no-referrer"
+                        unoptimized={result.image?.includes('amazon') || result.image?.includes('media-amazon')}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                        <span className="text-[14px] sm:text-[16px] font-extrabold text-gray-700">
+                          {brandInitial(result.brand)}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="font-medium text-gray-900 truncate">{result.name}</p>
-                  <p className="text-sm text-gray-500">{result.brand}</p>
-                  {result.price > 0 && (
-                    <p className="text-sm font-bold text-black mt-0.5">
-                      {formatPrice(result.price)}
-                    </p>
-                  )}
-                </div>
-              </Link>
-            ))}
+
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-gray-900 truncate">{result.name}</p>
+                    <p className="text-sm text-gray-500">{result.brand}</p>
+                    {result.price > 0 && (
+                      <p className="text-sm font-bold text-black mt-0.5">
+                        {formatPrice(result.price)}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       )}

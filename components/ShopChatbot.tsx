@@ -116,7 +116,7 @@ export default function ShopChatbot() {
                 <h3 className="text-white font-medium text-sm tracking-wide">Store Assistant</h3>
                 <p className="text-gray-400 text-[11px] flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse"></span>
-                  Usually replies instantly
+                  Prices, stock, compare, accessories
                 </p>
               </div>
             </div>
@@ -141,11 +141,12 @@ export default function ShopChatbot() {
                 </div>
                 <p className="text-gray-800 text-sm font-medium">Namaste! 🙏</p>
                 <p className="text-gray-500 text-xs mt-1.5 px-4 leading-relaxed">
-                  Looking for a specific phone? Ask me about models, prices, or specs.
+                  Ask for prices, stock, budget phones, comparisons, or accessories.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2 justify-center px-2">
-                  <button onClick={() => setInput("iPhone 15 price?")} className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm">iPhone 15 price?</button>
                   <button onClick={() => setInput("Phones under 20000")} className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm">Under ₹20,000</button>
+                  <button onClick={() => setInput("compare iPhone and Samsung")} className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm">Compare phones</button>
+                  <button onClick={() => setInput("charger for my phone")} className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm">Accessories</button>
                 </div>
               </div>
             )}

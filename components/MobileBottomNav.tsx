@@ -37,6 +37,7 @@ export default function MobileBottomNav() {
           <Link
             key={item.name}
             href={item.href}
+            aria-label={item.name}
             className={clsx(
               'flex flex-col items-center justify-center flex-1 h-full gap-1 relative transition-all duration-200',
               isActive 
@@ -62,7 +63,10 @@ export default function MobileBottomNav() {
               />
               {/* Cart badge */}
               {item.badge !== undefined && item.badge > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-[#111111] text-white text-[9px] font-bold flex items-center justify-center">
+                <span
+                  aria-label="Cart item count"
+                  className="absolute top-[6px] right-[2px] h-4 min-w-[16px] px-1 rounded-full bg-[#111111] text-white text-[9px] font-bold flex items-center justify-center"
+                >
                   {item.badge > 99 ? '99+' : item.badge}
                 </span>
               )}
