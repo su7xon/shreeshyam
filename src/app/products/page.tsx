@@ -10,7 +10,6 @@ import { usePaginatedProducts, useActiveBrands, useCategories } from '@/lib/hook
 import { ProductSkeleton, FilterSkeleton } from '@/components/SkeletonLoader';
 import { deduplicateProducts } from '@/lib/utils';
 import FilterAccordion from '@/components/ui/FilterAccordion';
-import ShopChatbot from '@/components/ShopChatbot';
 
 
 function ProductsContent() {
@@ -449,7 +448,6 @@ export default function ProductsPage() {
       }>
         <ProductsContent />
       </Suspense>
-      <ShopChatbot />
     </>
   );
 }
