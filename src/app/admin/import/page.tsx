@@ -179,6 +179,63 @@ export default function ImportProductsPage() {
     setImporting(false);
   };
 
+  const handleStockReport = async () => {
+    try {
+      setImporting(true);
+      const res = await fetch('/stock-updates-prepared.json');
+      if (!res.ok) throw new Error('Could not find stock-updates-prepared.json');
+      const data = await res.json();
+      
+      const updatedList: string[] = [];
+      const addedList: string[] = [];
+      const errorList: string[] = [];
+
+      // Process Price Updates
+      for (const update of data.priceUpdates) {
+        try {
+          await admin.updateProduct(update.id, { price: update.newPrice });
+          updatedList.push(`Updated: ${update.name} to ₹${update.newPrice}`);
+        } catch (err: any) {
+          errorList.push(`Failed to update ${update.name}: ${err.message}`);
+        }
+      }
+
+      // Process New Products
+      if (data.newProducts && data.newProducts.length > 0) {
+        const productsToAdd = data.newProducts.map((p: any) => ({
+          name: p.name,
+          brand: p.brand || p.name.split(' ')[0],
+          price: p.price,
+          image: p.image || generatePlaceholder(p.name),
+          images: p.image ? [p.image] : [generatePlaceholder(p.name)],
+          category: p.category.toLowerCase() === 'mobile' ? 'mobiles' : 'accessories',
+          active: true,
+          featured: false,
+          description: `Auto-added from stock report. Quantity: ${p.qty}`,
+          colors: p.color ? [p.color] : [],
+        }));
+        
+        try {
+          await admin.importBulkProducts(productsToAdd);
+          productsToAdd.forEach((p: any) => addedList.push(`Added: ${p.name}`));
+        } catch (err: any) {
+          errorList.push(`Failed to bulk import new products: ${err.message}`);
+        }
+      }
+
+      setPriceUpdateResults({
+        updated: [...updatedList, ...addedList],
+        notFound: [],
+        errors: errorList
+      });
+      alert(`Stock report processed successfully! ${updatedList.length} updated, ${addedList.length} added.`);
+    } catch (err: any) {
+      alert(`Error processing stock report: ${err.message}`);
+    } finally {
+      setImporting(false);
+    }
+  };
+
   const handleClearAll = () => {
     if (confirm('Are you sure you want to delete ALL products? This cannot be undone.')) {
       admin.products.forEach(p => admin.deleteProduct(p.id));
@@ -427,6 +484,23 @@ export default function ImportProductsPage() {
                 </>
               )}
             </button>
+            <button
+              onClick={handleStockReport}
+              disabled={importing}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-purple-500 text-white text-sm font-semibold rounded-xl hover:bg-purple-600 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {importing ? (
+                <>
+                  <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <FileText className="h-4 w-4" />
+                  Process Stock Report
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -544,8 +618,8 @@ export default function ImportProductsPage() {
             </h3>
           </div>
           <div className="max-h-48 overflow-y-auto space-y-1">
-            {priceUpdateResults.updated.slice(0, 20).map((name) => (
-              <div key={name} className="text-sm text-[var(--color-text)] flex items-center gap-2">
+            {priceUpdateResults.updated.slice(0, 20).map((name, index) => (
+              <div key={`${name}-${index}`} className="text-sm text-[var(--color-text)] flex items-center gap-2">
                 <Check className="h-3 w-3 text-green-500" />
                 {name}
               </div>

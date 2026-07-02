@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomNav from './MobileBottomNav';
-import ShopChatbot from './ShopChatbot';
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,7 +21,6 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
       </main>
       <Footer />
       <MobileBottomNav />
-      <ShopChatbot />
     </>
   );
 }

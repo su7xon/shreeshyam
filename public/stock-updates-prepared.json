@@ -1,0 +1,1889 @@
+{
+  "priceUpdates": [
+    {
+      "id": "apple-20w-power-adapter-wight",
+      "name": "APPLE 20W POWER ADAPTER (WIGHT)",
+      "stockName": "APPLE 20W POWER ADAPTER",
+      "newPrice": 1200,
+      "qty": 11
+    },
+    {
+      "id": "fastrack-fastrack-vox-neo-black",
+      "name": "FASTRACK FASTRACK VOX NEO (BLACK)",
+      "stockName": "FASTRACK FASTRACK VOX NEO",
+      "newPrice": 2080,
+      "qty": 1
+    },
+    {
+      "id": "realme-buds-t200x-forest-blue",
+      "name": "REALME BUDS T200X (FOREST BLUE)",
+      "stockName": "REALME BUDS T200X",
+      "newPrice": 1150,
+      "qty": 1
+    },
+    {
+      "id": "realme-buds-t200x-forest-blue",
+      "name": "REALME BUDS T200X (FOREST BLUE)",
+      "stockName": "REALME BUDS T200X",
+      "newPrice": 1150,
+      "qty": 1
+    },
+    {
+      "id": "realme-buds-wireless-5-lite-void-black",
+      "name": "REALME BUDS WIRELESS 5 LITE (VOID BLACK)",
+      "stockName": "REALME BUDS WIRELESS 5 LITE",
+      "newPrice": 900,
+      "qty": 1
+    },
+    {
+      "id": "realme-realme-duds-wireless-3-neo-blue",
+      "name": "REALME REALME DUDS WIRELESS 3 NEO (BLUE)",
+      "stockName": "REALME REALME DUDS WIRELESS 3 NEO",
+      "newPrice": 1000,
+      "qty": 1
+    },
+    {
+      "id": "realme-realme-duds-wireless-3-neo-blue",
+      "name": "REALME REALME DUDS WIRELESS 3 NEO (BLUE)",
+      "stockName": "REALME REALME DUDS WIRELESS 3 NEO",
+      "newPrice": 1100,
+      "qty": 1
+    },
+    {
+      "id": "samsung-samsung-25w-power-adapter-black",
+      "name": "SAMSUNG SAMSUNG 25W POWER ADAPTER (BLACK)",
+      "stockName": "SAMSUNG SAMSUNG 25W POWER ADAPTER",
+      "newPrice": 700,
+      "qty": 16
+    },
+    {
+      "id": "samsung-samsung-45w-power-adapter-black",
+      "name": "SAMSUNG SAMSUNG 45W POWER ADAPTER (BLACK)",
+      "stockName": "SAMSUNG SAMSUNG 45W POWER ADAPTER",
+      "newPrice": 1500,
+      "qty": 5
+    },
+    {
+      "id": "new-mobile-1782907759958-420",
+      "name": "INFINIX X6730 HOT 60I 5G INFINIX 4GB+128GB",
+      "stockName": "INFINIX X6730 HOT 60I 5G INFINIX 4GB+128GB",
+      "newPrice": 10475,
+      "qty": 1
+    },
+    {
+      "id": "new-mobile-1782907759958-461",
+      "name": "OPPO A6 PRO 5G 8GB+256GB",
+      "stockName": "OPPO OPPO A6 PRO 5G 8GB+256",
+      "newPrice": 23696,
+      "qty": 1
+    },
+    {
+      "id": "new-mobile-1782907759958-479",
+      "name": "REALME REALME 16 PRO 5G 8GB+256",
+      "stockName": "REALME REALME 16 PRO 5G 8GB+256",
+      "newPrice": 32639,
+      "qty": 1
+    },
+    {
+      "id": "new-mobile-1782907759958-479",
+      "name": "REALME REALME 16 PRO 5G 8GB+256",
+      "stockName": "REALME REALME 16 PRO+ 5G 8GB+256",
+      "newPrice": 44500,
+      "qty": 1
+    }
+  ],
+  "newProducts": [
+    {
+      "name": "LYNE CHAMBER 31V V8 CHARGER 15W",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 150,
+      "qty": 1,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE CHAMBER 12V PRO 15W FAST CHARGER V8",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 150,
+      "qty": 1,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE CHAMBER 28C PRO 33W TC CHARGER",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 280,
+      "qty": 5,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE CHAMBER 31C 15W FAST CHARGER TYPE C",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 165,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE FLEXY 51C 65W TYPE-C",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 83,
+      "qty": 5,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE FLEXY 51I 25W USB TO LIGHTNING",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 95,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE FLEXY 51V 25W V8 CABLE",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 72,
+      "qty": 6,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE ROVER 28 ANC WIRELESS NECKBAND",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 550,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE STARTUP -15 WIRELESS TWS EARPHONE",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 500,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE STARTUP -62 ROVER 19 PRO MAGNETIC WIRELESS NECKBAND",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 336,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE LYNE STARTUP-69 TWS EARPHONE",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 675,
+      "qty": 3,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LYNE STARTUP-31 C TO LIGHTNING CABLE",
+      "brand": "LYNE",
+      "category": "ACCESSORIES",
+      "price": 120,
+      "qty": 9,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE 10000MAH 12WATT POWERBANK",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 475,
+      "qty": 5,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE 20 WATT SUPER FAST ADAPTER OLC -1218",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 349,
+      "qty": 5,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE CABLE- 20 80WATT TYPE-C",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 159,
+      "qty": 5,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE CABLE-11 C TO IPHONE USB CABLE 25WATT",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 199,
+      "qty": 10,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE CABLE-24 4A FAST TYPE-C CABLE",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 84,
+      "qty": 10,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE CABLE-28 LENGTH TYPE-C CABLE",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 149,
+      "qty": 5,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE CHARGE 07 20WATT",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 299,
+      "qty": 6,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE NEW CABLE-02 USB TO IPHONE CABLE",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 64,
+      "qty": 10,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE POWER BANK POWER-04 OLP-1428",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 1199,
+      "qty": 3,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE POWER BANK POWER-21 OLP-1427",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 1149,
+      "qty": 3,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ONELIFE STANDX CABLE THAT STANDS",
+      "brand": "ONELIFE",
+      "category": "ACCESSORIES",
+      "price": 349,
+      "qty": 5,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "APPLE USB-C TO LIGHTNING CABLE",
+      "brand": "APPLE",
+      "category": "ACCESSORIES SR",
+      "price": 800,
+      "qty": 5,
+      "color": "WIGHT",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT ENERGY SHROOM PB400 PRO CARBON",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 1810,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT IMMORTAL 100",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 1170,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT PARTYPAL BANG PREMIUM",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 2510,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT ROCKERZ SUMMIT CLASSIC",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 565,
+      "qty": 3,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT STONE 108 RAGING",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 695,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT STONE 350 PRO RAGING",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 1500,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "BOAT STONE 620",
+      "brand": "BOAT",
+      "category": "ACCESSORIES SR",
+      "price": 1200,
+      "qty": 2,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO ENCO BUDS 3 PRO+",
+      "brand": "OPPO",
+      "category": "ACCESSORIES SR",
+      "price": 2608,
+      "qty": 2,
+      "color": "SONIC BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO ENCO BUDS3 PRO+",
+      "brand": "OPPO",
+      "category": "ACCESSORIES SR",
+      "price": 2608,
+      "qty": 2,
+      "color": "MIDNIGHT BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG TAB A11 4/64GB",
+      "brand": "SAMSUNG",
+      "category": "DEMO TAB",
+      "price": 7149,
+      "qty": 1,
+      "color": "GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "HMD 100 TA-1761 SS",
+      "brand": "HMD",
+      "category": "MOBILE",
+      "price": 810,
+      "qty": 9,
+      "color": "GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "HMD HMD 1014G TA-1727DS",
+      "brand": "HMD",
+      "category": "MOBILE",
+      "price": 1699,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "INFINIX HOT 60I 5G 4GB+128",
+      "brand": "INFINIX",
+      "category": "MOBILE",
+      "price": 10475,
+      "qty": 1,
+      "color": "SLEEK BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "INFINIX INFINIX HOT 60 6GB+128GB",
+      "brand": "INFINIX",
+      "category": "MOBILE",
+      "price": 11904,
+      "qty": 1,
+      "color": "GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "IQOO Z10 R 8+128",
+      "brand": "IQOO",
+      "category": "MOBILE",
+      "price": 18300,
+      "qty": 1,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL ACE3 SHINE",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 770,
+      "qty": 1,
+      "color": "DEEP BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL IT 2165C",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 869,
+      "qty": 1,
+      "color": "DEEP BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL IT2165C",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 869,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL IT2181A",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 924,
+      "qty": 4,
+      "color": "DEEP BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL IT5262",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 1259,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL IT9020 SUPERGURU 4G",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 1499,
+      "qty": 2,
+      "color": "LIGHT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL ITEL 6133 AQUA",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 1599,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL ITEL 6133 AQUA",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 1599,
+      "qty": 1,
+      "color": "RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "ITEL VISTA TAB 30 4GB+128GB",
+      "brand": "ITEL",
+      "category": "MOBILE",
+      "price": 10599,
+      "qty": 1,
+      "color": "DEEP GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LAVA A1 TEJAS",
+      "brand": "LAVA",
+      "category": "MOBILE",
+      "price": 999,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LAVA H10 HERO SHAKTI 2025",
+      "brand": "LAVA",
+      "category": "MOBILE",
+      "price": 769,
+      "qty": 1,
+      "color": "DARK BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LAVA LAVA A1 TEJAS",
+      "brand": "LAVA",
+      "category": "MOBILE",
+      "price": 999,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "LAVA LAVA HERO SHAKTI 2026 TYPE C",
+      "brand": "LAVA",
+      "category": "MOBILE",
+      "price": 869,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "MOTOROLA CD1802 MOTOA200",
+      "brand": "MOTOROLA",
+      "category": "MOBILE",
+      "price": 889,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "MOTOROLA MOTO A300 2G FP",
+      "brand": "MOTOROLA",
+      "category": "MOBILE",
+      "price": 974,
+      "qty": 1,
+      "color": "TEAL",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "NOKIA HMD 105DS 4G TA-1633",
+      "brand": "NOKIA",
+      "category": "MOBILE",
+      "price": 959,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "NOKIA NOKIA HMD 100 SINGAL SIM",
+      "brand": "NOKIA",
+      "category": "MOBILE",
+      "price": 810,
+      "qty": 3,
+      "color": "GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6 5G 6+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 22116,
+      "qty": 3,
+      "color": "SAKURA PINK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6 5G 6GB+128",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 22116,
+      "qty": 3,
+      "color": "ICE WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6 5G 6GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 18956,
+      "qty": 2,
+      "color": "SAPPHIRE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6X 5G 4GB+64GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 14217,
+      "qty": 7,
+      "color": "OLIVE GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6X 5G 6GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 19904,
+      "qty": 2,
+      "color": "OLIVE GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO CPH2739 RENO 14 PRO 5G 12GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 49288,
+      "qty": 1,
+      "color": "PEARL WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO DEMO A6 PRO 8GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 13799,
+      "qty": 1,
+      "color": "AURORA GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO DEMO OPPO RENO 15 12GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 29999,
+      "qty": 1,
+      "color": "GLACIER WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO F31 PRO PLUSE 12G256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 33174,
+      "qty": 1,
+      "color": "GEMSTONE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO F31PRO5G 8+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 28435,
+      "qty": 1,
+      "color": "DESERT GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO F33 PRO 5G 8GB+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 38862,
+      "qty": 1,
+      "color": "STARRY BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6 PRO 5G 8GB+128",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 23696,
+      "qty": 1,
+      "color": "BROWN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6S 5G 4GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 19904,
+      "qty": 1,
+      "color": "AURORA GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6S 5G 4GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 19904,
+      "qty": 2,
+      "color": "PLUM PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6S 5G 4GB+128GB DEMO",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 12599,
+      "qty": 1,
+      "color": "PLUM PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6S 5G 6GB+128GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 19904,
+      "qty": 1,
+      "color": "PLUM PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6X 5G 4GB+64",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 14217,
+      "qty": 4,
+      "color": "ICE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO A6X 5G 4GB+64 DEMO",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 74989,
+      "qty": 1,
+      "color": "ICE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F31 PRO+5G 8GB+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 31279,
+      "qty": 1,
+      "color": "HIMALAYAN WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F31 PRO5G 12GB+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 29383,
+      "qty": 1,
+      "color": "DESERT GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F315G 8GB+128",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 25591,
+      "qty": 1,
+      "color": "MIDNIGHT BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F33 5G 8GB+128GB DEMO",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 28000,
+      "qty": 1,
+      "color": "FOREST GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F33 5G 8GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 36018,
+      "qty": 1,
+      "color": "FOREST GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F33 PRO 5G 8+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 38862,
+      "qty": 2,
+      "color": "PASSION RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F33 PRO 5G 8GB+128GB DEMO",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 30000,
+      "qty": 1,
+      "color": "MISTY FOREST",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F33 PRO 5G 8GB+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 38862,
+      "qty": 1,
+      "color": "MISTY FOREST",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO F335G 8GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 36018,
+      "qty": 1,
+      "color": "PEARL WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO FIND X9S 12GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 75828,
+      "qty": 1,
+      "color": "MIDNIGHT GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO FINDX9S 12GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 75828,
+      "qty": 1,
+      "color": "LAVENDER SKY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO RENI 15C 12GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 36018,
+      "qty": 1,
+      "color": "TWILIGHT BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO RENO 15 PRO 12+256",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 64454,
+      "qty": 1,
+      "color": "COCOA BROWN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO RENO 15C 5G 8GB+256 DEMO",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 20999,
+      "qty": 1,
+      "color": "PINK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO OPPO RENO 15C 8GB+256GB",
+      "brand": "OPPO",
+      "category": "MOBILE",
+      "price": 39809,
+      "qty": 2,
+      "color": "TWILIGHT BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "PHILIPS PHILIPS E2103",
+      "brand": "PHILIPS",
+      "category": "MOBILE",
+      "price": 935,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME 15T 5G 8+256",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 23999,
+      "qty": 1,
+      "color": "SILK BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME C83 5G 4GB+64",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 12735,
+      "qty": 1,
+      "color": "SPROUTING GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME C83 5G 6GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 18329,
+      "qty": 1,
+      "color": "SPRUCE GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME C85 5G 4GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 19199,
+      "qty": 1,
+      "color": "PEACOCK GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME C85 5G 6GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 19256,
+      "qty": 2,
+      "color": "PEACOCK GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME NARZO 90X 5G 6GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 14000,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 15X 8+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 22655,
+      "qty": 1,
+      "color": "MARINE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16 5G 12+256GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 35237,
+      "qty": 1,
+      "color": "AIR BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16 5G 8GB+256",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 32380,
+      "qty": 3,
+      "color": "AIR BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16 PRO 5G 8GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 30719,
+      "qty": 2,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T 5G 6+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 28570,
+      "qty": 1,
+      "color": "AURORA GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T 5G 6GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 28570,
+      "qty": 1,
+      "color": "STARLIGHT BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T 5G 8+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 30475,
+      "qty": 1,
+      "color": "STARLIGHT BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T 5G 8GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 30475,
+      "qty": 1,
+      "color": "AURORA GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T 5G 8GB+256GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 33332,
+      "qty": 1,
+      "color": "AURORA GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME 16T DEMO 8GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 24200,
+      "qty": 1,
+      "color": "AURORA GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME C83 5G 4GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 17389,
+      "qty": 2,
+      "color": "PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME C83 5G 6+128 DEMO",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 10500,
+      "qty": 1,
+      "color": "SPROUTING GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME C83 5G 6GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 16949,
+      "qty": 2,
+      "color": "PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME P4 LITE 5G 6GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 17945,
+      "qty": 1,
+      "color": "MOSAIC GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME P4R 5G 6GB+128",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 20370,
+      "qty": 1,
+      "color": "SILVER GLARE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME REALME15PRO 8+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 30719,
+      "qty": 1,
+      "color": "VELVET GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME RMX5106 REALME 15 5G 8GB+128GB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 24959,
+      "qty": 1,
+      "color": "VELVET GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME RMX5313 REALME C71 4GB+64GGB",
+      "brand": "REALME",
+      "category": "MOBILE",
+      "price": 11199,
+      "qty": 3,
+      "color": "SEA BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A07 5G 4GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 15855,
+      "qty": 1,
+      "color": "LIGHT VIOLET",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A075G 6+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 17254,
+      "qty": 1,
+      "color": "LIGHT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A37 5G 8+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 39172,
+      "qty": 1,
+      "color": "AWESOME GRAYGREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A37 5G 8+128GB DEMO",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 22211,
+      "qty": 1,
+      "color": "AWESOME LAVENDER",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A37 5G 8GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 39172,
+      "qty": 1,
+      "color": "AWESOME CHARCOAL",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A37 5G 8GB+256GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 44302,
+      "qty": 2,
+      "color": "AWESOME LAVENDER",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A57 5G 12GB+256",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 58292,
+      "qty": 1,
+      "color": "AWESOME NAVY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A57 5G 8+256GB DEMO",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 30144,
+      "qty": 1,
+      "color": "AWESOME NAVY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A57 5G 8GB+256",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 53163,
+      "qty": 1,
+      "color": "AWESOME LILAC",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG F17 5G 4/128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 16489,
+      "qty": 4,
+      "color": "NEO BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG F17 5G 4/128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 15883,
+      "qty": 4,
+      "color": "VIOLET",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG F17 5G 6GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 19399,
+      "qty": 3,
+      "color": "VIOLET",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG F17 5G 8GB+128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 21339,
+      "qty": 1,
+      "color": "VIOLET",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY A07 5G 6GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 17254,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY A07 5G4GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 15855,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY A17 6GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 20052,
+      "qty": 1,
+      "color": "GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY F17 5G 8GB+128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 21339,
+      "qty": 1,
+      "color": "NEO BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY F36 5G 6GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 19399,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY M36 5G 8GB+128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 23279,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY M36 5G 8GB+256",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 27159,
+      "qty": 1,
+      "color": "LIGHT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SAMSUNG A074G 4GB+64",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 10669,
+      "qty": 2,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SAMSUNG A074G 4GB+64",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 10669,
+      "qty": 1,
+      "color": "GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A065 GALAXY A06 4GB+64GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 9887,
+      "qty": 1,
+      "color": "LIGHT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A066 GALAXY A06 5G 4GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 10829,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A066 GALAXY A06 5G 4GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 10829,
+      "qty": 1,
+      "color": "LIGHT GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A066 GALAXY A06 5G 4GB+64GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 12591,
+      "qty": 7,
+      "color": "LIGHT GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A166 GALAXY A16 5G 8GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 16480,
+      "qty": 1,
+      "color": "LIGHT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A176B/DS GALAXY A17 5G [6GB 128GB]",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 20052,
+      "qty": 2,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A176B/DS GALAXY A17 5G [8GB 128GB]",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 21917,
+      "qty": 2,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A176B/DS GALAXY A17 5G [8GB 256GB]",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 26114,
+      "qty": 1,
+      "color": "GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A266B GALAXY A26 5G 8GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 23543,
+      "qty": 1,
+      "color": "BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-A266B GALAXY A26 5G 8GB+128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 23543,
+      "qty": 1,
+      "color": "MINT",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-E176BZKBINS F17 6GB+128 5G",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 19399,
+      "qty": 2,
+      "color": "NEO BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-E176DLVBINS F17 6GB+128 5G",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 19399,
+      "qty": 1,
+      "color": "NEO BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-S931B GALAXY S25 12GB+256GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 77599,
+      "qty": 1,
+      "color": "ICYBLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG SM-S938B GALAXY S25ULTRA 12GB+256GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE",
+      "price": 115429,
+      "qty": 1,
+      "color": "TITANIUM SILVERBLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KJ8 SPARK 20 PRO 5G 8GB+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 15384,
+      "qty": 1,
+      "color": "STARTRAIL BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KN3 SPARK G03 4+64GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 10989,
+      "qty": 3,
+      "color": "INK BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KN3 SPARK GO3 4+64",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 8570,
+      "qty": 1,
+      "color": "GALAXY BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KN3 SPARK GO3 4GB+64GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 8570,
+      "qty": 1,
+      "color": "TITANIUM GREY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KN8 SPARK 50 5G 4GB+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 16190,
+      "qty": 1,
+      "color": "MINT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO KN8 SPARK 50 5G 6GB+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 18729,
+      "qty": 9,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO POVA CURVE 2 8GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 28570,
+      "qty": 1,
+      "color": "MELTING SILVER",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO POVA CURVE 2 8GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 26666,
+      "qty": 1,
+      "color": "MYSTIC PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO POVA CURVE 2 8GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 28570,
+      "qty": 1,
+      "color": "STORM TITANIUM",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO POVA CURVE 2 8GB+256",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 30475,
+      "qty": 2,
+      "color": "MELTING SILVER",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO SPARK 50 5G 6+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 18094,
+      "qty": 1,
+      "color": "MINT GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO SPARK 50 5G 6GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 18502,
+      "qty": 7,
+      "color": "PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO SPARK 50 5G 6GB+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 18570,
+      "qty": 6,
+      "color": "INK BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO TECNO KM8 SPARK GO 5G 4GB+128GB",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 10475,
+      "qty": 1,
+      "color": "SKY BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO TECNO LK6 POVA 8 5G 6GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 28570,
+      "qty": 1,
+      "color": "TERMINAL GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "TECNO TECNO LK6 POVA 8 5G 8GB+128",
+      "brand": "TECNO",
+      "category": "MOBILE",
+      "price": 30475,
+      "qty": 1,
+      "color": "BIT WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V2413 X200 PRO 16GB+512GB",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 89623,
+      "qty": 1,
+      "color": "TITANIUM GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V70 FE 5G 8+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 35849,
+      "qty": 2,
+      "color": "LIGHT PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V70 FE 5G 8GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 38679,
+      "qty": 3,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V70 FE 8+128GB",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 35849,
+      "qty": 3,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V70FE 12GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 42452,
+      "qty": 1,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO VIVO V70 5G 8+256GB",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 49056,
+      "qty": 2,
+      "color": "RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO VIVO V70 5G 8GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 47169,
+      "qty": 1,
+      "color": "YELLOW",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO VIVO V70 ELITE 5G 8GB+256 DEMO",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 31199,
+      "qty": 1,
+      "color": "SAND BEIGE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO VIVO X300 5G 12GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 71698,
+      "qty": 1,
+      "color": "SUMMIT RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO VIVO Y21 5G 6GB+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 19811,
+      "qty": 7,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO X300 FE 5G 12GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 75471,
+      "qty": 1,
+      "color": "NOIR BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 4GB+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 17924,
+      "qty": 4,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 4GB+128 DEMO",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 11399,
+      "qty": 1,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 4GB+128GB",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 17924,
+      "qty": 2,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 6GB+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 19811,
+      "qty": 3,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 8+128GB",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 21698,
+      "qty": 3,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y21 5G 8GB+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 21698,
+      "qty": 2,
+      "color": "BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y31 5G 6GB+256",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 25471,
+      "qty": 1,
+      "color": "RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y31 6GB+128 5G",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 19528,
+      "qty": 5,
+      "color": "GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y31 6GB+128 5G",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 19878,
+      "qty": 7,
+      "color": "ROSE RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y51 PRO 5G 8GB+128",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 23584,
+      "qty": 4,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO Y51 PRO 5G 8GB+128 DEMO",
+      "brand": "VIVO",
+      "category": "MOBILE",
+      "price": 14999,
+      "qty": 1,
+      "color": "FESTIVE RED",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO A6 5G 6/128GB",
+      "brand": "OPPO",
+      "category": "MOBILE DEMO",
+      "price": 11999,
+      "qty": 1,
+      "color": "SAPPHIRE BLUE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO FIBD X9S 12/256GB",
+      "brand": "OPPO",
+      "category": "MOBILE DEMO",
+      "price": 50000,
+      "qty": 1,
+      "color": "SUNSET ORANGE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "OPPO RENO 15PRO MINI 5G 12/256",
+      "brand": "OPPO",
+      "category": "MOBILE DEMO",
+      "price": 37200,
+      "qty": 1,
+      "color": "COCOA BROWN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME 16 5G 8/128",
+      "brand": "REALME",
+      "category": "MOBILE DEMO",
+      "price": 19200,
+      "qty": 1,
+      "color": "WHITE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "REALME 16PRO+ 5GB 8/128",
+      "brand": "REALME",
+      "category": "MOBILE DEMO",
+      "price": 24000,
+      "qty": 1,
+      "color": "GOLD",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A07 5G 4/128GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE DEMO",
+      "price": 8461,
+      "qty": 1,
+      "color": "GREEN",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG A17 5G 6/128 GB",
+      "brand": "SAMSUNG",
+      "category": "MOBILE DEMO",
+      "price": 10145,
+      "qty": 1,
+      "color": "GRAY",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG GALAXY A36 5G 8/128",
+      "brand": "SAMSUNG",
+      "category": "MOBILE DEMO",
+      "price": 17621,
+      "qty": 1,
+      "color": "LAVENDER",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "SAMSUNG Z FOLD 7 12/256",
+      "brand": "SAMSUNG",
+      "category": "MOBILE DEMO",
+      "price": 95699,
+      "qty": 1,
+      "color": "BLUE SHADOW",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO V70FE 8/128",
+      "brand": "VIVO",
+      "category": "MOBILE DEMO",
+      "price": 22799,
+      "qty": 1,
+      "color": "NORTHEN LIGHTS PURPLE",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    },
+    {
+      "name": "VIVO X300 FE 12/256GB",
+      "brand": "VIVO",
+      "category": "MOBILE DEMO",
+      "price": 48000,
+      "qty": 1,
+      "color": "NOIR BLACK",
+      "image": "https://via.placeholder.com/400x500?text=No+Image"
+    }
+  ],
+  "skipped": []
+}

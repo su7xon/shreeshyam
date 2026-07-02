@@ -1,0 +1,1910 @@
+[
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "CHAMBER 31V V8 CHARGER 15W",
+    "color": "WHITE",
+    "qty": 1,
+    "totalAmount": 150,
+    "price": 150
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE CHAMBER 12V PRO 15W FAST CHARGER V8",
+    "color": "WHITE",
+    "qty": 1,
+    "totalAmount": 150,
+    "price": 150
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE CHAMBER 28C PRO 33W TC CHARGER",
+    "color": "WHITE",
+    "qty": 5,
+    "totalAmount": 1400,
+    "price": 280
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE CHAMBER 31C 15W FAST CHARGER TYPE C",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 165,
+    "price": 165
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE FLEXY 51C 65W TYPE-C",
+    "color": "BLACK",
+    "qty": 5,
+    "totalAmount": 415,
+    "price": 83
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE FLEXY 51I 25W USB TO LIGHTNING",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 95,
+    "price": 95
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE FLEXY 51V 25W V8 CABLE",
+    "color": "BLACK",
+    "qty": 6,
+    "totalAmount": 432,
+    "price": 72
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE ROVER 28 ANC WIRELESS NECKBAND",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 550,
+    "price": 550
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE STARTUP -15 WIRELESS TWS EARPHONE",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 500,
+    "price": 500
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE STARTUP -62 ROVER 19 PRO MAGNETIC WIRELESS NECKBAND",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 336.01,
+    "price": 336
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "LYNE STARTUP-69 TWS EARPHONE",
+    "color": "WHITE",
+    "qty": 3,
+    "totalAmount": 2025,
+    "price": 675
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "LYNE",
+    "model": "STARTUP-31 C TO LIGHTNING CABLE",
+    "color": "WHITE",
+    "qty": 9,
+    "totalAmount": 1079.91,
+    "price": 120
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "10000MAH 12WATT POWERBANK",
+    "color": "WHITE",
+    "qty": 5,
+    "totalAmount": 2375,
+    "price": 475
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "20 WATT SUPER FAST ADAPTER OLC -1218",
+    "color": "WHITE",
+    "qty": 5,
+    "totalAmount": 1745,
+    "price": 349
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "CABLE- 20 80WATT TYPE-C",
+    "color": "WHITE",
+    "qty": 5,
+    "totalAmount": 795.05,
+    "price": 159
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "CABLE-11 C TO IPHONE USB CABLE 25WATT",
+    "color": "WHITE",
+    "qty": 10,
+    "totalAmount": 1990,
+    "price": 199
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "CABLE-24 4A FAST TYPE-C CABLE",
+    "color": "WHITE",
+    "qty": 10,
+    "totalAmount": 840,
+    "price": 84
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "CABLE-28 LENGTH TYPE-C CABLE",
+    "color": "WHITE",
+    "qty": 5,
+    "totalAmount": 745,
+    "price": 149
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "CHARGE 07 20WATT",
+    "color": "WHITE",
+    "qty": 6,
+    "totalAmount": 1794,
+    "price": 299
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "NEW CABLE-02 USB TO IPHONE CABLE",
+    "color": "WHITE",
+    "qty": 10,
+    "totalAmount": 640,
+    "price": 64
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "POWER BANK POWER-04 OLP-1428",
+    "color": "BLACK",
+    "qty": 3,
+    "totalAmount": 3597,
+    "price": 1199
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "POWER BANK POWER-21 OLP-1427",
+    "color": "BLACK",
+    "qty": 3,
+    "totalAmount": 3447,
+    "price": 1149
+  },
+  {
+    "category": "ACCESSORIES",
+    "brand": "ONELIFE",
+    "model": "STANDX CABLE THAT STANDS",
+    "color": "BLACK",
+    "qty": 5,
+    "totalAmount": 1745,
+    "price": 349
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "APPLE",
+    "model": "20W POWER ADAPTER",
+    "color": "WIGHT",
+    "qty": 11,
+    "totalAmount": 13200,
+    "price": 1200
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "APPLE",
+    "model": "USB-C TO LIGHTNING CABLE",
+    "color": "WIGHT",
+    "qty": 5,
+    "totalAmount": 4000,
+    "price": 800
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "ENERGY SHROOM PB400 PRO CARBON",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 3620,
+    "price": 1810
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "IMMORTAL 100",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 1170.01,
+    "price": 1170
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "PARTYPAL BANG PREMIUM",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 5020,
+    "price": 2510
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "ROCKERZ SUMMIT CLASSIC",
+    "color": "BLACK",
+    "qty": 3,
+    "totalAmount": 1695,
+    "price": 565
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "STONE 108 RAGING",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 1390,
+    "price": 695
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "STONE 350 PRO RAGING",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 1500,
+    "price": 1500
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "BOAT",
+    "model": "STONE 620",
+    "color": "BLUE",
+    "qty": 2,
+    "totalAmount": 2400,
+    "price": 1200
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "FASTRACK",
+    "model": "FASTRACK VOX NEO",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 2080.01,
+    "price": 2080
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "OPPO",
+    "model": "OPPO ENCO BUDS 3 PRO+",
+    "color": "SONIC BLUE",
+    "qty": 2,
+    "totalAmount": 5216,
+    "price": 2608
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "OPPO",
+    "model": "OPPO ENCO BUDS3 PRO+",
+    "color": "MIDNIGHT BLACK",
+    "qty": 2,
+    "totalAmount": 5216,
+    "price": 2608
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "REALME",
+    "model": "BUDS T200X",
+    "color": "FOREST BLUE",
+    "qty": 1,
+    "totalAmount": 1150,
+    "price": 1150
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "REALME",
+    "model": "BUDS T200X",
+    "color": "PURE BLACK",
+    "qty": 1,
+    "totalAmount": 1150,
+    "price": 1150
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "REALME",
+    "model": "BUDS WIRELESS 5 LITE",
+    "color": "VOID BLACK",
+    "qty": 1,
+    "totalAmount": 900,
+    "price": 900
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "REALME",
+    "model": "REALME DUDS WIRELESS 3 NEO",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 1000,
+    "price": 1000
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "REALME",
+    "model": "REALME DUDS WIRELESS 3 NEO",
+    "color": "GREEN",
+    "qty": 1,
+    "totalAmount": 1100.01,
+    "price": 1100
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "SAMSUNG",
+    "model": "SAMSUNG 25W POWER ADAPTER",
+    "color": "BLACK",
+    "qty": 16,
+    "totalAmount": 11200,
+    "price": 700
+  },
+  {
+    "category": "ACCESSORIES SR",
+    "brand": "SAMSUNG",
+    "model": "SAMSUNG 45W POWER ADAPTER",
+    "color": "BLACK",
+    "qty": 5,
+    "totalAmount": 7500,
+    "price": 1500
+  },
+  {
+    "category": "DEMO TAB",
+    "brand": "SAMSUNG",
+    "model": "TAB A11 4/64GB",
+    "color": "GRAY",
+    "qty": 1,
+    "totalAmount": 7148.99,
+    "price": 7149
+  },
+  {
+    "category": "MOBILE",
+    "brand": "HMD",
+    "model": "100 TA-1761 SS",
+    "color": "GREY",
+    "qty": 9,
+    "totalAmount": 7290,
+    "price": 810
+  },
+  {
+    "category": "MOBILE",
+    "brand": "HMD",
+    "model": "HMD 1014G TA-1727DS",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 1699,
+    "price": 1699
+  },
+  {
+    "category": "MOBILE",
+    "brand": "INFINIX",
+    "model": "HOT 60I 5G 4GB+128",
+    "color": "SLEEK BLACK",
+    "qty": 1,
+    "totalAmount": 10474.99,
+    "price": 10475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "INFINIX",
+    "model": "INFINIX HOT 60 6GB+128GB",
+    "color": "GREEN",
+    "qty": 1,
+    "totalAmount": 11903.99,
+    "price": 11904
+  },
+  {
+    "category": "MOBILE",
+    "brand": "INFINIX",
+    "model": "X6730 HOT 60I 5G INFINIX 4GB+128GB",
+    "color": "SHADOW BLUE",
+    "qty": 1,
+    "totalAmount": 10474.99,
+    "price": 10475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "IQOO",
+    "model": "Z10 R 8+128",
+    "color": "WHITE",
+    "qty": 1,
+    "totalAmount": 18299.99,
+    "price": 18300
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "ACE3 SHINE",
+    "color": "DEEP BLUE",
+    "qty": 1,
+    "totalAmount": 770,
+    "price": 770
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "IT 2165C",
+    "color": "DEEP BLUE",
+    "qty": 1,
+    "totalAmount": 869,
+    "price": 869
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "IT2165C",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 1738,
+    "price": 869
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "IT2181A",
+    "color": "DEEP BLUE",
+    "qty": 4,
+    "totalAmount": 3695.98,
+    "price": 924
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "IT5262",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 1259,
+    "price": 1259
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "IT9020 SUPERGURU 4G",
+    "color": "LIGHT GREEN",
+    "qty": 2,
+    "totalAmount": 2998,
+    "price": 1499
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "ITEL 6133 AQUA",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 1598.99,
+    "price": 1599
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "ITEL 6133 AQUA",
+    "color": "RED",
+    "qty": 1,
+    "totalAmount": 1598.99,
+    "price": 1599
+  },
+  {
+    "category": "MOBILE",
+    "brand": "ITEL",
+    "model": "VISTA TAB 30 4GB+128GB",
+    "color": "DEEP GRAY",
+    "qty": 1,
+    "totalAmount": 10599,
+    "price": 10599
+  },
+  {
+    "category": "MOBILE",
+    "brand": "LAVA",
+    "model": "A1 TEJAS",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 999,
+    "price": 999
+  },
+  {
+    "category": "MOBILE",
+    "brand": "LAVA",
+    "model": "H10 HERO SHAKTI 2025",
+    "color": "DARK BLUE",
+    "qty": 1,
+    "totalAmount": 768.99,
+    "price": 769
+  },
+  {
+    "category": "MOBILE",
+    "brand": "LAVA",
+    "model": "LAVA A1 TEJAS",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 999,
+    "price": 999
+  },
+  {
+    "category": "MOBILE",
+    "brand": "LAVA",
+    "model": "LAVA HERO SHAKTI 2026 TYPE C",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 1738,
+    "price": 869
+  },
+  {
+    "category": "MOBILE",
+    "brand": "MOTOROLA",
+    "model": "CD1802 MOTOA200",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 888.98,
+    "price": 889
+  },
+  {
+    "category": "MOBILE",
+    "brand": "MOTOROLA",
+    "model": "MOTO A300 2G FP",
+    "color": "TEAL",
+    "qty": 1,
+    "totalAmount": 973.72,
+    "price": 974
+  },
+  {
+    "category": "MOBILE",
+    "brand": "NOKIA",
+    "model": "HMD 105DS 4G TA-1633",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 959,
+    "price": 959
+  },
+  {
+    "category": "MOBILE",
+    "brand": "NOKIA",
+    "model": "NOKIA HMD 100 SINGAL SIM",
+    "color": "GREY",
+    "qty": 3,
+    "totalAmount": 2430,
+    "price": 810
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "A6 5G 6+128GB",
+    "color": "SAKURA PINK",
+    "qty": 3,
+    "totalAmount": 66348,
+    "price": 22116
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "A6 5G 6GB+128",
+    "color": "ICE WHITE",
+    "qty": 3,
+    "totalAmount": 66348,
+    "price": 22116
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "A6 5G 6GB+128GB",
+    "color": "SAPPHIRE BLUE",
+    "qty": 2,
+    "totalAmount": 37912,
+    "price": 18956
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "A6X 5G 4GB+64GB",
+    "color": "OLIVE GREEN",
+    "qty": 7,
+    "totalAmount": 99519.07,
+    "price": 14217
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "A6X 5G 6GB+128GB",
+    "color": "OLIVE GREEN",
+    "qty": 2,
+    "totalAmount": 39808,
+    "price": 19904
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "CPH2739 RENO 14 PRO 5G 12GB+256GB",
+    "color": "PEARL WHITE",
+    "qty": 1,
+    "totalAmount": 49288,
+    "price": 49288
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "DEMO A6 PRO 8GB+128GB",
+    "color": "AURORA GOLD",
+    "qty": 1,
+    "totalAmount": 13798.97,
+    "price": 13799
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "DEMO OPPO RENO 15 12GB+256GB",
+    "color": "GLACIER WHITE",
+    "qty": 1,
+    "totalAmount": 29999,
+    "price": 29999
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "F31 PRO PLUSE 12G256",
+    "color": "GEMSTONE BLUE",
+    "qty": 1,
+    "totalAmount": 33174,
+    "price": 33174
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "F31PRO5G 8+256",
+    "color": "DESERT GOLD",
+    "qty": 1,
+    "totalAmount": 28435,
+    "price": 28435
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "F33 PRO 5G 8GB+256",
+    "color": "STARRY BLUE",
+    "qty": 1,
+    "totalAmount": 38862,
+    "price": 38862
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6 PRO 5G 8GB+128",
+    "color": "BROWN",
+    "qty": 1,
+    "totalAmount": 23696,
+    "price": 23696
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6 PRO 5G 8GB+256",
+    "color": "BROWN",
+    "qty": 1,
+    "totalAmount": 23696,
+    "price": 23696
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6S 5G 4GB+128GB",
+    "color": "AURORA GOLD",
+    "qty": 1,
+    "totalAmount": 19904,
+    "price": 19904
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6S 5G 4GB+128GB",
+    "color": "PLUM PURPLE",
+    "qty": 2,
+    "totalAmount": 39808,
+    "price": 19904
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6S 5G 4GB+128GB DEMO",
+    "color": "PLUM PURPLE",
+    "qty": 1,
+    "totalAmount": 12599.4,
+    "price": 12599
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6S 5G 6GB+128GB",
+    "color": "PLUM PURPLE",
+    "qty": 1,
+    "totalAmount": 19904,
+    "price": 19904
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6X 5G 4GB+64",
+    "color": "ICE BLUE",
+    "qty": 4,
+    "totalAmount": 56868.04,
+    "price": 14217
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO A6X 5G 4GB+64 DEMO",
+    "color": "ICE BLUE",
+    "qty": 1,
+    "totalAmount": 74989.09,
+    "price": 74989
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F31 PRO+5G 8GB+256",
+    "color": "HIMALAYAN WHITE",
+    "qty": 1,
+    "totalAmount": 31279,
+    "price": 31279
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F31 PRO5G 12GB+256",
+    "color": "DESERT GOLD",
+    "qty": 1,
+    "totalAmount": 29383,
+    "price": 29383
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F315G 8GB+128",
+    "color": "MIDNIGHT BLUE",
+    "qty": 1,
+    "totalAmount": 25591,
+    "price": 25591
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F33 5G 8GB+128GB DEMO",
+    "color": "FOREST GREEN",
+    "qty": 1,
+    "totalAmount": 28000,
+    "price": 28000
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F33 5G 8GB+256GB",
+    "color": "FOREST GREEN",
+    "qty": 1,
+    "totalAmount": 36018,
+    "price": 36018
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F33 PRO 5G 8+256GB",
+    "color": "PASSION RED",
+    "qty": 2,
+    "totalAmount": 77724,
+    "price": 38862
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F33 PRO 5G 8GB+128GB DEMO",
+    "color": "MISTY FOREST",
+    "qty": 1,
+    "totalAmount": 30000,
+    "price": 30000
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F33 PRO 5G 8GB+256",
+    "color": "MISTY FOREST",
+    "qty": 1,
+    "totalAmount": 38862,
+    "price": 38862
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO F335G 8GB+256GB",
+    "color": "PEARL WHITE",
+    "qty": 1,
+    "totalAmount": 36018,
+    "price": 36018
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO FIND X9S 12GB+256GB",
+    "color": "MIDNIGHT GREY",
+    "qty": 1,
+    "totalAmount": 75828,
+    "price": 75828
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO FINDX9S 12GB+256GB",
+    "color": "LAVENDER SKY",
+    "qty": 1,
+    "totalAmount": 75828,
+    "price": 75828
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO RENI 15C 12GB+256GB",
+    "color": "TWILIGHT BLUE",
+    "qty": 1,
+    "totalAmount": 36018,
+    "price": 36018
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO RENO 15 PRO 12+256",
+    "color": "COCOA BROWN",
+    "qty": 1,
+    "totalAmount": 64454,
+    "price": 64454
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO RENO 15C 5G 8GB+256 DEMO",
+    "color": "PINK",
+    "qty": 1,
+    "totalAmount": 20999,
+    "price": 20999
+  },
+  {
+    "category": "MOBILE",
+    "brand": "OPPO",
+    "model": "OPPO RENO 15C 8GB+256GB",
+    "color": "TWILIGHT BLUE",
+    "qty": 2,
+    "totalAmount": 79618,
+    "price": 39809
+  },
+  {
+    "category": "MOBILE",
+    "brand": "PHILIPS",
+    "model": "PHILIPS E2103",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 935,
+    "price": 935
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "15T 5G 8+256",
+    "color": "SILK BLUE",
+    "qty": 1,
+    "totalAmount": 23999.01,
+    "price": 23999
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "C83 5G 4GB+64",
+    "color": "SPROUTING GREEN",
+    "qty": 1,
+    "totalAmount": 12735,
+    "price": 12735
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "C83 5G 6GB+128GB",
+    "color": "SPRUCE GREEN",
+    "qty": 1,
+    "totalAmount": 18329,
+    "price": 18329
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "C85 5G 4GB+128GB",
+    "color": "PEACOCK GREEN",
+    "qty": 1,
+    "totalAmount": 19199,
+    "price": 19199
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "C85 5G 6GB+128GB",
+    "color": "PEACOCK GREEN",
+    "qty": 2,
+    "totalAmount": 38512.84,
+    "price": 19256
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "NARZO 90X 5G 6GB+128",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 14000,
+    "price": 14000
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 15X 8+128GB",
+    "color": "MARINE BLUE",
+    "qty": 1,
+    "totalAmount": 22654.82,
+    "price": 22655
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16 5G 12+256GB",
+    "color": "AIR BLACK",
+    "qty": 1,
+    "totalAmount": 35236.99,
+    "price": 35237
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16 5G 8GB+256",
+    "color": "AIR BLACK",
+    "qty": 3,
+    "totalAmount": 97140,
+    "price": 32380
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16 PRO 5G 8GB+128",
+    "color": "GOLD",
+    "qty": 2,
+    "totalAmount": 61438.08,
+    "price": 30719
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16 PRO 5G 8GB+256",
+    "color": "GOLD",
+    "qty": 1,
+    "totalAmount": 32639.09,
+    "price": 32639
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16 PRO+ 5G 8GB+256",
+    "color": "GOLD",
+    "qty": 1,
+    "totalAmount": 44499.99,
+    "price": 44500
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T 5G 6+128GB",
+    "color": "AURORA GREEN",
+    "qty": 1,
+    "totalAmount": 28569.99,
+    "price": 28570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T 5G 6GB+128GB",
+    "color": "STARLIGHT BLACK",
+    "qty": 1,
+    "totalAmount": 28569.99,
+    "price": 28570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T 5G 8+128GB",
+    "color": "STARLIGHT BLACK",
+    "qty": 1,
+    "totalAmount": 30475,
+    "price": 30475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T 5G 8GB+128GB",
+    "color": "AURORA GREEN",
+    "qty": 1,
+    "totalAmount": 30475,
+    "price": 30475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T 5G 8GB+256GB",
+    "color": "AURORA GREEN",
+    "qty": 1,
+    "totalAmount": 33332,
+    "price": 33332
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME 16T DEMO 8GB+128",
+    "color": "AURORA GREEN",
+    "qty": 1,
+    "totalAmount": 24199.99,
+    "price": 24200
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME C83 5G 4GB+128",
+    "color": "PURPLE",
+    "qty": 2,
+    "totalAmount": 34778,
+    "price": 17389
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME C83 5G 6+128 DEMO",
+    "color": "SPROUTING GREEN",
+    "qty": 1,
+    "totalAmount": 10500,
+    "price": 10500
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME C83 5G 6GB+128",
+    "color": "PURPLE",
+    "qty": 2,
+    "totalAmount": 33898,
+    "price": 16949
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME P4 LITE 5G 6GB+128",
+    "color": "MOSAIC GREEN",
+    "qty": 1,
+    "totalAmount": 17945,
+    "price": 17945
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME P4R 5G 6GB+128",
+    "color": "SILVER GLARE",
+    "qty": 1,
+    "totalAmount": 20370,
+    "price": 20370
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "REALME15PRO 8+128GB",
+    "color": "VELVET GREEN",
+    "qty": 1,
+    "totalAmount": 30719,
+    "price": 30719
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "RMX5106 REALME 15 5G 8GB+128GB",
+    "color": "VELVET GREEN",
+    "qty": 1,
+    "totalAmount": 24959.07,
+    "price": 24959
+  },
+  {
+    "category": "MOBILE",
+    "brand": "REALME",
+    "model": "RMX5313 REALME C71 4GB+64GGB",
+    "color": "SEA BLUE",
+    "qty": 3,
+    "totalAmount": 33596.99,
+    "price": 11199
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A07 5G 4GB+128GB",
+    "color": "LIGHT VIOLET",
+    "qty": 1,
+    "totalAmount": 15854.65,
+    "price": 15855
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A075G 6+128GB",
+    "color": "LIGHT GREEN",
+    "qty": 1,
+    "totalAmount": 17254.36,
+    "price": 17254
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A37 5G 8+128GB",
+    "color": "AWESOME GRAYGREEN",
+    "qty": 1,
+    "totalAmount": 39172.48,
+    "price": 39172
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A37 5G 8+128GB DEMO",
+    "color": "AWESOME LAVENDER",
+    "qty": 1,
+    "totalAmount": 22211.2,
+    "price": 22211
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A37 5G 8GB+128GB",
+    "color": "AWESOME CHARCOAL",
+    "qty": 1,
+    "totalAmount": 39172,
+    "price": 39172
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A37 5G 8GB+256GB",
+    "color": "AWESOME LAVENDER",
+    "qty": 2,
+    "totalAmount": 88604,
+    "price": 44302
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A57 5G 12GB+256",
+    "color": "AWESOME NAVY",
+    "qty": 1,
+    "totalAmount": 58292,
+    "price": 58292
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A57 5G 8+256GB DEMO",
+    "color": "AWESOME NAVY",
+    "qty": 1,
+    "totalAmount": 30143.86,
+    "price": 30144
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "A57 5G 8GB+256",
+    "color": "AWESOME LILAC",
+    "qty": 1,
+    "totalAmount": 53163,
+    "price": 53163
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "F17 5G 4/128",
+    "color": "NEO BLACK",
+    "qty": 4,
+    "totalAmount": 65956,
+    "price": 16489
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "F17 5G 4/128",
+    "color": "VIOLET",
+    "qty": 4,
+    "totalAmount": 63531,
+    "price": 15883
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "F17 5G 6GB+128GB",
+    "color": "VIOLET",
+    "qty": 3,
+    "totalAmount": 58197.09,
+    "price": 19399
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "F17 5G 8GB+128",
+    "color": "VIOLET",
+    "qty": 1,
+    "totalAmount": 21339.03,
+    "price": 21339
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY A07 5G 6GB+128GB",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 17254.36,
+    "price": 17254
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY A07 5G4GB+128GB",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 15854.65,
+    "price": 15855
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY A17 6GB+128GB",
+    "color": "GREY",
+    "qty": 1,
+    "totalAmount": 20051.83,
+    "price": 20052
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY F17 5G 8GB+128",
+    "color": "NEO BLACK",
+    "qty": 1,
+    "totalAmount": 21339.03,
+    "price": 21339
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY F36 5G 6GB+128GB",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 19399,
+    "price": 19399
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY M36 5G 8GB+128",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 23279.03,
+    "price": 23279
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "GALAXY M36 5G 8GB+256",
+    "color": "LIGHT GREEN",
+    "qty": 1,
+    "totalAmount": 27159.03,
+    "price": 27159
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SAMSUNG A074G 4GB+64",
+    "color": "BLACK",
+    "qty": 2,
+    "totalAmount": 21338.02,
+    "price": 10669
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SAMSUNG A074G 4GB+64",
+    "color": "GREEN",
+    "qty": 1,
+    "totalAmount": 10669.01,
+    "price": 10669
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A065 GALAXY A06 4GB+64GB",
+    "color": "LIGHT GREEN",
+    "qty": 1,
+    "totalAmount": 9887,
+    "price": 9887
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A066 GALAXY A06 5G 4GB+128GB",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 10829,
+    "price": 10829
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A066 GALAXY A06 5G 4GB+128GB",
+    "color": "LIGHT GRAY",
+    "qty": 1,
+    "totalAmount": 10829,
+    "price": 10829
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A066 GALAXY A06 5G 4GB+64GB",
+    "color": "LIGHT GRAY",
+    "qty": 7,
+    "totalAmount": 88134.2,
+    "price": 12591
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A166 GALAXY A16 5G 8GB+128GB",
+    "color": "LIGHT GREEN",
+    "qty": 1,
+    "totalAmount": 16480,
+    "price": 16480
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A176B/DS GALAXY A17 5G [6GB 128GB]",
+    "color": "BLUE",
+    "qty": 2,
+    "totalAmount": 40103.66,
+    "price": 20052
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A176B/DS GALAXY A17 5G [8GB 128GB]",
+    "color": "BLUE",
+    "qty": 2,
+    "totalAmount": 43834.3,
+    "price": 21917
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A176B/DS GALAXY A17 5G [8GB 256GB]",
+    "color": "GREY",
+    "qty": 1,
+    "totalAmount": 26114.34,
+    "price": 26114
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A266B GALAXY A26 5G 8GB+128GB",
+    "color": "BLACK",
+    "qty": 1,
+    "totalAmount": 23542.99,
+    "price": 23543
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-A266B GALAXY A26 5G 8GB+128GB",
+    "color": "MINT",
+    "qty": 1,
+    "totalAmount": 23542.99,
+    "price": 23543
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-E176BZKBINS F17 6GB+128 5G",
+    "color": "NEO BLACK",
+    "qty": 2,
+    "totalAmount": 38798.06,
+    "price": 19399
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-E176DLVBINS F17 6GB+128 5G",
+    "color": "NEO BLACK",
+    "qty": 1,
+    "totalAmount": 19399.03,
+    "price": 19399
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-S931B GALAXY S25 12GB+256GB",
+    "color": "ICYBLUE",
+    "qty": 1,
+    "totalAmount": 77598.99,
+    "price": 77599
+  },
+  {
+    "category": "MOBILE",
+    "brand": "SAMSUNG",
+    "model": "SM-S938B GALAXY S25ULTRA 12GB+256GB",
+    "color": "TITANIUM SILVERBLUE",
+    "qty": 1,
+    "totalAmount": 115429,
+    "price": 115429
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KJ8 SPARK 20 PRO 5G 8GB+128GB",
+    "color": "STARTRAIL BLACK",
+    "qty": 1,
+    "totalAmount": 15384,
+    "price": 15384
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KN3 SPARK G03 4+64GB",
+    "color": "INK BLACK",
+    "qty": 3,
+    "totalAmount": 32966.6,
+    "price": 10989
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KN3 SPARK GO3 4+64",
+    "color": "GALAXY BLUE",
+    "qty": 1,
+    "totalAmount": 8570.02,
+    "price": 8570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KN3 SPARK GO3 4GB+64GB",
+    "color": "TITANIUM GREY",
+    "qty": 1,
+    "totalAmount": 8570.02,
+    "price": 8570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KN8 SPARK 50 5G 4GB+128GB",
+    "color": "MINT GREEN",
+    "qty": 1,
+    "totalAmount": 16190,
+    "price": 16190
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "KN8 SPARK 50 5G 6GB+128GB",
+    "color": "GOLD",
+    "qty": 9,
+    "totalAmount": 168562.04,
+    "price": 18729
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "POVA CURVE 2 8GB+128",
+    "color": "MELTING SILVER",
+    "qty": 1,
+    "totalAmount": 28569.99,
+    "price": 28570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "POVA CURVE 2 8GB+128",
+    "color": "MYSTIC PURPLE",
+    "qty": 1,
+    "totalAmount": 26666.01,
+    "price": 26666
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "POVA CURVE 2 8GB+128",
+    "color": "STORM TITANIUM",
+    "qty": 1,
+    "totalAmount": 28569.99,
+    "price": 28570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "POVA CURVE 2 8GB+256",
+    "color": "MELTING SILVER",
+    "qty": 2,
+    "totalAmount": 60950,
+    "price": 30475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "SPARK 50 5G 6+128GB",
+    "color": "MINT GREEN",
+    "qty": 1,
+    "totalAmount": 18094,
+    "price": 18094
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "SPARK 50 5G 6GB+128",
+    "color": "PURPLE",
+    "qty": 7,
+    "totalAmount": 129516.02,
+    "price": 18502
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "SPARK 50 5G 6GB+128GB",
+    "color": "INK BLACK",
+    "qty": 6,
+    "totalAmount": 111422.02,
+    "price": 18570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "TECNO KM8 SPARK GO 5G 4GB+128GB",
+    "color": "SKY BLUE",
+    "qty": 1,
+    "totalAmount": 10475,
+    "price": 10475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "TECNO LK6 POVA 8 5G 6GB+128",
+    "color": "TERMINAL GREEN",
+    "qty": 1,
+    "totalAmount": 28570.08,
+    "price": 28570
+  },
+  {
+    "category": "MOBILE",
+    "brand": "TECNO",
+    "model": "TECNO LK6 POVA 8 5G 8GB+128",
+    "color": "BIT WHITE",
+    "qty": 1,
+    "totalAmount": 30475.08,
+    "price": 30475
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "V2413 X200 PRO 16GB+512GB",
+    "color": "TITANIUM GRAY",
+    "qty": 1,
+    "totalAmount": 89622.88,
+    "price": 89623
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "V70 FE 5G 8+128",
+    "color": "LIGHT PURPLE",
+    "qty": 2,
+    "totalAmount": 71698,
+    "price": 35849
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "V70 FE 5G 8GB+256",
+    "color": "BLUE",
+    "qty": 3,
+    "totalAmount": 116037,
+    "price": 38679
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "V70 FE 8+128GB",
+    "color": "BLUE",
+    "qty": 3,
+    "totalAmount": 107547,
+    "price": 35849
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "V70FE 12GB+256",
+    "color": "BLUE",
+    "qty": 1,
+    "totalAmount": 42452,
+    "price": 42452
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "VIVO V70 5G 8+256GB",
+    "color": "RED",
+    "qty": 2,
+    "totalAmount": 98112,
+    "price": 49056
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "VIVO V70 5G 8GB+256",
+    "color": "YELLOW",
+    "qty": 1,
+    "totalAmount": 47169,
+    "price": 47169
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "VIVO V70 ELITE 5G 8GB+256 DEMO",
+    "color": "SAND BEIGE",
+    "qty": 1,
+    "totalAmount": 31199.4,
+    "price": 31199
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "VIVO X300 5G 12GB+256",
+    "color": "SUMMIT RED",
+    "qty": 1,
+    "totalAmount": 71698,
+    "price": 71698
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "VIVO Y21 5G 6GB+128",
+    "color": "BLUE",
+    "qty": 7,
+    "totalAmount": 138677,
+    "price": 19811
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "X300 FE 5G 12GB+256",
+    "color": "NOIR BLACK",
+    "qty": 1,
+    "totalAmount": 75470.99,
+    "price": 75471
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 4GB+128",
+    "color": "BLUE",
+    "qty": 4,
+    "totalAmount": 71696,
+    "price": 17924
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 4GB+128 DEMO",
+    "color": "GOLD",
+    "qty": 1,
+    "totalAmount": 11399.4,
+    "price": 11399
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 4GB+128GB",
+    "color": "GOLD",
+    "qty": 2,
+    "totalAmount": 35848,
+    "price": 17924
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 6GB+128",
+    "color": "GOLD",
+    "qty": 3,
+    "totalAmount": 59433,
+    "price": 19811
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 8+128GB",
+    "color": "GOLD",
+    "qty": 3,
+    "totalAmount": 65094.03,
+    "price": 21698
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y21 5G 8GB+128",
+    "color": "BLUE",
+    "qty": 2,
+    "totalAmount": 43396.02,
+    "price": 21698
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y31 5G 6GB+256",
+    "color": "RED",
+    "qty": 1,
+    "totalAmount": 25471,
+    "price": 25471
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y31 6GB+128 5G",
+    "color": "GREEN",
+    "qty": 5,
+    "totalAmount": 97640.01,
+    "price": 19528
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y31 6GB+128 5G",
+    "color": "ROSE RED",
+    "qty": 7,
+    "totalAmount": 139148,
+    "price": 19878
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y51 PRO 5G 8GB+128",
+    "color": "GOLD",
+    "qty": 4,
+    "totalAmount": 94336,
+    "price": 23584
+  },
+  {
+    "category": "MOBILE",
+    "brand": "VIVO",
+    "model": "Y51 PRO 5G 8GB+128 DEMO",
+    "color": "FESTIVE RED",
+    "qty": 1,
+    "totalAmount": 14999.4,
+    "price": 14999
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "OPPO",
+    "model": "A6 5G 6/128GB",
+    "color": "SAPPHIRE BLUE",
+    "qty": 1,
+    "totalAmount": 11999,
+    "price": 11999
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "OPPO",
+    "model": "FIBD X9S 12/256GB",
+    "color": "SUNSET ORANGE",
+    "qty": 1,
+    "totalAmount": 50000,
+    "price": 50000
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "OPPO",
+    "model": "RENO 15PRO MINI 5G 12/256",
+    "color": "COCOA BROWN",
+    "qty": 1,
+    "totalAmount": 37200,
+    "price": 37200
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "REALME",
+    "model": "16 5G 8/128",
+    "color": "WHITE",
+    "qty": 1,
+    "totalAmount": 19200.05,
+    "price": 19200
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "REALME",
+    "model": "16PRO+ 5GB 8/128",
+    "color": "GOLD",
+    "qty": 1,
+    "totalAmount": 24000.07,
+    "price": 24000
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "SAMSUNG",
+    "model": "A07 5G 4/128GB",
+    "color": "GREEN",
+    "qty": 1,
+    "totalAmount": 8461,
+    "price": 8461
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "SAMSUNG",
+    "model": "A17 5G 6/128 GB",
+    "color": "GRAY",
+    "qty": 1,
+    "totalAmount": 10145,
+    "price": 10145
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "SAMSUNG",
+    "model": "GALAXY A36 5G 8/128",
+    "color": "LAVENDER",
+    "qty": 1,
+    "totalAmount": 17621,
+    "price": 17621
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "SAMSUNG",
+    "model": "Z FOLD 7 12/256",
+    "color": "BLUE SHADOW",
+    "qty": 1,
+    "totalAmount": 95699.45,
+    "price": 95699
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "VIVO",
+    "model": "V70FE 8/128",
+    "color": "NORTHEN LIGHTS PURPLE",
+    "qty": 1,
+    "totalAmount": 22799.41,
+    "price": 22799
+  },
+  {
+    "category": "MOBILE DEMO",
+    "brand": "VIVO",
+    "model": "X300 FE 12/256GB",
+    "color": "NOIR BLACK",
+    "qty": 1,
+    "totalAmount": 48000,
+    "price": 48000
+  }
+]
